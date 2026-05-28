@@ -1,0 +1,31 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "mvn spring-boot:run",
+      "type": "shell",
+      "command": "mvn",
+      "args": [
+        "spring-boot:run"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/food-service/food"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "mvn test",
+      "type": "shell",
+      "command": "mvn",
+      "args": [
+        "test"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/food-service/food"
+      },
+      "group": "test",
+      "problemMatcher": []
+    }
+  ]
+}

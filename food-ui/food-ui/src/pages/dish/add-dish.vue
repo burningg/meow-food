@@ -41,8 +41,14 @@
 
       <section class="group-section">
         <div class="group-head">
-          <h2>食材</h2>
+          <div>
+            <h2>食材</h2>
+            <p class="group-tip">可选，不写也可以</p>
+          </div>
           <button class="pill-button" type="button" @click="addIngredient">＋ 添加</button>
+        </div>
+        <div v-if="!form.ingredients.length" class="empty-helper">
+          暂未添加食材，想写时再补充即可
         </div>
         <div v-for="(item, index) in form.ingredients" :key="`ingredient-${index}`" class="row-grid">
           <input v-model.trim="item.name" class="line-input" placeholder="食材名称" />
@@ -53,8 +59,14 @@
 
       <section class="group-section">
         <div class="group-head">
-          <h2>步骤</h2>
+          <div>
+            <h2>步骤</h2>
+            <p class="group-tip">可选，不写也可以</p>
+          </div>
           <button class="pill-button" type="button" @click="addStep">＋ 添加</button>
+        </div>
+        <div v-if="!form.steps.length" class="empty-helper">
+          暂未添加步骤，用户可以稍后再完善做法
         </div>
         <div v-for="(item, index) in form.steps" :key="`step-${index}`" class="step-row">
           <span class="step-badge">{{ index + 1 }}</span>
@@ -98,11 +110,6 @@
           <span>份量</span>
           <input v-model.number="form.servings" class="mini-input" type="number" min="1" />
           <small>人份</small>
-        </label>
-
-        <label class="field-row switch-row">
-          <span>首页推荐</span>
-          <input v-model="form.isFeatured" type="checkbox" />
         </label>
 
         <div class="field-row visibility-wrap">
@@ -154,12 +161,8 @@ const form = reactive<DishUpsertRequest>({
   difficulty: 'medium',
   servings: 4,
   visibility: 'inherit',
-  isFeatured: false,
-  ingredients: [
-    { name: '', amount: '' },
-    { name: '', amount: '' },
-  ],
-  steps: [{ content: '' }],
+  ingredients: [],
+  steps: [],
 })
 
 const difficultyOptions: Array<{ label: string; value: Difficulty }> = [
@@ -209,9 +212,8 @@ function fillForm(detail: DishDetail) {
   form.difficulty = detail.difficulty
   form.servings = detail.servings
   form.visibility = detail.visibility
-  form.isFeatured = detail.isFeatured
-  form.ingredients = detail.ingredients.length ? detail.ingredients.map((item) => ({ ...item })) : [{ name: '', amount: '' }]
-  form.steps = detail.steps.length ? detail.steps.map((item) => ({ ...item })) : [{ content: '' }]
+  form.ingredients = detail.ingredients.length ? detail.ingredients.map((item) => ({ ...item })) : []
+  form.steps = detail.steps.length ? detail.steps.map((item) => ({ ...item })) : []
 }
 
 function uploadSuccess(url: string) {
@@ -223,10 +225,6 @@ function addIngredient() {
 }
 
 function removeIngredient(index: number) {
-  if (form.ingredients.length === 1) {
-    form.ingredients[0] = { name: '', amount: '' }
-    return
-  }
   form.ingredients.splice(index, 1)
 }
 
@@ -235,10 +233,6 @@ function addStep() {
 }
 
 function removeStep(index: number) {
-  if (form.steps.length === 1) {
-    form.steps[0] = { content: '' }
-    return
-  }
   form.steps.splice(index, 1)
 }
 
@@ -249,10 +243,6 @@ function validateForm() {
   if (!form.description) return '请补充菜品描述'
   if (!form.cookTimeMinutes) return '请填写烹饪时间'
   if (!form.servings) return '请填写份量'
-  const ingredients = normalizedIngredients()
-  if (!ingredients.length) return '请至少填写一个食材'
-  const steps = normalizedSteps()
-  if (!steps.length) return '请至少填写一个步骤'
   return ''
 }
 
@@ -443,6 +433,12 @@ function cancel() {
   margin-bottom: 12px;
 }
 
+.group-head > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .group-head.simple {
   margin-bottom: 0;
 }
@@ -450,6 +446,17 @@ function cancel() {
 .group-head h2 {
   font-family: 'Playfair Display', serif;
   font-size: 1.06rem;
+}
+
+.group-tip,
+.empty-helper {
+  margin: 0;
+  color: #8b8b8b;
+  font-size: 0.78rem;
+}
+
+.empty-helper {
+  padding: 14px 0 4px;
 }
 
 .pill-button {

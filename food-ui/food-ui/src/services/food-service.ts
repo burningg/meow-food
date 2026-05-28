@@ -56,7 +56,6 @@ export interface DishUpsertRequest {
   difficulty: Difficulty
   servings: number | null
   visibility: MenuVisibility
-  isFeatured: boolean
   ingredients: IngredientItem[]
   steps: StepItem[]
 }

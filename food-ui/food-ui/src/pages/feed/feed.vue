@@ -6,22 +6,7 @@
       <button class="back" type="button" @click="loadData">↻</button>
     </header>
 
-    <section class="intro-card">
-      <small>activity</small>
-      <h2>好友发了新菜，你会先在这里看到。</h2>
-      <p>只有公开菜单和对你可见的菜单，会进入动态与访问入口。</p>
-      <div class="filters">
-        <button
-          v-for="item in filters"
-          :key="item.value"
-          :class="['filter', { active: filter === item.value }]"
-          type="button"
-          @click="changeFilter(item.value)"
-        >
-          {{ item.label }}
-        </button>
-      </div>
-    </section>
+
 
     <section class="list-section">
       <ActivityCard v-for="item in feeds" :key="item.id" :item="item" @open="openDish(item.dishId)" />
@@ -30,7 +15,6 @@
     <section class="section">
       <div class="section-head">
         <div>
-          <small>social</small>
           <h2>可访问菜单</h2>
         </div>
       </div>
@@ -81,10 +65,6 @@ async function loadData() {
   accessibleMenus.value = menuData.menus
 }
 
-async function changeFilter(next: 'all' | 'new' | 'circle') {
-  filter.value = next
-  await loadData()
-}
 
 function openDish(id: string) {
   router.push({ name: 'dish-detail', params: { id } })

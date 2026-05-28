@@ -1,66 +1,89 @@
 <template>
   <div v-if="dish" class="detail-page">
-    <section class="hero-image">
-      <img :src="dish.image" :alt="dish.name" />
+    <section class="hero-shell">
+      <div class="hero-image">
+        <img :src="dish.image" :alt="dish.name" />
+      </div>
       <div class="hero-overlay">
-        <button class="circle-btn" type="button" @click="goBack">‹</button>
-        <button class="circle-btn" type="button" @click="goEdit">编辑</button>
+        <button class="icon-button" type="button" aria-label="返回" @click="goBack">‹</button>
+        <button class="icon-button text-button" type="button" @click="goEdit">编辑</button>
       </div>
     </section>
 
     <section class="detail-card">
       <div class="title-row">
-        <div>
-          <h1>{{ dish.name }}</h1>
-          <p>{{ dish.description }}</p>
-        </div>
-        <div class="chip-stack">
-          <span class="category-chip">{{ dish.categoryName }}</span>
-          <span class="visibility-chip">{{ visibilityLabel(dish.effectiveVisibility) }}</span>
-        </div>
+        <h1>{{ dish.name }}</h1>
+        <span class="category-badge">{{ dish.categoryName }}</span>
       </div>
 
-      <div class="info-row">
-        <div class="info-item">
+      <p class="description-text">{{ dish.description }}</p>
+
+      <div class="meta-row">
+        <div class="meta-item">
+          <span class="meta-icon">◷</span>
           <strong>{{ dish.cookTimeMinutes ?? '--' }} min</strong>
-          <span>烹饪时间</span>
+          <small>烹饪时间</small>
         </div>
-        <div class="info-item">
+        <div class="meta-item">
+          <span class="meta-icon">✦</span>
           <strong>{{ difficultyLabel(dish.difficulty) }}</strong>
-          <span>难度</span>
+          <small>难度</small>
         </div>
-        <div class="info-item">
+        <div class="meta-item">
+          <span class="meta-icon">◉</span>
           <strong>{{ dish.servings ?? '--' }} 人</strong>
-          <span>份量</span>
+          <small>份量</small>
         </div>
       </div>
 
       <div class="divider"></div>
 
       <section class="content-section">
-        <h2>食材清单</h2>
-        <div v-for="(ingredient, index) in dish.ingredients" :key="`ingredient-${index}`" class="ingredient-row">
-          <div class="ingredient-left">
-            <span class="dot"></span>
-            <span>{{ ingredient.name }}</span>
-          </div>
-          <span class="muted">{{ ingredient.amount }}</span>
+        <div class="section-head">
+          <h2>食材清单</h2>
+          <span v-if="dish.ingredients.length" class="section-count">{{ dish.ingredients.length }} 项</span>
         </div>
+        <div v-if="dish.ingredients.length">
+          <div
+            v-for="(ingredient, index) in dish.ingredients"
+            :key="`ingredient-${index}`"
+            class="ingredient-row"
+          >
+            <div class="ingredient-left">
+              <span class="ingredient-dot"></span>
+              <span class="ingredient-name">{{ ingredient.name }}</span>
+            </div>
+            <span class="ingredient-amount">{{ ingredient.amount }}</span>
+          </div>
+        </div>
+        <p v-else class="empty-state">这道菜暂时还没有填写食材。</p>
       </section>
 
       <div class="divider"></div>
 
       <section class="content-section">
-        <h2>烹饪步骤</h2>
-        <div v-for="(step, index) in dish.steps" :key="`step-${index}`" class="step-detail-row">
-          <span class="step-number">{{ index + 1 }}</span>
-          <p>{{ step.content }}</p>
+        <div class="section-head">
+          <h2>烹饪步骤</h2>
+          <span v-if="dish.steps.length" class="section-count">{{ dish.steps.length }} 步</span>
         </div>
+        <div v-if="dish.steps.length" class="step-list">
+          <div v-for="(step, index) in dish.steps" :key="`step-${index}`" class="step-row">
+            <span class="step-number">{{ index + 1 }}</span>
+            <p>{{ step.content }}</p>
+          </div>
+        </div>
+        <p v-else class="empty-state">这道菜暂时还没有填写步骤。</p>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="owner-actions">
+        <button class="ghost-button" type="button" @click="goEdit">继续完善</button>
+        <button class="ghost-button danger-button" type="button" @click="confirmDelete">删除菜谱</button>
       </section>
     </section>
 
     <footer class="bottom-bar">
-      <button class="secondary-button" type="button" @click="confirmDelete">删除菜谱</button>
       <button class="primary-button" type="button" @click="startCooking">开始烹饪</button>
     </footer>
   </div>
@@ -108,12 +131,6 @@ function difficultyLabel(value: string) {
   return '中等'
 }
 
-function visibilityLabel(value?: string) {
-  if (value === 'friends') return '好友可见'
-  if (value === 'private') return '仅自己可见'
-  return '公开'
-}
-
 function startCooking() {
   Message.success('开火吧，祝你做菜顺利')
 }
@@ -138,13 +155,17 @@ async function confirmDelete() {
 <style scoped>
 .detail-page {
   min-height: 100vh;
-  background: #f5f2ed;
-  padding-bottom: 104px;
+  background: #f7f6f3;
+  padding-bottom: 108px;
+}
+
+.hero-shell {
+  position: relative;
 }
 
 .hero-image {
-  position: relative;
   height: 280px;
+  overflow: hidden;
 }
 
 .hero-image img {
@@ -158,148 +179,189 @@ async function confirmDelete() {
   position: absolute;
   inset: 0;
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
-  padding: 52px 20px 0;
+  justify-content: space-between;
+  padding: 50px 20px 0;
 }
 
-.circle-btn {
-  min-width: 36px;
+.icon-button {
+  width: 36px;
   height: 36px;
   border: none;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.72);
-  color: #1b3a2d;
-  padding: 0 14px;
-  font-weight: 700;
+  background: rgba(255, 255, 255, 0.6);
+  color: #151515;
+  display: grid;
+  place-items: center;
+  font-size: 1.25rem;
   backdrop-filter: blur(12px);
 }
 
+.text-button {
+  width: auto;
+  min-width: 36px;
+  padding: 0 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
 .detail-card {
-  margin: -20px 16px 0;
+  position: relative;
+  z-index: 1;
+  margin-top: -20px;
+  border-radius: 20px 20px 0 0;
   background: #fff;
-  border-radius: 24px 24px 0 0;
-  padding: 24px 20px 24px;
-  box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.06);
+  padding: 24px 20px 20px;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.05);
 }
 
 .title-row,
-.info-row,
+.meta-row,
 .ingredient-row,
 .ingredient-left,
-.step-detail-row,
-.chip-stack,
-.bottom-bar {
+.step-row,
+.owner-actions,
+.bottom-bar,
+.section-head {
   display: flex;
 }
 
 .title-row,
-.ingredient-row {
+.ingredient-row,
+.section-head {
+  align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
 }
 
 .title-row h1,
 .content-section h2 {
   margin: 0;
-  color: #1b3a2d;
+  color: #151515;
+  font-family: 'Instrument Serif', 'Times New Roman', serif;
 }
 
 .title-row h1 {
-  font-family: 'Playfair Display', serif;
   font-size: 1.7rem;
   line-height: 1.1;
+  font-weight: 400;
 }
 
-.title-row p {
-  margin-top: 10px;
-  color: #5b645e;
-  line-height: 1.65;
-}
-
-.category-chip {
-  align-self: flex-start;
+.category-badge,
+.section-count {
+  flex: 0 0 auto;
   border-radius: 999px;
-  background: #e8f0e9;
-  color: #7a9e7e;
-  padding: 5px 10px;
-  font-size: 0.76rem;
-  font-weight: 700;
-}
-
-.chip-stack {
-  flex-direction: column;
-  gap: 8px;
-}
-
-.visibility-chip {
-  align-self: flex-start;
-  border-radius: 999px;
-  background: #f4ece6;
-  color: #c4704b;
-  padding: 5px 10px;
+  padding: 4px 10px;
   font-size: 0.74rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
-.info-row {
+.category-badge {
+  background: #edf3ec;
+  color: #346538;
+}
+
+.section-count {
+  background: #f3eee8;
+  color: #9f5c38;
+}
+
+.description-text {
+  margin: 12px 0 0;
+  color: #5f5d58;
+  line-height: 1.7;
+  font-size: 0.92rem;
+}
+
+.meta-row {
   justify-content: space-around;
   padding: 18px 0;
 }
 
-.info-item {
-  text-align: center;
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
-.info-item strong {
-  display: block;
-  color: #1b3a2d;
-  font-size: 1rem;
+.meta-icon {
+  color: #9f5c38;
+  font-size: 1.1rem;
+  line-height: 1;
 }
 
-.info-item span,
-.muted {
-  color: #8b8b8b;
-  font-size: 0.82rem;
+.meta-item strong,
+.ingredient-name,
+.step-row p {
+  color: #151515;
+}
+
+.meta-item strong {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.meta-item small,
+.ingredient-amount,
+.empty-state {
+  color: #787774;
+}
+
+.meta-item small,
+.ingredient-amount {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.76rem;
 }
 
 .divider {
   height: 1px;
-  background: #e8e5e0;
+  background: #e9e2d8;
 }
 
 .content-section {
   padding: 18px 0;
 }
 
+.section-head {
+  margin-bottom: 10px;
+}
+
 .content-section h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.15rem;
-  margin-bottom: 12px;
+  font-size: 1.14rem;
+  font-weight: 400;
 }
 
 .ingredient-row {
-  align-items: center;
   padding: 8px 0;
 }
 
 .ingredient-left {
   align-items: center;
   gap: 10px;
-  color: #3d3d3d;
 }
 
-.dot {
+.ingredient-dot {
   width: 6px;
   height: 6px;
   border-radius: 999px;
-  background: #7a9e7e;
+  background: #9f5c38;
 }
 
-.step-detail-row {
-  gap: 12px;
+.ingredient-name {
+  font-size: 0.92rem;
+}
+
+.step-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.step-row {
   align-items: flex-start;
-  padding: 8px 0;
+  gap: 12px;
 }
 
 .step-number {
@@ -307,51 +369,67 @@ async function confirmDelete() {
   height: 24px;
   flex: 0 0 auto;
   border-radius: 999px;
-  background: #c4704b;
+  background: #9f5c38;
   color: #fff;
   display: grid;
   place-items: center;
-  font-size: 0.76rem;
+  font-size: 0.75rem;
   font-weight: 700;
 }
 
-.step-detail-row p {
-  color: #3d3d3d;
-  line-height: 1.6;
+.step-row p,
+.empty-state {
   margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.owner-actions {
+  gap: 12px;
+  padding-top: 18px;
+}
+
+.ghost-button,
+.primary-button {
+  border: none;
+  border-radius: 10px;
+  min-height: 48px;
+}
+
+.ghost-button {
+  flex: 1;
+  background: #f3eee8;
+  color: #6d655f;
+  font-weight: 600;
+}
+
+.danger-button {
+  color: #b15b50;
 }
 
 .bottom-bar {
   position: fixed;
   left: 50%;
   bottom: 0;
-  width: min(390px, 100%);
   transform: translateX(-50%);
-  gap: 10px;
+  width: min(390px, 100%);
+  justify-content: center;
   padding: 12px 20px 20px;
-  background: rgba(245, 242, 237, 0.96);
+  background: rgba(247, 246, 243, 0.96);
   backdrop-filter: blur(14px);
 }
 
-.secondary-button,
 .primary-button {
-  border: none;
-  border-radius: 14px;
-  min-height: 50px;
-}
-
-.secondary-button {
-  min-width: 110px;
-  background: #fff;
-  color: #7d6d63;
-}
-
-.primary-button {
-  flex: 1;
+  width: 100%;
+  background: #9f5c38;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
 }
 
 .loading-state {
-  color: #5b645e;
+  min-height: 100vh;
+  color: #5f5d58;
   display: grid;
   place-items: center;
 }

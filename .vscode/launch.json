@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Debug FoodApplication",
+      "request": "launch",
+      "mainClass": "com.panghu.food.FoodApplication",
+      "projectName": "food",
+      "cwd": "${workspaceFolder}/food-service/food",
+      "console": "integratedTerminal",
+      "vmArgs": "-Dfile.encoding=UTF-8"
+    }
+  ]
+}

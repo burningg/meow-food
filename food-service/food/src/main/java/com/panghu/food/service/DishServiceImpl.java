@@ -33,6 +33,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -87,22 +88,21 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public List<DishSummaryResponse> getFeaturedDishes(String categoryId) {
+        Long currentUserId = AuthContext.getUserId();
         List<DishSummaryResponse> source = categoryId == null || categoryId.trim().isEmpty()
                 ? dishMapper.selectAllActive()
                 : dishMapper.selectByCategoryId(categoryId, null);
-        return source.stream()
-                .map(this::applyEffectiveVisibility)
-                .filter(item -> Boolean.TRUE.equals(item.getIsFeatured()))
-                .filter(item -> "public".equals(item.getEffectiveVisibility()))
-                .limit(HOME_LIST_LIMIT)
-                .collect(Collectors.toList());
+        return filterHomeDishes(source, currentUserId, item -> Boolean.TRUE.equals(item.getIsFeatured()));
     }
 
     @Override
     public List<DishSummaryResponse> getRecentDishes() {
-        return dishMapper.selectAllActive().stream()
+        Long currentUserId = AuthContext.getUserId();
+        if (currentUserId == null) {
+            return new ArrayList<>();
+        }
+        return dishMapper.selectByOwnerUserId(currentUserId).stream()
                 .map(this::applyEffectiveVisibility)
-                .filter(item -> "public".equals(item.getEffectiveVisibility()))
                 .limit(HOME_LIST_LIMIT)
                 .collect(Collectors.toList());
     }
@@ -202,7 +202,6 @@ public class DishServiceImpl implements DishService {
         dish.setDifficulty(request.getDifficulty());
         dish.setServings(request.getServings());
         dish.setVisibility(VisibilityUtils.normalizeDishVisibility(request.getVisibility()));
-        dish.setIsFeatured(Boolean.TRUE.equals(request.getIsFeatured()));
         dish.setStatus(1);
     }
 
@@ -270,6 +269,18 @@ public class DishServiceImpl implements DishService {
     private String resolveDefaultVisibility(Long ownerUserId) {
         UserProfileSettings settings = userProfileSettingsMapper.selectById(ownerUserId);
         return settings == null ? "friends" : VisibilityUtils.normalizeProfileVisibility(settings.getDefaultMenuVisibility());
+    }
+
+    private List<DishSummaryResponse> filterHomeDishes(
+            List<DishSummaryResponse> source,
+            Long currentUserId,
+            Predicate<DishSummaryResponse> extraFilter) {
+        return source.stream()
+                .map(this::applyEffectiveVisibility)
+                .filter(extraFilter)
+                .filter(item -> canViewDish(item, currentUserId, false))
+                .limit(HOME_LIST_LIMIT)
+                .collect(Collectors.toList());
     }
 
     private DishSummaryResponse applyEffectiveVisibility(DishSummaryResponse item) {

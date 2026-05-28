@@ -549,206 +549,13 @@
         },
         {
           "type": "frame",
-          "id": "zye4L",
-          "name": "Category Row",
-          "width": "fill_container",
-          "gap": 8,
-          "padding": [
-            12,
-            20
-          ],
-          "children": [
-            {
-              "id": "tjv7l",
-              "type": "ref",
-              "ref": "Ywr2x",
-              "name": "Cat Meat",
-              "fill": "$text-primary",
-              "descendants": {
-                "aaUXw": {
-                  "content": "肉类 🍖",
-                  "fill": "#FFFFFF"
-                }
-              }
-            },
-            {
-              "id": "XdfIa",
-              "type": "ref",
-              "ref": "Ywr2x",
-              "name": "Cat Seafood",
-              "descendants": {
-                "aaUXw": {
-                  "content": "海鲜 🐟"
-                }
-              }
-            },
-            {
-              "id": "LQ0Ng",
-              "type": "ref",
-              "ref": "Ywr2x",
-              "name": "Cat Veggie",
-              "descendants": {
-                "aaUXw": {
-                  "content": "素食 🥬"
-                }
-              }
-            },
-            {
-              "id": "FVS0F",
-              "type": "ref",
-              "ref": "Ywr2x",
-              "name": "Cat Soup",
-              "descendants": {
-                "aaUXw": {
-                  "content": "靓汤 🍲"
-                }
-              }
-            },
-            {
-              "id": "uHyBa",
-              "type": "ref",
-              "ref": "Ywr2x",
-              "name": "Cat Staple",
-              "descendants": {
-                "aaUXw": {
-                  "content": "主食 🍚"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "V4vfQg",
-          "name": "Bento Section",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 12,
-          "padding": [
-            0,
-            20
-          ],
-          "children": [
-            {
-              "type": "frame",
-              "id": "qMxrY",
-              "name": "Section Header",
-              "width": "fill_container",
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "glWtS",
-                  "name": "Section Title",
-                  "fill": "$text-primary",
-                  "content": "推荐菜品",
-                  "fontFamily": "$font-heading",
-                  "fontSize": 18,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "text",
-                  "id": "v2jmN",
-                  "name": "See All",
-                  "fill": "$accent-primary",
-                  "content": "查看全部",
-                  "fontFamily": "$font-body",
-                  "fontSize": 12,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "dNtcQ",
-              "name": "Bento Grid",
-              "width": "fill_container",
-              "gap": 10,
-              "children": [
-                {
-                  "id": "LqDSD",
-                  "type": "ref",
-                  "ref": "EpOAS",
-                  "name": "Bento Large",
-                  "width": "fill_container",
-                  "height": 200,
-                  "fill": {
-                    "type": "image",
-                    "enabled": true,
-                    "url": "https://images.unsplash.com/photo-1695864529427-ecfedeac4561?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Nzk5MzM0NzJ8&ixlib=rb-4.1.0&q=80&w=1080",
-                    "mode": "fill"
-                  },
-                  "descendants": {
-                    "j9usC": {
-                      "content": "羊蝎子火锅"
-                    },
-                    "TG4qA": {
-                      "content": "肉类"
-                    }
-                  }
-                },
-                {
-                  "type": "frame",
-                  "id": "Ke72j",
-                  "name": "Bento Right",
-                  "width": 140,
-                  "layout": "vertical",
-                  "gap": 10,
-                  "children": [
-                    {
-                      "id": "AxPLU",
-                      "type": "ref",
-                      "ref": "mC2ex",
-                      "name": "Bento Small 1",
-                      "width": "fill_container",
-                      "height": 95,
-                      "fill": {
-                        "type": "image",
-                        "enabled": true,
-                        "url": "https://images.unsplash.com/photo-1680084555212-fdedd003a3fd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Nzk5MzM0NzN8&ixlib=rb-4.1.0&q=80&w=1080",
-                        "mode": "fill"
-                      },
-                      "descendants": {
-                        "jVNKU": {
-                          "content": "清炒藕带"
-                        }
-                      }
-                    },
-                    {
-                      "id": "qG73r",
-                      "type": "ref",
-                      "ref": "mC2ex",
-                      "name": "Bento Small 2",
-                      "width": "fill_container",
-                      "height": 95,
-                      "fill": {
-                        "type": "image",
-                        "enabled": true,
-                        "url": "https://images.unsplash.com/photo-1773196275043-8d6e367b0bca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Nzk5MzM0NzN8&ixlib=rb-4.1.0&q=80&w=1080",
-                        "mode": "fill"
-                      },
-                      "descendants": {
-                        "jVNKU": {
-                          "content": "麻婆豆腐"
-                        }
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "iHQkK",
           "name": "Recent Section",
           "width": "fill_container",
           "layout": "vertical",
           "gap": 12,
           "padding": [
-            12,
+            4,
             20,
             0,
             20
@@ -767,7 +574,7 @@
                   "id": "vPyZ8",
                   "name": "Recent Title",
                   "fill": "$text-primary",
-                  "content": "最近添加",
+                  "content": "我的菜品",
                   "fontFamily": "$font-heading",
                   "fontSize": 18,
                   "fontWeight": "normal"
@@ -777,7 +584,7 @@
                   "id": "k41ng",
                   "name": "Recent All",
                   "fill": "$accent-primary",
-                  "content": "查看全部",
+                  "content": "最近添加",
                   "fontFamily": "$font-body",
                   "fontSize": 12,
                   "fontWeight": "normal"
