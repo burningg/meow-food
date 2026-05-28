@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panghu.food.mapper.DishMapper">
+    <resultMap id="DishSummaryMap" type="com.panghu.food.dto.DishSummaryResponse">
+        <id column="id" property="id" />
+        <result column="owner_user_id" property="ownerUserId" />
+        <result column="owner_nickname" property="ownerNickname" />
+        <result column="name" property="name" />
+        <result column="image" property="image" />
+        <result column="description" property="description" />
+        <result column="category_id" property="categoryId" />
+        <result column="category_name" property="categoryName" />
+        <result column="cook_time_minutes" property="cookTimeMinutes" />
+        <result column="difficulty" property="difficulty" />
+        <result column="servings" property="servings" />
+        <result column="visibility" property="visibility" />
+        <result column="is_featured" property="isFeatured" />
+    </resultMap>
+
+    <resultMap id="DishDetailMap" type="com.panghu.food.dto.DishDetailResponse">
+        <id column="id" property="id" />
+        <result column="owner_user_id" property="ownerUserId" />
+        <result column="owner_nickname" property="ownerNickname" />
+        <result column="name" property="name" />
+        <result column="image" property="image" />
+        <result column="price" property="price" />
+        <result column="description" property="description" />
+        <result column="category_id" property="categoryId" />
+        <result column="category_name" property="categoryName" />
+        <result column="cook_time_minutes" property="cookTimeMinutes" />
+        <result column="difficulty" property="difficulty" />
+        <result column="servings" property="servings" />
+        <result column="visibility" property="visibility" />
+        <result column="is_featured" property="isFeatured" />
+        <result column="status" property="status" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+    </resultMap>
+
+    <sql id="DishSummaryColumns">
+        d.id,
+        d.owner_user_id,
+        u.nickname as owner_nickname,
+        d.name,
+        d.image,
+        d.description,
+        d.category_id,
+        c.name as category_name,
+        d.cook_time_minutes,
+        d.difficulty,
+        d.servings,
+        d.visibility,
+        d.is_featured
+    </sql>
+
+    <select id="selectByCategoryId" resultMap="DishSummaryMap">
+        SELECT
+        <include refid="DishSummaryColumns" />
+        FROM dish d
+        LEFT JOIN category c ON d.category_id = c.id
+        LEFT JOIN user u ON d.owner_user_id = u.id
+        WHERE d.category_id = #{categoryId} AND d.status = 1
+        <if test="ownerUserId != null">
+          AND d.owner_user_id = #{ownerUserId}
+        </if>
+        ORDER BY d.updated_at DESC, d.created_at DESC
+    </select>
+
+    <select id="selectDishDetailById" resultMap="DishDetailMap">
+        SELECT
+        d.id,
+        d.owner_user_id,
+        u.nickname as owner_nickname,
+        d.name,
+        d.image,
+        d.price,
+        d.description,
+        d.category_id,
+        c.name as category_name,
+        d.cook_time_minutes,
+        d.difficulty,
+        d.servings,
+        d.visibility,
+        d.is_featured,
+        d.status,
+        d.created_at,
+        d.updated_at
+        FROM dish d
+        LEFT JOIN category c ON d.category_id = c.id
+        LEFT JOIN user u ON d.owner_user_id = u.id
+        WHERE d.id = #{id}
+    </select>
+
+    <select id="selectFeatured" resultMap="DishSummaryMap">
+        SELECT
+        <include refid="DishSummaryColumns" />
+        FROM dish d
+        LEFT JOIN category c ON d.category_id = c.id
+        LEFT JOIN user u ON d.owner_user_id = u.id
+        WHERE d.status = 1
+          AND d.is_featured = 1
+          AND d.visibility = 'public'
+        <if test="categoryId != null and categoryId != ''">
+          AND d.category_id = #{categoryId}
+        </if>
+        ORDER BY d.updated_at DESC, d.created_at DESC
+        LIMIT #{limit}
+    </select>
+
+    <select id="selectRecent" resultMap="DishSummaryMap">
+        SELECT
+        <include refid="DishSummaryColumns" />
+        FROM dish d
+        LEFT JOIN category c ON d.category_id = c.id
+        LEFT JOIN user u ON d.owner_user_id = u.id
+        WHERE d.status = 1
+          AND d.visibility = 'public'
+        ORDER BY d.created_at DESC, d.updated_at DESC
+        LIMIT #{limit}
+    </select>
+
+    <select id="selectByOwnerUserId" resultMap="DishSummaryMap">
+        SELECT
+        <include refid="DishSummaryColumns" />
+        FROM dish d
+        LEFT JOIN category c ON d.category_id = c.id
+        LEFT JOIN user u ON d.owner_user_id = u.id
+        WHERE d.status = 1
+          AND d.owner_user_id = #{ownerUserId}
+        ORDER BY d.updated_at DESC, d.created_at DESC
+    </select>
+
+    <select id="selectAllActive" resultMap="DishSummaryMap">
+        SELECT
+        <include refid="DishSummaryColumns" />
+        FROM dish d
+        LEFT JOIN category c ON d.category_id = c.id
+        LEFT JOIN user u ON d.owner_user_id = u.id
+        WHERE d.status = 1
+        ORDER BY d.updated_at DESC, d.created_at DESC
+    </select>
+</mapper>

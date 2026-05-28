@@ -1,0 +1,5566 @@
+{
+  "version": "2.11",
+  "children": [
+    {
+      "type": "frame",
+      "id": "resnP",
+      "x": 0,
+      "y": 0,
+      "name": "Tab Bar",
+      "reusable": true,
+      "width": 358,
+      "height": 56,
+      "fill": "$bg-card",
+      "cornerRadius": "$radius-pill",
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#0000001a",
+        "offset": {
+          "x": 0,
+          "y": 4
+        },
+        "blur": 16
+      },
+      "padding": [
+        8,
+        12
+      ],
+      "justifyContent": "space_around",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "Bc2pF",
+          "name": "Tab Item Active",
+          "fill": "$accent-secondary-light",
+          "cornerRadius": "$radius-pill",
+          "gap": 6,
+          "padding": [
+            8,
+            12
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "ZaYXQ",
+              "name": "Home Icon",
+              "width": 20,
+              "height": 20,
+              "iconFontName": "house-simple",
+              "iconFontFamily": "phosphor",
+              "fill": "$accent-secondary"
+            },
+            {
+              "type": "text",
+              "id": "b7K25r",
+              "name": "Home Label",
+              "fill": "$text-primary",
+              "content": "首页",
+              "fontFamily": "$font-body",
+              "fontSize": 12,
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "lovjP",
+          "name": "Tab Item 2",
+          "padding": [
+            8,
+            12
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "KAmxc",
+              "name": "Grid Icon",
+              "width": 20,
+              "height": 20,
+              "iconFontName": "squares-four",
+              "iconFontFamily": "phosphor",
+              "fill": "$text-muted"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "AyKVT",
+          "name": "Tab Item Add",
+          "fill": "$accent-primary",
+          "cornerRadius": "$radius-pill",
+          "padding": [
+            8,
+            16
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "vzcwJ",
+              "name": "Plus Icon",
+              "width": 22,
+              "height": 22,
+              "iconFontName": "plus",
+              "iconFontFamily": "phosphor",
+              "fill": "#FFFFFF"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "spLlM",
+          "name": "Tab Item 4",
+          "padding": [
+            8,
+            12
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "V9Eksw",
+              "name": "Heart Icon",
+              "width": 20,
+              "height": 20,
+              "iconFontName": "heart",
+              "iconFontFamily": "phosphor",
+              "fill": "$text-muted"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "O4ZDh0",
+          "name": "Tab Item 5",
+          "padding": [
+            8,
+            12
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "xAclc",
+              "name": "User Icon",
+              "width": 20,
+              "height": 20,
+              "iconFontName": "user",
+              "iconFontFamily": "phosphor",
+              "fill": "$text-muted"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Ywr2x",
+      "x": 438,
+      "y": 0,
+      "name": "Category Tag",
+      "reusable": true,
+      "fill": "$bg-card",
+      "cornerRadius": "$radius-pill",
+      "gap": 4,
+      "padding": [
+        8,
+        16
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "text",
+          "id": "aaUXw",
+          "name": "Tag Label",
+          "fill": "$text-body",
+          "content": "肉类",
+          "fontFamily": "$font-body",
+          "fontSize": 13,
+          "fontWeight": "500"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "EpOAS",
+      "x": 577,
+      "y": 0,
+      "name": "Recipe Card Large",
+      "reusable": true,
+      "clip": true,
+      "width": 210,
+      "height": 200,
+      "fill": "#DDDDDD",
+      "cornerRadius": "$radius-card",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "oJoTc",
+          "x": 0,
+          "y": 120,
+          "name": "Card Overlay",
+          "width": 210,
+          "height": 80,
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": 0,
+            "size": {
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "#00000000",
+                "position": 0
+              },
+              {
+                "color": "#000000AA",
+                "position": 1
+              }
+            ]
+          },
+          "layout": "vertical",
+          "padding": [
+            12,
+            16
+          ],
+          "justifyContent": "end",
+          "children": [
+            {
+              "type": "text",
+              "id": "j9usC",
+              "name": "Card Title",
+              "fill": "#FFFFFF",
+              "content": "羊蝎子火锅",
+              "fontFamily": "$font-heading",
+              "fontSize": 18,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "TG4qA",
+              "name": "Card Subtitle",
+              "fill": "#FFFFFFCC",
+              "content": "肉类",
+              "fontFamily": "$font-body",
+              "fontSize": 11,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "mC2ex",
+      "x": 867,
+      "y": 0,
+      "name": "Recipe Card Small",
+      "reusable": true,
+      "clip": true,
+      "width": 140,
+      "height": 95,
+      "fill": "#DDDDDD",
+      "cornerRadius": "$radius-inner",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "M0W5Lv",
+          "x": 0,
+          "y": 55,
+          "name": "Small Overlay",
+          "width": 140,
+          "height": 40,
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": 0,
+            "size": {
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "#00000000",
+                "position": 0
+              },
+              {
+                "color": "#000000AA",
+                "position": 1
+              }
+            ]
+          },
+          "layout": "vertical",
+          "padding": [
+            6,
+            10
+          ],
+          "justifyContent": "end",
+          "children": [
+            {
+              "type": "text",
+              "id": "jVNKU",
+              "name": "Small Title",
+              "fill": "#FFFFFF",
+              "content": "清炒藕带",
+              "fontFamily": "$font-body",
+              "fontSize": 12,
+              "fontWeight": "600"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "UpklM",
+      "x": 1087,
+      "y": 0,
+      "name": "Recent Card",
+      "reusable": true,
+      "width": 110,
+      "layout": "vertical",
+      "gap": 8,
+      "children": [
+        {
+          "type": "frame",
+          "id": "HzYKd",
+          "name": "Recent Image",
+          "width": 110,
+          "height": 110,
+          "fill": "#DDDDDD",
+          "cornerRadius": "$radius-inner"
+        },
+        {
+          "type": "text",
+          "id": "i692D",
+          "name": "Recent Title",
+          "fill": "$text-primary",
+          "content": "麻婆豆腐",
+          "fontFamily": "$font-body",
+          "fontSize": 12,
+          "fontWeight": "500"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Vm8XR",
+      "x": 1277,
+      "y": 0,
+      "name": "Home",
+      "clip": true,
+      "width": 390,
+      "fill": "$bg-primary",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "OkpUl",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24,
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "YTqkJ",
+              "name": "Time",
+              "fill": "$text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "r9woi",
+              "name": "Status Right",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "VqxX0",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "iconFontName": "cell-signal-full",
+                  "iconFontFamily": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "Q0V4YJ",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "iconFontName": "wifi-high",
+                  "iconFontFamily": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "ONnV2",
+                  "name": "Battery",
+                  "width": 22,
+                  "height": 16,
+                  "iconFontName": "battery-full",
+                  "iconFontFamily": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Hhhop",
+          "name": "Header",
+          "width": "fill_container",
+          "padding": [
+            8,
+            20,
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "S1HoXW",
+              "name": "Header Left",
+              "layout": "vertical",
+              "gap": 2,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "ui5rx",
+                  "name": "Greeting",
+                  "fill": "$text-muted",
+                  "content": "下午好, 胖虎",
+                  "fontFamily": "$font-body",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "N0GkR",
+                  "name": "Question",
+                  "fill": "$text-primary",
+                  "content": "今天想吃什么?",
+                  "fontFamily": "$font-heading",
+                  "fontSize": 22,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "hhIS1",
+              "name": "Avatar",
+              "width": 42,
+              "height": 42,
+              "fill": "$accent-secondary",
+              "cornerRadius": 9999,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "v8a6t",
+                  "layoutPosition": "absolute",
+                  "x": 13,
+                  "y": 10,
+                  "name": "Avatar Text",
+                  "fill": "#FFFFFF",
+                  "content": "胖",
+                  "fontFamily": "$font-body",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "M1LQz",
+          "name": "Search Bar",
+          "width": "fill_container",
+          "height": 44,
+          "padding": [
+            0,
+            20
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "ivCGl",
+              "name": "Search Inner",
+              "width": "fill_container",
+              "height": 44,
+              "fill": "#EEEBE6",
+              "cornerRadius": "$radius-inner",
+              "gap": 10,
+              "padding": [
+                0,
+                16
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "r4xwe",
+                  "name": "Search Icon",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "magnifying-glass",
+                  "iconFontFamily": "phosphor",
+                  "fill": "$text-muted"
+                },
+                {
+                  "type": "text",
+                  "id": "UQbEt",
+                  "name": "Search Placeholder",
+                  "fill": "$text-muted",
+                  "content": "搜索菜谱...",
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "zye4L",
+          "name": "Category Row",
+          "width": "fill_container",
+          "gap": 8,
+          "padding": [
+            12,
+            20
+          ],
+          "children": [
+            {
+              "id": "tjv7l",
+              "type": "ref",
+              "ref": "Ywr2x",
+              "name": "Cat Meat",
+              "fill": "$text-primary",
+              "descendants": {
+                "aaUXw": {
+                  "content": "肉类 🍖",
+                  "fill": "#FFFFFF"
+                }
+              }
+            },
+            {
+              "id": "XdfIa",
+              "type": "ref",
+              "ref": "Ywr2x",
+              "name": "Cat Seafood",
+              "descendants": {
+                "aaUXw": {
+                  "content": "海鲜 🐟"
+                }
+              }
+            },
+            {
+              "id": "LQ0Ng",
+              "type": "ref",
+              "ref": "Ywr2x",
+              "name": "Cat Veggie",
+              "descendants": {
+                "aaUXw": {
+                  "content": "素食 🥬"
+                }
+              }
+            },
+            {
+              "id": "FVS0F",
+              "type": "ref",
+              "ref": "Ywr2x",
+              "name": "Cat Soup",
+              "descendants": {
+                "aaUXw": {
+                  "content": "靓汤 🍲"
+                }
+              }
+            },
+            {
+              "id": "uHyBa",
+              "type": "ref",
+              "ref": "Ywr2x",
+              "name": "Cat Staple",
+              "descendants": {
+                "aaUXw": {
+                  "content": "主食 🍚"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "V4vfQg",
+          "name": "Bento Section",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            0,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "qMxrY",
+              "name": "Section Header",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "glWtS",
+                  "name": "Section Title",
+                  "fill": "$text-primary",
+                  "content": "推荐菜品",
+                  "fontFamily": "$font-heading",
+                  "fontSize": 18,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "v2jmN",
+                  "name": "See All",
+                  "fill": "$accent-primary",
+                  "content": "查看全部",
+                  "fontFamily": "$font-body",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "dNtcQ",
+              "name": "Bento Grid",
+              "width": "fill_container",
+              "gap": 10,
+              "children": [
+                {
+                  "id": "LqDSD",
+                  "type": "ref",
+                  "ref": "EpOAS",
+                  "name": "Bento Large",
+                  "width": "fill_container",
+                  "height": 200,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "https://images.unsplash.com/photo-1695864529427-ecfedeac4561?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Nzk5MzM0NzJ8&ixlib=rb-4.1.0&q=80&w=1080",
+                    "mode": "fill"
+                  },
+                  "descendants": {
+                    "j9usC": {
+                      "content": "羊蝎子火锅"
+                    },
+                    "TG4qA": {
+                      "content": "肉类"
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "Ke72j",
+                  "name": "Bento Right",
+                  "width": 140,
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "id": "AxPLU",
+                      "type": "ref",
+                      "ref": "mC2ex",
+                      "name": "Bento Small 1",
+                      "width": "fill_container",
+                      "height": 95,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "https://images.unsplash.com/photo-1680084555212-fdedd003a3fd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Nzk5MzM0NzN8&ixlib=rb-4.1.0&q=80&w=1080",
+                        "mode": "fill"
+                      },
+                      "descendants": {
+                        "jVNKU": {
+                          "content": "清炒藕带"
+                        }
+                      }
+                    },
+                    {
+                      "id": "qG73r",
+                      "type": "ref",
+                      "ref": "mC2ex",
+                      "name": "Bento Small 2",
+                      "width": "fill_container",
+                      "height": 95,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "https://images.unsplash.com/photo-1773196275043-8d6e367b0bca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Nzk5MzM0NzN8&ixlib=rb-4.1.0&q=80&w=1080",
+                        "mode": "fill"
+                      },
+                      "descendants": {
+                        "jVNKU": {
+                          "content": "麻婆豆腐"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "iHQkK",
+          "name": "Recent Section",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            12,
+            20,
+            0,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "msnUZ",
+              "name": "Recent Header",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "vPyZ8",
+                  "name": "Recent Title",
+                  "fill": "$text-primary",
+                  "content": "最近添加",
+                  "fontFamily": "$font-heading",
+                  "fontSize": 18,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "k41ng",
+                  "name": "Recent All",
+                  "fill": "$accent-primary",
+                  "content": "查看全部",
+                  "fontFamily": "$font-body",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ypD2k",
+              "name": "Recent Row",
+              "width": "fill_container",
+              "gap": 12,
+              "children": [
+                {
+                  "id": "CXfq5",
+                  "type": "ref",
+                  "ref": "UpklM",
+                  "name": "Recent 1",
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "https://images.unsplash.com/photo-1603093324608-fa64519a3519?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Nzk5MzM0ODV8&ixlib=rb-4.1.0&q=80&w=1080",
+                    "mode": "fill"
+                  },
+                  "descendants": {
+                    "HzYKd": {
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "https://images.unsplash.com/photo-1676610530962-0328d9f1cb6f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Nzk5MzM1MDN8&ixlib=rb-4.1.0&q=80&w=1080",
+                        "mode": "fill"
+                      }
+                    },
+                    "i692D": {
+                      "content": "红烧肉"
+                    }
+                  }
+                },
+                {
+                  "id": "ubwF9",
+                  "type": "ref",
+                  "ref": "UpklM",
+                  "name": "Recent 2",
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "https://images.unsplash.com/photo-1759493785939-0bd3e3d60682?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Nzk5MzM0ODV8&ixlib=rb-4.1.0&q=80&w=1080",
+                    "mode": "fill"
+                  },
+                  "descendants": {
+                    "HzYKd": {
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "https://images.unsplash.com/photo-1758779528015-67cd72ecc7c7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Nzk5MzM1MDR8&ixlib=rb-4.1.0&q=80&w=1080",
+                        "mode": "fill"
+                      }
+                    },
+                    "i692D": {
+                      "content": "番茄蛋汤"
+                    }
+                  }
+                },
+                {
+                  "id": "TdSto",
+                  "type": "ref",
+                  "ref": "UpklM",
+                  "name": "Recent 3",
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "https://images.unsplash.com/photo-1606585333304-a7fa1ca4376c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Nzk5MzM0ODZ8&ixlib=rb-4.1.0&q=80&w=1080",
+                    "mode": "fill"
+                  },
+                  "descendants": {
+                    "HzYKd": {
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "https://images.unsplash.com/photo-1627483842649-96b78744a60c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Nzk5MzM1MDV8&ixlib=rb-4.1.0&q=80&w=1080",
+                        "mode": "fill"
+                      }
+                    },
+                    "i692D": {
+                      "content": "蒜蓉西兰花"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "BsKMP",
+          "name": "Tab Bar Wrapper",
+          "width": "fill_container",
+          "padding": [
+            12,
+            16,
+            16,
+            16
+          ],
+          "justifyContent": "center",
+          "children": [
+            {
+              "id": "Z6qMcd",
+              "type": "ref",
+              "ref": "resnP",
+              "name": "Home Tab Bar"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "DLNuD",
+      "x": 1747,
+      "y": 0,
+      "name": "Recipe Detail",
+      "clip": true,
+      "width": 390,
+      "fill": "$bg-primary",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "B1eDjL",
+          "name": "Image Spacer",
+          "width": "fill_container",
+          "height": 260
+        },
+        {
+          "type": "frame",
+          "id": "OHv9n",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 0,
+          "name": "Hero Image",
+          "metadata": {
+            "type": "unsplash",
+            "username": "jiaweizhao",
+            "link": "https://unsplash.com/@jiaweizhao",
+            "author": "Jiawei Zhao"
+          },
+          "width": 390,
+          "height": 280,
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "https://images.unsplash.com/photo-1689122708012-d229e7a688de?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Nzk5MzM0ODd8&ixlib=rb-4.1.0&q=80&w=1080",
+            "mode": "fill"
+          }
+        },
+        {
+          "type": "frame",
+          "id": "IV5iF",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 0,
+          "name": "Nav Overlay",
+          "width": 390,
+          "padding": [
+            50,
+            20,
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "gipKy",
+              "name": "Back Button",
+              "width": 36,
+              "height": 36,
+              "fill": "#FFFFFF99",
+              "cornerRadius": 9999,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "kR5wg",
+                  "name": "Back Arrow",
+                  "width": 20,
+                  "height": 20,
+                  "iconFontName": "arrow-left",
+                  "iconFontFamily": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "P8SRH8",
+              "name": "Fav Button",
+              "width": 36,
+              "height": 36,
+              "fill": "#FFFFFF99",
+              "cornerRadius": 9999,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "A6FZX",
+                  "name": "Fav Heart",
+                  "width": 20,
+                  "height": 20,
+                  "iconFontName": "heart",
+                  "iconFontFamily": "phosphor",
+                  "fill": "$accent-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "PgmvQ",
+          "name": "Content Card",
+          "width": "fill_container",
+          "fill": "$bg-card",
+          "cornerRadius": [
+            20,
+            20,
+            0,
+            0
+          ],
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#0000000d",
+            "offset": {
+              "x": 0,
+              "y": -4
+            },
+            "blur": 16
+          },
+          "layout": "vertical",
+          "gap": 20,
+          "padding": [
+            24,
+            20,
+            20,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "eiA72",
+              "name": "Title Row",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "mX2VG",
+                  "name": "Dish Name",
+                  "fill": "$text-primary",
+                  "content": "羊蝎子火锅",
+                  "fontFamily": "$font-heading",
+                  "fontSize": 26,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "i21XGP",
+                  "name": "Category Badge",
+                  "fill": "$accent-secondary-light",
+                  "cornerRadius": "$radius-pill",
+                  "padding": [
+                    4,
+                    10
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "QSKvv",
+                      "name": "Badge Text",
+                      "fill": "$accent-secondary",
+                      "content": "肉类",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "e7brJ",
+              "name": "Info Row",
+              "width": "fill_container",
+              "padding": [
+                16,
+                0
+              ],
+              "justifyContent": "space_around",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "AvNRC",
+                  "name": "Info Time",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "Xrdrc",
+                      "name": "Clock Icon",
+                      "width": 22,
+                      "height": 22,
+                      "iconFontName": "clock",
+                      "iconFontFamily": "phosphor",
+                      "fill": "$accent-primary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ceMvJ",
+                      "name": "Time Value",
+                      "fill": "$text-primary",
+                      "content": "45 min",
+                      "fontFamily": "$font-data",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "R3pFs",
+                      "name": "Time Label",
+                      "fill": "$text-muted",
+                      "content": "烹饪时间",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "P7ExUY",
+                  "name": "Info Difficulty",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "C4i7G4",
+                      "name": "Fire Icon",
+                      "width": 22,
+                      "height": 22,
+                      "iconFontName": "fire",
+                      "iconFontFamily": "phosphor",
+                      "fill": "$accent-primary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "OfvaE",
+                      "name": "Diff Value",
+                      "fill": "$text-primary",
+                      "content": "中等",
+                      "fontFamily": "$font-data",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "F35GJ",
+                      "name": "Diff Label",
+                      "fill": "$text-muted",
+                      "content": "难度",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "nxCWx",
+                  "name": "Info Servings",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "YpXzt",
+                      "name": "People Icon",
+                      "width": 22,
+                      "height": 22,
+                      "iconFontName": "users",
+                      "iconFontFamily": "phosphor",
+                      "fill": "$accent-primary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "R4y7Y",
+                      "name": "Serve Value",
+                      "fill": "$text-primary",
+                      "content": "4 人",
+                      "fontFamily": "$font-data",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Y5x7jz",
+                      "name": "Serve Label",
+                      "fill": "$text-muted",
+                      "content": "份量",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "HKL7H",
+              "name": "Divider 1",
+              "width": "fill_container",
+              "height": 1,
+              "fill": "$border-light"
+            },
+            {
+              "type": "frame",
+              "id": "XWYyg",
+              "name": "Ingredients Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "v10A4O",
+                  "name": "Ingredients Title",
+                  "fill": "$text-primary",
+                  "content": "食材清单",
+                  "fontFamily": "$font-heading",
+                  "fontSize": 18,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "K0fDTz",
+                  "name": "Ingredient 羊蝎子",
+                  "width": "fill_container",
+                  "padding": [
+                    8,
+                    0
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "W8MbtK",
+                      "name": "Ing Left",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "KNdhX",
+                          "name": "Ing Dot",
+                          "width": 6,
+                          "height": 6,
+                          "fill": "$accent-secondary",
+                          "cornerRadius": 9999
+                        },
+                        {
+                          "type": "text",
+                          "id": "cyW0f",
+                          "name": "Ing Name",
+                          "fill": "$text-body",
+                          "content": "羊蝎子",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "H9MPsd",
+                      "name": "Ing Amount",
+                      "fill": "$text-muted",
+                      "content": "1000g",
+                      "fontFamily": "$font-data",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "uU4gG",
+                  "name": "Ingredient 大葱",
+                  "width": "fill_container",
+                  "padding": [
+                    8,
+                    0
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Tp3ho",
+                      "name": "Ing Left",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "E6Hj51",
+                          "name": "Ing Dot",
+                          "width": 6,
+                          "height": 6,
+                          "fill": "$accent-secondary",
+                          "cornerRadius": 9999
+                        },
+                        {
+                          "type": "text",
+                          "id": "yssDb",
+                          "name": "Ing Name",
+                          "fill": "$text-body",
+                          "content": "大葱",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "N0bZn",
+                      "name": "Ing Amount",
+                      "fill": "$text-muted",
+                      "content": "2根",
+                      "fontFamily": "$font-data",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "kpu3e",
+                  "name": "Ingredient 生姜",
+                  "width": "fill_container",
+                  "padding": [
+                    8,
+                    0
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "uCBxf",
+                      "name": "Ing Left",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "jLADa",
+                          "name": "Ing Dot",
+                          "width": 6,
+                          "height": 6,
+                          "fill": "$accent-secondary",
+                          "cornerRadius": 9999
+                        },
+                        {
+                          "type": "text",
+                          "id": "fkR8d",
+                          "name": "Ing Name",
+                          "fill": "$text-body",
+                          "content": "生姜",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "GjX28",
+                      "name": "Ing Amount",
+                      "fill": "$text-muted",
+                      "content": "30g",
+                      "fontFamily": "$font-data",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "DlSrM",
+                  "name": "Ingredient 八角",
+                  "width": "fill_container",
+                  "padding": [
+                    8,
+                    0
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "ujNid",
+                      "name": "Ing Left",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "I93ziy",
+                          "name": "Ing Dot",
+                          "width": 6,
+                          "height": 6,
+                          "fill": "$accent-secondary",
+                          "cornerRadius": 9999
+                        },
+                        {
+                          "type": "text",
+                          "id": "Y2Vjh",
+                          "name": "Ing Name",
+                          "fill": "$text-body",
+                          "content": "八角",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "mWLHv",
+                      "name": "Ing Amount",
+                      "fill": "$text-muted",
+                      "content": "3颗",
+                      "fontFamily": "$font-data",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "S4a5gR",
+                  "name": "Ingredient 干辣椒",
+                  "width": "fill_container",
+                  "padding": [
+                    8,
+                    0
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "NP6Pd",
+                      "name": "Ing Left",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "E51fZ",
+                          "name": "Ing Dot",
+                          "width": 6,
+                          "height": 6,
+                          "fill": "$accent-secondary",
+                          "cornerRadius": 9999
+                        },
+                        {
+                          "type": "text",
+                          "id": "GcWwe",
+                          "name": "Ing Name",
+                          "fill": "$text-body",
+                          "content": "干辣椒",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "raHWW",
+                      "name": "Ing Amount",
+                      "fill": "$text-muted",
+                      "content": "5个",
+                      "fontFamily": "$font-data",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "DCJwd",
+                  "name": "Ingredient 豆瓣酱",
+                  "width": "fill_container",
+                  "padding": [
+                    8,
+                    0
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "iEsE1",
+                      "name": "Ing Left",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "FoHBE",
+                          "name": "Ing Dot",
+                          "width": 6,
+                          "height": 6,
+                          "fill": "$accent-secondary",
+                          "cornerRadius": 9999
+                        },
+                        {
+                          "type": "text",
+                          "id": "DF1xr",
+                          "name": "Ing Name",
+                          "fill": "$text-body",
+                          "content": "豆瓣酱",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "RxWHg",
+                      "name": "Ing Amount",
+                      "fill": "$text-muted",
+                      "content": "2勺",
+                      "fontFamily": "$font-data",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "e1E8Q",
+              "name": "Divider 2",
+              "width": "fill_container",
+              "height": 1,
+              "fill": "$border-light"
+            },
+            {
+              "type": "frame",
+              "id": "YPptg",
+              "name": "Steps Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 14,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "XYQBd",
+                  "name": "Steps Title",
+                  "fill": "$text-primary",
+                  "content": "烹饪步骤",
+                  "fontFamily": "$font-heading",
+                  "fontSize": 18,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "QOjX5",
+                  "name": "Step 1",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "ldSIz",
+                      "name": "Step Num 1",
+                      "width": 24,
+                      "height": 24,
+                      "fill": "$accent-primary",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "NhjBC",
+                          "name": "Num Text",
+                          "fill": "#FFFFFF",
+                          "content": "1",
+                          "fontFamily": "$font-data",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "Yz7tU",
+                      "name": "Step Text 1",
+                      "fill": "$text-body",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "羊蝎子冷水下锅焯水，去除血沫后捞出备用",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ITbeW",
+                  "name": "Step 2",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "HFcvY",
+                      "name": "Step Num 2",
+                      "width": 24,
+                      "height": 24,
+                      "fill": "$accent-primary",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "B8Xdk",
+                          "name": "Num Text",
+                          "fill": "#FFFFFF",
+                          "content": "2",
+                          "fontFamily": "$font-data",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "Od8ma",
+                      "name": "Step Text 2",
+                      "fill": "$text-body",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "锅中放油，爆香葱姜蒜、八角、干辣椒",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "opY1z",
+                  "name": "Step 3",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "pIAlc",
+                      "name": "Step Num 3",
+                      "width": 24,
+                      "height": 24,
+                      "fill": "$accent-primary",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "UWuzy",
+                          "name": "Num Text",
+                          "fill": "#FFFFFF",
+                          "content": "3",
+                          "fontFamily": "$font-data",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "X2bGU",
+                      "name": "Step Text 3",
+                      "fill": "$text-body",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "加入豆瓣酱炒出红油，放入羊蝎子翻炒",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "aXYnE",
+                  "name": "Step 4",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "hQa9j",
+                      "name": "Step Num 4",
+                      "width": 24,
+                      "height": 24,
+                      "fill": "$accent-primary",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "a14DI",
+                          "name": "Num Text",
+                          "fill": "#FFFFFF",
+                          "content": "4",
+                          "fontFamily": "$font-data",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "TdHE7",
+                      "name": "Step Text 4",
+                      "fill": "$text-body",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "加入热水没过食材，大火烧开后转小火炖煮40分钟",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "LRljR",
+          "name": "Bottom Bar",
+          "width": "fill_container",
+          "padding": [
+            12,
+            20,
+            20,
+            20
+          ],
+          "justifyContent": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "M17BQ",
+              "name": "Cook Button",
+              "width": "fill_container",
+              "height": 50,
+              "fill": "$accent-primary",
+              "cornerRadius": "$radius-inner",
+              "gap": 8,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "e9JYG",
+                  "name": "Cook Icon",
+                  "width": 20,
+                  "height": 20,
+                  "iconFontName": "cooking-pot",
+                  "iconFontFamily": "phosphor",
+                  "fill": "#FFFFFF"
+                },
+                {
+                  "type": "text",
+                  "id": "KCSYP",
+                  "name": "Cook Text",
+                  "fill": "#FFFFFF",
+                  "content": "开始烹饪",
+                  "fontFamily": "$font-body",
+                  "fontSize": 15,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "CM12U",
+      "x": 2217,
+      "y": 0,
+      "name": "Add Recipe",
+      "clip": true,
+      "width": 390,
+      "fill": "$bg-primary",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "rbzoh",
+          "name": "Top Nav",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            20,
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "qKYRX",
+              "name": "Cancel Btn",
+              "fill": "$text-muted",
+              "content": "取消",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "IV7dy",
+              "name": "Page Title",
+              "fill": "$text-primary",
+              "content": "添加菜谱",
+              "fontFamily": "$font-body",
+              "fontSize": 16,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "cpN7N",
+              "name": "Save Btn",
+              "fill": "$accent-primary",
+              "content": "保存",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Yletv",
+          "name": "Form Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 20,
+          "padding": [
+            8,
+            20,
+            20,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "L4Rtyo",
+              "name": "Upload Area",
+              "width": "fill_container",
+              "height": 160,
+              "fill": "#F0EDE8",
+              "cornerRadius": "$radius-card",
+              "stroke": {
+                "align": "inside",
+                "thickness": 2,
+                "fill": "$border-light"
+              },
+              "layout": "vertical",
+              "gap": 8,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "qNkpO",
+                  "name": "Camera Icon",
+                  "width": 32,
+                  "height": 32,
+                  "iconFontName": "camera",
+                  "iconFontFamily": "phosphor",
+                  "fill": "$text-muted"
+                },
+                {
+                  "type": "text",
+                  "id": "k6Fd9e",
+                  "name": "Upload Text",
+                  "fill": "$text-muted",
+                  "content": "点击添加菜品照片",
+                  "fontFamily": "$font-body",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "bJ6m3",
+              "name": "Name Field",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "QynPy",
+                  "name": "Name Label",
+                  "fill": "$text-muted",
+                  "content": "菜品名称",
+                  "fontFamily": "$font-body",
+                  "fontSize": 12,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "h3cAtS",
+                  "name": "Name Input",
+                  "width": "fill_container",
+                  "height": 44,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "$border-light"
+                  },
+                  "padding": [
+                    0,
+                    14
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "s8lWh",
+                      "name": "Name Placeholder",
+                      "fill": "#BBBBBB",
+                      "content": "输入菜品名称",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "H1z7SP",
+              "name": "Category Field",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "qfqxz",
+                  "name": "Cat Label",
+                  "fill": "$text-muted",
+                  "content": "分类",
+                  "fontFamily": "$font-body",
+                  "fontSize": 12,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "UR24T",
+                  "name": "Cat Input",
+                  "width": "fill_container",
+                  "height": 44,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "$border-light"
+                  },
+                  "padding": [
+                    0,
+                    14
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "I24vwJ",
+                      "name": "Cat Value",
+                      "fill": "$text-body",
+                      "content": "选择分类",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "sjGDM",
+                      "name": "Chevron Right",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "caret-right",
+                      "iconFontFamily": "phosphor",
+                      "fill": "$text-muted"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "z8kp0I",
+              "name": "Desc Field",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "CGF7f",
+                  "name": "Desc Label",
+                  "fill": "$text-muted",
+                  "content": "描述",
+                  "fontFamily": "$font-body",
+                  "fontSize": 12,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "cveNy",
+                  "name": "Desc Input",
+                  "width": "fill_container",
+                  "height": 80,
+                  "fill": "#F0EDE8",
+                  "cornerRadius": "$radius-inner",
+                  "layout": "vertical",
+                  "padding": [
+                    12,
+                    14
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "I2E0LH",
+                      "name": "Desc Placeholder",
+                      "fill": "#BBBBBB",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "添加菜品描述...",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "MEpIv",
+              "name": "Ingredients Add Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "AYoDG",
+                  "name": "Ing Header",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "y3iTm",
+                      "name": "Ing Section Title",
+                      "fill": "$text-primary",
+                      "content": "食材",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "SUuoF",
+                      "name": "Add Ing Btn",
+                      "fill": "$accent-secondary-light",
+                      "cornerRadius": "$radius-pill",
+                      "gap": 4,
+                      "padding": [
+                        4,
+                        10
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "NwTk9",
+                          "name": "Plus Ing",
+                          "width": 14,
+                          "height": 14,
+                          "iconFontName": "plus",
+                          "iconFontFamily": "phosphor",
+                          "fill": "$accent-secondary"
+                        },
+                        {
+                          "type": "text",
+                          "id": "B1K4v",
+                          "name": "Add Ing Text",
+                          "fill": "$accent-secondary",
+                          "content": "添加",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "jFLvD",
+                  "name": "Edit Ing 羊蝎子",
+                  "width": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "$border-light"
+                  },
+                  "padding": [
+                    10,
+                    0
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "eP309",
+                      "name": "Ing Name",
+                      "fill": "$text-body",
+                      "content": "羊蝎子",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "RFtN6",
+                      "name": "Ing Right",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "lMPxS",
+                          "name": "Ing Amt",
+                          "fill": "$text-muted",
+                          "content": "1000g",
+                          "fontFamily": "$font-data",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "icon_font",
+                          "id": "dM0Kn",
+                          "name": "Delete Ing",
+                          "width": 16,
+                          "height": 16,
+                          "iconFontName": "x",
+                          "iconFontFamily": "phosphor",
+                          "fill": "$text-muted"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "C7JhY",
+                  "name": "Edit Ing 大葱",
+                  "width": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "$border-light"
+                  },
+                  "padding": [
+                    10,
+                    0
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "YM00h",
+                      "name": "Ing Name",
+                      "fill": "$text-body",
+                      "content": "大葱",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "qMber",
+                      "name": "Ing Right",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "r4LkxA",
+                          "name": "Ing Amt",
+                          "fill": "$text-muted",
+                          "content": "2根",
+                          "fontFamily": "$font-data",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "icon_font",
+                          "id": "tLEgf",
+                          "name": "Delete Ing",
+                          "width": 16,
+                          "height": 16,
+                          "iconFontName": "x",
+                          "iconFontFamily": "phosphor",
+                          "fill": "$text-muted"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "g7GIvY",
+                  "name": "Edit Ing 生姜",
+                  "width": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "$border-light"
+                  },
+                  "padding": [
+                    10,
+                    0
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "NeOgF",
+                      "name": "Ing Name",
+                      "fill": "$text-body",
+                      "content": "生姜",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "JzfaV",
+                      "name": "Ing Right",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Ln6IJ",
+                          "name": "Ing Amt",
+                          "fill": "$text-muted",
+                          "content": "30g",
+                          "fontFamily": "$font-data",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "icon_font",
+                          "id": "lloyQ",
+                          "name": "Delete Ing",
+                          "width": 16,
+                          "height": 16,
+                          "iconFontName": "x",
+                          "iconFontFamily": "phosphor",
+                          "fill": "$text-muted"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "s1ZPA",
+              "name": "Steps Add Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "XhuRn",
+                  "name": "Steps Header",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "x8fgM",
+                      "name": "Steps Section Title",
+                      "fill": "$text-primary",
+                      "content": "步骤",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Ioae6",
+                      "name": "Add Step Btn",
+                      "fill": "$accent-secondary-light",
+                      "cornerRadius": "$radius-pill",
+                      "gap": 4,
+                      "padding": [
+                        4,
+                        10
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "UgAL7",
+                          "name": "Plus Step",
+                          "width": 14,
+                          "height": 14,
+                          "iconFontName": "plus",
+                          "iconFontFamily": "phosphor",
+                          "fill": "$accent-secondary"
+                        },
+                        {
+                          "type": "text",
+                          "id": "LVvNf",
+                          "name": "Add Step Text",
+                          "fill": "$accent-secondary",
+                          "content": "添加",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "o9D9YM",
+                  "name": "Edit Step 1",
+                  "width": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "$border-light"
+                  },
+                  "gap": 10,
+                  "padding": [
+                    10,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "b68Hi",
+                      "name": "Step Badge",
+                      "width": 20,
+                      "height": 20,
+                      "fill": "$accent-primary",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "XekkN",
+                          "name": "Badge Num",
+                          "fill": "#FFFFFF",
+                          "content": "1",
+                          "fontFamily": "$font-data",
+                          "fontSize": 10,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "X7n8x",
+                      "name": "Step Content",
+                      "fill": "$text-body",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "羊蝎子冷水下锅焯水，去除血沫",
+                      "lineHeight": 1.4,
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "VURkP",
+                      "name": "Delete Step",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "x",
+                      "iconFontFamily": "phosphor",
+                      "fill": "$text-muted"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "iFO55",
+                  "name": "Edit Step 2",
+                  "width": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "$border-light"
+                  },
+                  "gap": 10,
+                  "padding": [
+                    10,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "FMT6X",
+                      "name": "Step Badge",
+                      "width": 20,
+                      "height": 20,
+                      "fill": "$accent-primary",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "LUyPe",
+                          "name": "Badge Num",
+                          "fill": "#FFFFFF",
+                          "content": "2",
+                          "fontFamily": "$font-data",
+                          "fontSize": 10,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "rXfBZ",
+                      "name": "Step Content",
+                      "fill": "$text-body",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "爆香葱姜蒜、八角、干辣椒",
+                      "lineHeight": 1.4,
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "Ewuxs",
+                      "name": "Delete Step",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "x",
+                      "iconFontFamily": "phosphor",
+                      "fill": "$text-muted"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "imchJ",
+              "name": "Extra Info",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 14,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "B7yyjP",
+                  "name": "Extra Title",
+                  "fill": "$text-primary",
+                  "content": "额外信息",
+                  "fontFamily": "$font-heading",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "FvA4X",
+                  "name": "Time Row",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "YDW5I",
+                      "name": "Time Row Label",
+                      "fill": "$text-body",
+                      "content": "烹饪时间",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "AhEbE",
+                      "name": "Time Right",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "WiUWU",
+                          "name": "Time Row Value",
+                          "fill": "$text-primary",
+                          "content": "45 min",
+                          "fontFamily": "$font-data",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "icon_font",
+                          "id": "qXHAh",
+                          "name": "Time Chevron",
+                          "width": 16,
+                          "height": 16,
+                          "iconFontName": "caret-right",
+                          "iconFontFamily": "phosphor",
+                          "fill": "$text-muted"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "JCyjL",
+                  "name": "Difficulty Row",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "V9rJ72",
+                      "name": "Diff Row Label",
+                      "fill": "$text-body",
+                      "content": "难度",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ULgpl",
+                      "name": "Diff Pills",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "KZpvr",
+                          "name": "Pill Easy",
+                          "fill": "$bg-primary",
+                          "cornerRadius": "$radius-pill",
+                          "padding": [
+                            5,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "N97aWz",
+                              "name": "Easy Text",
+                              "fill": "$text-muted",
+                              "content": "简单",
+                              "fontFamily": "$font-body",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "sWSvQ",
+                          "name": "Pill Medium",
+                          "fill": "$accent-primary",
+                          "cornerRadius": "$radius-pill",
+                          "padding": [
+                            5,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "mOruk",
+                              "name": "Med Text",
+                              "fill": "#FFFFFF",
+                              "content": "中等",
+                              "fontFamily": "$font-body",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "J9gwel",
+                          "name": "Pill Hard",
+                          "fill": "$bg-primary",
+                          "cornerRadius": "$radius-pill",
+                          "padding": [
+                            5,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "bNh0V",
+                              "name": "Hard Text",
+                              "fill": "$text-muted",
+                              "content": "困难",
+                              "fontFamily": "$font-body",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "KjMFO",
+                  "name": "Serve Row",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "TU4Y2",
+                      "name": "Serve Row Label",
+                      "fill": "$text-body",
+                      "content": "份量",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "z7vuk",
+                      "name": "Serve Right",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "kpEHG",
+                          "name": "Serve Row Value",
+                          "fill": "$text-primary",
+                          "content": "4 人份",
+                          "fontFamily": "$font-data",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "icon_font",
+                          "id": "V5yER",
+                          "name": "Serve Chevron",
+                          "width": 16,
+                          "height": 16,
+                          "iconFontName": "caret-right",
+                          "iconFontFamily": "phosphor",
+                          "fill": "$text-muted"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "friendCardRoot",
+      "x": 2667,
+      "y": 880,
+      "name": "Friend Card",
+      "reusable": true,
+      "width": 168,
+      "fill": "$bg-card",
+      "cornerRadius": 12,
+      "layout": "vertical",
+      "gap": 16,
+      "padding": 16,
+      "children": [
+        {
+          "type": "frame",
+          "id": "f4",
+          "name": "Friend Top",
+          "width": "fill_container",
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f1",
+              "name": "Friend Avatar",
+              "width": 44,
+              "height": 44,
+              "fill": "#EDF3EC",
+              "cornerRadius": 10,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "friendAvatarText",
+                  "name": "Friend Avatar Text",
+                  "fill": "$accent-secondary",
+                  "content": "阿",
+                  "fontFamily": "$font-body",
+                  "fontSize": 17,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "f3",
+              "name": "Friend Tag",
+              "fill": "#F7F3ED",
+              "cornerRadius": 9999,
+              "padding": [
+                5,
+                10
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t2",
+                  "name": "Friend Tag Text",
+                  "fill": "$text-muted",
+                  "content": "在线",
+                  "fontFamily": "$font-body",
+                  "fontSize": 10,
+                  "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "f5",
+          "name": "Friend Copy",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 5,
+          "children": [
+            {
+              "type": "text",
+              "id": "friendNameText",
+              "name": "Friend Name",
+              "fill": "$text-primary",
+              "content": "阿梨",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "friendMetaText",
+              "name": "Friend Meta",
+              "fill": "$text-muted",
+              "content": "好友可见 12 份菜单",
+              "fontFamily": "$font-body",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "f6",
+          "name": "Friend Divider",
+          "width": "fill_container",
+          "height": 1,
+          "fill": "#ECE5DC"
+        },
+        {
+          "type": "frame",
+          "id": "f8",
+          "name": "Friend Footer",
+          "width": "fill_container",
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "t7",
+              "name": "Friend Hint",
+              "fill": "$text-muted",
+              "content": "菜单访问",
+              "fontFamily": "$font-body",
+              "fontSize": 11,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "friendButtonText",
+              "name": "Friend Button",
+              "fill": "$accent-primary",
+              "content": "查看",
+              "fontFamily": "$font-body",
+              "fontSize": 12,
+              "fontWeight": "600"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "activityCardRoot",
+      "x": 2667,
+      "y": 1295,
+      "name": "Activity Card",
+      "reusable": true,
+      "width": 350,
+      "fill": "$bg-card",
+      "cornerRadius": 12,
+      "layout": "vertical",
+      "gap": 14,
+      "padding": 16,
+      "children": [
+        {
+          "type": "frame",
+          "id": "fe",
+          "name": "Activity Head",
+          "width": "fill_container",
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "frame",
+              "id": "fc",
+              "name": "Activity User Row",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "fa",
+                  "name": "Activity Avatar",
+                  "width": 42,
+                  "height": 42,
+                  "fill": "#FBF3DB",
+                  "cornerRadius": 10,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "t9",
+                      "name": "Activity Avatar Letter",
+                      "fill": "#956400",
+                      "content": "梨",
+                      "fontFamily": "$font-body",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "fb",
+                  "name": "Activity User Copy",
+                  "layout": "vertical",
+                  "gap": 3,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "activityUserText",
+                      "name": "Activity User",
+                      "fill": "$text-primary",
+                      "content": "阿梨",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "activityActionText",
+                      "name": "Activity Action",
+                      "fill": "$text-muted",
+                      "content": "20 分钟前发布新菜",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "fd",
+              "name": "Activity Badge",
+              "fill": "#EDF3EC",
+              "cornerRadius": 9999,
+              "padding": [
+                5,
+                10
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "activityBadgeText",
+                  "name": "Activity Badge Text",
+                  "fill": "#346538",
+                  "content": "好友可见",
+                  "fontFamily": "$font-body",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ff",
+          "name": "Activity Body",
+          "width": "fill_container",
+          "fill": "#FBFBFA",
+          "cornerRadius": 10,
+          "layout": "vertical",
+          "gap": 6,
+          "padding": 14,
+          "children": [
+            {
+              "type": "text",
+              "id": "activityDishText",
+              "name": "Activity Dish",
+              "fill": "$text-primary",
+              "content": "椰子鸡火锅",
+              "fontFamily": "$font-heading",
+              "fontSize": 18,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "activityMetaText",
+              "name": "Activity Meta",
+              "fill": "$text-body",
+              "content": "3 位好友已收藏，菜单对好友可见",
+              "fontFamily": "$font-body",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "fi",
+          "name": "Activity Footer",
+          "width": "fill_container",
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "tg",
+              "name": "Activity Footer Left",
+              "fill": "$text-muted",
+              "content": "进入菜单页",
+              "fontFamily": "$font-body",
+              "fontSize": 11,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "icon_font",
+              "id": "ih",
+              "name": "Activity Arrow",
+              "width": 16,
+              "height": 16,
+              "iconFontName": "arrow-up-right",
+              "iconFontFamily": "phosphor",
+              "fill": "$accent-primary"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "circleMenuCardRoot",
+      "x": 3107,
+      "y": 1217,
+      "name": "Circle Menu Card",
+      "reusable": true,
+      "width": 350,
+      "fill": "$bg-card",
+      "cornerRadius": 12,
+      "layout": "vertical",
+      "gap": 12,
+      "padding": 16,
+      "children": [
+        {
+          "type": "frame",
+          "id": "fp",
+          "name": "Circle Menu Head",
+          "width": "fill_container",
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "fn",
+              "name": "Circle Menu User",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "fk",
+                  "name": "Circle Avatar",
+                  "width": 42,
+                  "height": 42,
+                  "fill": "#E1F3FE",
+                  "cornerRadius": 10,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "tj",
+                      "name": "Circle Avatar Letter",
+                      "fill": "#1F6C9F",
+                      "content": "胖",
+                      "fontFamily": "$font-body",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "fm",
+                  "name": "Circle Owner Copy",
+                  "layout": "vertical",
+                  "gap": 3,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "circleMenuOwnerText",
+                      "name": "Circle Menu Owner",
+                      "fill": "$text-primary",
+                      "content": "胖虎",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "tl",
+                      "name": "Circle Owner Meta",
+                      "fill": "$text-muted",
+                      "content": "共享 6 份菜单",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "fo",
+              "name": "Circle Badge",
+              "fill": "#FDEBEC",
+              "cornerRadius": 9999,
+              "padding": [
+                5,
+                10
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "circleMenuBadgeText",
+                  "name": "Circle Menu Badge Text",
+                  "fill": "#9F2F2D",
+                  "content": "圈内共享",
+                  "fontFamily": "$font-body",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "fq",
+          "name": "Circle Divider",
+          "width": "fill_container",
+          "height": 1,
+          "fill": "#ECE5DC"
+        },
+        {
+          "type": "text",
+          "id": "circleMenuTitleText",
+          "name": "Circle Menu Title",
+          "fill": "$text-primary",
+          "content": "本周菜单精选",
+          "fontFamily": "$font-heading",
+          "fontSize": 18,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "circleMenuMetaText",
+          "name": "Circle Menu Meta",
+          "fill": "$text-body",
+          "content": "酸汤肥牛、蒜蓉扇贝、杨枝甘露",
+          "fontFamily": "$font-body",
+          "fontSize": 13,
+          "fontWeight": "normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "pr",
+      "x": 2667,
+      "y": 0,
+      "name": "User Profile",
+      "clip": true,
+      "width": 390,
+      "fill": "$bg-primary",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "fx",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24,
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "ts",
+              "name": "Time",
+              "fill": "$text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "fw",
+              "name": "Status Right",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "it",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "iconFontName": "cell-signal-full",
+                  "iconFontFamily": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "iu",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "iconFontName": "wifi-high",
+                  "iconFontFamily": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "iv",
+                  "name": "Battery",
+                  "width": 22,
+                  "height": 16,
+                  "iconFontName": "battery-full",
+                  "iconFontFamily": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "f1p",
+          "name": "Hero Section",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": [
+            10,
+            20,
+            0,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "f1o",
+              "name": "Hero Card",
+              "width": "fill_container",
+              "fill": "$bg-card",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 18,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f16",
+                  "name": "Hero Top",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "f13",
+                      "name": "Hero User",
+                      "gap": 14,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "fz",
+                          "name": "Hero Avatar",
+                          "width": 58,
+                          "height": 58,
+                          "fill": "#EDF3EC",
+                          "cornerRadius": 12,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "ty",
+                              "name": "Hero Avatar Text",
+                              "fill": "#346538",
+                              "content": "胖",
+                              "fontFamily": "$font-body",
+                              "fontSize": 22,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "f12",
+                          "name": "Hero Copy",
+                          "layout": "vertical",
+                          "gap": 5,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "t10",
+                              "name": "Hero Name",
+                              "fill": "$text-primary",
+                              "content": "胖虎的美味空间",
+                              "fontFamily": "$font-heading",
+                              "fontSize": 24,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "t11",
+                              "name": "Hero Intro",
+                              "fill": "$text-muted",
+                              "content": "好友能看见你的新菜动态，搭子圈能共享可见菜单。",
+                              "fontFamily": "$font-body",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f15",
+                      "name": "Hero Settings",
+                      "width": 34,
+                      "height": 34,
+                      "fill": "#FBFBFA",
+                      "cornerRadius": 8,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "i14",
+                          "name": "Hero Gear",
+                          "width": 18,
+                          "height": 18,
+                          "iconFontName": "sliders-horizontal",
+                          "iconFontFamily": "phosphor",
+                          "fill": "$text-primary"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "f17",
+                  "name": "Hero Divider",
+                  "width": "fill_container",
+                  "height": 1,
+                  "fill": "#ECE5DC"
+                },
+                {
+                  "type": "frame",
+                  "id": "f1h",
+                  "name": "Hero Stats",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "f1a",
+                      "name": "Friends Stat",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t18",
+                          "name": "Friends Value",
+                          "fill": "$text-primary",
+                          "content": "18",
+                          "fontFamily": "$font-data",
+                          "fontSize": 22,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "t19",
+                          "name": "Friends Label",
+                          "fill": "$text-muted",
+                          "content": "好友",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f1d",
+                      "name": "Menus Stat",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t1b",
+                          "name": "Menus Value",
+                          "fill": "$text-primary",
+                          "content": "32",
+                          "fontFamily": "$font-data",
+                          "fontSize": 22,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "t1c",
+                          "name": "Menus Label",
+                          "fill": "$text-muted",
+                          "content": "菜单",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f1g",
+                      "name": "Circle Stat",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t1e",
+                          "name": "Circle Value",
+                          "fill": "$text-primary",
+                          "content": "3",
+                          "fontFamily": "$font-data",
+                          "fontSize": 22,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "t1f",
+                          "name": "Circle Label",
+                          "fill": "$text-muted",
+                          "content": "搭子圈",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "f1i",
+                  "name": "Hero Divider 2",
+                  "width": "fill_container",
+                  "height": 1,
+                  "fill": "#ECE5DC"
+                },
+                {
+                  "type": "frame",
+                  "id": "f1n",
+                  "name": "Hero Actions",
+                  "width": "fill_container",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "f1k",
+                      "name": "Primary Action",
+                      "width": "fill_container",
+                      "fill": "$text-primary",
+                      "cornerRadius": 6,
+                      "padding": [
+                        12,
+                        0
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t1j",
+                          "name": "Primary Action Text",
+                          "fill": "#FFFFFF",
+                          "content": "添加好友",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f1m",
+                      "name": "Secondary Action",
+                      "width": "fill_container",
+                      "fill": "#FBFBFA",
+                      "cornerRadius": 6,
+                      "padding": [
+                        12,
+                        0
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t1l",
+                          "name": "Secondary Action Text",
+                          "fill": "$text-primary",
+                          "content": "创建搭子圈",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "f2q",
+          "name": "Content Stack",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 20,
+          "padding": 20,
+          "children": [
+            {
+              "type": "frame",
+              "id": "f1y",
+              "name": "Friends Block",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f1u",
+                  "name": "Section Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "f1s",
+                      "name": "Section Title Stack",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t1q",
+                          "name": "Section Eyebrow",
+                          "fill": "$text-muted",
+                          "content": "social",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "letterSpacing": 0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "t1r",
+                          "name": "Section Title",
+                          "fill": "$text-primary",
+                          "content": "我的好友",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 20,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "t1t",
+                      "name": "Section Link",
+                      "fill": "$accent-primary",
+                      "content": "管理邀请",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "f1x",
+                  "name": "Friends Row",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "id": "r1v",
+                      "type": "ref",
+                      "ref": "friendCardRoot",
+                      "name": "Friend Card A",
+                      "descendants": {
+                        "friendAvatarText": {
+                          "content": "阿"
+                        },
+                        "friendNameText": {
+                          "content": "阿梨"
+                        },
+                        "friendMetaText": {
+                          "content": "好友可见 12 份菜单"
+                        },
+                        "friendButtonText": {
+                          "content": "查看"
+                        }
+                      }
+                    },
+                    {
+                      "id": "r1w",
+                      "type": "ref",
+                      "ref": "friendCardRoot",
+                      "name": "Friend Card B",
+                      "descendants": {
+                        "friendAvatarText": {
+                          "content": "周"
+                        },
+                        "friendNameText": {
+                          "content": "周周"
+                        },
+                        "friendMetaText": {
+                          "content": "公开 26 份菜单"
+                        },
+                        "friendButtonText": {
+                          "content": "邀请"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "f25",
+              "name": "Activity Block",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f23",
+                  "name": "Section Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "f21",
+                      "name": "Section Title Stack",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t1z",
+                          "name": "Section Eyebrow",
+                          "fill": "$text-muted",
+                          "content": "social",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "letterSpacing": 0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "t20",
+                          "name": "Section Title",
+                          "fill": "$text-primary",
+                          "content": "好友动态",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 20,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "t22",
+                      "name": "Section Link",
+                      "fill": "$accent-primary",
+                      "content": "查看全部",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "id": "r24",
+                  "type": "ref",
+                  "ref": "activityCardRoot",
+                  "name": "Activity Profile 1",
+                  "descendants": {
+                    "activityUserText": {
+                      "content": "阿梨"
+                    },
+                    "activityActionText": {
+                      "content": "20 分钟前发布新菜"
+                    },
+                    "activityBadgeText": {
+                      "content": "好友可见"
+                    },
+                    "activityDishText": {
+                      "content": "椰子鸡火锅"
+                    },
+                    "activityMetaText": {
+                      "content": "3 位好友已收藏，菜单对好友可见"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "f2p",
+              "name": "Visibility Block",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f2a",
+                  "name": "Section Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "f28",
+                      "name": "Section Title Stack",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t26",
+                          "name": "Section Eyebrow",
+                          "fill": "$text-muted",
+                          "content": "social",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "letterSpacing": 0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "t27",
+                          "name": "Section Title",
+                          "fill": "$text-primary",
+                          "content": "菜单可见范围",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 20,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "t29",
+                      "name": "Section Link",
+                      "fill": "$accent-primary",
+                      "content": "编辑",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "f2o",
+                  "name": "Visibility Card",
+                  "width": "fill_container",
+                  "fill": "$bg-card",
+                  "cornerRadius": 12,
+                  "layout": "vertical",
+                  "gap": 14,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "t2b",
+                      "name": "Visibility Desc",
+                      "fill": "$text-body",
+                      "content": "你可以决定谁能看到自己的菜单，也能因此访问好友开放的菜单。",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f2n",
+                      "name": "Visibility List",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 12,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "f2g",
+                          "name": "Visibility Row Active",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "f2e",
+                              "name": "Visibility Copy Active",
+                              "layout": "vertical",
+                              "gap": 3,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "t2c",
+                                  "name": "Visibility Name Active",
+                                  "fill": "$text-primary",
+                                  "content": "好友可见",
+                                  "fontFamily": "$font-body",
+                                  "fontSize": 14,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "t2d",
+                                  "name": "Visibility Meta Active",
+                                  "fill": "$text-muted",
+                                  "content": "你的 12 份菜单会同步给好友和已加入的搭子圈。",
+                                  "fontFamily": "$font-body",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "f2f",
+                              "name": "Visibility Dot Active",
+                              "width": 10,
+                              "height": 10,
+                              "fill": "$text-primary",
+                              "cornerRadius": 9999
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "f2h",
+                          "name": "Visibility Divider",
+                          "width": "fill_container",
+                          "height": 1,
+                          "fill": "#ECE5DC"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "f2m",
+                          "name": "Visibility Row Public",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "f2k",
+                              "name": "Visibility Copy Public",
+                              "layout": "vertical",
+                              "gap": 3,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "t2i",
+                                  "name": "Visibility Name Public",
+                                  "fill": "$text-primary",
+                                  "content": "公开",
+                                  "fontFamily": "$font-body",
+                                  "fontSize": 14,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "t2j",
+                                  "name": "Visibility Meta Public",
+                                  "fill": "$text-muted",
+                                  "content": "任何用户都可以从动态和菜单页进入。",
+                                  "fontFamily": "$font-body",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "t2l",
+                              "name": "Visibility Tag Public",
+                              "fill": "$accent-primary",
+                              "content": "可切换",
+                              "fontFamily": "$font-body",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "f2s",
+          "name": "Tab Bar Wrapper",
+          "width": "fill_container",
+          "padding": [
+            0,
+            16,
+            16,
+            16
+          ],
+          "justifyContent": "center",
+          "children": [
+            {
+              "id": "r2r",
+              "type": "ref",
+              "ref": "resnP",
+              "name": "Profile Tab Bar"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "p2t",
+      "x": 3107,
+      "y": 0,
+      "name": "Friends Feed",
+      "clip": true,
+      "width": 390,
+      "fill": "$bg-primary",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "f2z",
+          "name": "Top Nav",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            20,
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f2x",
+              "name": "Back Shell",
+              "width": 32,
+              "height": 32,
+              "fill": "$bg-card",
+              "cornerRadius": 8,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "i2w",
+                  "name": "Back Icon",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "caret-left",
+                  "iconFontFamily": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "t2y",
+              "name": "Page Title",
+              "fill": "$text-primary",
+              "content": "好友动态",
+              "fontFamily": "$font-body",
+              "fontSize": 16,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "f2v",
+              "name": "Feed Right",
+              "width": 32,
+              "height": 32,
+              "fill": "$bg-card",
+              "cornerRadius": 8,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "i2u",
+                  "name": "Bell Icon",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "bell-simple",
+                  "iconFontFamily": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "f3r",
+          "name": "Feed Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": [
+            12,
+            20,
+            20,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "f3c",
+              "name": "Feed Intro Card",
+              "width": "fill_container",
+              "fill": "$bg-card",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f33",
+                  "name": "Feed Intro Copy",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "t30",
+                      "name": "Feed Intro Eyebrow",
+                      "fill": "$text-muted",
+                      "content": "activity",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "500",
+                      "letterSpacing": 0.5
+                    },
+                    {
+                      "type": "text",
+                      "id": "t31",
+                      "name": "Feed Intro Title",
+                      "fill": "$text-primary",
+                      "content": "好友发了新菜，你会先在这里看到。",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 22,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "t32",
+                      "name": "Feed Intro Desc",
+                      "fill": "$text-body",
+                      "content": "只有公开菜单和对你可见的菜单，会进入动态与访问入口。",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "f34",
+                  "name": "Feed Intro Divider",
+                  "width": "fill_container",
+                  "height": 1,
+                  "fill": "#ECE5DC"
+                },
+                {
+                  "type": "frame",
+                  "id": "f3b",
+                  "name": "Feed Filters",
+                  "width": "fill_container",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "f36",
+                      "name": "Filter Active",
+                      "fill": "$text-primary",
+                      "cornerRadius": 6,
+                      "padding": [
+                        9,
+                        14
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t35",
+                          "name": "Filter Active Text",
+                          "fill": "#FFFFFF",
+                          "content": "全部",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f38",
+                      "name": "Filter Passive 1",
+                      "fill": "#FBFBFA",
+                      "cornerRadius": 6,
+                      "padding": [
+                        9,
+                        14
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t37",
+                          "name": "Filter Passive 1 Text",
+                          "fill": "$text-body",
+                          "content": "上新",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f3a",
+                      "name": "Filter Passive 2",
+                      "fill": "#FBFBFA",
+                      "cornerRadius": 6,
+                      "padding": [
+                        9,
+                        14
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t39",
+                          "name": "Filter Passive 2 Text",
+                          "fill": "$text-body",
+                          "content": "圈内分享",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "f3g",
+              "name": "Activity List",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "id": "r3d",
+                  "type": "ref",
+                  "ref": "activityCardRoot",
+                  "name": "Feed Activity 1",
+                  "descendants": {
+                    "activityUserText": {
+                      "content": "阿梨"
+                    },
+                    "activityActionText": {
+                      "content": "刚刚发布了新菜"
+                    },
+                    "activityBadgeText": {
+                      "content": "好友可见"
+                    },
+                    "activityDishText": {
+                      "content": "椒麻手撕鸡"
+                    },
+                    "activityMetaText": {
+                      "content": "好友可见，适合夏天的凉拌菜"
+                    }
+                  }
+                },
+                {
+                  "id": "r3e",
+                  "type": "ref",
+                  "ref": "activityCardRoot",
+                  "name": "Feed Activity 2",
+                  "descendants": {
+                    "activityUserText": {
+                      "content": "周周"
+                    },
+                    "activityActionText": {
+                      "content": "1 小时前更新菜单"
+                    },
+                    "activityBadgeText": {
+                      "content": "公开"
+                    },
+                    "activityDishText": {
+                      "content": "一周轻食合集"
+                    },
+                    "activityMetaText": {
+                      "content": "公开访问，含 7 道可收藏菜品"
+                    }
+                  }
+                },
+                {
+                  "id": "r3f",
+                  "type": "ref",
+                  "ref": "activityCardRoot",
+                  "name": "Feed Activity 3",
+                  "descendants": {
+                    "activityUserText": {
+                      "content": "阿豪"
+                    },
+                    "activityActionText": {
+                      "content": "在搭子圈里共享菜单"
+                    },
+                    "activityBadgeText": {
+                      "content": "圈内共享"
+                    },
+                    "activityDishText": {
+                      "content": "周末烧烤采购清单"
+                    },
+                    "activityMetaText": {
+                      "content": "仅圈内可见，3 位搭子已加入讨论"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "f3q",
+              "name": "Access Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f3l",
+                  "name": "Section Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "f3j",
+                      "name": "Section Title Stack",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t3h",
+                          "name": "Section Eyebrow",
+                          "fill": "$text-muted",
+                          "content": "social",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "letterSpacing": 0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "t3i",
+                          "name": "Section Title",
+                          "fill": "$text-primary",
+                          "content": "可访问菜单",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 20,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "t3k",
+                      "name": "Section Link",
+                      "fill": "$accent-primary",
+                      "content": "前往菜单页",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "f3p",
+                  "name": "Access Row",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "id": "r3m",
+                      "type": "ref",
+                      "ref": "UpklM",
+                      "name": "Accessible Menu 1",
+                      "descendants": {
+                        "HzYKd": {
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "https://images.unsplash.com/photo-1526318896980-cf78c088247c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+                            "mode": "fill"
+                          }
+                        },
+                        "i692D": {
+                          "content": "阿梨 · 椰子鸡"
+                        }
+                      }
+                    },
+                    {
+                      "id": "r3n",
+                      "type": "ref",
+                      "ref": "UpklM",
+                      "name": "Accessible Menu 2",
+                      "descendants": {
+                        "HzYKd": {
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "https://images.unsplash.com/photo-1547592180-85f173990554?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+                            "mode": "fill"
+                          }
+                        },
+                        "i692D": {
+                          "content": "周周 · 轻食碗"
+                        }
+                      }
+                    },
+                    {
+                      "id": "r3o",
+                      "type": "ref",
+                      "ref": "UpklM",
+                      "name": "Accessible Menu 3",
+                      "descendants": {
+                        "HzYKd": {
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+                            "mode": "fill"
+                          }
+                        },
+                        "i692D": {
+                          "content": "阿豪 · 烧烤局"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "p3s",
+      "x": 3547,
+      "y": 0,
+      "name": "Friend Menu Access",
+      "clip": true,
+      "width": 390,
+      "fill": "$bg-primary",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "f3y",
+          "name": "Top Nav",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            20,
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f3w",
+              "name": "Back Shell",
+              "width": 32,
+              "height": 32,
+              "fill": "$bg-card",
+              "cornerRadius": 8,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "i3v",
+                  "name": "Back Icon",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "caret-left",
+                  "iconFontFamily": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "t3x",
+              "name": "Page Title",
+              "fill": "$text-primary",
+              "content": "访问阿梨的菜单",
+              "fontFamily": "$font-body",
+              "fontSize": 16,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "f3u",
+              "name": "Share Shell",
+              "width": 32,
+              "height": 32,
+              "fill": "$bg-card",
+              "cornerRadius": 8,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "i3t",
+                  "name": "Share Icon",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "share-network",
+                  "iconFontFamily": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "f55",
+          "name": "Friend Menu Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": [
+            12,
+            20,
+            20,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "f4o",
+              "name": "Access Summary",
+              "width": "fill_container",
+              "fill": "$bg-card",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f44",
+                  "name": "Access Summary Top",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "f40",
+                      "name": "Access Avatar",
+                      "width": 56,
+                      "height": 56,
+                      "fill": "#EDF3EC",
+                      "cornerRadius": 12,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t3z",
+                          "name": "Access Avatar Text",
+                          "fill": "#346538",
+                          "content": "阿",
+                          "fontFamily": "$font-body",
+                          "fontSize": 22,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f43",
+                      "name": "Access Summary Copy",
+                      "layout": "vertical",
+                      "gap": 5,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t41",
+                          "name": "Access Name",
+                          "fill": "$text-primary",
+                          "content": "阿梨的私房菜单",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 24,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "t42",
+                          "name": "Access Meta",
+                          "fill": "$text-muted",
+                          "content": "因为你们是好友，所以可以查看她开放的 12 份菜单。",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "f45",
+                  "name": "Access Divider",
+                  "width": "fill_container",
+                  "height": 1,
+                  "fill": "#ECE5DC"
+                },
+                {
+                  "type": "frame",
+                  "id": "f4n",
+                  "name": "Access Rules",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "f4a",
+                      "name": "Rule Open",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "f48",
+                          "name": "Rule Open Copy",
+                          "layout": "vertical",
+                          "gap": 3,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "t46",
+                              "name": "Rule Open Name",
+                              "fill": "$text-primary",
+                              "content": "公开菜单",
+                              "fontFamily": "$font-body",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "t47",
+                              "name": "Rule Open Desc",
+                              "fill": "$text-muted",
+                              "content": "任何人都能进入。",
+                              "fontFamily": "$font-body",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "t49",
+                          "name": "Rule Open Tag",
+                          "fill": "$accent-primary",
+                          "content": "可访问",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f4b",
+                      "name": "Access Rule Divider",
+                      "width": "fill_container",
+                      "height": 1,
+                      "fill": "#ECE5DC"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f4g",
+                      "name": "Rule Friend",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "f4e",
+                          "name": "Rule Friend Copy",
+                          "layout": "vertical",
+                          "gap": 3,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "t4c",
+                              "name": "Rule Friend Name",
+                              "fill": "$text-primary",
+                              "content": "好友可见菜单",
+                              "fontFamily": "$font-body",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "t4d",
+                              "name": "Rule Friend Desc",
+                              "fill": "$text-muted",
+                              "content": "你可以直接收藏与查看详情。",
+                              "fontFamily": "$font-body",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "t4f",
+                          "name": "Rule Friend Tag",
+                          "fill": "#346538",
+                          "content": "已开放",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f4h",
+                      "name": "Access Rule Divider 2",
+                      "width": "fill_container",
+                      "height": 1,
+                      "fill": "#ECE5DC"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f4m",
+                      "name": "Rule Private",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "f4k",
+                          "name": "Rule Private Copy",
+                          "layout": "vertical",
+                          "gap": 3,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "t4i",
+                              "name": "Rule Private Name",
+                              "fill": "$text-primary",
+                              "content": "私密菜单",
+                              "fontFamily": "$font-body",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "t4j",
+                              "name": "Rule Private Desc",
+                              "fill": "$text-muted",
+                              "content": "仅阿梨本人可见。",
+                              "fontFamily": "$font-body",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon_font",
+                          "id": "i4l",
+                          "name": "Rule Private Lock",
+                          "width": 16,
+                          "height": 16,
+                          "iconFontName": "lock-key",
+                          "iconFontFamily": "phosphor",
+                          "fill": "$text-muted"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "f52",
+              "name": "Friend Menu Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f4t",
+                  "name": "Section Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "f4r",
+                      "name": "Section Title Stack",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t4p",
+                          "name": "Section Eyebrow",
+                          "fill": "$text-muted",
+                          "content": "social",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "letterSpacing": 0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "t4q",
+                          "name": "Section Title",
+                          "fill": "$text-primary",
+                          "content": "可访问菜单",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 20,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "t4s",
+                      "name": "Section Link",
+                      "fill": "$accent-primary",
+                      "content": "全部菜单",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "f51",
+                  "name": "Friend Menu Row",
+                  "width": "fill_container",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "id": "r4u",
+                      "type": "ref",
+                      "ref": "EpOAS",
+                      "name": "Friend Menu Large",
+                      "width": "fill_container",
+                      "height": 200,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+                        "mode": "fill"
+                      },
+                      "descendants": {
+                        "j9usC": {
+                          "content": "黑松露牛肝菌饭"
+                        },
+                        "TG4qA": {
+                          "content": "好友可见"
+                        }
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f50",
+                      "name": "Friend Side Stack",
+                      "width": 140,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "id": "r4v",
+                          "type": "ref",
+                          "ref": "mC2ex",
+                          "name": "Friend Menu Small 1",
+                          "width": "fill_container",
+                          "height": 95,
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+                            "mode": "fill"
+                          },
+                          "descendants": {
+                            "jVNKU": {
+                              "content": "罗勒焗虾"
+                            }
+                          }
+                        },
+                        {
+                          "type": "frame",
+                          "id": "f4z",
+                          "name": "Locked Menu",
+                          "width": "fill_container",
+                          "height": 95,
+                          "fill": "#FBFBFA",
+                          "cornerRadius": 12,
+                          "layout": "vertical",
+                          "gap": 8,
+                          "padding": 14,
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "i4w",
+                              "name": "Lock Icon",
+                              "width": 18,
+                              "height": 18,
+                              "iconFontName": "lock-key",
+                              "iconFontFamily": "phosphor",
+                              "fill": "$text-muted"
+                            },
+                            {
+                              "type": "text",
+                              "id": "t4x",
+                              "name": "Locked Title",
+                              "fill": "$text-primary",
+                              "content": "私密菜单",
+                              "fontFamily": "$font-body",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "t4y",
+                              "name": "Locked Desc",
+                              "fill": "$text-muted",
+                              "content": "仅自己可见",
+                              "fontFamily": "$font-body",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "f54",
+              "name": "Invite Button",
+              "width": "fill_container",
+              "fill": "$text-primary",
+              "cornerRadius": 6,
+              "padding": [
+                14,
+                0
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t53",
+                  "name": "Invite Button Text",
+                  "fill": "#FFFFFF",
+                  "content": "邀请阿梨加入搭子圈",
+                  "fontFamily": "$font-body",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "p56",
+      "x": 3987,
+      "y": 0,
+      "name": "Food Buddy Circle",
+      "clip": true,
+      "width": 390,
+      "fill": "$bg-primary",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "f5c",
+          "name": "Top Nav",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            20,
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f5a",
+              "name": "Back Shell",
+              "width": 32,
+              "height": 32,
+              "fill": "$bg-card",
+              "cornerRadius": 8,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "i59",
+                  "name": "Back Icon",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "caret-left",
+                  "iconFontFamily": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "t5b",
+              "name": "Page Title",
+              "fill": "$text-primary",
+              "content": "美食搭子",
+              "fontFamily": "$font-body",
+              "fontSize": 16,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "f58",
+              "name": "Create Shell",
+              "width": 32,
+              "height": 32,
+              "fill": "$bg-card",
+              "cornerRadius": 8,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "i57",
+                  "name": "Plus Icon",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "plus",
+                  "iconFontFamily": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "f6e",
+          "name": "Circle Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": [
+            12,
+            20,
+            20,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "f5v",
+              "name": "Circle Overview",
+              "width": "fill_container",
+              "fill": "$bg-card",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 18,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f5g",
+                  "name": "Circle Overview Copy",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "t5d",
+                      "name": "Circle Eyebrow",
+                      "fill": "$text-muted",
+                      "content": "buddy circle",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "500",
+                      "letterSpacing": 0.5
+                    },
+                    {
+                      "type": "text",
+                      "id": "t5e",
+                      "name": "Circle Name",
+                      "fill": "$text-primary",
+                      "content": "周末探店局",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 24,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "t5f",
+                      "name": "Circle Desc",
+                      "fill": "$text-body",
+                      "content": "和好友一起建圈、邀人、共享菜单，大家能在菜单页一起决定吃什么。",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "f5h",
+                  "name": "Circle Overview Divider",
+                  "width": "fill_container",
+                  "height": 1,
+                  "fill": "#ECE5DC"
+                },
+                {
+                  "type": "frame",
+                  "id": "f5r",
+                  "name": "Circle Stats",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "f5k",
+                      "name": "Members Stat",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t5i",
+                          "name": "Members Value",
+                          "fill": "$text-primary",
+                          "content": "5",
+                          "fontFamily": "$font-data",
+                          "fontSize": 22,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "t5j",
+                          "name": "Members Label",
+                          "fill": "$text-muted",
+                          "content": "成员",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f5n",
+                      "name": "Shared Stat",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t5l",
+                          "name": "Shared Value",
+                          "fill": "$text-primary",
+                          "content": "28",
+                          "fontFamily": "$font-data",
+                          "fontSize": 22,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "t5m",
+                          "name": "Shared Label",
+                          "fill": "$text-muted",
+                          "content": "共享菜单",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f5q",
+                      "name": "Updates Stat",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t5o",
+                          "name": "Updates Value",
+                          "fill": "$text-primary",
+                          "content": "9",
+                          "fontFamily": "$font-data",
+                          "fontSize": 22,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "t5p",
+                          "name": "Updates Label",
+                          "fill": "$text-muted",
+                          "content": "本周更新",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "f5s",
+                  "name": "Circle Overview Divider 2",
+                  "width": "fill_container",
+                  "height": 1,
+                  "fill": "#ECE5DC"
+                },
+                {
+                  "type": "frame",
+                  "id": "f5u",
+                  "name": "Invite CTA",
+                  "width": "fill_container",
+                  "fill": "$text-primary",
+                  "cornerRadius": 6,
+                  "padding": [
+                    13,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "t5t",
+                      "name": "Invite CTA Text",
+                      "fill": "#FFFFFF",
+                      "content": "邀请好友加入",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "f64",
+              "name": "Members Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f60",
+                  "name": "Section Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "f5y",
+                      "name": "Section Title Stack",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t5w",
+                          "name": "Section Eyebrow",
+                          "fill": "$text-muted",
+                          "content": "social",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "letterSpacing": 0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "t5x",
+                          "name": "Section Title",
+                          "fill": "$text-primary",
+                          "content": "圈内成员",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 20,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "t5z",
+                      "name": "Section Link",
+                      "fill": "$accent-primary",
+                      "content": "管理成员",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "f63",
+                  "name": "Members Row",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "id": "r61",
+                      "type": "ref",
+                      "ref": "friendCardRoot",
+                      "name": "Circle Member 1",
+                      "descendants": {
+                        "friendAvatarText": {
+                          "content": "胖"
+                        },
+                        "friendNameText": {
+                          "content": "胖虎"
+                        },
+                        "friendMetaText": {
+                          "content": "创建者 · 共享 6 份菜单"
+                        },
+                        "friendButtonText": {
+                          "content": "查看"
+                        }
+                      }
+                    },
+                    {
+                      "id": "r62",
+                      "type": "ref",
+                      "ref": "friendCardRoot",
+                      "name": "Circle Member 2",
+                      "descendants": {
+                        "friendAvatarText": {
+                          "content": "豪"
+                        },
+                        "friendNameText": {
+                          "content": "阿豪"
+                        },
+                        "friendMetaText": {
+                          "content": "共享 8 份菜单"
+                        },
+                        "friendButtonText": {
+                          "content": "在圈内"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "f6d",
+              "name": "Shared Menus Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f69",
+                  "name": "Section Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "f67",
+                      "name": "Section Title Stack",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t65",
+                          "name": "Section Eyebrow",
+                          "fill": "$text-muted",
+                          "content": "social",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "letterSpacing": 0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "t66",
+                          "name": "Section Title",
+                          "fill": "$text-primary",
+                          "content": "圈内共享菜单",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 20,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "t68",
+                      "name": "Section Link",
+                      "fill": "$accent-primary",
+                      "content": "查看全部",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "id": "r6a",
+                  "type": "ref",
+                  "ref": "circleMenuCardRoot",
+                  "name": "Circle Menu 1",
+                  "descendants": {
+                    "circleMenuOwnerText": {
+                      "content": "胖虎"
+                    },
+                    "circleMenuBadgeText": {
+                      "content": "圈内共享"
+                    },
+                    "circleMenuTitleText": {
+                      "content": "露营火锅菜单"
+                    },
+                    "circleMenuMetaText": {
+                      "content": "番茄锅底、肥牛卷、虾滑、手打柠檬茶"
+                    }
+                  }
+                },
+                {
+                  "id": "r6b",
+                  "type": "ref",
+                  "ref": "circleMenuCardRoot",
+                  "name": "Circle Menu 2",
+                  "descendants": {
+                    "circleMenuOwnerText": {
+                      "content": "阿豪"
+                    },
+                    "circleMenuBadgeText": {
+                      "content": "圈内共享"
+                    },
+                    "circleMenuTitleText": {
+                      "content": "夜宵摊同款"
+                    },
+                    "circleMenuMetaText": {
+                      "content": "炒河粉、椒盐鸡翅、冰镇毛豆"
+                    }
+                  }
+                },
+                {
+                  "id": "r6c",
+                  "type": "ref",
+                  "ref": "circleMenuCardRoot",
+                  "name": "Circle Menu 3",
+                  "descendants": {
+                    "circleMenuOwnerText": {
+                      "content": "周周"
+                    },
+                    "circleMenuBadgeText": {
+                      "content": "公开同步"
+                    },
+                    "circleMenuTitleText": {
+                      "content": "城市漫步 brunch"
+                    },
+                    "circleMenuMetaText": {
+                      "content": "牛油果吐司、班尼迪克蛋、冰美式"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "accent-primary": {
+      "type": "color",
+      "value": "#9F5C38"
+    },
+    "accent-secondary": {
+      "type": "color",
+      "value": "#346538"
+    },
+    "accent-secondary-light": {
+      "type": "color",
+      "value": "#EDF3EC"
+    },
+    "bg-card": {
+      "type": "color",
+      "value": "#FFFFFF"
+    },
+    "bg-primary": {
+      "type": "color",
+      "value": "#F7F6F3"
+    },
+    "border-light": {
+      "type": "color",
+      "value": "#E9E2D8"
+    },
+    "font-body": {
+      "type": "string",
+      "value": "Geist Sans"
+    },
+    "font-data": {
+      "type": "string",
+      "value": "Geist Mono"
+    },
+    "font-heading": {
+      "type": "string",
+      "value": "Instrument Serif"
+    },
+    "radius-card": {
+      "type": "number",
+      "value": 12
+    },
+    "radius-inner": {
+      "type": "number",
+      "value": 10
+    },
+    "radius-pill": {
+      "type": "number",
+      "value": 9999
+    },
+    "text-body": {
+      "type": "color",
+      "value": "#2F3437"
+    },
+    "text-muted": {
+      "type": "color",
+      "value": "#787774"
+    },
+    "text-primary": {
+      "type": "color",
+      "value": "#151515"
+    }
+  }
+}

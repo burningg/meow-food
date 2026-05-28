@@ -1,0 +1,28 @@
+package com.panghu.food.web;
+
+import com.panghu.food.dto.AuthUserResponse;
+import com.panghu.food.dto.ProfileResponse;
+import com.panghu.food.dto.ProfileVisibilityUpdateRequest;
+import com.panghu.food.service.SocialService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/profile")
+public class ProfileController {
+    private final SocialService socialService;
+
+    public ProfileController(SocialService socialService) {
+        this.socialService = socialService;
+    }
+
+    @GetMapping
+    public ResponseEntity<ProfileResponse> getProfile() {
+        return ResponseEntity.ok(socialService.getProfile());
+    }
+
+    @PutMapping("/visibility")
+    public ResponseEntity<AuthUserResponse> updateVisibility(@RequestBody ProfileVisibilityUpdateRequest request) {
+        return ResponseEntity.ok(socialService.updateDefaultVisibility(request));
+    }
+}

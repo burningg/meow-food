@@ -1,0 +1,32 @@
+@import './base.css';
+
+#app {
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+.page-shell {
+  width: min(390px, 100vw);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 18px 16px 24px;
+  background: #f5f2ed;
+}
+
+.primary-button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-weight: 700;
+  box-shadow: 0 14px 26px rgba(196, 112, 75, 0.24);
+}

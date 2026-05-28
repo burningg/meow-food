@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panghu.food.mapper.DishStepMapper">
+    <resultMap id="BaseResultMap" type="com.panghu.food.entity.DishStep">
+        <id column="id" property="id" />
+        <result column="dish_id" property="dishId" />
+        <result column="step_no" property="stepNo" />
+        <result column="content" property="content" />
+    </resultMap>
+
+    <select id="selectByDishId" resultMap="BaseResultMap">
+        SELECT id, dish_id, step_no, content
+        FROM dish_step
+        WHERE dish_id = #{dishId}
+        ORDER BY step_no ASC, id ASC
+    </select>
+
+    <delete id="deleteByDishId">
+        DELETE FROM dish_step WHERE dish_id = #{dishId}
+    </delete>
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panghu.food.mapper.DishIngredientMapper">
+    <resultMap id="BaseResultMap" type="com.panghu.food.entity.DishIngredient">
+        <id column="id" property="id" />
+        <result column="dish_id" property="dishId" />
+        <result column="name" property="name" />
+        <result column="amount" property="amount" />
+        <result column="sort" property="sort" />
+    </resultMap>
+
+    <select id="selectByDishId" resultMap="BaseResultMap">
+        SELECT id, dish_id, name, amount, sort
+        FROM dish_ingredient
+        WHERE dish_id = #{dishId}
+        ORDER BY sort ASC, id ASC
+    </select>
+
+    <delete id="deleteByDishId">
+        DELETE FROM dish_ingredient WHERE dish_id = #{dishId}
+    </delete>
+</mapper>
