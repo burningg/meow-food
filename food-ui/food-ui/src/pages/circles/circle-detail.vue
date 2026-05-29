@@ -76,11 +76,12 @@ const router = useRouter()
 const socialService = new SocialService()
 const detail = ref<BuddyCircleDetail | null>(null)
 
-const circleId = computed(() => Number(route.params.id))
+const circleId = computed(() => String(route.params.id || ''))
 
 onMounted(loadData)
 
 async function loadData() {
+  if (!circleId.value) return
   const { data } = await socialService.getCircleDetail(circleId.value)
   detail.value = data
 }
@@ -104,7 +105,7 @@ function openInvitePicker() {
   router.push({
     name: 'friends',
     query: {
-      circleId: String(circleId.value),
+      circleId: circleId.value,
       circleName: detail.value.circle.name,
     },
   })
@@ -114,7 +115,7 @@ function openDish(id: string) {
   router.push({ name: 'dish-detail', params: { id } })
 }
 
-function openUser(userId: number) {
+function openUser(userId: string) {
   router.push({ name: 'user-menu', params: { id: userId } })
 }
 </script>

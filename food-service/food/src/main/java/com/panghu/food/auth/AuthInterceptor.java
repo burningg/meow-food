@@ -18,7 +18,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String authorization = request.getHeader("Authorization");
         if (authorization != null && authorization.startsWith("Bearer ")) {
-            Long userId = jwtTokenUtil.parseUserId(authorization.substring(7));
+            String userId = jwtTokenUtil.parseUserId(authorization.substring(7));
             AuthContext.setUserId(userId);
         }
         return true;

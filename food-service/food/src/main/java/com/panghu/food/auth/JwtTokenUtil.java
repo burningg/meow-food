@@ -17,7 +17,7 @@ public class JwtTokenUtil {
     @Value("${auth.jwt-secret:food-social-secret}")
     private String secret;
 
-    public String createToken(Long userId) {
+    public String createToken(String userId) {
         long expiresAt = System.currentTimeMillis() + EXPIRE_MILLIS;
         String payload = userId + ":" + expiresAt;
         String signature = sign(payload);
@@ -25,7 +25,7 @@ public class JwtTokenUtil {
                 .encodeToString((payload + ":" + signature).getBytes(StandardCharsets.UTF_8));
     }
 
-    public Long parseUserId(String token) {
+    public String parseUserId(String token) {
         try {
             String decoded = new String(Base64.getUrlDecoder().decode(token), StandardCharsets.UTF_8);
             String[] parts = decoded.split(":");
@@ -40,7 +40,7 @@ public class JwtTokenUtil {
             if (System.currentTimeMillis() > expiresAt) {
                 throw new ApiException(HttpStatus.UNAUTHORIZED, "登录已过期");
             }
-            return Long.parseLong(parts[0]);
+            return parts[0];
         } catch (IllegalArgumentException e) {
             throw new ApiException(HttpStatus.UNAUTHORIZED, "登录态无效");
         }

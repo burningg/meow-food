@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,11 +65,11 @@ public class DishServiceImpl implements DishService {
     private ActivityFeedMapper activityFeedMapper;
 
     @Override
-    public List<DishSummaryResponse> getDishes(String categoryId, Long ownerUserId, String scope, Long circleId) {
-        Long currentUserId = AuthContext.getUserId();
+    public List<DishSummaryResponse> getDishes(String categoryId, String ownerUserId, String scope, String circleId) {
+        String currentUserId = AuthContext.getUserId();
         List<DishSummaryResponse> dishes;
         if ("my".equals(scope)) {
-            Long userId = currentUserId == null ? ownerUserId : currentUserId;
+            String userId = currentUserId == null ? ownerUserId : currentUserId;
             dishes = dishMapper.selectByOwnerUserId(userId);
         } else if (ownerUserId != null) {
             dishes = dishMapper.selectByOwnerUserId(ownerUserId);
@@ -88,7 +87,7 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public List<DishSummaryResponse> getFeaturedDishes(String categoryId) {
-        Long currentUserId = AuthContext.getUserId();
+        String currentUserId = AuthContext.getUserId();
         List<DishSummaryResponse> source = categoryId == null || categoryId.trim().isEmpty()
                 ? dishMapper.selectAllActive()
                 : dishMapper.selectByCategoryId(categoryId, null);
@@ -97,7 +96,7 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public List<DishSummaryResponse> getRecentDishes() {
-        Long currentUserId = AuthContext.getUserId();
+        String currentUserId = AuthContext.getUserId();
         if (currentUserId == null) {
             return new ArrayList<>();
         }
@@ -144,11 +143,10 @@ public class DishServiceImpl implements DishService {
     @Override
     @Transactional
     public DishDetailResponse createDish(DishUpsertRequest dishCreateDTO) {
-        Long currentUserId = AuthContext.requireUserId();
+        String currentUserId = AuthContext.requireUserId();
         Dish dish = new Dish();
         applyDishRequest(dish, dishCreateDTO);
         LocalDateTime now = LocalDateTime.now();
-        dish.setId(UUID.randomUUID().toString());
         dish.setOwnerUserId(currentUserId);
         dish.setCreatedAt(now);
         dish.setUpdatedAt(now);
@@ -161,7 +159,7 @@ public class DishServiceImpl implements DishService {
     @Override
     @Transactional
     public DishDetailResponse updateDish(String id, DishUpsertRequest dishUpdateDTO) {
-        Long currentUserId = AuthContext.requireUserId();
+        String currentUserId = AuthContext.requireUserId();
         Dish dish = dishMapper.selectById(id);
         if (dish == null) {
             throw new ApiException(HttpStatus.NOT_FOUND, "菜品不存在");
@@ -180,7 +178,7 @@ public class DishServiceImpl implements DishService {
     @Override
     @Transactional
     public void deleteDish(String id) {
-        Long currentUserId = AuthContext.requireUserId();
+        String currentUserId = AuthContext.requireUserId();
         Dish dish = dishMapper.selectById(id);
         if (dish == null) {
             throw new ApiException(HttpStatus.NOT_FOUND, "菜品不存在");
@@ -266,14 +264,14 @@ public class DishServiceImpl implements DishService {
         return value == null || value.trim().isEmpty();
     }
 
-    private String resolveDefaultVisibility(Long ownerUserId) {
+    private String resolveDefaultVisibility(String ownerUserId) {
         UserProfileSettings settings = userProfileSettingsMapper.selectById(ownerUserId);
         return settings == null ? "friends" : VisibilityUtils.normalizeProfileVisibility(settings.getDefaultMenuVisibility());
     }
 
     private List<DishSummaryResponse> filterHomeDishes(
             List<DishSummaryResponse> source,
-            Long currentUserId,
+            String currentUserId,
             Predicate<DishSummaryResponse> extraFilter) {
         return source.stream()
                 .map(this::applyEffectiveVisibility)
@@ -297,7 +295,7 @@ public class DishServiceImpl implements DishService {
         return item;
     }
 
-    private boolean isFriend(Long currentUserId, Long ownerUserId) {
+    private boolean isFriend(String currentUserId, String ownerUserId) {
         if (currentUserId == null) {
             return false;
         }
@@ -306,7 +304,7 @@ public class DishServiceImpl implements DishService {
                 .eq("friend_user_id", ownerUserId)) > 0;
     }
 
-    private boolean canViewDish(DishSummaryResponse dish, Long viewerUserId, boolean circleMode) {
+    private boolean canViewDish(DishSummaryResponse dish, String viewerUserId, boolean circleMode) {
         if (dish == null) {
             return false;
         }
@@ -326,7 +324,7 @@ public class DishServiceImpl implements DishService {
         return false;
     }
 
-    private boolean canViewDish(DishDetailResponse dish, Long viewerUserId, boolean circleMode) {
+    private boolean canViewDish(DishDetailResponse dish, String viewerUserId, boolean circleMode) {
         if (dish == null) {
             return false;
         }
@@ -346,7 +344,7 @@ public class DishServiceImpl implements DishService {
         return false;
     }
 
-    private void createActivity(Long userId, String dishId, String type, String visibilityScope) {
+    private void createActivity(String userId, String dishId, String type, String visibilityScope) {
         if ("private".equals(visibilityScope)) {
             return;
         }
@@ -359,7 +357,7 @@ public class DishServiceImpl implements DishService {
         activityFeedMapper.insert(feed);
     }
 
-    private String resolveActivityScope(String dishVisibility, Long ownerUserId) {
+    private String resolveActivityScope(String dishVisibility, String ownerUserId) {
         String effectiveVisibility = VisibilityUtils.effectiveVisibility(dishVisibility, resolveDefaultVisibility(ownerUserId));
         if ("private".equals(effectiveVisibility)) {
             return "private";

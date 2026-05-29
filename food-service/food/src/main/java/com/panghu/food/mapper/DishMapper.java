@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper
 public interface DishMapper extends BaseMapper<Dish> {
     List<DishSummaryResponse> selectByCategoryId(@Param("categoryId") String categoryId,
-                                                 @Param("ownerUserId") Long ownerUserId);
+                                                 @Param("ownerUserId") String ownerUserId);
 
     DishDetailResponse selectDishDetailById(@Param("id") String id);
 
@@ -20,7 +20,7 @@ public interface DishMapper extends BaseMapper<Dish> {
 
     List<DishSummaryResponse> selectRecent(@Param("limit") int limit);
 
-    List<DishSummaryResponse> selectByOwnerUserId(@Param("ownerUserId") Long ownerUserId);
+    List<DishSummaryResponse> selectByOwnerUserId(@Param("ownerUserId") String ownerUserId);
 
     List<DishSummaryResponse> selectAllActive();
 }

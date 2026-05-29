@@ -9,7 +9,7 @@ export interface ProfileStats {
 }
 
 export interface FriendItem {
-  id: number
+  id: string
   account: string
   nickname: string
   avatar: string
@@ -39,14 +39,14 @@ export interface FriendRequestsResponse {
 }
 
 export interface FeedItem {
-  id: number
-  actorUserId: number
+  id: string
+  actorUserId: string
   actorNickname: string
   actorAvatar: string
   activityType: 'dish_created' | 'dish_updated' | 'circle_shared'
   actionText: string
   visibilityScope: 'public' | 'friends' | 'circle'
-  circleId?: number
+  circleId?: string
   circleName?: string
   dishId: string
   dishName: string
@@ -74,10 +74,10 @@ export interface UserMenuAccessResponse {
 }
 
 export interface BuddyCircleSummary {
-  id: number
+  id: string
   name: string
   description: string
-  ownerUserId: number
+  ownerUserId: string
   ownerNickname: string
   memberCount: number
   sharedMenuCount: number
@@ -85,7 +85,7 @@ export interface BuddyCircleSummary {
 }
 
 export interface BuddyCircleMember {
-  id: number
+  id: string
   account: string
   nickname: string
   avatar: string
@@ -126,7 +126,7 @@ export class SocialService {
     return http.get<FriendItem[]>('/api/friends')
   }
 
-  createFriendRequest(payload: { targetUserId?: number; targetAccount?: string; message?: string }) {
+  createFriendRequest(payload: { targetUserId?: string; targetAccount?: string; message?: string }) {
     return http.post<FriendRequestItem>('/api/friends/requests', payload)
   }
 
@@ -150,11 +150,11 @@ export class SocialService {
     return http.get<{ menus: DishSummary[] }>('/api/feed/accessible-menus')
   }
 
-  getUserMenuAccess(userId: number) {
+  getUserMenuAccess(userId: string) {
     return http.get<UserMenuAccessResponse>(`/api/users/${userId}/menu-access`)
   }
 
-  getUserMenus(userId: number) {
+  getUserMenus(userId: string) {
     return http.get<DishSummary[]>(`/api/users/${userId}/menus`)
   }
 
@@ -162,15 +162,15 @@ export class SocialService {
     return http.get<BuddyCircleSummary[]>('/api/circles')
   }
 
-  createCircle(payload: { name: string; description: string; initialMemberIds?: number[] }) {
+  createCircle(payload: { name: string; description: string; initialMemberIds?: string[] }) {
     return http.post<BuddyCircleDetail>('/api/circles', payload)
   }
 
-  getCircleDetail(circleId: number) {
+  getCircleDetail(circleId: string) {
     return http.get<BuddyCircleDetail>(`/api/circles/${circleId}`)
   }
 
-  inviteToCircle(circleId: number, payload: { inviteeUserId?: number; inviteeAccount?: string }) {
+  inviteToCircle(circleId: string, payload: { inviteeUserId?: string; inviteeAccount?: string }) {
     return http.post<BuddyCircleDetail>(`/api/circles/${circleId}/invite`, payload)
   }
 }

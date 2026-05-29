@@ -8,13 +8,8 @@
       "mainClass": "com.panghu.food.FoodApplication",
       "projectName": "food",
       "cwd": "${workspaceFolder}/food-service/food",
-      "console": "integratedTerminal",
-      "vmArgs": "-Dfile.encoding=UTF-8",
-      "env": {
-        "JAVA_HOME": "/opt/homebrew/Cellar/openjdk@17/17.0.15/libexec/openjdk.jdk/Contents/Home",
-        "PATH": "/opt/homebrew/Cellar/openjdk@17/17.0.15/libexec/openjdk.jdk/Contents/Home/bin:${env:PATH}"
-      },
-      "javaExec": "/opt/homebrew/Cellar/openjdk@17/17.0.15/libexec/openjdk.jdk/Contents/Home/bin/java"
+      "preLaunchTask": "mvn: compile food-service/food",
+      "console": "integratedTerminal"
     }
   ]
 }

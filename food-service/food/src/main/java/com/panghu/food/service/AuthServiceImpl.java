@@ -44,7 +44,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthUserResponse getCurrentUser() {
-        Long userId = AuthContext.requireUserId();
+        String userId = AuthContext.requireUserId();
         UserAccount user = userAccountMapper.selectById(userId);
         if (user == null) {
             throw new ApiException(HttpStatus.UNAUTHORIZED, "用户不存在");
@@ -52,7 +52,7 @@ public class AuthServiceImpl implements AuthService {
         return toAuthUser(user, getSettings(userId));
     }
 
-    private UserProfileSettings getSettings(Long userId) {
+    private UserProfileSettings getSettings(String userId) {
         UserProfileSettings settings = userProfileSettingsMapper.selectById(userId);
         if (settings == null) {
             settings = new UserProfileSettings();

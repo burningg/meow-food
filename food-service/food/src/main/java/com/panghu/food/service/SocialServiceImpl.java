@@ -52,7 +52,7 @@ public class SocialServiceImpl implements SocialService {
 
     @Override
     public ProfileResponse getProfile() {
-        Long userId = AuthContext.requireUserId();
+        String userId = AuthContext.requireUserId();
         ProfileResponse response = new ProfileResponse();
         response.setUser(authService.getCurrentUser());
         response.setStats(buildProfileStats(userId));
@@ -64,7 +64,7 @@ public class SocialServiceImpl implements SocialService {
     @Override
     @Transactional
     public AuthUserResponse updateDefaultVisibility(ProfileVisibilityUpdateRequest request) {
-        Long userId = AuthContext.requireUserId();
+        String userId = AuthContext.requireUserId();
         UserProfileSettings settings = getSettings(userId);
         settings.setDefaultMenuVisibility(VisibilityUtils.normalizeProfileVisibility(request.getDefaultMenuVisibility()));
         userProfileSettingsMapper.updateById(settings);
@@ -73,7 +73,7 @@ public class SocialServiceImpl implements SocialService {
 
     @Override
     public List<FriendItemResponse> getFriends() {
-        Long currentUserId = AuthContext.requireUserId();
+        String currentUserId = AuthContext.requireUserId();
         List<FriendRelation> relations = friendRelationMapper.selectList(new QueryWrapper<FriendRelation>()
                 .eq("user_id", currentUserId));
         List<FriendItemResponse> result = new ArrayList<>();
@@ -100,8 +100,8 @@ public class SocialServiceImpl implements SocialService {
     @Override
     @Transactional
     public FriendRequestItemResponse createFriendRequest(FriendRequestActionRequest request) {
-        Long currentUserId = AuthContext.requireUserId();
-        Long targetUserId = resolveTargetUserId(request.getTargetUserId(), request.getTargetAccount());
+        String currentUserId = AuthContext.requireUserId();
+        String targetUserId = resolveTargetUserId(request.getTargetUserId(), request.getTargetAccount());
         if (Objects.equals(currentUserId, targetUserId)) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "不能添加自己为好友");
         }
@@ -128,7 +128,7 @@ public class SocialServiceImpl implements SocialService {
 
     @Override
     public FriendRequestsResponse getFriendRequests() {
-        Long currentUserId = AuthContext.requireUserId();
+        String currentUserId = AuthContext.requireUserId();
         FriendRequestsResponse response = new FriendRequestsResponse();
         List<FriendRequest> incoming = friendRequestMapper.selectList(new QueryWrapper<FriendRequest>()
                 .eq("target_user_id", currentUserId)
@@ -143,8 +143,8 @@ public class SocialServiceImpl implements SocialService {
 
     @Override
     @Transactional
-    public FriendRequestItemResponse acceptFriendRequest(Long requestId) {
-        Long currentUserId = AuthContext.requireUserId();
+    public FriendRequestItemResponse acceptFriendRequest(String requestId) {
+        String currentUserId = AuthContext.requireUserId();
         FriendRequest request = friendRequestMapper.selectById(requestId);
         if (request == null || !Objects.equals(request.getTargetUserId(), currentUserId)) {
             throw new ApiException(HttpStatus.NOT_FOUND, "好友申请不存在");
@@ -162,8 +162,8 @@ public class SocialServiceImpl implements SocialService {
 
     @Override
     @Transactional
-    public FriendRequestItemResponse rejectFriendRequest(Long requestId) {
-        Long currentUserId = AuthContext.requireUserId();
+    public FriendRequestItemResponse rejectFriendRequest(String requestId) {
+        String currentUserId = AuthContext.requireUserId();
         FriendRequest request = friendRequestMapper.selectById(requestId);
         if (request == null || !Objects.equals(request.getTargetUserId(), currentUserId)) {
             throw new ApiException(HttpStatus.NOT_FOUND, "好友申请不存在");
@@ -179,7 +179,7 @@ public class SocialServiceImpl implements SocialService {
 
     @Override
     public List<FeedItemResponse> getFeed(String filter) {
-        Long currentUserId = AuthContext.requireUserId();
+        String currentUserId = AuthContext.requireUserId();
         List<ActivityFeed> feeds = activityFeedMapper.selectList(new QueryWrapper<ActivityFeed>().orderByDesc("created_at"));
         List<FeedItemResponse> result = new ArrayList<>();
         for (ActivityFeed feed : feeds) {
@@ -199,7 +199,7 @@ public class SocialServiceImpl implements SocialService {
 
     @Override
     public FeedAccessibleMenusResponse getAccessibleMenus() {
-        Long currentUserId = AuthContext.requireUserId();
+        String currentUserId = AuthContext.requireUserId();
         FeedAccessibleMenusResponse response = new FeedAccessibleMenusResponse();
         List<DishSummaryResponse> all = dishMapper.selectAllActive();
         response.setMenus(all.stream()
@@ -212,8 +212,8 @@ public class SocialServiceImpl implements SocialService {
     }
 
     @Override
-    public UserMenuAccessResponse getUserMenuAccess(Long targetUserId) {
-        Long currentUserId = AuthContext.requireUserId();
+    public UserMenuAccessResponse getUserMenuAccess(String targetUserId) {
+        String currentUserId = AuthContext.requireUserId();
         UserAccount targetUser = userAccountMapper.selectById(targetUserId);
         if (targetUser == null) {
             throw new ApiException(HttpStatus.NOT_FOUND, "用户不存在");
@@ -243,13 +243,13 @@ public class SocialServiceImpl implements SocialService {
     }
 
     @Override
-    public List<DishSummaryResponse> getVisibleMenusByUser(Long targetUserId) {
+    public List<DishSummaryResponse> getVisibleMenusByUser(String targetUserId) {
         return getUserMenuAccess(targetUserId).getMenus();
     }
 
     @Override
     public List<BuddyCircleSummaryResponse> getCircles() {
-        Long currentUserId = AuthContext.requireUserId();
+        String currentUserId = AuthContext.requireUserId();
         List<BuddyCircleMember> members = buddyCircleMemberMapper.selectList(new QueryWrapper<BuddyCircleMember>()
                 .eq("user_id", currentUserId));
         List<BuddyCircleSummaryResponse> result = new ArrayList<>();
@@ -265,7 +265,7 @@ public class SocialServiceImpl implements SocialService {
     @Override
     @Transactional
     public BuddyCircleDetailResponse createCircle(BuddyCircleCreateRequest request) {
-        Long currentUserId = AuthContext.requireUserId();
+        String currentUserId = AuthContext.requireUserId();
         BuddyCircle circle = new BuddyCircle();
         circle.setName(request.getName());
         circle.setDescription(request.getDescription());
@@ -281,7 +281,7 @@ public class SocialServiceImpl implements SocialService {
         ownerMember.setJoinedAt(LocalDateTime.now());
         buddyCircleMemberMapper.insert(ownerMember);
 
-        for (Long memberId : request.getInitialMemberIds()) {
+        for (String memberId : request.getInitialMemberIds()) {
             if (memberId != null && !Objects.equals(memberId, currentUserId)) {
                 addCircleMember(circle.getId(), currentUserId, memberId);
             }
@@ -290,8 +290,8 @@ public class SocialServiceImpl implements SocialService {
     }
 
     @Override
-    public BuddyCircleDetailResponse getCircleDetail(Long circleId) {
-        Long currentUserId = AuthContext.requireUserId();
+    public BuddyCircleDetailResponse getCircleDetail(String circleId) {
+        String currentUserId = AuthContext.requireUserId();
         BuddyCircle circle = requireCircleMember(circleId, currentUserId);
         BuddyCircleDetailResponse response = new BuddyCircleDetailResponse();
         response.setCircle(buildCircleSummary(circle, currentUserId));
@@ -306,8 +306,8 @@ public class SocialServiceImpl implements SocialService {
     }
 
     @Override
-    public List<BuddyCircleMemberResponse> getCircleMembers(Long circleId) {
-        Long currentUserId = AuthContext.requireUserId();
+    public List<BuddyCircleMemberResponse> getCircleMembers(String circleId) {
+        String currentUserId = AuthContext.requireUserId();
         requireCircleMember(circleId, currentUserId);
         List<BuddyCircleMember> members = buddyCircleMemberMapper.selectList(new QueryWrapper<BuddyCircleMember>()
                 .eq("circle_id", circleId).orderByAsc("joined_at"));
@@ -330,16 +330,16 @@ public class SocialServiceImpl implements SocialService {
     }
 
     @Override
-    public List<DishSummaryResponse> getCircleMenus(Long circleId) {
-        Long currentUserId = AuthContext.requireUserId();
+    public List<DishSummaryResponse> getCircleMenus(String circleId) {
+        String currentUserId = AuthContext.requireUserId();
         requireCircleMember(circleId, currentUserId);
-        List<Long> memberIds = buddyCircleMemberMapper.selectList(new QueryWrapper<BuddyCircleMember>()
+        List<String> memberIds = buddyCircleMemberMapper.selectList(new QueryWrapper<BuddyCircleMember>()
                         .eq("circle_id", circleId))
                 .stream()
                 .map(BuddyCircleMember::getUserId)
                 .collect(Collectors.toList());
         List<DishSummaryResponse> result = new ArrayList<>();
-        for (Long memberId : memberIds) {
+        for (String memberId : memberIds) {
             List<DishSummaryResponse> dishes = dishMapper.selectByOwnerUserId(memberId);
             for (DishSummaryResponse dish : dishes) {
                 DishSummaryResponse withVisibility = withEffectiveVisibility(dish, memberId);
@@ -354,10 +354,10 @@ public class SocialServiceImpl implements SocialService {
 
     @Override
     @Transactional
-    public BuddyCircleDetailResponse inviteToCircle(Long circleId, BuddyCircleInviteRequest request) {
-        Long currentUserId = AuthContext.requireUserId();
+    public BuddyCircleDetailResponse inviteToCircle(String circleId, BuddyCircleInviteRequest request) {
+        String currentUserId = AuthContext.requireUserId();
         requireCircleMember(circleId, currentUserId);
-        Long inviteeUserId = resolveTargetUserId(request.getInviteeUserId(), request.getInviteeAccount());
+        String inviteeUserId = resolveTargetUserId(request.getInviteeUserId(), request.getInviteeAccount());
         if (Objects.equals(currentUserId, inviteeUserId)) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "不用邀请自己，你已经在圈子里了");
         }
@@ -368,7 +368,7 @@ public class SocialServiceImpl implements SocialService {
         return getCircleDetail(circleId);
     }
 
-    private ProfileStatsResponse buildProfileStats(Long userId) {
+    private ProfileStatsResponse buildProfileStats(String userId) {
         ProfileStatsResponse stats = new ProfileStatsResponse();
         stats.setFriendCount(friendRelationMapper.selectCount(new QueryWrapper<FriendRelation>()
                 .eq("user_id", userId)));
@@ -377,21 +377,21 @@ public class SocialServiceImpl implements SocialService {
         return stats;
     }
 
-    private long countVisibleMenusForViewer(Long ownerUserId, Long viewerUserId, boolean circleMode) {
+    private long countVisibleMenusForViewer(String ownerUserId, String viewerUserId, boolean circleMode) {
         return dishMapper.selectByOwnerUserId(ownerUserId).stream()
                 .map(item -> withEffectiveVisibility(item, ownerUserId))
                 .filter(item -> canViewDish(item, viewerUserId, circleMode))
                 .count();
     }
 
-    private boolean isFriend(Long userId, Long otherUserId) {
+    private boolean isFriend(String userId, String otherUserId) {
         return friendRelationMapper.selectCount(new QueryWrapper<FriendRelation>()
                 .eq("user_id", userId)
                 .eq("friend_user_id", otherUserId)) > 0;
     }
 
-    private boolean hasSharedCircle(Long userId, Long otherUserId) {
-        List<Long> myCircles = buddyCircleMemberMapper.selectList(new QueryWrapper<BuddyCircleMember>().eq("user_id", userId))
+    private boolean hasSharedCircle(String userId, String otherUserId) {
+        List<String> myCircles = buddyCircleMemberMapper.selectList(new QueryWrapper<BuddyCircleMember>().eq("user_id", userId))
                 .stream()
                 .map(BuddyCircleMember::getCircleId)
                 .collect(Collectors.toList());
@@ -403,7 +403,7 @@ public class SocialServiceImpl implements SocialService {
                 .in("circle_id", myCircles)) > 0;
     }
 
-    private Long resolveTargetUserId(Long targetUserId, String targetAccount) {
+    private String resolveTargetUserId(String targetUserId, String targetAccount) {
         if (targetUserId != null) {
             return targetUserId;
         }
@@ -421,9 +421,9 @@ public class SocialServiceImpl implements SocialService {
         UserAccount requester = userAccountMapper.selectById(request.getRequesterUserId());
         UserAccount target = userAccountMapper.selectById(request.getTargetUserId());
         FriendRequestItemResponse item = new FriendRequestItemResponse();
-        item.setId(String.valueOf(request.getId()));
-        item.setRequesterUserId(String.valueOf(request.getRequesterUserId()));
-        item.setTargetUserId(String.valueOf(request.getTargetUserId()));
+        item.setId(request.getId());
+        item.setRequesterUserId(request.getRequesterUserId());
+        item.setTargetUserId(request.getTargetUserId());
         item.setMessage(request.getMessage());
         item.setStatus(request.getStatus());
         item.setCreatedAt(request.getCreatedAt());
@@ -438,7 +438,7 @@ public class SocialServiceImpl implements SocialService {
         return item;
     }
 
-    private void createFriendRelation(Long userId, Long friendUserId) {
+    private void createFriendRelation(String userId, String friendUserId) {
         if (!isFriend(userId, friendUserId)) {
             FriendRelation relation = new FriendRelation();
             relation.setUserId(userId);
@@ -458,7 +458,7 @@ public class SocialServiceImpl implements SocialService {
         return true;
     }
 
-    private boolean canSeeFeed(ActivityFeed feed, Long viewerUserId) {
+    private boolean canSeeFeed(ActivityFeed feed, String viewerUserId) {
         if (Objects.equals(feed.getActorUserId(), viewerUserId)) {
             return true;
         }
@@ -567,7 +567,7 @@ public class SocialServiceImpl implements SocialService {
         return rule;
     }
 
-    private BuddyCircleSummaryResponse buildCircleSummary(BuddyCircle circle, Long viewerUserId) {
+    private BuddyCircleSummaryResponse buildCircleSummary(BuddyCircle circle, String viewerUserId) {
         BuddyCircleSummaryResponse summary = new BuddyCircleSummaryResponse();
         summary.setId(circle.getId());
         summary.setName(circle.getName());
@@ -581,14 +581,14 @@ public class SocialServiceImpl implements SocialService {
         return summary;
     }
 
-    private long countCircleWeeklyUpdates(Long circleId) {
+    private long countCircleWeeklyUpdates(String circleId) {
         LocalDateTime start = LocalDate.now().minusDays(7).atStartOfDay();
         return activityFeedMapper.selectCount(new QueryWrapper<ActivityFeed>()
                 .eq("circle_id", circleId)
                 .ge("created_at", start));
     }
 
-    private BuddyCircle requireCircleMember(Long circleId, Long currentUserId) {
+    private BuddyCircle requireCircleMember(String circleId, String currentUserId) {
         BuddyCircle circle = buddyCircleMapper.selectById(circleId);
         if (circle == null) {
             throw new ApiException(HttpStatus.NOT_FOUND, "搭子圈不存在");
@@ -602,7 +602,7 @@ public class SocialServiceImpl implements SocialService {
         return circle;
     }
 
-    private void addCircleMember(Long circleId, Long inviterUserId, Long inviteeUserId) {
+    private void addCircleMember(String circleId, String inviterUserId, String inviteeUserId) {
         long exists = buddyCircleMemberMapper.selectCount(new QueryWrapper<BuddyCircleMember>()
                 .eq("circle_id", circleId).eq("user_id", inviteeUserId));
         if (exists > 0) {
@@ -624,7 +624,7 @@ public class SocialServiceImpl implements SocialService {
         buddyCircleInviteMapper.insert(invite);
     }
 
-    private UserProfileSettings getSettings(Long userId) {
+    private UserProfileSettings getSettings(String userId) {
         UserProfileSettings settings = userProfileSettingsMapper.selectById(userId);
         if (settings == null) {
             settings = new UserProfileSettings();
@@ -636,7 +636,7 @@ public class SocialServiceImpl implements SocialService {
         return settings;
     }
 
-    private DishSummaryResponse withEffectiveVisibility(DishSummaryResponse item, Long ownerUserId) {
+    private DishSummaryResponse withEffectiveVisibility(DishSummaryResponse item, String ownerUserId) {
         if (item == null || ownerUserId == null) {
             return item;
         }
@@ -644,7 +644,7 @@ public class SocialServiceImpl implements SocialService {
         return item;
     }
 
-    private boolean canViewDish(DishSummaryResponse dish, Long viewerUserId, boolean circleMode) {
+    private boolean canViewDish(DishSummaryResponse dish, String viewerUserId, boolean circleMode) {
         if (dish == null) {
             return false;
         }

@@ -1,5 +1,7 @@
 package com.panghu.food.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -8,10 +10,11 @@ import java.time.LocalDateTime;
 @Data
 @TableName("activity_feed")
 public class ActivityFeed {
-    private Long id;
-    private Long actorUserId;
+    @TableId(type = IdType.ASSIGN_UUID)
+    private String id;
+    private String actorUserId;
     private String dishId;
-    private Long circleId;
+    private String circleId;
     private String activityType;
     private String visibilityScope;
     private LocalDateTime createdAt;

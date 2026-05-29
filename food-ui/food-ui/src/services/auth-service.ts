@@ -3,7 +3,7 @@ import { http } from './http'
 export type MenuVisibility = 'inherit' | 'public' | 'friends' | 'private'
 
 export interface AuthUser {
-  id: number
+  id: string
   account: string
   nickname: string
   avatar: string

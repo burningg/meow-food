@@ -97,11 +97,11 @@ const socialService = new SocialService()
 
 const friends = ref<FriendItem[]>([])
 const circleDetail = ref<BuddyCircleDetail | null>(null)
-const selectedFriendId = ref<number | null>(null)
+const selectedFriendId = ref<string | null>(null)
 const submitting = ref(false)
 
 const selectionMode = computed(() => typeof route.query.circleId === 'string' && route.query.circleId.length > 0)
-const circleId = computed(() => Number(route.query.circleId))
+const circleId = computed(() => (typeof route.query.circleId === 'string' ? route.query.circleId : ''))
 const summaryLabel = computed(() => {
   if (!selectionMode.value) return '已互相添加'
   return typeof route.query.circleName === 'string' && route.query.circleName ? route.query.circleName : '当前圈子'
@@ -116,7 +116,7 @@ async function loadData() {
   try {
     const { data } = await socialService.getFriends()
     friends.value = data
-    if (selectionMode.value && Number.isFinite(circleId.value)) {
+    if (selectionMode.value && circleId.value) {
       const { data: detailData } = await socialService.getCircleDetail(circleId.value)
       circleDetail.value = detailData
     }
@@ -125,7 +125,7 @@ async function loadData() {
   }
 }
 
-function openFriend(userId: number) {
+function openFriend(userId: string) {
   router.push({ name: 'user-menu', params: { id: userId } })
 }
 
@@ -143,7 +143,7 @@ function toggleSelect(friend: FriendItem) {
 }
 
 async function submitInvite() {
-  if (!selectionMode.value || !selectedFriendId.value || !Number.isFinite(circleId.value)) return
+  if (!selectionMode.value || !selectedFriendId.value || !circleId.value) return
   submitting.value = true
   try {
     await socialService.inviteToCircle(circleId.value, { inviteeUserId: selectedFriendId.value })

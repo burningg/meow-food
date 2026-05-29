@@ -21,9 +21,9 @@ public class DishController {
     @GetMapping
     public ResponseEntity<List<DishSummaryResponse>> getDishes(
             @RequestParam(required = false) String categoryId,
-            @RequestParam(required = false) Long ownerUserId,
+            @RequestParam(required = false) String ownerUserId,
             @RequestParam(required = false) String scope,
-            @RequestParam(required = false) Long circleId) {
+            @RequestParam(required = false) String circleId) {
         List<DishSummaryResponse> dishes = dishService.getDishes(categoryId, ownerUserId, scope, circleId);
         return ResponseEntity.ok(dishes);
     }

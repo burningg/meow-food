@@ -8,8 +8,8 @@ import lombok.Data;
 @Data
 @TableName("dish_ingredient")
 public class DishIngredient {
-    @TableId(type = IdType.AUTO)
-    private Long id;
+    @TableId(type = IdType.ASSIGN_UUID)
+    private String id;
 
     private String dishId;
 

@@ -23,7 +23,7 @@ export interface StepItem {
 
 export interface DishSummary {
   id: string
-  ownerUserId: number
+  ownerUserId: string
   ownerNickname: string
   name: string
   image: string
@@ -82,7 +82,7 @@ export class FoodService {
     return http.get<HomeResponse>('/api/home')
   }
 
-  queryDishes(params: { categoryId?: string; ownerUserId?: number; scope?: string; circleId?: number }) {
+  queryDishes(params: { categoryId?: string; ownerUserId?: string; scope?: string; circleId?: string }) {
     return http.get<DishSummary[]>('/api/dishes', { params })
   }
 

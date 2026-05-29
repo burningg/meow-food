@@ -1,6 +1,8 @@
 package com.panghu.food.entity;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -10,9 +12,10 @@ import java.time.LocalDateTime;
 @Data
 @TableName("dish")
 public class Dish {
+    @TableId(type = IdType.ASSIGN_UUID)
     private String id;
 
-    private Long ownerUserId;
+    private String ownerUserId;
 
     private String name;
 

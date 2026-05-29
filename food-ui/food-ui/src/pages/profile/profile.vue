@@ -139,7 +139,7 @@ async function createCircle() {
   router.push({ name: 'circle-detail', params: { id: data.circle.id } })
 }
 
-function goToFriend(userId: number) {
+function goToFriend(userId: string) {
   router.push({ name: 'user-menu', params: { id: userId } })
 }
 

@@ -18,12 +18,12 @@ public class UserSocialController {
     }
 
     @GetMapping("/{userId}/menu-access")
-    public ResponseEntity<UserMenuAccessResponse> getMenuAccess(@PathVariable Long userId) {
+    public ResponseEntity<UserMenuAccessResponse> getMenuAccess(@PathVariable String userId) {
         return ResponseEntity.ok(socialService.getUserMenuAccess(userId));
     }
 
     @GetMapping("/{userId}/menus")
-    public ResponseEntity<List<DishSummaryResponse>> getMenus(@PathVariable Long userId) {
+    public ResponseEntity<List<DishSummaryResponse>> getMenus(@PathVariable String userId) {
         return ResponseEntity.ok(socialService.getVisibleMenusByUser(userId));
     }
 }

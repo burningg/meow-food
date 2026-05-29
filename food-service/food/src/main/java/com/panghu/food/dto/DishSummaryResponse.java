@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class DishSummaryResponse {
     private String id;
-    private Long ownerUserId;
+    private String ownerUserId;
     private String ownerNickname;
     private String name;
     private String image;

@@ -15,27 +15,27 @@ public interface SocialService {
 
     FriendRequestsResponse getFriendRequests();
 
-    FriendRequestItemResponse acceptFriendRequest(Long requestId);
+    FriendRequestItemResponse acceptFriendRequest(String requestId);
 
-    FriendRequestItemResponse rejectFriendRequest(Long requestId);
+    FriendRequestItemResponse rejectFriendRequest(String requestId);
 
     List<FeedItemResponse> getFeed(String filter);
 
     FeedAccessibleMenusResponse getAccessibleMenus();
 
-    UserMenuAccessResponse getUserMenuAccess(Long targetUserId);
+    UserMenuAccessResponse getUserMenuAccess(String targetUserId);
 
-    List<DishSummaryResponse> getVisibleMenusByUser(Long targetUserId);
+    List<DishSummaryResponse> getVisibleMenusByUser(String targetUserId);
 
     List<BuddyCircleSummaryResponse> getCircles();
 
     BuddyCircleDetailResponse createCircle(BuddyCircleCreateRequest request);
 
-    BuddyCircleDetailResponse getCircleDetail(Long circleId);
+    BuddyCircleDetailResponse getCircleDetail(String circleId);
 
-    List<BuddyCircleMemberResponse> getCircleMembers(Long circleId);
+    List<BuddyCircleMemberResponse> getCircleMembers(String circleId);
 
-    List<DishSummaryResponse> getCircleMenus(Long circleId);
+    List<DishSummaryResponse> getCircleMenus(String circleId);
 
-    BuddyCircleDetailResponse inviteToCircle(Long circleId, BuddyCircleInviteRequest request);
+    BuddyCircleDetailResponse inviteToCircle(String circleId, BuddyCircleInviteRequest request);
 }

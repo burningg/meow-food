@@ -35,12 +35,12 @@ public class FriendController {
     }
 
     @PostMapping("/requests/{requestId}/accept")
-    public ResponseEntity<FriendRequestItemResponse> accept(@PathVariable Long requestId) {
+    public ResponseEntity<FriendRequestItemResponse> accept(@PathVariable String requestId) {
         return ResponseEntity.ok(socialService.acceptFriendRequest(requestId));
     }
 
     @PostMapping("/requests/{requestId}/reject")
-    public ResponseEntity<FriendRequestItemResponse> reject(@PathVariable Long requestId) {
+    public ResponseEntity<FriendRequestItemResponse> reject(@PathVariable String requestId) {
         return ResponseEntity.ok(socialService.rejectFriendRequest(requestId));
     }
 }

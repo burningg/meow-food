@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @TableName("user_profile_settings")
 public class UserProfileSettings {
     @TableId
-    private Long userId;
+    private String userId;
     private String defaultMenuVisibility;
     private Boolean allowFriendFeed;
     private LocalDateTime updatedAt;

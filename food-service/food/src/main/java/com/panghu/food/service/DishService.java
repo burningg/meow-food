@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface DishService {
-    List<DishSummaryResponse> getDishes(String categoryId, Long ownerUserId, String scope, Long circleId);
+    List<DishSummaryResponse> getDishes(String categoryId, String ownerUserId, String scope, String circleId);
     List<DishSummaryResponse> getFeaturedDishes(String categoryId);
     List<DishSummaryResponse> getRecentDishes();
     DishDetailResponse getDishById(String id);

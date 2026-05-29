@@ -60,7 +60,7 @@ const access = ref<UserMenuAccessResponse | null>(null)
 onMounted(loadData)
 
 async function loadData() {
-  const { data } = await socialService.getUserMenuAccess(Number(route.params.id))
+  const { data } = await socialService.getUserMenuAccess(String(route.params.id))
   access.value = data
 }
 

@@ -48,7 +48,7 @@ async function createCircle() {
   router.push({ name: 'circle-detail', params: { id: data.circle.id } })
 }
 
-function openCircle(id: number) {
+function openCircle(id: string) {
   router.push({ name: 'circle-detail', params: { id } })
 }
 </script>

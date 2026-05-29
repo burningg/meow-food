@@ -2,38 +2,25 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "mvn spring-boot:run",
+      "label": "mvn: compile food-service/food",
       "type": "shell",
       "command": "mvn",
       "args": [
-        "spring-boot:run"
+        "-f",
+        "${workspaceFolder}/food-service/food/pom.xml",
+        "-DskipTests",
+        "compile"
       ],
       "options": {
-        "cwd": "${workspaceFolder}/food-service/food",
-        "env": {
-          "JAVA_HOME": "/opt/homebrew/Cellar/openjdk@17/17.0.15/libexec/openjdk.jdk/Contents/Home",
-          "PATH": "/opt/homebrew/Cellar/openjdk@17/17.0.15/libexec/openjdk.jdk/Contents/Home/bin:${env:PATH}"
-        }
+        "cwd": "${workspaceFolder}"
       },
-      "group": "build",
-      "problemMatcher": []
-    },
-    {
-      "label": "mvn test",
-      "type": "shell",
-      "command": "mvn",
-      "args": [
-        "test"
-      ],
-      "options": {
-        "cwd": "${workspaceFolder}/food-service/food",
-        "env": {
-          "JAVA_HOME": "/opt/homebrew/Cellar/openjdk@17/17.0.15/libexec/openjdk.jdk/Contents/Home",
-          "PATH": "/opt/homebrew/Cellar/openjdk@17/17.0.15/libexec/openjdk.jdk/Contents/Home/bin:${env:PATH}"
-        }
+      "group": {
+        "kind": "build",
+        "isDefault": true
       },
-      "group": "test",
-      "problemMatcher": []
+      "problemMatcher": [
+        "$javac"
+      ]
     }
   ]
 }

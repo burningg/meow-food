@@ -27,23 +27,23 @@ public class BuddyCircleController {
     }
 
     @GetMapping("/{circleId}")
-    public ResponseEntity<BuddyCircleDetailResponse> getCircleDetail(@PathVariable Long circleId) {
+    public ResponseEntity<BuddyCircleDetailResponse> getCircleDetail(@PathVariable String circleId) {
         return ResponseEntity.ok(socialService.getCircleDetail(circleId));
     }
 
     @PostMapping("/{circleId}/invite")
-    public ResponseEntity<BuddyCircleDetailResponse> invite(@PathVariable Long circleId,
+    public ResponseEntity<BuddyCircleDetailResponse> invite(@PathVariable String circleId,
                                                             @RequestBody BuddyCircleInviteRequest request) {
         return ResponseEntity.ok(socialService.inviteToCircle(circleId, request));
     }
 
     @GetMapping("/{circleId}/members")
-    public ResponseEntity<List<BuddyCircleMemberResponse>> getMembers(@PathVariable Long circleId) {
+    public ResponseEntity<List<BuddyCircleMemberResponse>> getMembers(@PathVariable String circleId) {
         return ResponseEntity.ok(socialService.getCircleMembers(circleId));
     }
 
     @GetMapping("/{circleId}/menus")
-    public ResponseEntity<List<DishSummaryResponse>> getMenus(@PathVariable Long circleId) {
+    public ResponseEntity<List<DishSummaryResponse>> getMenus(@PathVariable String circleId) {
         return ResponseEntity.ok(socialService.getCircleMenus(circleId));
     }
 }

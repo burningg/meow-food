@@ -9,5 +9,5 @@ import java.util.List;
 public class BuddyCircleCreateRequest {
     private String name;
     private String description;
-    private List<Long> initialMemberIds = new ArrayList<>();
+    private List<String> initialMemberIds = new ArrayList<>();
 }

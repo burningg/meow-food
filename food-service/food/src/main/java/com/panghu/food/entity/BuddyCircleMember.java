@@ -1,5 +1,7 @@
 package com.panghu.food.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -8,9 +10,10 @@ import java.time.LocalDateTime;
 @Data
 @TableName("buddy_circle_member")
 public class BuddyCircleMember {
-    private Long id;
-    private Long circleId;
-    private Long userId;
+    @TableId(type = IdType.ASSIGN_UUID)
+    private String id;
+    private String circleId;
+    private String userId;
     private String role;
     private LocalDateTime joinedAt;
 }

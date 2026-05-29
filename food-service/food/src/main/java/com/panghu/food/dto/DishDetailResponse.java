@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 public class DishDetailResponse {
     private String id;
-    private Long ownerUserId;
+    private String ownerUserId;
     private String ownerNickname;
     private String name;
     private String image;

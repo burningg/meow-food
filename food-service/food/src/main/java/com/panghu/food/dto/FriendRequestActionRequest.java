@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class FriendRequestActionRequest {
-    private Long targetUserId;
+    private String targetUserId;
     private String targetAccount;
     private String message;
 }

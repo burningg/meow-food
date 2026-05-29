@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class BuddyCircleInviteRequest {
-    private Long inviteeUserId;
+    private String inviteeUserId;
     private String inviteeAccount;
 }
