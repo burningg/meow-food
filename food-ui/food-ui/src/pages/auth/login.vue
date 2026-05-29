@@ -1,21 +1,21 @@
 <template>
-  <div class="login-page">
-    <section class="login-card">
-      <p class="eyebrow">食光小馆</p>
-      <h1>登录你的美味空间</h1>
-      <p class="intro">测试账号：`panghu` / `ali` / `zhouzhou` / `ahao`，密码统一为 `123456`。</p>
+  <div ref="pageRef" class="login-page">
+    <section class="login-card" data-motion="card">
+      <p class="eyebrow" data-motion="item">食光小馆</p>
+      <h1 data-motion="item">登录你的美味空间</h1>
+      <p class="intro" data-motion="item">测试账号：`panghu` / `ali` / `zhouzhou` / `ahao`，密码统一为 `123456`。</p>
 
-      <label class="field">
+      <label class="field" data-motion="item">
         <span>账号</span>
         <input v-model.trim="form.account" placeholder="输入账号" />
       </label>
 
-      <label class="field">
+      <label class="field" data-motion="item">
         <span>密码</span>
         <input v-model.trim="form.password" type="password" placeholder="输入密码" />
       </label>
 
-      <button class="primary-button submit" type="button" :disabled="loading" @click="submit">
+      <button class="primary-button submit" data-motion="item" type="button" :disabled="loading" @click="submit">
         {{ loading ? '登录中...' : '进入美味空间' }}
       </button>
     </section>
@@ -23,19 +23,46 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { onMounted, onUnmounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Message } from '@arco-design/web-vue'
+import { animateStagger, attachPressAnimations, runScopedMotion } from '@/lib/motion'
 import { useAuthStore } from '@/stores/auth-store'
 
 const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
+const pageRef = ref<HTMLElement | null>(null)
+let cleanupMotion: VoidFunction | undefined
 
 const loading = ref(false)
 const form = reactive({
   account: 'panghu',
   password: '123456',
+})
+
+onMounted(() => {
+  if (!pageRef.value) return
+  cleanupMotion = runScopedMotion(pageRef.value, ({ reducedMotion = false }) => {
+    animateStagger(pageRef.value!.querySelectorAll('[data-motion="card"]'), {
+      reducedMotion,
+      y: 22,
+      duration: 0.36,
+    })
+    animateStagger(pageRef.value!.querySelectorAll('[data-motion="item"]'), {
+      reducedMotion,
+      y: 16,
+      stagger: 0.06,
+      delay: 0.08,
+      duration: 0.28,
+    })
+
+    return attachPressAnimations(pageRef.value!, '.submit', { activeScale: 0.97 })
+  })
+})
+
+onUnmounted(() => {
+  cleanupMotion?.()
 })
 
 async function submit() {

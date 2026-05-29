@@ -1,6 +1,6 @@
 <template>
-  <div class="page-shell profile-page">
-    <section class="hero-card">
+  <div ref="pageRef" class="page-shell profile-page">
+    <section class="hero-card" data-motion="hero-card">
       <div class="hero-top">
         <div class="user-row">
           <img class="avatar" :src="profile?.user.avatar" :alt="profile?.user.nickname" />
@@ -28,7 +28,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" data-motion="section">
       <div class="section-head">
         <div>
           <small>权限</small>
@@ -39,6 +39,7 @@
           v-for="option in visibilityOptions"
           :key="option.value"
           :class="['visibility-row', { active: profile?.defaultMenuVisibility === option.value }]"
+          data-motion-row
           type="button"
           @click="updateVisibility(option.value)"
         >
@@ -56,10 +57,11 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { Message } from '@arco-design/web-vue'
 import AppTabBar from '@/components/AppTabBar.vue'
+import { animateStagger, attachPressAnimations, runScopedMotion } from '@/lib/motion'
 import { SocialService, type ProfileResponse } from '@/services/social-service'
 import { useAuthStore } from '@/stores/auth-store'
 import type { MenuVisibility } from '@/services/auth-service'
@@ -69,6 +71,9 @@ const authStore = useAuthStore()
 const socialService = new SocialService()
 
 const profile = ref<ProfileResponse | null>(null)
+const pageRef = ref<HTMLElement | null>(null)
+let cleanupMotion: VoidFunction | undefined
+let cleanupProfileRows: VoidFunction | undefined
 
 const visibilityOptions: Array<{ value: Exclude<MenuVisibility, 'inherit'>; label: string; desc: string }> = [
   { value: 'friends', label: '好友可见', desc: '你的菜单会同步给好友和已加入的搭子圈。' },
@@ -76,7 +81,15 @@ const visibilityOptions: Array<{ value: Exclude<MenuVisibility, 'inherit'>; labe
   { value: 'private', label: '仅自己可见', desc: '只在你自己的菜单空间展示。' },
 ]
 
-onMounted(loadProfile)
+onMounted(async () => {
+  setupMotion()
+  await loadProfile()
+})
+
+onUnmounted(() => {
+  cleanupProfileRows?.()
+  cleanupMotion?.()
+})
 
 async function loadProfile() {
   const { data } = await socialService.getProfile()
@@ -98,6 +111,44 @@ function logout() {
   authStore.logout()
   router.replace({ name: 'login' })
 }
+
+function setupMotion() {
+  if (!pageRef.value) return
+  cleanupMotion = runScopedMotion(pageRef.value, ({ reducedMotion = false }) => {
+    animateStagger(pageRef.value!.querySelectorAll('[data-motion="hero-card"], [data-motion="section"]'), {
+      reducedMotion,
+      y: 22,
+      stagger: 0.08,
+      duration: 0.34,
+    })
+
+    return attachPressAnimations(
+      pageRef.value!,
+      '.ghost-circle, .stat-button, .visibility-row',
+      { activeScale: 0.97 },
+    )
+  })
+}
+
+async function refreshProfileMotion() {
+  await nextTick()
+  cleanupProfileRows?.()
+  if (!pageRef.value) return
+
+  cleanupProfileRows = runScopedMotion(pageRef.value, ({ reducedMotion = false }) => {
+    animateStagger(pageRef.value!.querySelectorAll('[data-motion-row]'), {
+      reducedMotion,
+      y: 16,
+      stagger: 0.06,
+      duration: 0.28,
+      delay: 0.06,
+    })
+  })
+}
+
+watch(profile, () => {
+  void refreshProfileMotion()
+})
 </script>
 
 <style scoped>

@@ -1,6 +1,6 @@
 <template>
-  <div v-if="dish" class="detail-page">
-    <section class="hero-shell">
+  <div v-if="dish" ref="pageRef" class="detail-page">
+    <section class="hero-shell" data-motion="hero">
       <div class="hero-image">
         <img :src="dish.image" :alt="dish.name" />
       </div>
@@ -10,15 +10,15 @@
       </div>
     </section>
 
-    <section class="detail-card">
-      <div class="title-row">
+    <section class="detail-card" data-motion="card">
+      <div class="title-row" data-motion="title">
         <h1>{{ dish.name }}</h1>
         <span class="category-badge">{{ dish.categoryName }}</span>
       </div>
 
-      <p class="description-text">{{ dish.description }}</p>
+      <p class="description-text" data-motion="description">{{ dish.description }}</p>
 
-      <div class="meta-row">
+      <div class="meta-row" data-motion="meta">
         <div class="meta-item">
           <span class="meta-icon">◷</span>
           <strong>{{ dish.cookTimeMinutes ?? '--' }} min</strong>
@@ -38,7 +38,7 @@
 
       <div class="divider"></div>
 
-      <section class="content-section">
+      <section class="content-section" data-motion="ingredients">
         <div class="section-head">
           <h2>食材清单</h2>
           <span v-if="dish.ingredients.length" class="section-count">{{ dish.ingredients.length }} 项</span>
@@ -48,6 +48,7 @@
             v-for="(ingredient, index) in dish.ingredients"
             :key="`ingredient-${index}`"
             class="ingredient-row"
+            data-motion-row
           >
             <div class="ingredient-left">
               <span class="ingredient-dot"></span>
@@ -61,13 +62,13 @@
 
       <div class="divider"></div>
 
-      <section class="content-section">
+      <section class="content-section" data-motion="steps">
         <div class="section-head">
           <h2>烹饪步骤</h2>
           <span v-if="dish.steps.length" class="section-count">{{ dish.steps.length }} 步</span>
         </div>
         <div v-if="dish.steps.length" class="step-list">
-          <div v-for="(step, index) in dish.steps" :key="`step-${index}`" class="step-row">
+          <div v-for="(step, index) in dish.steps" :key="`step-${index}`" class="step-row" data-motion-row>
             <span class="step-number">{{ index + 1 }}</span>
             <p>{{ step.content }}</p>
           </div>
@@ -77,13 +78,13 @@
 
       <div class="divider"></div>
 
-      <section class="owner-actions">
+      <section class="owner-actions" data-motion="actions">
         <button class="ghost-button" type="button" @click="goEdit">继续完善</button>
         <button class="ghost-button danger-button" type="button" @click="confirmDelete">删除菜谱</button>
       </section>
     </section>
 
-    <footer class="bottom-bar">
+    <footer class="bottom-bar" data-motion="footer">
       <button class="primary-button" type="button" @click="startCooking">开始烹饪</button>
     </footer>
   </div>
@@ -92,19 +93,26 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Message } from '@arco-design/web-vue'
 import { showConfirmDialog } from 'vant'
+import { animateStagger, attachPressAnimations, runScopedMotion } from '@/lib/motion'
 import { FoodService, type DishDetail } from '@/services/food-service'
 
 const route = useRoute()
 const router = useRouter()
 const foodService = new FoodService()
 const dish = ref<DishDetail | null>(null)
+const pageRef = ref<HTMLElement | null>(null)
+let cleanupMotion: VoidFunction | undefined
 
 onMounted(async () => {
   await loadDish()
+})
+
+onUnmounted(() => {
+  cleanupMotion?.()
 })
 
 async function loadDish() {
@@ -150,6 +158,54 @@ async function confirmDelete() {
     }
   }
 }
+
+async function refreshDetailMotion() {
+  await nextTick()
+  cleanupMotion?.()
+  if (!pageRef.value) return
+
+  cleanupMotion = runScopedMotion(pageRef.value, ({ reducedMotion = false }) => {
+    animateStagger(pageRef.value!.querySelectorAll('[data-motion="hero"]'), {
+      reducedMotion,
+      y: 0,
+      duration: 0.32,
+    })
+    animateStagger(
+      pageRef.value!.querySelectorAll(
+        '[data-motion="card"], [data-motion="title"], [data-motion="description"], [data-motion="meta"], [data-motion="actions"]',
+      ),
+      {
+        reducedMotion,
+        y: 22,
+        stagger: 0.06,
+        duration: 0.34,
+      },
+    )
+    animateStagger(pageRef.value!.querySelectorAll('[data-motion-row]'), {
+      reducedMotion,
+      y: 14,
+      stagger: 0.04,
+      delay: 0.12,
+      duration: 0.24,
+    })
+    animateStagger(pageRef.value!.querySelectorAll('[data-motion="footer"]'), {
+      reducedMotion,
+      y: 18,
+      delay: 0.18,
+      duration: 0.28,
+    })
+
+    return attachPressAnimations(
+      pageRef.value!,
+      '.icon-button, .ghost-button, .primary-button',
+      { activeScale: 0.97 },
+    )
+  })
+}
+
+watch(dish, () => {
+  void refreshDetailMotion()
+})
 </script>
 
 <style scoped>

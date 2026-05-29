@@ -1,11 +1,11 @@
 <template>
-  <div class="page-shell circles-page">
-    <header class="top-nav">
+  <div ref="pageRef" class="page-shell circles-page">
+    <header class="top-nav" data-motion="top-nav">
       <h1>我的搭子圈</h1>
       <button class="nav-button" type="button" @click="createCircle">＋</button>
     </header>
 
-    <section class="create-hint">
+    <section class="create-hint" data-motion="create-hint">
       <h2>还想再建一个新圈子？</h2>
       <div class="create-hint-action">
         <span>把常一起吃饭的人拉起来，菜单共享会更happy</span>
@@ -14,7 +14,7 @@
     </section>
 
     <section class="circle-section">
-      <div class="section-head">
+      <div class="section-head" data-motion="section-head">
         <div>
           <small>全部圈子</small>
           <h2>按最近互动排序</h2>
@@ -26,6 +26,7 @@
         v-for="circle in presentedCircles"
         :key="circle.id"
         class="circle-card"
+        data-reveal-circle
         @click="openCircle(circle.id)"
       >
         <div class="card-head">
@@ -54,10 +55,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { Message } from '@arco-design/web-vue'
 import AppTabBar from '@/components/AppTabBar.vue'
+import { animateStagger, attachPressAnimations, attachRevealOnScroll, runScopedMotion } from '@/lib/motion'
 import { SocialService, type BuddyCircleSummary } from '@/services/social-service'
 
 type CircleCardView = BuddyCircleSummary & {
@@ -69,6 +71,9 @@ type CircleCardView = BuddyCircleSummary & {
 const router = useRouter()
 const socialService = new SocialService()
 const circles = ref<BuddyCircleSummary[]>([])
+const pageRef = ref<HTMLElement | null>(null)
+let cleanupMotion: VoidFunction | undefined
+let cleanupCards: VoidFunction | undefined
 
 const accentPairs = [
   { accent: '#E8D8C8', arrowAccent: '#F7EFE6' },
@@ -86,7 +91,15 @@ const presentedCircles = computed<CircleCardView[]>(() =>
     })),
 )
 
-onMounted(loadData)
+onMounted(async () => {
+  setupMotion()
+  await loadData()
+})
+
+onUnmounted(() => {
+  cleanupCards?.()
+  cleanupMotion?.()
+})
 
 async function loadData() {
   const { data } = await socialService.getCircles()
@@ -120,6 +133,56 @@ function getUpdateLabel(weeklyUpdateCount: number, index: number) {
   if (weeklyUpdateCount >= 1) return '周三 19:42'
   return index === 0 ? '最近刚整理' : '本周还没有更新'
 }
+
+function setupMotion() {
+  if (!pageRef.value) return
+  cleanupMotion = runScopedMotion(pageRef.value, ({ reducedMotion = false }) => {
+    animateStagger(
+      pageRef.value!.querySelectorAll('[data-motion="top-nav"], [data-motion="create-hint"], [data-motion="section-head"]'),
+      {
+        reducedMotion,
+        y: 20,
+        stagger: 0.07,
+        duration: 0.34,
+      },
+    )
+
+    return attachPressAnimations(pageRef.value!, '.nav-button, .create-button, .circle-card', { activeScale: 0.97 })
+  })
+}
+
+async function refreshCircleMotion() {
+  await nextTick()
+  cleanupCards?.()
+  if (!pageRef.value) return
+
+  cleanupCards = runScopedMotion(pageRef.value, ({ reducedMotion = false }) => {
+    const cards = pageRef.value!.querySelectorAll('[data-reveal-circle]')
+    if (!cards.length) return
+
+    const firstBatch = Array.from(cards).slice(0, 3)
+    const rest = Array.from(cards).slice(3)
+
+    animateStagger(firstBatch, {
+      reducedMotion,
+      y: 22,
+      stagger: 0.08,
+      duration: 0.34,
+      delay: 0.08,
+    })
+
+    if (!rest.length) return
+    return attachRevealOnScroll(rest, {
+      reducedMotion,
+      y: 24,
+      stagger: 0.09,
+    })
+  })
+}
+
+watch(presentedCircles, () => {
+  void refreshCircleMotion()
+})
 </script>
 
 <style scoped>

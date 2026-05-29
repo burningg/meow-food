@@ -1,18 +1,18 @@
 <template>
-  <div class="page-shell home-page">
-    <section class="hero">
+  <div ref="pageRef" class="page-shell home-page">
+    <section class="hero" data-motion="hero">
       <div>
         <p class="eyebrow">下午好，{{ displayName }}</p>
       </div>
       <div class="avatar" @click="goToProfile">{{ displayName.slice(0, 1) }}</div>
     </section>
 
-    <section class="search-bar">
+    <section class="search-bar" data-motion="search">
       <span class="search-icon">⌕</span>
       <span>搜索菜谱...</span>
     </section>
 
-    <section class="category-strip">
+    <section class="category-strip" data-motion="categories">
       <button
         :class="['category-pill', { active: !selectedCategoryId }]"
         type="button"
@@ -31,8 +31,8 @@
       </button>
     </section>
 
-    <section class="section-block">
-      <div class="section-head">
+    <section class="section-block" data-motion="section">
+      <div class="section-head" data-motion="section-head">
         <div>
           <h2>我的菜品</h2>
         </div>
@@ -43,6 +43,7 @@
           v-for="dish in filteredDishes"
           :key="dish.id"
           class="recent-card"
+          data-reveal-card
           @click="goToDetail(dish.id)"
         >
           <img :src="dish.image" :alt="dish.name" />
@@ -53,29 +54,34 @@
         </article>
       </div>
 
-      <div v-else class="empty-state">
+      <div v-else class="empty-state" data-motion="empty">
         <p>你还没有添加自己的菜品，先从第一道开始吧。</p>
         <button class="primary-button small" type="button" @click="goToAdd">添加菜谱</button>
       </div>
     </section>
 
-    <button class="floating-add" type="button" @click="goToAdd">＋</button>
+    <button ref="floatingAddRef" class="floating-add" type="button" @click="goToAdd">＋</button>
 
     <AppTabBar active="home" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { Message } from '@arco-design/web-vue'
 import AppTabBar from '@/components/AppTabBar.vue'
+import { animatePulse, animateStagger, attachPressAnimations, runScopedMotion } from '@/lib/motion'
 import { FoodService, type HomeResponse, type DishSummary } from '@/services/food-service'
 import { useAuthStore } from '@/stores/auth-store'
 
 const router = useRouter()
 const foodService = new FoodService()
 const authStore = useAuthStore()
+const pageRef = ref<HTMLElement | null>(null)
+const floatingAddRef = ref<HTMLElement | null>(null)
+let cleanupMotion: VoidFunction | undefined
+let cleanupCards: VoidFunction | undefined
 
 const homeData = ref<HomeResponse>({
   categories: [],
@@ -93,7 +99,13 @@ const filteredDishes = computed(() => {
 })
 
 onMounted(async () => {
+  setupMotion()
   await loadHome()
+})
+
+onUnmounted(() => {
+  cleanupCards?.()
+  cleanupMotion?.()
 })
 
 async function loadHome() {
@@ -120,6 +132,64 @@ function goToProfile() {
 function selectCategory(categoryId: string) {
   selectedCategoryId.value = categoryId
 }
+
+function setupMotion() {
+  if (!pageRef.value) return
+  cleanupMotion = runScopedMotion(pageRef.value, ({ reducedMotion = false }) => {
+    animateStagger(pageRef.value!.querySelectorAll('[data-motion="hero"], [data-motion="search"], [data-motion="categories"], [data-motion="section-head"]'), {
+      reducedMotion,
+      y: 20,
+      stagger: 0.07,
+      duration: 0.34,
+    })
+
+    const releaseButtons = attachPressAnimations(
+      pageRef.value!,
+      '.category-pill, .avatar, .recent-card, .primary-button.small',
+      { activeScale: 0.97 },
+    )
+    const releaseFloat = floatingAddRef.value
+      ? attachPressAnimations(pageRef.value!, '.floating-add', { activeScale: 0.92 })
+      : () => undefined
+    const stopPulse = floatingAddRef.value ? animatePulse(floatingAddRef.value, { reducedMotion }) : () => undefined
+
+    return () => {
+      releaseButtons()
+      releaseFloat()
+      stopPulse()
+    }
+  })
+}
+
+async function refreshDishMotion() {
+  await nextTick()
+  cleanupCards?.()
+  if (!pageRef.value) return
+
+  cleanupCards = runScopedMotion(pageRef.value, ({ reducedMotion = false }) => {
+    const cards = pageRef.value!.querySelectorAll('[data-reveal-card]')
+    if (cards.length) {
+      animateStagger(cards, {
+        reducedMotion,
+        y: 24,
+        stagger: 0.06,
+        duration: 0.34,
+      })
+      return
+    }
+
+    const emptyState = pageRef.value!.querySelectorAll('[data-motion="empty"]')
+    animateStagger(emptyState, {
+      reducedMotion,
+      y: 16,
+      duration: 0.28,
+    })
+  })
+}
+
+watch(filteredDishes, () => {
+  void refreshDishMotion()
+})
 </script>
 
 <style scoped>

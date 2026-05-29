@@ -1,9 +1,10 @@
 <template>
-  <nav class="tab-bar">
+  <nav ref="tabBarRef" class="tab-bar">
     <button
       v-for="item in items"
       :key="item.name"
       :class="['tab-item', `tab-item-${item.name}`, { active: item.name === active, add: item.add }]"
+      :data-tab-name="item.name"
       type="button"
       :aria-label="item.label"
       @click="navigate(item)"
@@ -43,13 +44,18 @@
 </template>
 
 <script setup lang="ts">
+import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { gsap } from 'gsap'
+import { attachPressAnimations, runScopedMotion } from '@/lib/motion'
 
 const props = defineProps<{
   active: 'home' | 'feed' | 'profile' | 'circles'
 }>()
 
 const router = useRouter()
+const tabBarRef = ref<HTMLElement | null>(null)
+let cleanupMotion: VoidFunction | undefined
 
 type TabItem = {
   name: string
@@ -70,6 +76,75 @@ const items: TabItem[] = [
 function navigate(item: TabItem) {
   router.push(item.route)
 }
+
+function animateActiveTab() {
+  if (!tabBarRef.value) return
+  const activeItem = tabBarRef.value.querySelector<HTMLElement>(`[data-tab-name="${props.active}"]`)
+  if (activeItem) {
+    gsap.fromTo(
+      activeItem,
+      { y: 5, scale: 0.96 },
+      {
+        y: 0,
+        scale: 1,
+        duration: 0.34,
+        ease: 'back.out(1.6)',
+        overwrite: 'auto',
+      },
+    )
+    const icon = activeItem.querySelector('.tab-icon')
+    if (icon) {
+      gsap.fromTo(
+        icon,
+        { scale: 0.88, rotate: -8 },
+        {
+          scale: 1,
+          rotate: 0,
+          duration: 0.3,
+          ease: 'power2.out',
+          overwrite: 'auto',
+        },
+      )
+    }
+  }
+
+  const addItem = tabBarRef.value.querySelector<HTMLElement>('[data-tab-name="add"]')
+  if (addItem) {
+    gsap.fromTo(
+      addItem,
+      { scale: 0.94 },
+      {
+        scale: 1,
+        duration: 0.38,
+        ease: 'back.out(1.7)',
+        overwrite: 'auto',
+      },
+    )
+  }
+}
+
+onMounted(() => {
+  if (!tabBarRef.value) return
+  cleanupMotion = runScopedMotion(tabBarRef.value, () => {
+    const releaseTabs = attachPressAnimations(tabBarRef.value!, '.tab-item', { activeScale: 0.94 })
+    return () => {
+      releaseTabs()
+    }
+  })
+  animateActiveTab()
+})
+
+watch(
+  () => props.active,
+  async () => {
+    await nextTick()
+    animateActiveTab()
+  },
+)
+
+onUnmounted(() => {
+  cleanupMotion?.()
+})
 </script>
 
 <style scoped>
