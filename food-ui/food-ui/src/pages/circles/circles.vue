@@ -1,36 +1,90 @@
 <template>
   <div class="page-shell circles-page">
     <header class="top-nav">
-      <button class="back" type="button" @click="router.push({ name: 'home' })">‹</button>
-      <h1>美食搭子</h1>
-      <button class="back" type="button" @click="createCircle">＋</button>
+      <h1>我的搭子圈</h1>
+      <button class="nav-button" type="button" @click="createCircle">＋</button>
     </header>
 
-    <article v-for="circle in circles" :key="circle.id" class="circle-card" @click="openCircle(circle.id)">
-      <small>搭子小圈</small>
-      <h2>{{ circle.name }}</h2>
-      <p>{{ circle.description }}</p>
-      <div class="stats">
-        <span>{{ circle.memberCount }} 成员</span>
-        <span>{{ circle.sharedMenuCount }} 共享菜单</span>
-        <span>{{ circle.weeklyUpdateCount }} 本周更新</span>
+    <section class="create-hint">
+      <h2>还想再建一个新圈子？</h2>
+      <div class="create-hint-action">
+        <span>把常一起吃饭的人拉起来，菜单共享会更happy</span>
+        <button class="create-button" type="button" @click="createCircle">新建圈子</button>
       </div>
-    </article>
+    </section>
+
+    <section class="circle-section">
+      <div class="section-head">
+        <div>
+          <small>全部圈子</small>
+          <h2>按最近互动排序</h2>
+        </div>
+        <span class="filter-chip">最近更新</span>
+      </div>
+
+      <article
+        v-for="circle in presentedCircles"
+        :key="circle.id"
+        class="circle-card"
+        @click="openCircle(circle.id)"
+      >
+        <div class="card-head">
+          <div class="card-main">
+            <div class="avatar-shell" :style="{ background: circle.accent }">
+              <span>众</span>
+            </div>
+            <div class="card-copy">
+              <h3>{{ circle.name }}</h3>
+              <p class="card-meta">{{ circle.memberCount }} 人 · {{ circle.sharedMenuCount }} 份菜单</p>
+            </div>
+          </div>
+        </div>
+
+        <p class="card-description">{{ circle.description }}</p>
+
+        <div class="card-footer">
+          <span>{{ circle.updateLabel }}</span>
+          <span class="arrow-shell" :style="{ background: circle.arrowAccent }">↗</span>
+        </div>
+      </article>
+    </section>
 
     <AppTabBar active="circles" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Message } from '@arco-design/web-vue'
 import AppTabBar from '@/components/AppTabBar.vue'
 import { SocialService, type BuddyCircleSummary } from '@/services/social-service'
 
+type CircleCardView = BuddyCircleSummary & {
+  accent: string
+  arrowAccent: string
+  updateLabel: string
+}
+
 const router = useRouter()
 const socialService = new SocialService()
 const circles = ref<BuddyCircleSummary[]>([])
+
+const accentPairs = [
+  { accent: '#E8D8C8', arrowAccent: '#F7EFE6' },
+  { accent: '#DDEBDD', arrowAccent: '#EEF3EC' },
+  { accent: '#F0D7D0', arrowAccent: '#F7ECEA' },
+]
+
+const presentedCircles = computed<CircleCardView[]>(() =>
+  [...circles.value]
+    .sort((left, right) => right.weeklyUpdateCount - left.weeklyUpdateCount)
+    .map((circle, index) => ({
+      ...circle,
+      ...accentPairs[index % accentPairs.length],
+      updateLabel: getUpdateLabel(circle.weeklyUpdateCount, index),
+    })),
+)
 
 onMounted(loadData)
 
@@ -48,70 +102,198 @@ async function createCircle() {
   router.push({ name: 'circle-detail', params: { id: data.circle.id } })
 }
 
+function goBack() {
+  if (window.history.length > 1) {
+    router.back()
+    return
+  }
+  router.push({ name: 'home' })
+}
+
 function openCircle(id: string) {
   router.push({ name: 'circle-detail', params: { id } })
+}
+
+function getUpdateLabel(weeklyUpdateCount: number, index: number) {
+  if (weeklyUpdateCount >= 4) return '今天刚更新'
+  if (weeklyUpdateCount >= 2) return '昨天 21:10'
+  if (weeklyUpdateCount >= 1) return '周三 19:42'
+  return index === 0 ? '最近刚整理' : '本周还没有更新'
 }
 </script>
 
 <style scoped>
 .circles-page {
-  padding-bottom: 120px;
+  padding: 12px 16px 120px;
+  background: #f7f6f3;
 }
 
 .top-nav,
-.stats {
+.create-hint-action,
+.section-head,
+.card-head,
+.card-main,
+.card-footer {
   display: flex;
 }
 
-.top-nav {
+.top-nav,
+.create-hint-action,
+.section-head,
+.card-footer {
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
 }
 
-.back {
-  border: none;
-  background: #fff;
+.top-nav {
+  margin: 2px 0 12px;
+}
+
+.nav-button {
   width: 36px;
   height: 36px;
+  border: none;
   border-radius: 999px;
+  background: #fff;
+  color: #151515;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1 {
+  color: #151515;
+  font-size: var(--title-sm);
+  font-weight: 600;
+}
+
+.create-hint {
+  background: #fbf8f4;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 18px;
+}
+
+.create-hint h2,
+.circle-card h3 {
+  color: #151515;
+  font-size: var(--text-md);
+  font-weight: 600;
+}
+
+.create-hint p,
+.card-description {
+  color: #2f3437;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.create-hint p {
+  margin-top: 10px;
+}
+
+.create-hint-action {
+  margin-top: 10px;
+  gap: 12px;
+}
+
+.create-hint-action span,
+.section-head small,
+.card-meta,
+.card-footer span:first-child {
+  color: #787774;
+  font-size: var(--text-xs);
+  font-weight: 500;
+}
+
+.create-button,
+.filter-chip {
+  border: none;
+  border-radius: 999px;
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.create-button {
+  background: #f5ede7;
+  color: #9f5c38;
+  padding: 10px 14px;
+  flex-shrink: 0;
+}
+
+.circle-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section-head {
+  margin-bottom: 2px;
+}
+
+.section-head h2 {
+  color: #151515;
+  font-family: var(--font-serif);
+  font-size: var(--title-lg);
+  font-weight: 600;
+  line-height: 1.2;
+  margin-top: 4px;
+}
+
+.filter-chip {
+  background: #f3eee7;
+  color: #9f5c38;
+  padding: 6px 10px;
 }
 
 .circle-card {
   background: #fff;
-  border-radius: 22px;
-  padding: 18px;
-  box-shadow: 0 12px 26px rgba(27, 58, 45, 0.06);
-  margin-bottom: 16px;
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
 }
 
-.circle-card small,
-.circle-card p {
-  color: var(--text-muted);
+.card-main {
+  align-items: center;
+  gap: 12px;
 }
 
-.circle-card h2,
-.circle-card p {
-  margin: 0;
+.avatar-shell,
+.arrow-shell {
+  display: grid;
+  place-items: center;
+  color: #151515;
 }
 
-.circle-card h2 {
-  color: var(--text-main);
-  font-family: 'Playfair Display', serif;
-  margin: 8px 0 10px;
+.avatar-shell {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
-.stats {
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 14px;
+.card-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.stats span {
-  background: #f6f0ea;
-  color: var(--accent);
+.card-description {
+  margin: 14px 0;
+}
+
+.arrow-shell {
+  width: 30px;
+  height: 30px;
   border-radius: 999px;
-  padding: 6px 10px;
-  font-size: 0.76rem;
+  color: #9f5c38;
+  font-size: var(--text-md);
 }
 </style>

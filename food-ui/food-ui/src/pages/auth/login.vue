@@ -83,22 +83,24 @@ async function submit() {
 }
 
 .eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  font-size: var(--text-xs);
+  font-weight: 600;
 }
 
 h1 {
   margin: 8px 0 10px;
   color: var(--text-main);
-  font-size: 2rem;
-  line-height: 1.05;
-  font-family: 'Playfair Display', serif;
+  font-size: var(--title-xl);
+  line-height: 1.15;
+  font-family: var(--font-serif);
+  font-weight: 600;
 }
 
 .intro {
   margin-bottom: 24px;
   line-height: 1.6;
+  font-size: var(--text-sm);
 }
 
 .field {
@@ -114,6 +116,7 @@ h1 {
   min-height: 52px;
   padding: 0 16px;
   background: #fffaf6;
+  font-size: var(--text-md);
 }
 
 .submit {

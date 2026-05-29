@@ -242,12 +242,15 @@ h2,
 }
 
 h1 {
-  font-size: 1.1rem;
+  font-size: var(--title-sm);
+  font-weight: 600;
 }
 
 h2 {
-  font-size: 1.2rem;
-  font-family: 'Playfair Display', serif;
+  font-size: var(--title-md);
+  font-family: var(--font-serif);
+  font-weight: 600;
+  line-height: 1.25;
 }
 
 .summary-card,
@@ -281,8 +284,8 @@ h2 {
 .status-tag {
   border-radius: 999px;
   padding: 7px 10px;
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: var(--text-xs);
+  font-weight: 600;
   white-space: nowrap;
 }
 
@@ -305,12 +308,13 @@ h2 {
 
 .stat-card strong {
   display: block;
-  font-size: 1.4rem;
+  font-size: var(--title-lg);
   color: var(--text-main);
+  font-variant-numeric: tabular-nums;
 }
 
 .stat-card span {
-  font-size: 0.78rem;
+  font-size: var(--text-sm);
   color: #8b857d;
 }
 
@@ -319,7 +323,7 @@ h2 {
 }
 
 .section-note {
-  font-size: 0.78rem;
+  font-size: var(--text-sm);
 }
 
 .request-list {
@@ -357,7 +361,7 @@ h2 {
 .user-block p,
 .message-line {
   margin: 0;
-  font-size: 0.8rem;
+  font-size: var(--text-sm);
 }
 
 .time-chip {

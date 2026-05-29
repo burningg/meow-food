@@ -168,8 +168,11 @@ function openUser(userId: string) {
 }
 
 .overview-card h2 {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-serif);
   margin-top: 8px;
+  font-size: var(--title-lg);
+  font-weight: 600;
+  line-height: 1.25;
 }
 
 .stats {
@@ -184,6 +187,24 @@ function openUser(userId: string) {
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+.stats strong {
+  font-size: var(--title-md);
+  font-variant-numeric: tabular-nums;
+}
+
+.stats span,
+.overview-card small,
+.overview-card p,
+.section small {
+  font-size: var(--text-sm);
+}
+
+.section h3 {
+  font-size: var(--title-md);
+  font-family: var(--font-serif);
+  font-weight: 600;
 }
 
 .full {

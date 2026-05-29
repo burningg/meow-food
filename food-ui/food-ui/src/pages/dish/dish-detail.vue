@@ -238,13 +238,13 @@ async function confirmDelete() {
 .content-section h2 {
   margin: 0;
   color: #151515;
-  font-family: 'Instrument Serif', 'Times New Roman', serif;
+  font-family: var(--font-serif);
 }
 
 .title-row h1 {
-  font-size: 1.7rem;
-  line-height: 1.1;
-  font-weight: 400;
+  font-size: var(--title-xl);
+  line-height: 1.15;
+  font-weight: 600;
 }
 
 .category-badge,
@@ -252,7 +252,7 @@ async function confirmDelete() {
   flex: 0 0 auto;
   border-radius: 999px;
   padding: 4px 10px;
-  font-size: 0.74rem;
+  font-size: var(--text-xs);
   font-weight: 600;
 }
 
@@ -270,7 +270,7 @@ async function confirmDelete() {
   margin: 12px 0 0;
   color: #5f5d58;
   line-height: 1.7;
-  font-size: 0.92rem;
+  font-size: var(--text-md);
 }
 
 .meta-row {
@@ -298,9 +298,10 @@ async function confirmDelete() {
 }
 
 .meta-item strong {
-  font-family: 'Geist Mono', monospace;
-  font-size: 0.92rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-md);
   font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
 
 .meta-item small,
@@ -311,8 +312,9 @@ async function confirmDelete() {
 
 .meta-item small,
 .ingredient-amount {
-  font-family: 'Geist Mono', monospace;
-  font-size: 0.76rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
 }
 
 .divider {
@@ -329,8 +331,8 @@ async function confirmDelete() {
 }
 
 .content-section h2 {
-  font-size: 1.14rem;
-  font-weight: 400;
+  font-size: var(--title-md);
+  font-weight: 600;
 }
 
 .ingredient-row {
@@ -350,7 +352,7 @@ async function confirmDelete() {
 }
 
 .ingredient-name {
-  font-size: 0.92rem;
+  font-size: var(--text-md);
 }
 
 .step-list {
@@ -373,14 +375,14 @@ async function confirmDelete() {
   color: #fff;
   display: grid;
   place-items: center;
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: var(--text-xs);
+  font-weight: 600;
 }
 
 .step-row p,
 .empty-state {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: var(--text-md);
   line-height: 1.65;
 }
 

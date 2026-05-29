@@ -333,15 +333,15 @@ function cancel() {
 }
 
 .top-nav h1 {
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: var(--title-sm);
+  font-weight: 600;
 }
 
 .nav-text {
   border: none;
   background: none;
   color: #8b8b8b;
-  font-size: 0.95rem;
+  font-size: var(--text-md);
 }
 
 .nav-text.save {
@@ -371,7 +371,7 @@ function cancel() {
 .upload-card p {
   margin-top: 10px;
   color: #8b8b8b;
-  font-size: 0.85rem;
+  font-size: var(--text-sm);
 }
 
 .field-block {
@@ -384,7 +384,7 @@ function cancel() {
 .field-block span,
 .field-row span {
   color: #8b8b8b;
-  font-size: 0.82rem;
+  font-size: var(--text-sm);
   font-weight: 600;
 }
 
@@ -397,7 +397,7 @@ function cancel() {
   outline: none;
   background: transparent;
   color: #1b3a2d;
-  font-size: 0.95rem;
+  font-size: var(--text-md);
 }
 
 .line-input,
@@ -444,15 +444,17 @@ function cancel() {
 }
 
 .group-head h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.06rem;
+  font-family: var(--font-serif);
+  font-size: var(--title-md);
+  font-weight: 600;
+  line-height: 1.25;
 }
 
 .group-tip,
 .empty-helper {
   margin: 0;
   color: #8b8b8b;
-  font-size: 0.78rem;
+  font-size: var(--text-sm);
 }
 
 .empty-helper {
@@ -465,8 +467,8 @@ function cancel() {
   background: #e8f0e9;
   color: #7a9e7e;
   padding: 7px 12px;
-  font-size: 0.76rem;
-  font-weight: 700;
+  font-size: var(--text-xs);
+  font-weight: 600;
 }
 
 .row-grid {
@@ -506,8 +508,8 @@ function cancel() {
   color: #fff;
   display: grid;
   place-items: center;
-  font-size: 0.74rem;
-  font-weight: 700;
+  font-size: var(--text-xs);
+  font-weight: 600;
   margin-top: 6px;
 }
 

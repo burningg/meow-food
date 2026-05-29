@@ -140,7 +140,10 @@ h2 {
 }
 
 h2 {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-serif);
+  font-size: var(--title-lg);
+  font-weight: 600;
+  line-height: 1.25;
 }
 
 p,
@@ -148,6 +151,22 @@ small,
 .rule-row span,
 .menu-row p {
   color: var(--text-muted);
+}
+
+h1 {
+  font-size: var(--title-sm);
+  font-weight: 600;
+}
+
+p,
+.rule-row span,
+.menu-row p {
+  font-size: var(--text-sm);
+}
+
+.menu-row strong {
+  font-size: var(--text-md);
+  font-weight: 600;
 }
 
 .rule-row {

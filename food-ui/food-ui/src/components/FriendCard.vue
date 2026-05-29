@@ -68,8 +68,9 @@ const metaText = computed(() => {
   background: #edf3ec;
   color: #346538;
   border-radius: 999px;
-  font-size: 0.72rem;
+  font-size: var(--text-xs);
   padding: 4px 10px;
+  font-weight: 600;
 }
 
 .copy h3,
@@ -78,14 +79,15 @@ const metaText = computed(() => {
 }
 
 .copy h3 {
-  font-size: 1rem;
+  font-size: var(--text-md);
   color: var(--text-main);
+  font-weight: 600;
 }
 
 .copy p,
 .footer span {
   color: var(--text-muted);
-  font-size: 0.78rem;
+  font-size: var(--text-sm);
   line-height: 1.5;
 }
 

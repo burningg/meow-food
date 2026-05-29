@@ -55,13 +55,14 @@ p {
 
 h3 {
   color: var(--text-main);
-  font-size: 1.08rem;
+  font-size: var(--text-lg);
   margin-top: 4px;
+  font-weight: 600;
 }
 
 p {
   margin-top: 10px;
-  font-size: 0.84rem;
+  font-size: var(--text-sm);
   line-height: 1.6;
 }
 
@@ -71,6 +72,7 @@ p {
   color: #346538;
   border-radius: 999px;
   padding: 4px 10px;
-  font-size: 0.72rem;
+  font-size: var(--text-xs);
+  font-weight: 600;
 }
 </style>

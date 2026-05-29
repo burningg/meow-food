@@ -64,20 +64,22 @@ const badgeText = computed(() => {
 .meta {
   margin: 0;
   color: var(--text-muted);
-  font-size: 0.8rem;
+  font-size: var(--text-sm);
 }
 
 h3 {
   margin: 8px 0 6px;
   color: var(--text-main);
-  font-size: 1rem;
+  font-size: var(--text-md);
+  font-weight: 600;
 }
 
 .badge {
   background: #f4ece6;
   color: var(--accent);
   border-radius: 999px;
-  font-size: 0.72rem;
+  font-size: var(--text-xs);
   padding: 4px 10px;
+  font-weight: 600;
 }
 </style>

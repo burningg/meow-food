@@ -1,7 +1,6 @@
 <template>
   <div class="page-shell feed-page">
     <header class="top-nav">
-      <button class="back" type="button" @click="router.back()">‹</button>
       <h1>好友动态</h1>
       <button class="back" type="button" @click="loadData">↻</button>
     </header>

@@ -77,10 +77,10 @@
             {
               "type": "icon_font",
               "id": "KAmxc",
-              "name": "Grid Icon",
+              "name": "Feed Icon",
               "width": 20,
               "height": 20,
-              "iconFontName": "squares-four",
+              "iconFontName": "chat-circle-dots",
               "iconFontFamily": "phosphor",
               "fill": "$text-muted"
             }
@@ -123,10 +123,10 @@
             {
               "type": "icon_font",
               "id": "V9Eksw",
-              "name": "Heart Icon",
+              "name": "Circle Icon",
               "width": 20,
               "height": 20,
-              "iconFontName": "heart",
+              "iconFontName": "users-three",
               "iconFontFamily": "phosphor",
               "fill": "$text-muted"
             }
@@ -3303,67 +3303,6 @@
                   "width": "fill_container",
                   "height": 1,
                   "fill": "#ECE5DC"
-                },
-                {
-                  "type": "frame",
-                  "id": "f1n",
-                  "name": "Hero Actions",
-                  "width": "fill_container",
-                  "gap": 10,
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "f1k",
-                      "name": "Primary Action",
-                      "width": "fill_container",
-                      "fill": "$accent-primary",
-                      "cornerRadius": "$radius-pill",
-                      "padding": [
-                        12,
-                        16
-                      ],
-                      "justifyContent": "center",
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "t1j",
-                          "name": "Primary Action Text",
-                          "fill": "#FFFFFF",
-                          "content": "添加好友",
-                          "fontFamily": "$font-body",
-                          "fontSize": 13,
-                          "fontWeight": "600"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "f1m",
-                      "name": "Secondary Action",
-                      "width": "fill_container",
-                      "fill": "$bg-card",
-                      "cornerRadius": "$radius-pill",
-                      "padding": [
-                        12,
-                        16
-                      ],
-                      "justifyContent": "center",
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "t1l",
-                          "name": "Secondary Action Text",
-                          "fill": "$text-body",
-                          "content": "创建搭子圈",
-                          "fontFamily": "$font-body",
-                          "fontSize": 13,
-                          "fontWeight": "600"
-                        }
-                      ]
-                    }
-                  ]
                 }
               ]
             }
@@ -5227,7 +5166,7 @@
                   "name": "Page Label",
                   "fill": "#9F5C38",
                   "content": "好友关系",
-                  "fontFamily": "Inter",
+                  "fontFamily": "$font-body",
                   "fontSize": 11,
                   "fontWeight": "600"
                 },
@@ -5237,7 +5176,7 @@
                   "name": "Page Title",
                   "fill": "#151515",
                   "content": "好友申请",
-                  "fontFamily": "Geist",
+                  "fontFamily": "$font-body",
                   "fontSize": 16,
                   "fontWeight": "600"
                 }
@@ -5316,8 +5255,8 @@
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
                           "content": "今天有 2 条新的好友申请",
-                          "fontFamily": "Geist",
-                          "fontSize": 18,
+                          "fontFamily": "$font-heading",
+                          "fontSize": 20,
                           "fontWeight": "600"
                         },
                         {
@@ -5329,7 +5268,7 @@
                           "width": "fill_container",
                           "content": "集中处理好友请求，先看对方是谁、留言是什么，再决定接受或拒绝。",
                           "lineHeight": 1.5,
-                          "fontFamily": "Inter",
+                          "fontFamily": "$font-body",
                           "fontSize": 13,
                           "fontWeight": "normal"
                         }
@@ -5353,7 +5292,7 @@
                           "name": "Summary Badge Text",
                           "fill": "#346538",
                           "content": "待处理",
-                          "fontFamily": "Inter",
+                          "fontFamily": "$font-body",
                           "fontSize": 11,
                           "fontWeight": "600"
                         }
@@ -5385,7 +5324,7 @@
                           "name": "待处理 Value",
                           "fill": "#151515",
                           "content": "2",
-                          "fontFamily": "Geist",
+                          "fontFamily": "$font-data",
                           "fontSize": 22,
                           "fontWeight": "600"
                         },
@@ -5395,7 +5334,7 @@
                           "name": "待处理 Label",
                           "fill": "#8B857D",
                           "content": "待处理",
-                          "fontFamily": "Inter",
+                          "fontFamily": "$font-body",
                           "fontSize": 11,
                           "fontWeight": "500"
                         }
@@ -5418,7 +5357,7 @@
                           "name": "已通过 Value",
                           "fill": "#151515",
                           "content": "5",
-                          "fontFamily": "Geist",
+                          "fontFamily": "$font-data",
                           "fontSize": 22,
                           "fontWeight": "600"
                         },
@@ -5428,7 +5367,7 @@
                           "name": "已通过 Label",
                           "fill": "#8B857D",
                           "content": "已通过",
-                          "fontFamily": "Inter",
+                          "fontFamily": "$font-body",
                           "fontSize": 11,
                           "fontWeight": "500"
                         }
@@ -5451,7 +5390,7 @@
                           "name": "我发出的 Value",
                           "fill": "#151515",
                           "content": "1",
-                          "fontFamily": "Geist",
+                          "fontFamily": "$font-data",
                           "fontSize": 22,
                           "fontWeight": "600"
                         },
@@ -5461,7 +5400,7 @@
                           "name": "我发出的 Label",
                           "fill": "#8B857D",
                           "content": "我发出的",
-                          "fontFamily": "Inter",
+                          "fontFamily": "$font-body",
                           "fontSize": 11,
                           "fontWeight": "500"
                         }
@@ -5500,7 +5439,7 @@
                           "name": "Pending Eyebrow",
                           "fill": "#9F5C38",
                           "content": "incoming",
-                          "fontFamily": "Inter",
+                          "fontFamily": "$font-body",
                           "fontSize": 11,
                           "fontWeight": "600"
                         },
@@ -5510,7 +5449,7 @@
                           "name": "Pending Title",
                           "fill": "#151515",
                           "content": "待处理申请",
-                          "fontFamily": "Geist",
+                          "fontFamily": "$font-heading",
                           "fontSize": 18,
                           "fontWeight": "600"
                         }
@@ -5522,7 +5461,7 @@
                       "name": "Pending Hint",
                       "fill": "#8B857D",
                       "content": "48 小时内处理更礼貌",
-                      "fontFamily": "Inter",
+                      "fontFamily": "$font-body",
                       "fontSize": 12,
                       "fontWeight": "500"
                     }
@@ -5652,7 +5591,7 @@
                           "width": "fill_container",
                           "content": "一起交换夏天凉菜菜单吧",
                           "lineHeight": 1.5,
-                          "fontFamily": "Inter",
+                          "fontFamily": "$font-body",
                           "fontSize": 13,
                           "fontWeight": "normal"
                         }
@@ -5845,7 +5784,7 @@
                           "width": "fill_container",
                           "content": "想看看你收藏的夜宵清单",
                           "lineHeight": 1.5,
-                          "fontFamily": "Inter",
+                          "fontFamily": "$font-body",
                           "fontSize": 13,
                           "fontWeight": "normal"
                         }
@@ -5945,7 +5884,7 @@
                           "name": "Outgoing Eyebrow",
                           "fill": "#9F5C38",
                           "content": "outgoing",
-                          "fontFamily": "Inter",
+                          "fontFamily": "$font-body",
                           "fontSize": 11,
                           "fontWeight": "600"
                         },
@@ -5955,7 +5894,7 @@
                           "name": "Outgoing Title",
                           "fill": "#151515",
                           "content": "我发出的申请",
-                          "fontFamily": "Geist",
+                          "fontFamily": "$font-heading",
                           "fontSize": 18,
                           "fontWeight": "600"
                         }
@@ -5967,7 +5906,7 @@
                       "name": "Outgoing Hint",
                       "fill": "#8B857D",
                       "content": "对方确认后自动成为好友",
-                      "fontFamily": "Inter",
+                      "fontFamily": "$font-body",
                       "fontSize": 12,
                       "fontWeight": "500"
                     }
@@ -6085,9 +6024,679 @@
                       "name": "Outgoing Message",
                       "fill": "#4B4741",
                       "content": "留言：一起组个减脂便当清单。",
-                      "fontFamily": "Inter",
+                      "fontFamily": "$font-body",
                       "fontSize": 13,
                       "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "ltoe0",
+      "x": 4867,
+      "y": 0,
+      "name": "Buddy Circle List Final",
+      "clip": true,
+      "width": 390,
+      "fill": "$bg-primary",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "HGRff",
+          "name": "Top Nav",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            20,
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "zxTF5",
+              "name": "Back Shell",
+              "width": 36,
+              "height": 36,
+              "fill": "$bg-card",
+              "cornerRadius": "$radius-pill",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "DvZAn",
+                  "name": "Back Icon",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "caret-left",
+                  "iconFontFamily": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "DkwQb",
+              "name": "Page Title",
+              "fill": "$text-primary",
+              "content": "我的搭子圈",
+              "fontFamily": "$font-body",
+              "fontSize": 16,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "AqfXU",
+              "name": "Create Shell",
+              "width": 36,
+              "height": 36,
+              "fill": "$bg-card",
+              "cornerRadius": "$radius-pill",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "U8ULY",
+                  "name": "Plus Icon",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "plus",
+                  "iconFontFamily": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "JxNYG",
+          "name": "Circle List Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": [
+            12,
+            20,
+            20,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "OMvNq",
+              "name": "Create Hint",
+              "width": "fill_container",
+              "fill": "#FBF8F4",
+              "cornerRadius": "$radius-card",
+              "layout": "vertical",
+              "gap": 10,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "BjeeI",
+                  "name": "Create Hint Title",
+                  "fill": "$text-primary",
+                  "content": "还想再建一个新圈子？",
+                  "fontFamily": "$font-body",
+                  "fontSize": 15,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "ol66U",
+                  "name": "Create Hint Body",
+                  "fill": "$text-body",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "把常一起吃饭的人拉成小圈子，菜单共享会更聚焦。",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$font-body",
+                  "fontSize": 13
+                },
+                {
+                  "type": "frame",
+                  "id": "G7Md6N",
+                  "name": "Create Hint Action",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "migzL",
+                      "name": "Create Hint Meta",
+                      "fill": "$text-muted",
+                      "content": "适合按城市、口味或饭搭子分组",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tEWvk",
+                      "name": "Create Hint Button",
+                      "fill": "#F5EDE7",
+                      "cornerRadius": "$radius-pill",
+                      "padding": [
+                        10,
+                        14
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Q6pIVY",
+                          "name": "Create Hint Button Text",
+                          "fill": "$accent-primary",
+                          "content": "新建圈子",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "V0xmwf",
+              "name": "Circle List Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "NFyPv",
+                  "name": "Section Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "wAwb7",
+                      "name": "Section Copy",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "z9Uc0A",
+                          "name": "Section Label",
+                          "fill": "$text-muted",
+                          "content": "全部圈子",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "X44F7",
+                          "name": "Section Title",
+                          "fill": "$text-primary",
+                          "content": "按最近互动排序",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 24
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "aXhzc",
+                      "name": "Filter Chip",
+                      "fill": "#F3EEE7",
+                      "cornerRadius": "$radius-pill",
+                      "padding": [
+                        6,
+                        10
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "xzi5q",
+                          "name": "Filter Text",
+                          "fill": "$accent-primary",
+                          "content": "最近更新",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "YCIOU",
+                  "name": "Circle Card 1",
+                  "width": "fill_container",
+                  "fill": "$bg-card",
+                  "cornerRadius": "$radius-card",
+                  "layout": "vertical",
+                  "gap": 14,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "i480mW",
+                      "name": "Circle Card 1 Head",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "y69aZ",
+                          "name": "Circle Card 1 Left",
+                          "gap": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "I8ep6e",
+                              "name": "Circle Card 1 Avatar",
+                              "width": 46,
+                              "height": 46,
+                              "fill": "#E8D8C8",
+                              "cornerRadius": 14,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon_font",
+                                  "id": "BHAAC",
+                                  "name": "Circle Card 1 Icon",
+                                  "width": 20,
+                                  "height": 20,
+                                  "iconFontName": "users-three",
+                                  "iconFontFamily": "phosphor",
+                                  "fill": "$text-primary"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "D1wlbR",
+                              "name": "Circle Card 1 Copy",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "roHZc",
+                                  "name": "Circle Card 1 Title",
+                                  "fill": "$text-primary",
+                                  "content": "周末探店局",
+                                  "fontFamily": "Geist",
+                                  "fontSize": 15,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "tPplv",
+                                  "name": "Circle Card 1 Meta",
+                                  "fill": "$text-muted",
+                                  "content": "8 人 · 4 份菜单",
+                                  "fontFamily": "Geist",
+                                  "fontSize": 12,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "SevLw",
+                      "name": "Circle Card 1 Desc",
+                      "fill": "$text-body",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "收藏了适合聊天的小馆子和甜品店。",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-body",
+                      "fontSize": 13
+                    },
+                    {
+                      "type": "frame",
+                      "id": "wvIop",
+                      "name": "Circle Card 1 Footer",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "n6qXqu",
+                          "name": "Circle Card 1 Update",
+                          "fill": "$text-muted",
+                          "content": "今天刚更新",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "rBCPk",
+                          "name": "Circle Card 1 Arrow",
+                          "width": 30,
+                          "height": 30,
+                          "fill": "#F7EFE6",
+                          "cornerRadius": "$radius-pill",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "Ruzzj",
+                              "name": "Circle Card 1 Arrow Icon",
+                              "width": 16,
+                              "height": 16,
+                              "iconFontName": "arrow-up-right",
+                              "iconFontFamily": "phosphor",
+                              "fill": "$accent-primary"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Z6EIT",
+                  "name": "Circle Card 2",
+                  "width": "fill_container",
+                  "fill": "$bg-card",
+                  "cornerRadius": "$radius-card",
+                  "layout": "vertical",
+                  "gap": 14,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "n6M7Gb",
+                      "name": "Circle Card 2 Head",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "fPQ3U",
+                          "name": "Circle Card 2 Left",
+                          "gap": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "hnjbF",
+                              "name": "Circle Card 2 Avatar",
+                              "width": 46,
+                              "height": 46,
+                              "fill": "#DDEBDD",
+                              "cornerRadius": 14,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon_font",
+                                  "id": "lRWIM",
+                                  "name": "Circle Card 2 Icon",
+                                  "width": 20,
+                                  "height": 20,
+                                  "iconFontName": "users-three",
+                                  "iconFontFamily": "phosphor",
+                                  "fill": "$text-primary"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Hqcxo",
+                              "name": "Circle Card 2 Copy",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "SFgi3",
+                                  "name": "Circle Card 2 Title",
+                                  "fill": "$text-primary",
+                                  "content": "办公室拼饭群",
+                                  "fontFamily": "Geist",
+                                  "fontSize": 15,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "O1rTM",
+                                  "name": "Circle Card 2 Meta",
+                                  "fill": "$text-muted",
+                                  "content": "5 人 · 2 份菜单",
+                                  "fontFamily": "Geist",
+                                  "fontSize": 12,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "z7WYeq",
+                      "name": "Circle Card 2 Desc",
+                      "fill": "$text-body",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "工作日中午互相抄作业，少纠结吃什么。",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-body",
+                      "fontSize": 13
+                    },
+                    {
+                      "type": "frame",
+                      "id": "s46QZj",
+                      "name": "Circle Card 2 Footer",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "xZBuw",
+                          "name": "Circle Card 2 Update",
+                          "fill": "$text-muted",
+                          "content": "昨天 21:10",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "IZAIO",
+                          "name": "Circle Card 2 Arrow",
+                          "width": 30,
+                          "height": 30,
+                          "fill": "#EEF3EC",
+                          "cornerRadius": "$radius-pill",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "qcpHn",
+                              "name": "Circle Card 2 Arrow Icon",
+                              "width": 16,
+                              "height": 16,
+                              "iconFontName": "arrow-up-right",
+                              "iconFontFamily": "phosphor",
+                              "fill": "$accent-primary"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "jzV7t",
+                  "name": "Circle Card 3",
+                  "width": "fill_container",
+                  "fill": "$bg-card",
+                  "cornerRadius": "$radius-card",
+                  "layout": "vertical",
+                  "gap": 14,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "DGeB3",
+                      "name": "Circle Card 3 Head",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "VJbcM",
+                          "name": "Circle Card 3 Left",
+                          "gap": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "boytP",
+                              "name": "Circle Card 3 Avatar",
+                              "width": 46,
+                              "height": 46,
+                              "fill": "#F0D7D0",
+                              "cornerRadius": 14,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon_font",
+                                  "id": "aGJ70",
+                                  "name": "Circle Card 3 Icon",
+                                  "width": 20,
+                                  "height": 20,
+                                  "iconFontName": "users-three",
+                                  "iconFontFamily": "phosphor",
+                                  "fill": "$text-primary"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Ll678",
+                              "name": "Circle Card 3 Copy",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "BVrFD",
+                                  "name": "Circle Card 3 Title",
+                                  "fill": "$text-primary",
+                                  "content": "深夜火锅队",
+                                  "fontFamily": "Geist",
+                                  "fontSize": 15,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "OhJim",
+                                  "name": "Circle Card 3 Meta",
+                                  "fill": "$text-muted",
+                                  "content": "3 人 · 3 份菜单",
+                                  "fontFamily": "Geist",
+                                  "fontSize": 12,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "ajRS8",
+                      "name": "Circle Card 3 Desc",
+                      "fill": "$text-body",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "专门存重口味和宵夜局的菜单灵感。",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-body",
+                      "fontSize": 13
+                    },
+                    {
+                      "type": "frame",
+                      "id": "XUGRY",
+                      "name": "Circle Card 3 Footer",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t2uOE",
+                          "name": "Circle Card 3 Update",
+                          "fill": "$text-muted",
+                          "content": "周三 19:42",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "dvzZn",
+                          "name": "Circle Card 3 Arrow",
+                          "width": 30,
+                          "height": 30,
+                          "fill": "#F7ECEA",
+                          "cornerRadius": "$radius-pill",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "ekuLw",
+                              "name": "Circle Card 3 Arrow Icon",
+                              "width": 16,
+                              "height": 16,
+                              "iconFontName": "arrow-up-right",
+                              "iconFontFamily": "phosphor",
+                              "fill": "$accent-primary"
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 }
@@ -6125,15 +6734,15 @@
     },
     "font-body": {
       "type": "string",
-      "value": "Geist Sans"
+      "value": "Noto Sans SC"
     },
     "font-data": {
       "type": "string",
-      "value": "Geist Mono"
+      "value": "JetBrains Mono"
     },
     "font-heading": {
       "type": "string",
-      "value": "Instrument Serif"
+      "value": "Noto Serif SC"
     },
     "radius-card": {
       "type": "number",

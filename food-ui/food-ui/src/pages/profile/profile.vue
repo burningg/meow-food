@@ -13,10 +13,10 @@
       </div>
 
       <div class="stats-row">
-        <div>
+        <button class="stat-button" type="button" @click="openFriendsPage">
           <strong>{{ profile?.stats.friendCount ?? 0 }}</strong>
           <span>好友</span>
-        </div>
+        </button>
         <div>
           <strong>{{ profile?.stats.menuCount ?? 0 }}</strong>
           <span>菜单</span>
@@ -25,34 +25,6 @@
           <strong>{{ profile?.stats.circleCount ?? 0 }}</strong>
           <span>搭子圈</span>
         </div>
-      </div>
-
-      <div class="cta-row">
-        <button class="primary-button flex-button" type="button" @click="addFriend">添加好友</button>
-        <button class="secondary-button flex-button" type="button" @click="createCircle">创建搭子圈</button>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <small>好友关系</small>
-          <h2>我的好友</h2>
-        </div>
-        <button class="ghost-link" type="button" @click="openFriendsPage">查看全部</button>
-      </div>
-      <div class="friend-preview-list">
-        <FriendCard
-          v-for="friend in profile?.friendPreview || []"
-          :key="friend.id"
-          :friend="friend"
-          action-label="查看"
-          @action="goToFriend(friend.id)"
-        />
-      </div>
-      <div class="friend-actions">
-        <button class="secondary-button flex-button" type="button" @click="openFriendInbox">管理申请</button>
-        <button class="ghost-link inline-link" type="button" @click="openFriendsPage">进入好友列表</button>
       </div>
     </section>
 
@@ -88,7 +60,6 @@ import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Message } from '@arco-design/web-vue'
 import AppTabBar from '@/components/AppTabBar.vue'
-import FriendCard from '@/components/FriendCard.vue'
 import { SocialService, type ProfileResponse } from '@/services/social-service'
 import { useAuthStore } from '@/stores/auth-store'
 import type { MenuVisibility } from '@/services/auth-service'
@@ -117,34 +88,6 @@ async function updateVisibility(value: Exclude<MenuVisibility, 'inherit'>) {
   Message.success('菜单默认可见范围已更新')
   await loadProfile()
   await authStore.restore()
-}
-
-async function addFriend() {
-  const account = window.prompt('输入对方账号，例如 ali')
-  if (!account) return
-  try {
-    await socialService.createFriendRequest({ targetAccount: account, message: '一起分享美味吧' })
-    Message.success('好友申请已发送')
-  } catch (error: any) {
-    Message.error(error?.response?.data?.message || '发送失败')
-  }
-}
-
-async function createCircle() {
-  const name = window.prompt('输入搭子圈名称', '周末探店局')
-  if (!name) return
-  const description = window.prompt('补一句圈子介绍', '和好友一起建圈、邀人、共享菜单。') || ''
-  const { data } = await socialService.createCircle({ name, description })
-  Message.success('搭子圈已创建')
-  router.push({ name: 'circle-detail', params: { id: data.circle.id } })
-}
-
-function goToFriend(userId: string) {
-  router.push({ name: 'user-menu', params: { id: userId } })
-}
-
-async function openFriendInbox() {
-  router.push({ name: 'friend-requests' })
 }
 
 function openFriendsPage() {
@@ -178,7 +121,6 @@ function logout() {
 .hero-top,
 .user-row,
 .stats-row,
-.cta-row,
 .section-head {
   display: flex;
 }
@@ -207,8 +149,10 @@ h2 {
 }
 
 h1 {
-  font-size: 1.6rem;
-  font-family: 'Playfair Display', serif;
+  font-size: var(--title-lg);
+  font-family: var(--font-serif);
+  font-weight: 600;
+  line-height: 1.25;
 }
 
 .hero-top p,
@@ -221,6 +165,7 @@ small,
 .hero-top p {
   margin: 8px 0 0;
   line-height: 1.6;
+  font-size: var(--text-sm);
 }
 
 .ghost-circle {
@@ -245,13 +190,22 @@ small,
   gap: 4px;
 }
 
-.stats-row strong {
-  font-size: 1.4rem;
+.stat-button {
+  border: none;
+  background: transparent;
+  padding: 0;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
 }
 
-.cta-row {
-  gap: 10px;
+.stats-row strong {
+  font-size: var(--title-lg);
+  font-variant-numeric: tabular-nums;
 }
+
 
 .flex-button {
   flex: 1;
@@ -278,35 +232,13 @@ small,
   display: block;
   margin-bottom: 2px;
   letter-spacing: 0.08em;
+  font-size: var(--text-xs);
 }
 
 .ghost-link {
   border: none;
   background: transparent;
   color: var(--accent);
-}
-
-.friend-preview-list {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  padding-bottom: 4px;
-}
-
-.friend-preview-list :deep(.friend-card) {
-  min-width: 220px;
-}
-
-.friend-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 14px;
-}
-
-.inline-link {
-  white-space: nowrap;
 }
 
 .visibility-card {
@@ -329,6 +261,16 @@ small,
   flex-direction: column;
   align-items: flex-start;
   gap: 4px;
+}
+
+.visibility-row strong {
+  font-size: var(--text-md);
+  font-weight: 600;
+}
+
+.visibility-row small {
+  font-size: var(--text-sm);
+  line-height: 1.5;
 }
 
 .visibility-row i {

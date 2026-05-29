@@ -147,7 +147,7 @@ function selectCategory(categoryId: string) {
 
 .eyebrow {
   color: #8b8b8b;
-  font-size: 0.82rem;
+  font-size: var(--text-sm);
   margin-bottom: 2px;
 }
 
@@ -204,6 +204,8 @@ h3 {
   white-space: nowrap;
   cursor: pointer;
   box-shadow: 0 8px 22px rgba(27, 58, 45, 0.08);
+  font-size: var(--text-sm);
+  font-weight: 600;
 }
 
 .category-pill.active {
@@ -220,8 +222,10 @@ h3 {
 }
 
 .section-head h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.18rem;
+  font-family: var(--font-serif);
+  font-size: var(--title-md);
+  font-weight: 600;
+  line-height: 1.25;
 }
 
 .recent-card {
@@ -259,12 +263,14 @@ h3 {
 }
 
 .recent-copy h3 {
-  font-size: 0.92rem;
+  font-size: var(--text-md);
+  font-weight: 600;
+  line-height: 1.4;
 }
 
 .recent-copy p {
   color: #8b8b8b;
-  font-size: 0.76rem;
+  font-size: var(--text-xs);
   margin-top: 4px;
 }
 
@@ -279,7 +285,7 @@ h3 {
 
 .empty-state p {
   color: #6c746f;
-  font-size: 0.9rem;
+  font-size: var(--text-md);
 }
 
 .primary-button.small {
