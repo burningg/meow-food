@@ -1,7 +1,7 @@
 <template>
   <div class="login-page">
     <section class="login-card">
-      <p class="eyebrow">food me</p>
+      <p class="eyebrow">食光小馆</p>
       <h1>登录你的美味空间</h1>
       <p class="intro">测试账号：`panghu` / `ali` / `zhouzhou` / `ahao`，密码统一为 `123456`。</p>
 

@@ -10,6 +10,5 @@ public class ProfileResponse {
     private AuthUserResponse user;
     private ProfileStatsResponse stats;
     private List<FriendItemResponse> friendPreview = new ArrayList<>();
-    private List<FeedItemResponse> feedPreview = new ArrayList<>();
     private String defaultMenuVisibility;
 }

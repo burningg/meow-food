@@ -3,11 +3,11 @@
     <header class="top-nav">
       <button class="back" type="button" @click="router.back()">‹</button>
       <h1>美食搭子</h1>
-      <button class="back" type="button" @click="inviteFriend">＋</button>
+      <button class="back" type="button" @click="openInvitePicker">＋</button>
     </header>
 
     <section class="overview-card">
-      <small>buddy circle</small>
+      <small>搭子小圈</small>
       <h2>{{ detail?.circle.name }}</h2>
       <p>{{ detail?.circle.description }}</p>
       <div class="stats">
@@ -24,13 +24,13 @@
           <span>本周更新</span>
         </div>
       </div>
-      <button class="primary-button full" type="button" @click="inviteFriend">邀请好友加入</button>
+      <button class="primary-button full" type="button" @click="openInvitePicker">邀请好友加入</button>
     </section>
 
     <section class="section">
       <div class="section-head">
         <div>
-          <small>social</small>
+          <small>圈内关系</small>
           <h3>圈内成员</h3>
         </div>
       </div>
@@ -48,7 +48,7 @@
     <section class="section">
       <div class="section-head">
         <div>
-          <small>social</small>
+          <small>共享菜单</small>
           <h3>圈内共享菜单</h3>
         </div>
       </div>
@@ -67,7 +67,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { Message } from '@arco-design/web-vue'
 import FriendCard from '@/components/FriendCard.vue'
 import CircleMenuCard from '@/components/CircleMenuCard.vue'
 import { SocialService, type BuddyCircleDetail, type BuddyCircleMember, type FriendItem } from '@/services/social-service'
@@ -100,16 +99,15 @@ function memberToFriend(member: BuddyCircleMember): FriendItem {
   }
 }
 
-async function inviteFriend() {
-  const account = window.prompt('输入要邀请的好友账号')
-  if (!account) return
-  try {
-    const { data } = await socialService.inviteToCircle(circleId.value, { inviteeAccount: account })
-    detail.value = data
-    Message.success('好友已加入搭子圈')
-  } catch (error: any) {
-    Message.error(error?.response?.data?.message || '邀请失败')
-  }
+function openInvitePicker() {
+  if (!detail.value) return
+  router.push({
+    name: 'friends',
+    query: {
+      circleId: String(circleId.value),
+      circleName: detail.value.circle.name,
+    },
+  })
 }
 
 function openDish(id: string) {

@@ -27,7 +27,6 @@
     <section class="menus">
       <div class="section-head">
         <div>
-          <small>social</small>
           <h2>可访问菜单</h2>
         </div>
         <span>{{ access?.accessibleCount ?? 0 }} 份</span>

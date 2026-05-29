@@ -36,12 +36,12 @@
     <section class="section">
       <div class="section-head">
         <div>
-          <small>social</small>
+          <small>好友关系</small>
           <h2>我的好友</h2>
         </div>
-        <button class="ghost-link" type="button" @click="openFriendInbox">管理邀请</button>
+        <button class="ghost-link" type="button" @click="openFriendsPage">查看全部</button>
       </div>
-      <div class="friend-grid">
+      <div class="friend-preview-list">
         <FriendCard
           v-for="friend in profile?.friendPreview || []"
           :key="friend.id"
@@ -50,33 +50,19 @@
           @action="goToFriend(friend.id)"
         />
       </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <small>social</small>
-          <h2>好友动态</h2>
-        </div>
-        <button class="ghost-link" type="button" @click="router.push({ name: 'feed' })">查看全部</button>
+      <div class="friend-actions">
+        <button class="secondary-button flex-button" type="button" @click="openFriendInbox">管理申请</button>
+        <button class="ghost-link inline-link" type="button" @click="openFriendsPage">进入好友列表</button>
       </div>
-      <ActivityCard
-        v-for="item in profile?.feedPreview || []"
-        :key="item.id"
-        :item="item"
-        @open="openFeedItem(item)"
-      />
     </section>
 
     <section class="section">
       <div class="section-head">
         <div>
-          <small>social</small>
-          <h2>菜单可见范围</h2>
+          <small>权限</small>
         </div>
       </div>
       <article class="visibility-card">
-        <p>你可以决定谁能看到自己的菜单，也能因此访问好友开放的菜单。</p>
         <button
           v-for="option in visibilityOptions"
           :key="option.value"
@@ -103,8 +89,7 @@ import { useRouter } from 'vue-router'
 import { Message } from '@arco-design/web-vue'
 import AppTabBar from '@/components/AppTabBar.vue'
 import FriendCard from '@/components/FriendCard.vue'
-import ActivityCard from '@/components/ActivityCard.vue'
-import { SocialService, type FeedItem, type ProfileResponse } from '@/services/social-service'
+import { SocialService, type ProfileResponse } from '@/services/social-service'
 import { useAuthStore } from '@/stores/auth-store'
 import type { MenuVisibility } from '@/services/auth-service'
 
@@ -158,23 +143,12 @@ function goToFriend(userId: number) {
   router.push({ name: 'user-menu', params: { id: userId } })
 }
 
-function openFeedItem(item: FeedItem) {
-  router.push({ name: 'dish-detail', params: { id: item.dishId } })
+async function openFriendInbox() {
+  router.push({ name: 'friend-requests' })
 }
 
-async function openFriendInbox() {
-  const { data } = await socialService.getFriendRequests()
-  const pending = data.incoming.filter((item) => item.status === 'pending')
-  if (!pending.length) {
-    Message.info('暂时没有待处理的好友申请')
-    return
-  }
-  const first = pending[0]
-  if (window.confirm(`接受 ${first.requesterNickname} 的好友申请？`)) {
-    await socialService.acceptFriendRequest(first.id)
-    Message.success('已成为好友')
-    await loadProfile()
-  }
+function openFriendsPage() {
+  router.push({ name: 'friends' })
 }
 
 function logout() {
@@ -312,9 +286,27 @@ small,
   color: var(--accent);
 }
 
-.friend-grid {
+.friend-preview-list {
   display: flex;
   gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.friend-preview-list :deep(.friend-card) {
+  min-width: 220px;
+}
+
+.friend-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.inline-link {
+  white-space: nowrap;
 }
 
 .visibility-card {

@@ -57,7 +57,6 @@ public class SocialServiceImpl implements SocialService {
         response.setUser(authService.getCurrentUser());
         response.setStats(buildProfileStats(userId));
         response.setFriendPreview(getFriends().stream().limit(2).collect(Collectors.toList()));
-        response.setFeedPreview(getFeed("all").stream().limit(1).collect(Collectors.toList()));
         response.setDefaultMenuVisibility(getSettings(userId).getDefaultMenuVisibility());
         return response;
     }
@@ -150,6 +149,9 @@ public class SocialServiceImpl implements SocialService {
         if (request == null || !Objects.equals(request.getTargetUserId(), currentUserId)) {
             throw new ApiException(HttpStatus.NOT_FOUND, "好友申请不存在");
         }
+        if (!"pending".equals(request.getStatus())) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "该好友申请已经处理过了");
+        }
         request.setStatus("accepted");
         request.setHandledAt(LocalDateTime.now());
         friendRequestMapper.updateById(request);
@@ -165,6 +167,9 @@ public class SocialServiceImpl implements SocialService {
         FriendRequest request = friendRequestMapper.selectById(requestId);
         if (request == null || !Objects.equals(request.getTargetUserId(), currentUserId)) {
             throw new ApiException(HttpStatus.NOT_FOUND, "好友申请不存在");
+        }
+        if (!"pending".equals(request.getStatus())) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "该好友申请已经处理过了");
         }
         request.setStatus("rejected");
         request.setHandledAt(LocalDateTime.now());
@@ -353,6 +358,12 @@ public class SocialServiceImpl implements SocialService {
         Long currentUserId = AuthContext.requireUserId();
         requireCircleMember(circleId, currentUserId);
         Long inviteeUserId = resolveTargetUserId(request.getInviteeUserId(), request.getInviteeAccount());
+        if (Objects.equals(currentUserId, inviteeUserId)) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "不用邀请自己，你已经在圈子里了");
+        }
+        if (!isFriend(currentUserId, inviteeUserId)) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "只能邀请自己的好友加入搭子圈");
+        }
         addCircleMember(circleId, currentUserId, inviteeUserId);
         return getCircleDetail(circleId);
     }
@@ -410,9 +421,9 @@ public class SocialServiceImpl implements SocialService {
         UserAccount requester = userAccountMapper.selectById(request.getRequesterUserId());
         UserAccount target = userAccountMapper.selectById(request.getTargetUserId());
         FriendRequestItemResponse item = new FriendRequestItemResponse();
-        item.setId(request.getId());
-        item.setRequesterUserId(request.getRequesterUserId());
-        item.setTargetUserId(request.getTargetUserId());
+        item.setId(String.valueOf(request.getId()));
+        item.setRequesterUserId(String.valueOf(request.getRequesterUserId()));
+        item.setTargetUserId(String.valueOf(request.getTargetUserId()));
         item.setMessage(request.getMessage());
         item.setStatus(request.getStatus());
         item.setCreatedAt(request.getCreatedAt());

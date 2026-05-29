@@ -6,9 +6,9 @@ import java.time.LocalDateTime;
 
 @Data
 public class FriendRequestItemResponse {
-    private Long id;
-    private Long requesterUserId;
-    private Long targetUserId;
+    private String id;
+    private String requesterUserId;
+    private String targetUserId;
     private String requesterNickname;
     private String targetNickname;
     private String requesterAvatar;

@@ -7,7 +7,7 @@
     </header>
 
     <article v-for="circle in circles" :key="circle.id" class="circle-card" @click="openCircle(circle.id)">
-      <small>buddy circle</small>
+      <small>搭子小圈</small>
       <h2>{{ circle.name }}</h2>
       <p>{{ circle.description }}</p>
       <div class="stats">

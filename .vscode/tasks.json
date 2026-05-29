@@ -9,7 +9,11 @@
         "spring-boot:run"
       ],
       "options": {
-        "cwd": "${workspaceFolder}/food-service/food"
+        "cwd": "${workspaceFolder}/food-service/food",
+        "env": {
+          "JAVA_HOME": "/opt/homebrew/Cellar/openjdk@17/17.0.15/libexec/openjdk.jdk/Contents/Home",
+          "PATH": "/opt/homebrew/Cellar/openjdk@17/17.0.15/libexec/openjdk.jdk/Contents/Home/bin:${env:PATH}"
+        }
       },
       "group": "build",
       "problemMatcher": []
@@ -22,7 +26,11 @@
         "test"
       ],
       "options": {
-        "cwd": "${workspaceFolder}/food-service/food"
+        "cwd": "${workspaceFolder}/food-service/food",
+        "env": {
+          "JAVA_HOME": "/opt/homebrew/Cellar/openjdk@17/17.0.15/libexec/openjdk.jdk/Contents/Home",
+          "PATH": "/opt/homebrew/Cellar/openjdk@17/17.0.15/libexec/openjdk.jdk/Contents/Home/bin:${env:PATH}"
+        }
       },
       "group": "test",
       "problemMatcher": []

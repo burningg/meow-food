@@ -2,10 +2,10 @@
   <article class="friend-card">
     <div class="friend-top">
       <img class="avatar" :src="friend.avatar" :alt="friend.nickname" />
+      <h3>{{ friend.nickname }}</h3>
       <span class="tag">{{ friend.friend ? '好友' : '推荐' }}</span>
     </div>
     <div class="copy">
-      <h3>{{ friend.nickname }}</h3>
       <p>{{ metaText }}</p>
     </div>
     <div class="footer">

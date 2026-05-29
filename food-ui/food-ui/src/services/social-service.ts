@@ -21,9 +21,9 @@ export interface FriendItem {
 }
 
 export interface FriendRequestItem {
-  id: number
-  requesterUserId: number
-  targetUserId: number
+  id: string
+  requesterUserId: string
+  targetUserId: string
   requesterNickname: string
   requesterAvatar: string
   targetNickname: string
@@ -110,7 +110,6 @@ export interface ProfileResponse {
   user: AuthUser
   stats: ProfileStats
   friendPreview: FriendItem[]
-  feedPreview: FeedItem[]
   defaultMenuVisibility: Exclude<MenuVisibility, 'inherit'>
 }
 
@@ -135,11 +134,11 @@ export class SocialService {
     return http.get<FriendRequestsResponse>('/api/friends/requests')
   }
 
-  acceptFriendRequest(requestId: number) {
+  acceptFriendRequest(requestId: string) {
     return http.post<FriendRequestItem>(`/api/friends/requests/${requestId}/accept`)
   }
 
-  rejectFriendRequest(requestId: number) {
+  rejectFriendRequest(requestId: string) {
     return http.post<FriendRequestItem>(`/api/friends/requests/${requestId}/reject`)
   }
 

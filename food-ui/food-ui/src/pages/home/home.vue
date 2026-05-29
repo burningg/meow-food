@@ -12,6 +12,25 @@
       <span>搜索菜谱...</span>
     </section>
 
+    <section class="category-strip">
+      <button
+        :class="['category-pill', { active: !selectedCategoryId }]"
+        type="button"
+        @click="selectCategory('')"
+      >
+        全部
+      </button>
+      <button
+        v-for="category in homeData.categories"
+        :key="category.id"
+        :class="['category-pill', { active: category.id === selectedCategoryId }]"
+        type="button"
+        @click="selectCategory(category.id)"
+      >
+        {{ category.name }}
+      </button>
+    </section>
+
     <section class="section-block">
       <div class="section-head">
         <div>
@@ -19,9 +38,9 @@
         </div>
       </div>
 
-      <div v-if="homeData.recentDishes.length" class="recent-row">
+      <div v-if="filteredDishes.length" class="recent-row">
         <article
-          v-for="dish in homeData.recentDishes"
+          v-for="dish in filteredDishes"
           :key="dish.id"
           class="recent-card"
           @click="goToDetail(dish.id)"
@@ -51,7 +70,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Message } from '@arco-design/web-vue'
 import AppTabBar from '@/components/AppTabBar.vue'
-import { FoodService, type HomeResponse } from '@/services/food-service'
+import { FoodService, type HomeResponse, type DishSummary } from '@/services/food-service'
 import { useAuthStore } from '@/stores/auth-store'
 
 const router = useRouter()
@@ -64,7 +83,14 @@ const homeData = ref<HomeResponse>({
   recentDishes: [],
   featuredByCategory: [],
 })
+const selectedCategoryId = ref('')
 const displayName = computed(() => authStore.user?.nickname ?? '胖虎')
+const filteredDishes = computed(() => {
+  if (!selectedCategoryId.value) {
+    return homeData.value.recentDishes
+  }
+  return homeData.value.recentDishes.filter((dish: DishSummary) => dish.categoryId === selectedCategoryId.value)
+})
 
 onMounted(async () => {
   await loadHome()
@@ -89,6 +115,10 @@ function goToAdd() {
 
 function goToProfile() {
   router.push({ name: 'profile' })
+}
+
+function selectCategory(categoryId: string) {
+  selectedCategoryId.value = categoryId
 }
 </script>
 
@@ -151,6 +181,34 @@ h3 {
 
 .search-icon {
   font-size: 1rem;
+}
+
+.category-strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin: 0 -4px 18px;
+}
+
+.category-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.category-pill {
+  border: none;
+  border-radius: 999px;
+  background: #fff;
+  color: #3d3d3d;
+  padding: 10px 16px;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(27, 58, 45, 0.08);
+}
+
+.category-pill.active {
+  background: #1b3a2d;
+  color: #fff;
 }
 
 .section-block {
