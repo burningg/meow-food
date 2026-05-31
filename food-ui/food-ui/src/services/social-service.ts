@@ -113,9 +113,19 @@ export interface ProfileResponse {
   defaultMenuVisibility: Exclude<MenuVisibility, 'inherit'>
 }
 
+export interface ProfileUpdatePayload {
+  nickname: string
+  bio: string
+  avatar?: string
+}
+
 export class SocialService {
   getProfile() {
     return http.get<ProfileResponse>('/api/profile')
+  }
+
+  updateProfile(payload: ProfileUpdatePayload) {
+    return http.put<AuthUser>('/api/profile', payload)
   }
 
   updateVisibility(defaultMenuVisibility: Exclude<MenuVisibility, 'inherit'>) {

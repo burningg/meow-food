@@ -63,6 +63,38 @@ public class SocialServiceImpl implements SocialService {
 
     @Override
     @Transactional
+    public AuthUserResponse updateProfile(ProfileUpdateRequest request) {
+        String userId = AuthContext.requireUserId();
+        UserAccount user = userAccountMapper.selectById(userId);
+        if (user == null) {
+            throw new ApiException(HttpStatus.UNAUTHORIZED, "用户不存在");
+        }
+
+        String nickname = request.getNickname() == null ? "" : request.getNickname().trim();
+        if (nickname.isEmpty()) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "昵称不能为空");
+        }
+        if (nickname.length() > 20) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "昵称不能超过 20 个字符");
+        }
+
+        String bio = request.getBio() == null ? "" : request.getBio().trim();
+        if (bio.length() > 80) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "简介不能超过 80 个字符");
+        }
+
+        user.setNickname(nickname);
+        user.setBio(bio);
+        if (request.getAvatar() != null) {
+            user.setAvatar(request.getAvatar().trim());
+        }
+        user.setUpdatedAt(LocalDateTime.now());
+        userAccountMapper.updateById(user);
+        return authService.getCurrentUser();
+    }
+
+    @Override
+    @Transactional
     public AuthUserResponse updateDefaultVisibility(ProfileVisibilityUpdateRequest request) {
         String userId = AuthContext.requireUserId();
         UserProfileSettings settings = getSettings(userId);

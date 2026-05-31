@@ -98,16 +98,11 @@
           <strong>{{ friends.length }}</strong>
           <span>位好友</span>
         </div>
-        <div>
-          <strong>已互相添加</strong>
-          <span>当前状态</span>
-        </div>
       </section>
 
       <section class="section">
         <div class="section-head">
           <div>
-            <small>好友列表</small>
             <h2>一起吃饭的朋友们</h2>
           </div>
           <span class="section-note">点击可查看对方菜单</span>
@@ -137,35 +132,77 @@
 
         <article v-if="!friends.length" class="empty-card">
           <strong>还没有好友</strong>
-          <p>从用户菜单页发起好友申请后，就能在这里管理好友。</p>
         </article>
       </section>
     </template>
 
     <a-modal
       v-model:visible="addFriendVisible"
-      title="添加好友"
-      :ok-button-props="{ loading: addFriendSubmitting, disabled: !friendAccount.trim() }"
-      @before-ok="submitAddFriend"
+      modal-class="add-friend-modal"
+      :footer="false"
+      :mask-closable="!addFriendSubmitting"
+      :esc-to-close="!addFriendSubmitting"
       @cancel="resetAddFriendForm"
     >
+      <template #title>
+        <div class="modal-title-block">
+          <small>好友关系</small>
+          <strong>添加好友</strong>
+        </div>
+      </template>
+
       <div class="modal-copy">
-        <p>输入对方账号即可发起好友申请。</p>
-        <span>对方确认后，你们就会出现在彼此的好友列表里。</span>
+        <div class="modal-copy-hero">
+          <div>
+            <strong>输入账号发起申请</strong>
+            <p>对方确认后，你们会出现在彼此的好友列表里，还能互相查看好友可见菜单。</p>
+          </div>
+          <span class="modal-copy-badge">双向建立关系</span>
+        </div>
+
+        <div class="modal-hints">
+          <span>账号需唯一且区分大小写</span>
+          <span>建议附上一句简短介绍</span>
+        </div>
       </div>
-      <a-input
-        v-model="friendAccount"
-        placeholder="例如 ali"
-        allow-clear
-        :max-length="32"
-      />
-      <a-textarea
-        v-model="friendMessage"
-        placeholder="一起分享美味吧"
-        :max-length="60"
-        allow-clear
-        :auto-size="{ minRows: 3, maxRows: 5 }"
-      />
+
+      <div class="modal-form">
+        <label class="modal-field">
+          <span class="modal-label">对方账号</span>
+          <a-input
+            v-model="friendAccount"
+            placeholder="例如：ali"
+            allow-clear
+            :max-length="32"
+          />
+        </label>
+
+        <label class="modal-field">
+          <div class="modal-label-row">
+            <span class="modal-label">申请留言</span>
+            <small>{{ friendMessage.length }}/60</small>
+          </div>
+          <a-textarea
+            v-model="friendMessage"
+            placeholder="一起分享美味吧"
+            :max-length="60"
+            allow-clear
+            :auto-size="{ minRows: 4, maxRows: 5 }"
+          />
+        </label>
+      </div>
+
+      <div class="modal-footer">
+        <p>发送后可在“好友申请”里查看状态。</p>
+        <div class="modal-actions">
+          <button class="modal-action ghost" type="button" :disabled="addFriendSubmitting" @click="addFriendVisible = false">
+            取消
+          </button>
+          <button class="modal-action primary" type="button" :disabled="!friendAccount.trim() || addFriendSubmitting" @click="submitAddFriend">
+            {{ addFriendSubmitting ? '发送中...' : '发送申请' }}
+          </button>
+        </div>
+      </div>
     </a-modal>
   </div>
 </template>
@@ -253,6 +290,7 @@ async function submitAddFriend() {
       message: friendMessage.value.trim() || '一起分享美味吧',
     })
     Message.success('好友申请已发送')
+    addFriendVisible.value = false
     resetAddFriendForm()
     await loadFriendsPageData()
     return true
@@ -411,13 +449,133 @@ async function submitInvite() {
 
 .modal-copy {
   display: grid;
-  gap: 4px;
-  margin-bottom: 14px;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 .modal-copy p,
 .modal-copy span {
   margin: 0;
+}
+
+.modal-title-block {
+  display: grid;
+  gap: 2px;
+}
+
+.modal-title-block small,
+.modal-label-row small {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+
+.modal-title-block strong,
+.modal-copy-hero strong,
+.modal-label {
+  color: var(--text-main);
+}
+
+.modal-copy-hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #fbf7f1, #f3ebe2);
+}
+
+.modal-copy-hero strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 1rem;
+}
+
+.modal-copy-badge {
+  flex-shrink: 0;
+  align-self: flex-start;
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: rgba(120, 84, 54, 0.08);
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.modal-hints {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.modal-hints span {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #f7f3ee;
+  font-size: 0.75rem;
+}
+
+.modal-form {
+  display: grid;
+  gap: 14px;
+}
+
+.modal-field {
+  display: grid;
+  gap: 8px;
+}
+
+.modal-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.modal-label {
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.modal-footer {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.modal-footer p {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal-action {
+  min-width: 100px;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-weight: 700;
+}
+
+.modal-action.ghost {
+  background: #f3eee8;
+  color: var(--text-main);
+}
+
+.modal-action.primary {
+  background: linear-gradient(135deg, #7d9a73, #5c7d58);
+  color: #fff;
+}
+
+.modal-action:disabled {
+  opacity: 0.6;
 }
 
 .section-head {
@@ -554,5 +712,37 @@ async function submitInvite() {
 .invite-button {
   min-width: 120px;
   white-space: nowrap;
+}
+
+:deep(.add-friend-modal .arco-modal-header) {
+  margin-bottom: 0;
+  border-bottom: none;
+  padding-bottom: 8px;
+}
+
+:deep(.add-friend-modal .arco-modal-title) {
+  width: 100%;
+}
+
+:deep(.add-friend-modal .arco-modal-body) {
+  padding-top: 6px;
+}
+
+:deep(.add-friend-modal .arco-input-wrapper),
+:deep(.add-friend-modal .arco-textarea-wrapper) {
+  border-radius: 16px;
+  background: #fbf8f4;
+  border: 1px solid #efe5db;
+}
+
+:deep(.add-friend-modal .arco-input-wrapper:focus-within),
+:deep(.add-friend-modal .arco-textarea-wrapper:focus-within) {
+  border-color: rgba(92, 125, 88, 0.42);
+  background: #fff;
+}
+
+:deep(.add-friend-modal .arco-input),
+:deep(.add-friend-modal .arco-textarea) {
+  font-size: 0.92rem;
 }
 </style>

@@ -45,6 +45,18 @@ const router = createRouter({
       meta: { requiresAuth: true, transition: 'tab' },
     },
     {
+      path: '/profile/edit',
+      name: 'edit-profile',
+      component: () => import('../pages/profile/edit-profile.vue'),
+      meta: { requiresAuth: true, transition: 'forward' },
+    },
+    {
+      path: '/profile/avatar',
+      name: 'edit-avatar',
+      component: () => import('../pages/profile/edit-avatar.vue'),
+      meta: { requiresAuth: true, transition: 'forward' },
+    },
+    {
       path: '/friends',
       name: 'friends',
       component: () => import('../pages/profile/friends.vue'),

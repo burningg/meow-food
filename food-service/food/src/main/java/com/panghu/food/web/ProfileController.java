@@ -2,6 +2,7 @@ package com.panghu.food.web;
 
 import com.panghu.food.dto.AuthUserResponse;
 import com.panghu.food.dto.ProfileResponse;
+import com.panghu.food.dto.ProfileUpdateRequest;
 import com.panghu.food.dto.ProfileVisibilityUpdateRequest;
 import com.panghu.food.service.SocialService;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,11 @@ public class ProfileController {
     @GetMapping
     public ResponseEntity<ProfileResponse> getProfile() {
         return ResponseEntity.ok(socialService.getProfile());
+    }
+
+    @PutMapping
+    public ResponseEntity<AuthUserResponse> updateProfile(@RequestBody ProfileUpdateRequest request) {
+        return ResponseEntity.ok(socialService.updateProfile(request));
     }
 
     @PutMapping("/visibility")

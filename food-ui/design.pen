@@ -1,5 +1,5 @@
 {
-  "version": "2.11",
+  "version": "2.13",
   "children": [
     {
       "type": "frame",
@@ -43,13 +43,13 @@
           "alignItems": "center",
           "children": [
             {
-              "type": "icon_font",
+              "type": "icon",
               "id": "ZaYXQ",
               "name": "Home Icon",
               "width": 20,
               "height": 20,
-              "iconFontName": "house-simple",
-              "iconFontFamily": "phosphor",
+              "icon": "house-simple",
+              "library": "phosphor",
               "fill": "$accent-secondary"
             },
             {
@@ -75,13 +75,13 @@
           "alignItems": "center",
           "children": [
             {
-              "type": "icon_font",
+              "type": "icon",
               "id": "KAmxc",
               "name": "Feed Icon",
               "width": 20,
               "height": 20,
-              "iconFontName": "chat-circle-dots",
-              "iconFontFamily": "phosphor",
+              "icon": "chat-circle-dots",
+              "library": "phosphor",
               "fill": "$text-muted"
             }
           ]
@@ -99,13 +99,13 @@
           "alignItems": "center",
           "children": [
             {
-              "type": "icon_font",
+              "type": "icon",
               "id": "vzcwJ",
               "name": "Plus Icon",
               "width": 22,
               "height": 22,
-              "iconFontName": "plus",
-              "iconFontFamily": "phosphor",
+              "icon": "plus",
+              "library": "phosphor",
               "fill": "#FFFFFF"
             }
           ]
@@ -121,13 +121,13 @@
           "alignItems": "center",
           "children": [
             {
-              "type": "icon_font",
+              "type": "icon",
               "id": "V9Eksw",
               "name": "Circle Icon",
               "width": 20,
               "height": 20,
-              "iconFontName": "users-three",
-              "iconFontFamily": "phosphor",
+              "icon": "users-three",
+              "library": "phosphor",
               "fill": "$text-muted"
             }
           ]
@@ -143,13 +143,13 @@
           "alignItems": "center",
           "children": [
             {
-              "type": "icon_font",
+              "type": "icon",
               "id": "xAclc",
               "name": "User Icon",
               "width": 20,
               "height": 20,
-              "iconFontName": "user",
-              "iconFontFamily": "phosphor",
+              "icon": "user",
+              "library": "phosphor",
               "fill": "$text-muted"
             }
           ]
@@ -394,33 +394,33 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "VqxX0",
                   "name": "Signal",
                   "width": 16,
                   "height": 16,
-                  "iconFontName": "cell-signal-full",
-                  "iconFontFamily": "phosphor",
+                  "icon": "cell-signal-full",
+                  "library": "phosphor",
                   "fill": "$text-primary"
                 },
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "Q0V4YJ",
                   "name": "Wifi",
                   "width": 16,
                   "height": 16,
-                  "iconFontName": "wifi-high",
-                  "iconFontFamily": "phosphor",
+                  "icon": "wifi-high",
+                  "library": "phosphor",
                   "fill": "$text-primary"
                 },
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "ONnV2",
                   "name": "Battery",
                   "width": 22,
                   "height": 16,
-                  "iconFontName": "battery-full",
-                  "iconFontFamily": "phosphor",
+                  "icon": "battery-full",
+                  "library": "phosphor",
                   "fill": "$text-primary"
                 }
               ]
@@ -524,13 +524,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "r4xwe",
                   "name": "Search Icon",
                   "width": 18,
                   "height": 18,
-                  "iconFontName": "magnifying-glass",
-                  "iconFontFamily": "phosphor",
+                  "icon": "magnifying-glass",
+                  "library": "phosphor",
                   "fill": "$text-muted"
                 },
                 {
@@ -769,13 +769,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "kR5wg",
                   "name": "Back Arrow",
                   "width": 20,
                   "height": 20,
-                  "iconFontName": "arrow-left",
-                  "iconFontFamily": "phosphor",
+                  "icon": "arrow-left",
+                  "library": "phosphor",
                   "fill": "$text-primary"
                 }
               ]
@@ -792,13 +792,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "A6FZX",
                   "name": "Fav Heart",
                   "width": 20,
                   "height": 20,
-                  "iconFontName": "heart",
-                  "iconFontFamily": "phosphor",
+                  "icon": "heart",
+                  "library": "phosphor",
                   "fill": "$accent-primary"
                 }
               ]
@@ -900,13 +900,13 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "Xrdrc",
                       "name": "Clock Icon",
                       "width": 22,
                       "height": 22,
-                      "iconFontName": "clock",
-                      "iconFontFamily": "phosphor",
+                      "icon": "clock",
+                      "library": "phosphor",
                       "fill": "$accent-primary"
                     },
                     {
@@ -940,13 +940,13 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "C4i7G4",
                       "name": "Fire Icon",
                       "width": 22,
                       "height": 22,
-                      "iconFontName": "fire",
-                      "iconFontFamily": "phosphor",
+                      "icon": "fire",
+                      "library": "phosphor",
                       "fill": "$accent-primary"
                     },
                     {
@@ -980,13 +980,13 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "YpXzt",
                       "name": "People Icon",
                       "width": 22,
                       "height": 22,
-                      "iconFontName": "users",
-                      "iconFontFamily": "phosphor",
+                      "icon": "users",
+                      "library": "phosphor",
                       "fill": "$accent-primary"
                     },
                     {
@@ -1589,13 +1589,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "e9JYG",
                   "name": "Cook Icon",
                   "width": 20,
                   "height": 20,
-                  "iconFontName": "cooking-pot",
-                  "iconFontFamily": "phosphor",
+                  "icon": "cooking-pot",
+                  "library": "phosphor",
                   "fill": "#FFFFFF"
                 },
                 {
@@ -1694,24 +1694,22 @@
               "height": 160,
               "fill": "#F0EDE8",
               "cornerRadius": "$radius-card",
-              "stroke": {
-                "align": "inside",
-                "thickness": 2,
-                "fill": "$border-light"
-              },
+              "stroke": "$border-light",
+              "strokeWidth": 2,
+              "strokeAlignment": "inner",
               "layout": "vertical",
               "gap": 8,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "qNkpO",
                   "name": "Camera Icon",
                   "width": 32,
                   "height": 32,
-                  "iconFontName": "camera",
-                  "iconFontFamily": "phosphor",
+                  "icon": "camera",
+                  "library": "phosphor",
                   "fill": "$text-muted"
                 },
                 {
@@ -1750,13 +1748,11 @@
                   "name": "Name Input",
                   "width": "fill_container",
                   "height": 44,
-                  "stroke": {
-                    "align": "inside",
-                    "thickness": {
-                      "bottom": 1
-                    },
-                    "fill": "$border-light"
+                  "stroke": "$border-light",
+                  "strokeWidth": {
+                    "bottom": 1
                   },
+                  "strokeAlignment": "inner",
                   "padding": [
                     0,
                     14
@@ -1801,13 +1797,11 @@
                   "name": "Cat Input",
                   "width": "fill_container",
                   "height": 44,
-                  "stroke": {
-                    "align": "inside",
-                    "thickness": {
-                      "bottom": 1
-                    },
-                    "fill": "$border-light"
+                  "stroke": "$border-light",
+                  "strokeWidth": {
+                    "bottom": 1
                   },
+                  "strokeAlignment": "inner",
                   "padding": [
                     0,
                     14
@@ -1826,13 +1820,13 @@
                       "fontWeight": "normal"
                     },
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "sjGDM",
                       "name": "Chevron Right",
                       "width": 18,
                       "height": 18,
-                      "iconFontName": "caret-right",
-                      "iconFontFamily": "phosphor",
+                      "icon": "caret-right",
+                      "library": "phosphor",
                       "fill": "$text-muted"
                     }
                   ]
@@ -1927,13 +1921,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "NwTk9",
                           "name": "Plus Ing",
                           "width": 14,
                           "height": 14,
-                          "iconFontName": "plus",
-                          "iconFontFamily": "phosphor",
+                          "icon": "plus",
+                          "library": "phosphor",
                           "fill": "$accent-secondary"
                         },
                         {
@@ -1955,13 +1949,11 @@
                   "id": "jFLvD",
                   "name": "Edit Ing 羊蝎子",
                   "width": "fill_container",
-                  "stroke": {
-                    "align": "inside",
-                    "thickness": {
-                      "bottom": 1
-                    },
-                    "fill": "$border-light"
+                  "stroke": "$border-light",
+                  "strokeWidth": {
+                    "bottom": 1
                   },
+                  "strokeAlignment": "inner",
                   "padding": [
                     10,
                     0
@@ -1997,13 +1989,13 @@
                           "fontWeight": "normal"
                         },
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "dM0Kn",
                           "name": "Delete Ing",
                           "width": 16,
                           "height": 16,
-                          "iconFontName": "x",
-                          "iconFontFamily": "phosphor",
+                          "icon": "x",
+                          "library": "phosphor",
                           "fill": "$text-muted"
                         }
                       ]
@@ -2015,13 +2007,11 @@
                   "id": "C7JhY",
                   "name": "Edit Ing 大葱",
                   "width": "fill_container",
-                  "stroke": {
-                    "align": "inside",
-                    "thickness": {
-                      "bottom": 1
-                    },
-                    "fill": "$border-light"
+                  "stroke": "$border-light",
+                  "strokeWidth": {
+                    "bottom": 1
                   },
+                  "strokeAlignment": "inner",
                   "padding": [
                     10,
                     0
@@ -2057,13 +2047,13 @@
                           "fontWeight": "normal"
                         },
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "tLEgf",
                           "name": "Delete Ing",
                           "width": 16,
                           "height": 16,
-                          "iconFontName": "x",
-                          "iconFontFamily": "phosphor",
+                          "icon": "x",
+                          "library": "phosphor",
                           "fill": "$text-muted"
                         }
                       ]
@@ -2075,13 +2065,11 @@
                   "id": "g7GIvY",
                   "name": "Edit Ing 生姜",
                   "width": "fill_container",
-                  "stroke": {
-                    "align": "inside",
-                    "thickness": {
-                      "bottom": 1
-                    },
-                    "fill": "$border-light"
+                  "stroke": "$border-light",
+                  "strokeWidth": {
+                    "bottom": 1
                   },
+                  "strokeAlignment": "inner",
                   "padding": [
                     10,
                     0
@@ -2117,13 +2105,13 @@
                           "fontWeight": "normal"
                         },
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "lloyQ",
                           "name": "Delete Ing",
                           "width": 16,
                           "height": 16,
-                          "iconFontName": "x",
-                          "iconFontFamily": "phosphor",
+                          "icon": "x",
+                          "library": "phosphor",
                           "fill": "$text-muted"
                         }
                       ]
@@ -2172,13 +2160,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "UgAL7",
                           "name": "Plus Step",
                           "width": 14,
                           "height": 14,
-                          "iconFontName": "plus",
-                          "iconFontFamily": "phosphor",
+                          "icon": "plus",
+                          "library": "phosphor",
                           "fill": "$accent-secondary"
                         },
                         {
@@ -2200,13 +2188,11 @@
                   "id": "o9D9YM",
                   "name": "Edit Step 1",
                   "width": "fill_container",
-                  "stroke": {
-                    "align": "inside",
-                    "thickness": {
-                      "bottom": 1
-                    },
-                    "fill": "$border-light"
+                  "stroke": "$border-light",
+                  "strokeWidth": {
+                    "bottom": 1
                   },
+                  "strokeAlignment": "inner",
                   "gap": 10,
                   "padding": [
                     10,
@@ -2250,13 +2236,13 @@
                       "fontWeight": "normal"
                     },
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "VURkP",
                       "name": "Delete Step",
                       "width": 16,
                       "height": 16,
-                      "iconFontName": "x",
-                      "iconFontFamily": "phosphor",
+                      "icon": "x",
+                      "library": "phosphor",
                       "fill": "$text-muted"
                     }
                   ]
@@ -2266,13 +2252,11 @@
                   "id": "iFO55",
                   "name": "Edit Step 2",
                   "width": "fill_container",
-                  "stroke": {
-                    "align": "inside",
-                    "thickness": {
-                      "bottom": 1
-                    },
-                    "fill": "$border-light"
+                  "stroke": "$border-light",
+                  "strokeWidth": {
+                    "bottom": 1
                   },
+                  "strokeAlignment": "inner",
                   "gap": 10,
                   "padding": [
                     10,
@@ -2316,13 +2300,13 @@
                       "fontWeight": "normal"
                     },
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "Ewuxs",
                       "name": "Delete Step",
                       "width": 16,
                       "height": 16,
-                      "iconFontName": "x",
-                      "iconFontFamily": "phosphor",
+                      "icon": "x",
+                      "library": "phosphor",
                       "fill": "$text-muted"
                     }
                   ]
@@ -2383,13 +2367,13 @@
                           "fontWeight": "normal"
                         },
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "qXHAh",
                           "name": "Time Chevron",
                           "width": 16,
                           "height": 16,
-                          "iconFontName": "caret-right",
-                          "iconFontFamily": "phosphor",
+                          "icon": "caret-right",
+                          "library": "phosphor",
                           "fill": "$text-muted"
                         }
                       ]
@@ -2529,13 +2513,13 @@
                           "fontWeight": "normal"
                         },
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "V5yER",
                           "name": "Serve Chevron",
                           "width": 16,
                           "height": 16,
-                          "iconFontName": "caret-right",
-                          "iconFontFamily": "phosphor",
+                          "icon": "caret-right",
+                          "library": "phosphor",
                           "fill": "$text-muted"
                         }
                       ]
@@ -2846,13 +2830,13 @@
               "fontWeight": "normal"
             },
             {
-              "type": "icon_font",
+              "type": "icon",
               "id": "ih",
               "name": "Activity Arrow",
               "width": 16,
               "height": 16,
-              "iconFontName": "arrow-up-right",
-              "iconFontFamily": "phosphor",
+              "icon": "arrow-up-right",
+              "library": "phosphor",
               "fill": "$accent-primary"
             }
           ]
@@ -3005,6 +2989,7 @@
       "name": "User Profile",
       "clip": true,
       "width": 390,
+      "height": 856.3250172454366,
       "fill": "$bg-primary",
       "layout": "vertical",
       "children": [
@@ -3041,33 +3026,33 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "it",
                   "name": "Signal",
                   "width": 16,
                   "height": 16,
-                  "iconFontName": "cell-signal-full",
-                  "iconFontFamily": "phosphor",
+                  "icon": "cell-signal-full",
+                  "library": "phosphor",
                   "fill": "$text-primary"
                 },
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "iu",
                   "name": "Wifi",
                   "width": 16,
                   "height": 16,
-                  "iconFontName": "wifi-high",
-                  "iconFontFamily": "phosphor",
+                  "icon": "wifi-high",
+                  "library": "phosphor",
                   "fill": "$text-primary"
                 },
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "iv",
                   "name": "Battery",
                   "width": 22,
                   "height": 16,
-                  "iconFontName": "battery-full",
-                  "iconFontFamily": "phosphor",
+                  "icon": "battery-full",
+                  "library": "phosphor",
                   "fill": "$text-primary"
                 }
               ]
@@ -3144,14 +3129,33 @@
                           "gap": 5,
                           "children": [
                             {
-                              "type": "text",
-                              "id": "t10",
+                              "type": "frame",
+                              "id": "ZHecG",
                               "name": "Hero Name",
-                              "fill": "$text-primary",
-                              "content": "胖虎的美味空间",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 24,
-                              "fontWeight": "normal"
+                              "gap": 2,
+                              "alignItems": "end",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "rYfeO",
+                                  "name": "Hero Username",
+                                  "fill": "#151515",
+                                  "content": "胖虎",
+                                  "fontFamily": "Noto Serif SC",
+                                  "fontSize": 24,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "hlrTV",
+                                  "name": "Hero Suffix",
+                                  "fill": "#8D8D8D",
+                                  "content": "的美味空间",
+                                  "fontFamily": "Noto Serif SC",
+                                  "fontSize": 16,
+                                  "fontWeight": "normal"
+                                }
+                              ]
                             },
                             {
                               "type": "text",
@@ -3179,13 +3183,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "i14",
                           "name": "Hero Gear",
                           "width": 18,
                           "height": 18,
-                          "iconFontName": "sliders-horizontal",
-                          "iconFontFamily": "phosphor",
+                          "icon": "sliders-horizontal",
+                          "library": "phosphor",
                           "fill": "$text-primary"
                         }
                       ]
@@ -3317,115 +3321,6 @@
           "gap": 20,
           "padding": 20,
           "children": [
-            {
-              "type": "frame",
-              "id": "f1y",
-              "name": "Friends Block",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 12,
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "f1u",
-                  "name": "Section Head",
-                  "width": "fill_container",
-                  "justifyContent": "space_between",
-                  "alignItems": "end",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "f1s",
-                      "name": "Section Title Stack",
-                      "layout": "vertical",
-                      "gap": 2,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "t1q",
-                          "name": "Section Eyebrow",
-                          "fill": "$text-muted",
-                          "content": "好友关系",
-                          "fontFamily": "$font-body",
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "letterSpacing": 0.5
-                        },
-                        {
-                          "type": "text",
-                          "id": "t1r",
-                          "name": "Section Title",
-                          "fill": "$text-primary",
-                          "content": "我的好友",
-                          "fontFamily": "$font-heading",
-                          "fontSize": 20,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "text",
-                      "id": "t1t",
-                      "name": "Section Link",
-                      "fill": "$accent-primary",
-                      "content": "管理邀请",
-                      "fontFamily": "$font-body",
-                      "fontSize": 12,
-                      "fontWeight": "normal"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "f1x",
-                  "name": "Friends Row",
-                  "width": "fill_container",
-                  "gap": 12,
-                  "children": [
-                    {
-                      "id": "r1v",
-                      "type": "ref",
-                      "ref": "friendCardRoot",
-                      "name": "Friend Card A",
-                      "descendants": {
-                        "friendAvatarText": {
-                          "content": "阿"
-                        },
-                        "friendNameText": {
-                          "content": "阿梨"
-                        },
-                        "friendMetaText": {
-                          "content": "好友可见 12 份菜单"
-                        },
-                        "friendButtonText": {
-                          "content": "查看"
-                        }
-                      }
-                    },
-                    {
-                      "id": "r1w",
-                      "type": "ref",
-                      "ref": "friendCardRoot",
-                      "name": "Friend Card B",
-                      "descendants": {
-                        "friendAvatarText": {
-                          "content": "周"
-                        },
-                        "friendNameText": {
-                          "content": "周周"
-                        },
-                        "friendMetaText": {
-                          "content": "公开 26 份菜单"
-                        },
-                        "friendButtonText": {
-                          "content": "邀请"
-                        }
-                      }
-                    }
-                  ]
-                }
-              ]
-            },
             {
               "type": "frame",
               "id": "f2p",
@@ -3623,6 +3518,40 @@
                   ]
                 }
               ]
+            },
+            {
+              "type": "frame",
+              "id": "nrAkf",
+              "name": "Logout Block",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "l0CGl",
+                  "name": "Logout Card",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "padding": 16,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "t2htWR",
+                      "name": "Logout Text",
+                      "fill": "#B14D3A",
+                      "content": "退出登录",
+                      "textAlign": "center",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 16,
+                      "fontWeight": "medium"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
@@ -3687,13 +3616,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "i2w",
                   "name": "Back Icon",
                   "width": 18,
                   "height": 18,
-                  "iconFontName": "caret-left",
-                  "iconFontFamily": "phosphor",
+                  "icon": "caret-left",
+                  "library": "phosphor",
                   "fill": "$text-primary"
                 }
               ]
@@ -3720,13 +3649,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "i2u",
                   "name": "Bell Icon",
                   "width": 18,
                   "height": 18,
-                  "iconFontName": "bell-simple",
-                  "iconFontFamily": "phosphor",
+                  "icon": "bell-simple",
+                  "library": "phosphor",
                   "fill": "$text-primary"
                 }
               ]
@@ -4007,13 +3936,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "i3v",
                   "name": "Back Icon",
                   "width": 18,
                   "height": 18,
-                  "iconFontName": "caret-left",
-                  "iconFontFamily": "phosphor",
+                  "icon": "caret-left",
+                  "library": "phosphor",
                   "fill": "$text-primary"
                 }
               ]
@@ -4040,13 +3969,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "i3t",
                   "name": "Share Icon",
                   "width": 18,
                   "height": 18,
-                  "iconFontName": "share-network",
-                  "iconFontFamily": "phosphor",
+                  "icon": "share-network",
+                  "library": "phosphor",
                   "fill": "$text-primary"
                 }
               ]
@@ -4305,13 +4234,13 @@
                           ]
                         },
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "i4l",
                           "name": "Rule Private Lock",
                           "width": 16,
                           "height": 16,
-                          "iconFontName": "lock-key",
-                          "iconFontFamily": "phosphor",
+                          "icon": "lock-key",
+                          "library": "phosphor",
                           "fill": "$text-muted"
                         }
                       ]
@@ -4448,13 +4377,13 @@
                           "justifyContent": "center",
                           "children": [
                             {
-                              "type": "icon_font",
+                              "type": "icon",
                               "id": "i4w",
                               "name": "Lock Icon",
                               "width": 18,
                               "height": 18,
-                              "iconFontName": "lock-key",
-                              "iconFontFamily": "phosphor",
+                              "icon": "lock-key",
+                              "library": "phosphor",
                               "fill": "$text-muted"
                             },
                             {
@@ -4553,13 +4482,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "i59",
                   "name": "Back Icon",
                   "width": 18,
                   "height": 18,
-                  "iconFontName": "caret-left",
-                  "iconFontFamily": "phosphor",
+                  "icon": "caret-left",
+                  "library": "phosphor",
                   "fill": "$text-primary"
                 }
               ]
@@ -4586,13 +4515,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "i57",
                   "name": "Plus Icon",
                   "width": 18,
                   "height": 18,
-                  "iconFontName": "plus",
-                  "iconFontFamily": "phosphor",
+                  "icon": "plus",
+                  "library": "phosphor",
                   "fill": "$text-primary"
                 }
               ]
@@ -5081,33 +5010,33 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "Pf3AE",
                   "name": "Signal",
                   "width": 16,
                   "height": 16,
-                  "iconFontName": "cell-signal-full",
-                  "iconFontFamily": "phosphor",
+                  "icon": "cell-signal-full",
+                  "library": "phosphor",
                   "fill": "$text-primary"
                 },
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "peAuG",
                   "name": "Wifi",
                   "width": 16,
                   "height": 16,
-                  "iconFontName": "wifi-high",
-                  "iconFontFamily": "phosphor",
+                  "icon": "wifi-high",
+                  "library": "phosphor",
                   "fill": "$text-primary"
                 },
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "oHjcB",
                   "name": "Battery",
                   "width": 22,
                   "height": 16,
-                  "iconFontName": "battery-full",
-                  "iconFontFamily": "phosphor",
+                  "icon": "battery-full",
+                  "library": "phosphor",
                   "fill": "$text-primary"
                 }
               ]
@@ -5141,13 +5070,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "A16EMg",
                   "name": "Back Icon",
                   "width": 16,
                   "height": 16,
-                  "iconFontName": "caret-left",
-                  "iconFontFamily": "phosphor",
+                  "icon": "caret-left",
+                  "library": "phosphor",
                   "fill": "#151515"
                 }
               ]
@@ -5194,13 +5123,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "ni0G7",
                   "name": "Bell Icon",
                   "width": 16,
                   "height": 16,
-                  "iconFontName": "bell-ringing",
-                  "iconFontFamily": "phosphor",
+                  "icon": "bell-ringing",
+                  "library": "phosphor",
                   "fill": "#9F5C38"
                 }
               ]
@@ -6074,13 +6003,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "DvZAn",
                   "name": "Back Icon",
                   "width": 18,
                   "height": 18,
-                  "iconFontName": "caret-left",
-                  "iconFontFamily": "phosphor",
+                  "icon": "caret-left",
+                  "library": "phosphor",
                   "fill": "$text-primary"
                 }
               ]
@@ -6107,13 +6036,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "U8ULY",
                   "name": "Plus Icon",
                   "width": 18,
                   "height": 18,
-                  "iconFontName": "plus",
-                  "iconFontFamily": "phosphor",
+                  "icon": "plus",
+                  "library": "phosphor",
                   "fill": "$text-primary"
                 }
               ]
@@ -6165,7 +6094,8 @@
                   "content": "把常一起吃饭的人拉成小圈子，菜单共享会更聚焦。",
                   "lineHeight": 1.5,
                   "fontFamily": "$font-body",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -6254,7 +6184,8 @@
                           "fill": "$text-primary",
                           "content": "按最近互动排序",
                           "fontFamily": "$font-heading",
-                          "fontSize": 24
+                          "fontSize": 24,
+                          "fontWeight": "normal"
                         }
                       ]
                     },
@@ -6321,13 +6252,13 @@
                               "alignItems": "center",
                               "children": [
                                 {
-                                  "type": "icon_font",
+                                  "type": "icon",
                                   "id": "BHAAC",
                                   "name": "Circle Card 1 Icon",
                                   "width": 20,
                                   "height": 20,
-                                  "iconFontName": "users-three",
-                                  "iconFontFamily": "phosphor",
+                                  "icon": "users-three",
+                                  "library": "phosphor",
                                   "fill": "$text-primary"
                                 }
                               ]
@@ -6375,7 +6306,8 @@
                       "content": "收藏了适合聊天的小馆子和甜品店。",
                       "lineHeight": 1.5,
                       "fontFamily": "$font-body",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "frame",
@@ -6407,13 +6339,13 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon_font",
+                              "type": "icon",
                               "id": "Ruzzj",
                               "name": "Circle Card 1 Arrow Icon",
                               "width": 16,
                               "height": 16,
-                              "iconFontName": "arrow-up-right",
-                              "iconFontFamily": "phosphor",
+                              "icon": "arrow-up-right",
+                              "library": "phosphor",
                               "fill": "$accent-primary"
                             }
                           ]
@@ -6460,13 +6392,13 @@
                               "alignItems": "center",
                               "children": [
                                 {
-                                  "type": "icon_font",
+                                  "type": "icon",
                                   "id": "lRWIM",
                                   "name": "Circle Card 2 Icon",
                                   "width": 20,
                                   "height": 20,
-                                  "iconFontName": "users-three",
-                                  "iconFontFamily": "phosphor",
+                                  "icon": "users-three",
+                                  "library": "phosphor",
                                   "fill": "$text-primary"
                                 }
                               ]
@@ -6514,7 +6446,8 @@
                       "content": "工作日中午互相抄作业，少纠结吃什么。",
                       "lineHeight": 1.5,
                       "fontFamily": "$font-body",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "frame",
@@ -6546,13 +6479,13 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon_font",
+                              "type": "icon",
                               "id": "qcpHn",
                               "name": "Circle Card 2 Arrow Icon",
                               "width": 16,
                               "height": 16,
-                              "iconFontName": "arrow-up-right",
-                              "iconFontFamily": "phosphor",
+                              "icon": "arrow-up-right",
+                              "library": "phosphor",
                               "fill": "$accent-primary"
                             }
                           ]
@@ -6599,13 +6532,13 @@
                               "alignItems": "center",
                               "children": [
                                 {
-                                  "type": "icon_font",
+                                  "type": "icon",
                                   "id": "aGJ70",
                                   "name": "Circle Card 3 Icon",
                                   "width": 20,
                                   "height": 20,
-                                  "iconFontName": "users-three",
-                                  "iconFontFamily": "phosphor",
+                                  "icon": "users-three",
+                                  "library": "phosphor",
                                   "fill": "$text-primary"
                                 }
                               ]
@@ -6653,7 +6586,8 @@
                       "content": "专门存重口味和宵夜局的菜单灵感。",
                       "lineHeight": 1.5,
                       "fontFamily": "$font-body",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "frame",
@@ -6685,14 +6619,3496 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon_font",
+                              "type": "icon",
                               "id": "ekuLw",
                               "name": "Circle Card 3 Arrow Icon",
                               "width": 16,
                               "height": 16,
-                              "iconFontName": "arrow-up-right",
-                              "iconFontFamily": "phosphor",
+                              "icon": "arrow-up-right",
+                              "library": "phosphor",
                               "fill": "$accent-primary"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "editProfileArtboard",
+      "x": 5307,
+      "y": 0,
+      "name": "Edit Profile",
+      "clip": true,
+      "width": 390,
+      "fill": "$bg-primary",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "editStatusBar",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24,
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "editTimeText",
+              "name": "Time",
+              "fill": "$text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "editStatusIcons",
+              "name": "Status Right",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "editSignalIcon",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "cell-signal-full",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "editWifiIcon",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi-high",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "editBatteryIcon",
+                  "name": "Battery",
+                  "width": 22,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "editProfileContent",
+          "name": "Edit Profile Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            10,
+            20,
+            20,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "editTopNavCard",
+              "name": "Top Nav Card",
+              "width": "fill_container",
+              "fill": "$bg-card",
+              "cornerRadius": 12,
+              "padding": 16,
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "editBackShell",
+                  "name": "Back Shell",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "#F5EFE7",
+                  "cornerRadius": "$radius-pill",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "editBackIcon",
+                      "name": "Back Icon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "caret-left",
+                      "library": "phosphor",
+                      "fill": "$text-primary"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "editTitleStack",
+                  "name": "Title Stack",
+                  "layout": "vertical",
+                  "gap": 3,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "editTitleEyebrow",
+                      "name": "Title Eyebrow",
+                      "fill": "$text-muted",
+                      "content": "个人信息",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "500",
+                      "letterSpacing": 0.5
+                    },
+                    {
+                      "type": "text",
+                      "id": "editPageTitle",
+                      "name": "Page Title",
+                      "fill": "$text-primary",
+                      "content": "编辑资料",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 20,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "editAvatarCard",
+              "name": "Avatar Card",
+              "width": "fill_container",
+              "fill": "$bg-card",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 14,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "editAvatarRow",
+                  "name": "Avatar Row",
+                  "width": "fill_container",
+                  "gap": 14,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "editAvatarShell",
+                      "name": "Avatar Shell",
+                      "width": 64,
+                      "height": 64,
+                      "fill": "#EDF3EC",
+                      "cornerRadius": 18,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "editAvatarLetter",
+                          "name": "Avatar Letter",
+                          "fill": "$accent-secondary",
+                          "content": "胖",
+                          "fontFamily": "$font-body",
+                          "fontSize": 24,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "editAvatarCopy",
+                      "name": "Avatar Copy",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "editAvatarName",
+                          "name": "Avatar Name",
+                          "fill": "$text-primary",
+                          "content": "胖虎今天吃什么",
+                          "fontFamily": "$font-body",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "editAvatarBio",
+                          "name": "Avatar Bio",
+                          "fill": "$text-muted",
+                          "textGrowth": "fixed-width",
+                          "width": 230,
+                          "content": "偏爱热汤和下饭菜，最近在认真收集一人食菜单。",
+                          "lineHeight": 1.5,
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "editAvatarButton",
+                  "name": "Avatar Button",
+                  "width": "fill_container",
+                  "height": 44,
+                  "fill": "#FAF5EF",
+                  "cornerRadius": 14,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "editAvatarButtonText",
+                      "name": "Avatar Button Text",
+                      "fill": "$text-primary",
+                      "content": "更换头像",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "editFormCard",
+              "name": "Form Card",
+              "width": "fill_container",
+              "fill": "$bg-card",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "editFormHead",
+                  "name": "Form Head",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 3,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "editFormLabel",
+                      "name": "Form Label",
+                      "fill": "$text-muted",
+                      "content": "基础资料",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "500",
+                      "letterSpacing": 0.5
+                    },
+                    {
+                      "type": "text",
+                      "id": "editFormTitle",
+                      "name": "Form Title",
+                      "fill": "$text-primary",
+                      "content": "只保留最必要的信息",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 20,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "editNicknameField",
+                  "name": "Nickname Field",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "editNicknameLabel",
+                      "name": "Nickname Label",
+                      "fill": "$text-muted",
+                      "content": "昵称",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "editNicknameInput",
+                      "name": "Nickname Input",
+                      "width": "fill_container",
+                      "height": 52,
+                      "fill": "#FFFAF6",
+                      "cornerRadius": 16,
+                      "padding": [
+                        0,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "editNicknameValue",
+                          "name": "Nickname Value",
+                          "fill": "$text-primary",
+                          "content": "胖虎今天吃什么",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "editBioField",
+                  "name": "Bio Field",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "editBioLabel",
+                      "name": "Bio Label",
+                      "fill": "$text-muted",
+                      "content": "简介",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "editBioInput",
+                      "name": "Bio Input",
+                      "width": "fill_container",
+                      "height": 104,
+                      "fill": "#FFFAF6",
+                      "cornerRadius": 16,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "editBioValue",
+                          "name": "Bio Value",
+                          "fill": "$text-body",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "简单介绍一下你的口味、拿手菜，或者最近最想吃什么。",
+                          "lineHeight": 1.5,
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "editPreviewCard",
+              "name": "Preview Card",
+              "width": "fill_container",
+              "fill": "$bg-card",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 8,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "editPreviewLabel",
+                  "name": "Preview Label",
+                  "fill": "$text-muted",
+                  "content": "展示预览",
+                  "fontFamily": "$font-body",
+                  "fontSize": 11,
+                  "fontWeight": "500",
+                  "letterSpacing": 0.5
+                },
+                {
+                  "type": "text",
+                  "id": "editPreviewBody",
+                  "name": "Preview Body",
+                  "fill": "$text-body",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "资料卡会展示在你的个人主页顶部，保持简洁会更耐看。",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$font-body",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "editSaveBar",
+              "name": "Save Bar",
+              "width": "fill_container",
+              "fill": "$bg-card",
+              "cornerRadius": 16,
+              "padding": 14,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "editSaveButton",
+                  "name": "Save Button",
+                  "width": "fill_container",
+                  "height": 50,
+                  "fill": "$accent-primary",
+                  "cornerRadius": 14,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "editSaveButtonText",
+                      "name": "Save Button Text",
+                      "fill": "#FFFFFF",
+                      "content": "保存修改",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "l87Gt8",
+      "x": 5747,
+      "y": 0,
+      "name": "Edit Avatar",
+      "clip": true,
+      "width": 390,
+      "fill": "$bg-primary",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "EvRgK",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24,
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "u2IJm3",
+              "name": "Time",
+              "fill": "$text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "NmVww",
+              "name": "Status Right",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "UYirh",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "cell-signal-full",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "UrmdD",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi-high",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "Vx9a3",
+                  "name": "Battery",
+                  "width": 22,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "B1ffo",
+          "name": "Edit Profile Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            10,
+            20,
+            20,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "aHnYC",
+              "name": "Top Nav Card",
+              "width": "fill_container",
+              "fill": "$bg-card",
+              "cornerRadius": 12,
+              "padding": 16,
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "wwdbY",
+                  "name": "Back Shell",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "#F5EFE7",
+                  "cornerRadius": "$radius-pill",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "RaNmW",
+                      "name": "Back Icon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "caret-left",
+                      "library": "phosphor",
+                      "fill": "$text-primary"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "G2ZVaq",
+                  "name": "Title Stack",
+                  "layout": "vertical",
+                  "gap": 3,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "q5cDfk",
+                      "name": "Title Eyebrow",
+                      "fill": "$text-muted",
+                      "content": "个人信息",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "500",
+                      "letterSpacing": 0.5
+                    },
+                    {
+                      "type": "text",
+                      "id": "HZWGW",
+                      "name": "Page Title",
+                      "fill": "$text-primary",
+                      "content": "更换头像",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 20,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "jT0z2",
+              "name": "Avatar Card",
+              "width": "fill_container",
+              "fill": "$bg-card",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 14,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "qGunW",
+                  "name": "Avatar Row",
+                  "width": "fill_container",
+                  "gap": 14,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "IR181",
+                      "name": "Avatar Shell",
+                      "width": 64,
+                      "height": 64,
+                      "fill": "#EDF3EC",
+                      "cornerRadius": 18,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "fdaut",
+                          "name": "Avatar Letter",
+                          "fill": "$accent-secondary",
+                          "content": "胖",
+                          "fontFamily": "$font-body",
+                          "fontSize": 24,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "C3Ziw",
+                      "name": "Avatar Copy",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "CoiiK",
+                          "name": "Avatar Name",
+                          "fill": "$text-primary",
+                          "content": "胖虎今天吃什么",
+                          "fontFamily": "$font-body",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Eb8dy",
+                          "name": "Avatar Bio",
+                          "fill": "$text-muted",
+                          "textGrowth": "fixed-width",
+                          "width": 230,
+                          "content": "系统头像和自定义头像都会先预览，保存后生效。",
+                          "lineHeight": 1.5,
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "WfbyQ",
+                  "name": "Avatar Button",
+                  "width": "fill_container",
+                  "height": 44,
+                  "fill": "#FAF5EF",
+                  "cornerRadius": 14,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "A0K5G",
+                      "name": "Avatar Button Text",
+                      "fill": "$text-primary",
+                      "content": "上传自定义头像",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "PTlbk",
+              "name": "Avatar Options Card",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "tGQdK",
+                  "name": "Options Head",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 3,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "X00Pm",
+                      "name": "Options Label",
+                      "fill": "#787774",
+                      "content": "系统头像",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 11,
+                      "fontWeight": "500",
+                      "letterSpacing": 0.5
+                    },
+                    {
+                      "type": "text",
+                      "id": "CmIQA",
+                      "name": "Options Title",
+                      "fill": "#151515",
+                      "content": "挑一个更像你的头像",
+                      "fontFamily": "Noto Serif SC",
+                      "fontSize": 20,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "p3HxfM",
+                  "name": "Avatar Row 1",
+                  "width": "fill_container",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "FbxAo",
+                      "name": "Avatar Option 1-1",
+                      "width": "fill_container",
+                      "fill": "#FFFAF6",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": [
+                        10,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "liPCo",
+                          "name": "Avatar Shell 1-1",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "#E8D8C8",
+                          "cornerRadius": 16,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "tVZfJ",
+                              "name": "Avatar Letter 1-1",
+                              "fill": "#9F5C38",
+                              "content": "男",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 18,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "O90XJ",
+                          "name": "Avatar Label 1-1",
+                          "fill": "#151515",
+                          "content": "短发男生",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "uWInx",
+                      "name": "Avatar Option 1-2",
+                      "width": "fill_container",
+                      "fill": "#FFFAF6",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": [
+                        10,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "A2Bkr",
+                          "name": "Avatar Shell 1-2",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "#F3E8D9",
+                          "cornerRadius": 16,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "qngFS",
+                              "name": "Avatar Letter 1-2",
+                              "fill": "#8A5A2D",
+                              "content": "卷",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 18,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "o7FhlQ",
+                          "name": "Avatar Label 1-2",
+                          "fill": "#151515",
+                          "content": "卷发男生",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Apkm1",
+                      "name": "Avatar Option 1-3",
+                      "width": "fill_container",
+                      "fill": "#FFFAF6",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": [
+                        10,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "h2UNm4",
+                          "name": "Avatar Shell 1-3",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "#E1F3FE",
+                          "cornerRadius": 16,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "klzkd",
+                              "name": "Avatar Letter 1-3",
+                              "fill": "#1F6C9F",
+                              "content": "镜",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 18,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "pzTrd",
+                          "name": "Avatar Label 1-3",
+                          "fill": "#151515",
+                          "content": "眼镜男生",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "sjAj4",
+                      "name": "Avatar Option 1-4",
+                      "width": "fill_container",
+                      "fill": "#FFFAF6",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": [
+                        10,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "SSI8r",
+                          "name": "Avatar Shell 1-4",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "#EDF3EC",
+                          "cornerRadius": 16,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "h9ZG2",
+                              "name": "Avatar Letter 1-4",
+                              "fill": "#346538",
+                              "content": "寸",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 18,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "h0ErJ",
+                          "name": "Avatar Label 1-4",
+                          "fill": "#151515",
+                          "content": "寸头男生",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "fETVz",
+                  "name": "Avatar Row 2",
+                  "width": "fill_container",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "DG5xs",
+                      "name": "Avatar Option 2-1",
+                      "width": "fill_container",
+                      "fill": "#FFFAF6",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": [
+                        10,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "KiGOs",
+                          "name": "Avatar Shell 2-1",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "#F6DDE3",
+                          "cornerRadius": 16,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "cOttn",
+                              "name": "Avatar Letter 2-1",
+                              "fill": "#A64E66",
+                              "content": "波",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 18,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "VmQ6l",
+                          "name": "Avatar Label 2-1",
+                          "fill": "#151515",
+                          "content": "波波头女生",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "N7o8D",
+                      "name": "Avatar Option 2-2",
+                      "width": "fill_container",
+                      "fill": "#FFFAF6",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": [
+                        10,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Mi8xh",
+                          "name": "Avatar Shell 2-2",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "#FBE7CE",
+                          "cornerRadius": 16,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Cv04i",
+                              "name": "Avatar Letter 2-2",
+                              "fill": "#9A6200",
+                              "content": "马",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 18,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "K9nEo",
+                          "name": "Avatar Label 2-2",
+                          "fill": "#151515",
+                          "content": "高马尾女生",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Olciz",
+                      "name": "Avatar Option 2-3",
+                      "width": "fill_container",
+                      "fill": "#FFFAF6",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": [
+                        10,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "nXxyB",
+                          "name": "Avatar Shell 2-3",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "#F3E2D3",
+                          "cornerRadius": 16,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "sGlp6",
+                              "name": "Avatar Letter 2-3",
+                              "fill": "#9F5C38",
+                              "content": "卷",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 18,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "q5YcZO",
+                          "name": "Avatar Label 2-3",
+                          "fill": "#151515",
+                          "content": "长卷发女生",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "j93Gk",
+                      "name": "Avatar Option 2-4",
+                      "width": "fill_container",
+                      "fill": "#FFFAF6",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": [
+                        10,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "L7LRqq",
+                          "name": "Avatar Shell 2-4",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "#EFE6F8",
+                          "cornerRadius": 16,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Uaotj",
+                              "name": "Avatar Letter 2-4",
+                              "fill": "#7C5AA6",
+                              "content": "夹",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 18,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "comQZ",
+                          "name": "Avatar Label 2-4",
+                          "fill": "#151515",
+                          "content": "发夹女生",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "EK8UB",
+                  "name": "Avatar Row 3",
+                  "width": "fill_container",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "VPzVY",
+                      "name": "Avatar Option 3-1",
+                      "width": "fill_container",
+                      "fill": "#FFFAF6",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": [
+                        10,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "DImna",
+                          "name": "Avatar Shell 3-1",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "#FFF0D6",
+                          "cornerRadius": 16,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "uD9BP",
+                              "name": "Avatar Letter 3-1",
+                              "fill": "#B06A00",
+                              "content": "猫",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 18,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "DHv3z",
+                          "name": "Avatar Label 3-1",
+                          "fill": "#151515",
+                          "content": "橘猫",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "n0Lyg",
+                      "name": "Avatar Option 3-2",
+                      "width": "fill_container",
+                      "fill": "#FFFAF6",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": [
+                        10,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "dzFoD",
+                          "name": "Avatar Shell 3-2",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "#E7F2E3",
+                          "cornerRadius": 16,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "lKvm0",
+                              "name": "Avatar Letter 3-2",
+                              "fill": "#4D7B3E",
+                              "content": "狗",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 18,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "A3Goh5",
+                          "name": "Avatar Label 3-2",
+                          "fill": "#151515",
+                          "content": "小狗",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ILb1K",
+                      "name": "Avatar Option 3-3",
+                      "width": "fill_container",
+                      "fill": "#FFFAF6",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": [
+                        10,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Un7tV",
+                          "name": "Avatar Shell 3-3",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "#F8E4EF",
+                          "cornerRadius": 16,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "dDOK2",
+                              "name": "Avatar Letter 3-3",
+                              "fill": "#A0557C",
+                              "content": "兔",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 18,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "R8ALN",
+                          "name": "Avatar Label 3-3",
+                          "fill": "#151515",
+                          "content": "兔子",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "p7B3I",
+                      "name": "Avatar Option 3-4",
+                      "width": "fill_container",
+                      "fill": "#FFFAF6",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": [
+                        10,
+                        8
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "t0to3",
+                          "name": "Avatar Shell 3-4",
+                          "width": 52,
+                          "height": 52,
+                          "fill": "#ECEAE8",
+                          "cornerRadius": 16,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "TSOGq",
+                              "name": "Avatar Letter 3-4",
+                              "fill": "#4A4A4A",
+                              "content": "熊",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 18,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "c819g",
+                          "name": "Avatar Label 3-4",
+                          "fill": "#151515",
+                          "content": "熊猫",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "QYLAd",
+              "name": "Custom Avatar Card",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "QwkXD",
+                  "name": "Custom Head",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 3,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Z9Jk0m",
+                      "name": "Custom Label",
+                      "fill": "#787774",
+                      "content": "自定义头像",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 11,
+                      "fontWeight": "500",
+                      "letterSpacing": 0.5
+                    },
+                    {
+                      "type": "text",
+                      "id": "AF5OO",
+                      "name": "Custom Title",
+                      "fill": "#151515",
+                      "content": "也可以换成自己的照片",
+                      "fontFamily": "Noto Serif SC",
+                      "fontSize": 20,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "asOp5",
+                  "name": "Custom Body",
+                  "fill": "#2F3437",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "上传成功后会立即预览。想回到系统头像，也可以一键切回默认头像。",
+                  "lineHeight": 1.5,
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "k0Vrm",
+                  "name": "Upload Prompt",
+                  "width": "fill_container",
+                  "height": 44,
+                  "fill": "#FAF5EF",
+                  "cornerRadius": 14,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "AtmSO",
+                      "name": "Upload Prompt Text",
+                      "fill": "#151515",
+                      "content": "上传照片或图片",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "e1Rj7z",
+              "name": "Save Bar",
+              "width": "fill_container",
+              "fill": "$bg-card",
+              "cornerRadius": 16,
+              "padding": 14,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "dOHZK",
+                  "name": "Save Button",
+                  "width": "fill_container",
+                  "height": 50,
+                  "fill": "$accent-primary",
+                  "cornerRadius": 14,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "dmD0w",
+                      "name": "Save Button Text",
+                      "fill": "#FFFFFF",
+                      "content": "保存头像",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "friendsModalBoard",
+      "x": 6187,
+      "y": 0,
+      "name": "My Friends",
+      "clip": true,
+      "width": 390,
+      "height": 1156,
+      "fill": "$bg-primary",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "friendsStatusBar",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24,
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "friendsTimeText",
+              "name": "Time",
+              "fill": "$text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "friendsStatusRight",
+              "name": "Status Right",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "friendsSignalIcon",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "cell-signal-full",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "friendsWifiIcon",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi-high",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "friendsBatteryIcon",
+                  "name": "Battery",
+                  "width": 22,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "D84tHW",
+          "name": "Friends Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            10,
+            20,
+            28,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "i2epC4",
+              "name": "Top Nav Card",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 12,
+              "padding": 16,
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "K2c4I",
+                  "name": "Back Shell",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "#F5EFE7",
+                  "cornerRadius": 9999,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "duixg",
+                      "name": "Back Icon",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "caret-left",
+                      "library": "phosphor",
+                      "fill": "#151515"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "PEdHX",
+                  "name": "Title Stack",
+                  "layout": "vertical",
+                  "gap": 3,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ymYBA",
+                      "name": "Page Label",
+                      "fill": "#9F5C38",
+                      "content": "好友关系",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 11,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "iDAhX",
+                      "name": "Page Title",
+                      "fill": "#151515",
+                      "content": "我的好友",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Lzh0M",
+                  "name": "Add Shell",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "#F5EFE7",
+                  "cornerRadius": 9999,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "DYu2i",
+                      "name": "Add Icon",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "plus",
+                      "library": "phosphor",
+                      "fill": "#9F5C38"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "f1cZkj",
+              "name": "Friends List Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "G6Shdh",
+                  "name": "Section Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "ZLttn",
+                      "name": "Section Copy",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "b8fLI",
+                          "name": "Section Title",
+                          "fill": "#151515",
+                          "content": "好友列表",
+                          "fontFamily": "Noto Serif SC",
+                          "fontSize": 18,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "y8MwL",
+                          "name": "Section Note",
+                          "fill": "#787774",
+                          "content": "点击可查看对方菜单",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "M2hBhK",
+                  "name": "Friends List Card",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "layout": "vertical",
+                  "padding": 18,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "R6vbJ",
+                      "name": "阿梨 Row",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 14,
+                      "padding": [
+                        0,
+                        0,
+                        16,
+                        0
+                      ],
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "CJU6s",
+                          "name": "阿梨 Top",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "Qgefo",
+                              "name": "阿梨 Identity",
+                              "gap": 12,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "YnpvE",
+                                  "name": "阿梨 Avatar",
+                                  "width": 54,
+                                  "height": 54,
+                                  "fill": "#EDF3EC",
+                                  "cornerRadius": 16,
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "Q4BOVO",
+                                      "name": "阿梨 Avatar Text",
+                                      "fill": "#346538",
+                                      "content": "阿",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 18,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "bDdGw",
+                                  "name": "阿梨 Copy",
+                                  "width": 142,
+                                  "layout": "vertical",
+                                  "gap": 6,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "zEjYK",
+                                      "name": "阿梨 Name",
+                                      "fill": "#151515",
+                                      "content": "阿梨",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 15,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "wrTs1",
+                                      "name": "阿梨 Meta",
+                                      "fill": "#787774",
+                                      "content": "我是ali",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 12,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "k7Pxl",
+                      "name": "阿梨 Divider",
+                      "width": "fill_container",
+                      "height": 1,
+                      "fill": "#ECE5DC"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "W7ehqF",
+                      "name": "周周 Row",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 14,
+                      "padding": [
+                        16,
+                        0
+                      ],
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "jbp7z",
+                          "name": "周周 Top",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "J6yoH",
+                              "name": "周周 Identity",
+                              "gap": 12,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "owUcK",
+                                  "name": "周周 Avatar",
+                                  "width": 54,
+                                  "height": 54,
+                                  "fill": "#F9EBDD",
+                                  "cornerRadius": 16,
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "Yyq8I",
+                                      "name": "周周 Avatar Text",
+                                      "fill": "#9F5C38",
+                                      "content": "周",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 18,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "f43Jya",
+                                  "name": "周周 Copy",
+                                  "width": 142,
+                                  "layout": "vertical",
+                                  "gap": 6,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "rYDrx",
+                                      "name": "周周 Name",
+                                      "fill": "#151515",
+                                      "content": "周周",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 15,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "vO2cn",
+                                      "name": "周周 Meta",
+                                      "fill": "#787774",
+                                      "content": "共同收藏 5 道菜",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 12,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "qKsq1",
+                      "name": "周周 Divider",
+                      "width": "fill_container",
+                      "height": 1,
+                      "fill": "#ECE5DC"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "SbxI9",
+                      "name": "Mika Row",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 14,
+                      "padding": [
+                        16,
+                        0,
+                        0,
+                        0
+                      ],
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "cYts6",
+                          "name": "Mika Top",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "o3woMy",
+                              "name": "Mika Identity",
+                              "gap": 12,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "OSaRC",
+                                  "name": "Mika Avatar",
+                                  "width": 54,
+                                  "height": 54,
+                                  "fill": "#EEEAF7",
+                                  "cornerRadius": 16,
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "f5qKL",
+                                      "name": "Mika Avatar Text",
+                                      "fill": "#6C58A5",
+                                      "content": "M",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 18,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "YuVOl",
+                                  "name": "Mika Copy",
+                                  "width": 142,
+                                  "layout": "vertical",
+                                  "gap": 6,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "RUfDV",
+                                      "name": "Mika Name",
+                                      "fill": "#151515",
+                                      "content": "Mika",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 15,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "JKOa2",
+                                      "name": "Mika Meta",
+                                      "fill": "#787774",
+                                      "content": "一起吃过 3 次",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 12,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "P99mXZ",
+      "x": 6638.373812941696,
+      "y": 0,
+      "name": "My Friends Add Modal",
+      "clip": true,
+      "width": 390,
+      "height": 980,
+      "fill": "$bg-primary",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "b5o6G",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24,
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "U5etsr",
+              "name": "Time",
+              "fill": "$text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "NVPe4",
+              "name": "Status Right",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "qJcZr",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "cell-signal-full",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "XGQIx",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi-high",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "rlmsN",
+                  "name": "Battery",
+                  "width": 22,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "GLI7p",
+          "name": "Friends Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            10,
+            20,
+            24,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "GVfMO",
+              "name": "Top Nav Card",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 12,
+              "padding": 16,
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "zyIcy",
+                  "name": "Back Shell",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "#F5EFE7",
+                  "cornerRadius": 9999,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "XOkoE",
+                      "name": "Back Icon",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "caret-left",
+                      "library": "phosphor",
+                      "fill": "#151515"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "VLCdu",
+                  "name": "Title Stack",
+                  "layout": "vertical",
+                  "gap": 3,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "oxhvQ",
+                      "name": "Page Label",
+                      "fill": "#9F5C38",
+                      "content": "好友关系",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 11,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "r5mdO",
+                      "name": "Page Title",
+                      "fill": "#151515",
+                      "content": "我的好友",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Q27lM",
+                  "name": "Add Shell",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "#F5EFE7",
+                  "cornerRadius": 9999,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "jROAq",
+                      "name": "Add Icon",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "plus",
+                      "library": "phosphor",
+                      "fill": "#9F5C38"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "BX3KK",
+              "name": "Friends Summary",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 14,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "UCJxF",
+                  "name": "Summary Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "J1HE1v",
+                      "name": "Summary Copy",
+                      "width": 224,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "GQd0t",
+                          "name": "Summary Title",
+                          "fill": "#151515",
+                          "content": "一起吃饭的朋友们",
+                          "fontFamily": "Noto Serif SC",
+                          "fontSize": 20,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Gp57B",
+                          "name": "Summary Body",
+                          "fill": "#787774",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "好友之间可以互看好友可见菜单，也能继续邀请加入搭子圈。",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "B8Tbqc",
+                      "name": "Summary Badge",
+                      "fill": "#FAF5EF",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": [
+                        8,
+                        12
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Y8wBC",
+                          "name": "Summary Value",
+                          "fill": "#151515",
+                          "content": "18",
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": 24,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "j13ARk",
+                          "name": "Summary Label",
+                          "fill": "#787774",
+                          "content": "位好友",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "z9sDCO",
+                  "name": "Summary Stats",
+                  "width": "fill_container",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Tk6SG",
+                      "name": "Weekly Active Stat",
+                      "width": "fill_container",
+                      "fill": "#FBF8F4",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": [
+                        12,
+                        14
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "gGUSu",
+                          "name": "Weekly Active Value",
+                          "fill": "#151515",
+                          "content": "6 人",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Te0p2",
+                          "name": "Weekly Active Label",
+                          "fill": "#787774",
+                          "content": "本周常互动",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "k9hBe",
+                      "name": "Visible Menus Stat",
+                      "width": "fill_container",
+                      "fill": "#FBF8F4",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": [
+                        12,
+                        14
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "d91ER",
+                          "name": "Visible Menus Value",
+                          "fill": "#151515",
+                          "content": "12 份",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "LOhCT",
+                          "name": "Visible Menus Label",
+                          "fill": "#787774",
+                          "content": "可访问菜单",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "d7DwY6",
+              "name": "Friends List Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Z2UGT",
+                  "name": "Section Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "KsFSg",
+                      "name": "Section Copy",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "kVBSF",
+                          "name": "Section Title",
+                          "fill": "#151515",
+                          "content": "好友列表",
+                          "fontFamily": "Noto Serif SC",
+                          "fontSize": 18,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Vxeif",
+                          "name": "Section Note",
+                          "fill": "#787774",
+                          "content": "点击可查看对方菜单",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "OFHMF",
+                      "name": "Section Meta",
+                      "fill": "#9F5C38",
+                      "content": "最近添加",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 12,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "f9BQQb",
+                  "name": "Filter Row",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "JjMyc",
+                      "name": "Filter All",
+                      "fill": "#151515",
+                      "cornerRadius": 9999,
+                      "padding": [
+                        8,
+                        12
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "QDmMj",
+                          "name": "Filter All Text",
+                          "fill": "#FFFFFF",
+                          "content": "全部 18",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "q8dP0Y",
+                      "name": "Filter Active",
+                      "fill": "#F3EEE8",
+                      "cornerRadius": 9999,
+                      "padding": [
+                        8,
+                        12
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Y105L3",
+                          "name": "Filter Active Text",
+                          "fill": "#787774",
+                          "content": "常联系 6",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "gqr28",
+                      "name": "Filter New",
+                      "fill": "#F3EEE8",
+                      "cornerRadius": 9999,
+                      "padding": [
+                        8,
+                        12
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "kV55i",
+                          "name": "Filter New Text",
+                          "fill": "#787774",
+                          "content": "新朋友 3",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "fXps1",
+                  "name": "Friends List Card",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "layout": "vertical",
+                  "padding": 18,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Masm8",
+                      "name": "阿梨 Row",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 14,
+                      "padding": [
+                        0,
+                        0,
+                        16,
+                        0
+                      ],
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "WbLJ2",
+                          "name": "阿梨 Top",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "fx3J5",
+                              "name": "阿梨 Identity",
+                              "gap": 12,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "Z6eeHF",
+                                  "name": "阿梨 Avatar",
+                                  "width": 54,
+                                  "height": 54,
+                                  "fill": "#EDF3EC",
+                                  "cornerRadius": 16,
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "mNGse",
+                                      "name": "阿梨 Avatar Text",
+                                      "fill": "#346538",
+                                      "content": "阿",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 18,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "yNQmD",
+                                  "name": "阿梨 Copy",
+                                  "width": 142,
+                                  "layout": "vertical",
+                                  "gap": 6,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "ENz6i",
+                                      "name": "阿梨 Name",
+                                      "fill": "#151515",
+                                      "content": "阿梨",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 15,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "Pwohv",
+                                      "name": "阿梨 Meta",
+                                      "fill": "#787774",
+                                      "content": "好友可见 12 份菜单",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 12,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "rFS0H",
+                              "name": "阿梨 Tag",
+                              "layout": "vertical",
+                              "gap": 6,
+                              "alignItems": "end",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "VMORe",
+                                  "name": "阿梨 Status",
+                                  "fill": "#EDF3EC",
+                                  "cornerRadius": 9999,
+                                  "padding": [
+                                    6,
+                                    10
+                                  ],
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "QnzAU",
+                                      "name": "阿梨 Status Text",
+                                      "fill": "#346538",
+                                      "content": "在线",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 10,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "wkkOU",
+                                  "name": "阿梨 Time",
+                                  "fill": "#A49B90",
+                                  "content": "刚刚在线",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 10,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "H8Kwjy",
+                          "name": "阿梨 Footer",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "ob9ZJ",
+                              "name": "阿梨 Footer Hint",
+                              "fill": "#787774",
+                              "content": "可查看对方公开菜单与共享记录",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "PSyn2",
+                              "name": "阿梨 Action",
+                              "fill": "#F7F3EE",
+                              "cornerRadius": 9999,
+                              "padding": [
+                                8,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "ddAZf",
+                                  "name": "阿梨 Action Text",
+                                  "fill": "#9F5C38",
+                                  "content": "查看菜单",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 11,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "awJ6b",
+                      "name": "阿梨 Divider",
+                      "width": "fill_container",
+                      "height": 1,
+                      "fill": "#ECE5DC"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "sCVKA",
+                      "name": "周周 Row",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 14,
+                      "padding": [
+                        16,
+                        0
+                      ],
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "RPkR5",
+                          "name": "周周 Top",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "A0WMhA",
+                              "name": "周周 Identity",
+                              "gap": 12,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "qoVjh",
+                                  "name": "周周 Avatar",
+                                  "width": 54,
+                                  "height": 54,
+                                  "fill": "#F9EBDD",
+                                  "cornerRadius": 16,
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "IIQaB",
+                                      "name": "周周 Avatar Text",
+                                      "fill": "#9F5C38",
+                                      "content": "周",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 18,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "OyPvx",
+                                  "name": "周周 Copy",
+                                  "width": 142,
+                                  "layout": "vertical",
+                                  "gap": 6,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "HZ31S",
+                                      "name": "周周 Name",
+                                      "fill": "#151515",
+                                      "content": "周周",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 15,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "RfdLb",
+                                      "name": "周周 Meta",
+                                      "fill": "#787774",
+                                      "content": "共同收藏 5 道菜",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 12,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "KAjeU",
+                              "name": "周周 Tag",
+                              "layout": "vertical",
+                              "gap": 6,
+                              "alignItems": "end",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "YSHeV",
+                                  "name": "周周 Status",
+                                  "fill": "#FAF1E8",
+                                  "cornerRadius": 9999,
+                                  "padding": [
+                                    6,
+                                    10
+                                  ],
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "vHgHb",
+                                      "name": "周周 Status Text",
+                                      "fill": "#9F5C38",
+                                      "content": "新朋友",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 10,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "fZOEG",
+                                  "name": "周周 Time",
+                                  "fill": "#A49B90",
+                                  "content": "2 小时前互动",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 10,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "bef8s",
+                          "name": "周周 Footer",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "I2VgY",
+                              "name": "周周 Footer Hint",
+                              "fill": "#787774",
+                              "content": "可查看对方公开菜单与共享记录",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "dvFAA",
+                              "name": "周周 Action",
+                              "fill": "#F7F3EE",
+                              "cornerRadius": 9999,
+                              "padding": [
+                                8,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "TmaMa",
+                                  "name": "周周 Action Text",
+                                  "fill": "#9F5C38",
+                                  "content": "发消息",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 11,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "R9VD34",
+                      "name": "周周 Divider",
+                      "width": "fill_container",
+                      "height": 1,
+                      "fill": "#ECE5DC"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "li7HU",
+                      "name": "Mika Row",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 14,
+                      "padding": [
+                        16,
+                        0,
+                        0,
+                        0
+                      ],
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "o8O4R",
+                          "name": "Mika Top",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "MmUmh",
+                              "name": "Mika Identity",
+                              "gap": 12,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "ntNfi",
+                                  "name": "Mika Avatar",
+                                  "width": 54,
+                                  "height": 54,
+                                  "fill": "#EEEAF7",
+                                  "cornerRadius": 16,
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "VqqUn",
+                                      "name": "Mika Avatar Text",
+                                      "fill": "#6C58A5",
+                                      "content": "M",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 18,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "RU4X0",
+                                  "name": "Mika Copy",
+                                  "width": 142,
+                                  "layout": "vertical",
+                                  "gap": 6,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "Zs7NA",
+                                      "name": "Mika Name",
+                                      "fill": "#151515",
+                                      "content": "Mika",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 15,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "Ecy5N",
+                                      "name": "Mika Meta",
+                                      "fill": "#787774",
+                                      "content": "一起吃过 3 次",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 12,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "mjnKD",
+                              "name": "Mika Tag",
+                              "layout": "vertical",
+                              "gap": 6,
+                              "alignItems": "end",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "gpbyj",
+                                  "name": "Mika Status",
+                                  "fill": "#F1EDFA",
+                                  "cornerRadius": 9999,
+                                  "padding": [
+                                    6,
+                                    10
+                                  ],
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "ocgGo",
+                                      "name": "Mika Status Text",
+                                      "fill": "#6C58A5",
+                                      "content": "常联系",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 10,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "cxmsk",
+                                  "name": "Mika Time",
+                                  "fill": "#A49B90",
+                                  "content": "昨天共享了菜单",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 10,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "IYDsY",
+                          "name": "Mika Footer",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "D5owxM",
+                              "name": "Mika Footer Hint",
+                              "fill": "#787774",
+                              "content": "可查看对方公开菜单与共享记录",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "G2CfRo",
+                              "name": "Mika Action",
+                              "fill": "#F7F3EE",
+                              "cornerRadius": 9999,
+                              "padding": [
+                                8,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "HVNuZ",
+                                  "name": "Mika Action Text",
+                                  "fill": "#9F5C38",
+                                  "content": "查看动态",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 11,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "fuJPd",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 0,
+          "name": "Modal Overlay",
+          "width": 390,
+          "height": 980,
+          "fill": "#15151573",
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "mXlW3",
+              "x": 20,
+              "y": 208,
+              "name": "Add Friend Modal",
+              "width": 350,
+              "fill": "$bg-card",
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#0000001f",
+                "offset": {
+                  "x": 0,
+                  "y": 18
+                },
+                "blur": 40
+              },
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "EP63Y",
+                  "name": "Modal Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "jTphQ",
+                      "name": "Modal Title Stack",
+                      "width": 236,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "E7Rt8",
+                          "name": "Modal Eyebrow",
+                          "fill": "$accent-primary",
+                          "content": "好友关系",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "JebYZ",
+                          "name": "Modal Title",
+                          "fill": "$text-primary",
+                          "content": "添加好友",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 24,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "JTGre",
+                          "name": "Modal Subtitle",
+                          "fill": "$text-muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "输入对方账号即可发起好友申请，对方确认后会出现在彼此的好友列表里。",
+                          "lineHeight": 1.5,
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "muDNc",
+                      "name": "Close Shell",
+                      "width": 34,
+                      "height": 34,
+                      "fill": "#F5EFE7",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "E9mDb9",
+                          "name": "Close Icon",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "x",
+                          "library": "phosphor",
+                          "fill": "$text-muted"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "DWC0x",
+                  "name": "Hint Row",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Oh5sb",
+                      "name": "Hint One",
+                      "width": "fill_container",
+                      "fill": "#F7F3EE",
+                      "cornerRadius": 9999,
+                      "padding": [
+                        8,
+                        10
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "J0aOW",
+                          "name": "Hint One Text",
+                          "fill": "$text-muted",
+                          "content": "账号唯一且区分大小写",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "AmvbQ",
+                      "name": "Hint Two",
+                      "width": "fill_container",
+                      "fill": "#F7F3EE",
+                      "cornerRadius": 9999,
+                      "padding": [
+                        8,
+                        10
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "cmFAZ",
+                          "name": "Hint Two Text",
+                          "fill": "$text-muted",
+                          "content": "建议附一句简短介绍",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "M568j",
+                  "name": "Modal Form",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "eAOAa",
+                      "name": "对方账号 Field",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Q2eLCo",
+                          "name": "对方账号 Label Row",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "o00Fz",
+                              "name": "对方账号 Label",
+                              "fill": "$text-primary",
+                              "content": "对方账号",
+                              "fontFamily": "$font-body",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "RjVyt",
+                              "name": "对方账号 Meta",
+                              "fill": "$text-muted",
+                              "content": "必填",
+                              "fontFamily": "$font-body",
+                              "fontSize": 10,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "j6Rub0",
+                          "name": "对方账号 Input",
+                          "width": "fill_container",
+                          "height": 52,
+                          "fill": "#FBF8F4",
+                          "cornerRadius": 16,
+                          "stroke": "#EFE5DB",
+                          "strokeWidth": 1,
+                          "strokeAlignment": "inner",
+                          "layout": "vertical",
+                          "padding": [
+                            14,
+                            16
+                          ],
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "qRQRV",
+                              "name": "对方账号 Value",
+                              "fill": "#9B948B",
+                              "content": "例如：ali",
+                              "fontFamily": "$font-body",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "GETlt",
+                      "name": "申请留言 Field",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "FKjs1",
+                          "name": "申请留言 Label Row",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "B37Les",
+                              "name": "申请留言 Label",
+                              "fill": "$text-primary",
+                              "content": "申请留言",
+                              "fontFamily": "$font-body",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "DY2Mp",
+                              "name": "申请留言 Meta",
+                              "fill": "$accent-primary",
+                              "content": "16/60",
+                              "fontFamily": "$font-body",
+                              "fontSize": 10,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ib1xU",
+                          "name": "申请留言 Input",
+                          "width": "fill_container",
+                          "height": 98,
+                          "fill": "#FBF8F4",
+                          "cornerRadius": 16,
+                          "stroke": "#EFE5DB",
+                          "strokeWidth": 1,
+                          "strokeAlignment": "inner",
+                          "layout": "vertical",
+                          "padding": [
+                            14,
+                            16
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Iz7kU",
+                              "name": "申请留言 Value",
+                              "fill": "$text-body",
+                              "content": "一起分享美味吧",
+                              "fontFamily": "$font-body",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Z8K5m",
+                  "name": "Modal Divider",
+                  "width": "fill_container",
+                  "height": 1,
+                  "fill": "#ECE5DC"
+                },
+                {
+                  "type": "frame",
+                  "id": "poLi2",
+                  "name": "Modal Footer",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Cv3tL",
+                      "name": "Footer Hint",
+                      "fill": "$text-muted",
+                      "content": "发送后可在“好友申请”里查看状态。",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "mXTGi",
+                      "name": "Modal Actions",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "ZyViS",
+                          "name": "Cancel Action",
+                          "width": "fill_container",
+                          "height": 46,
+                          "fill": "#F3EEE8",
+                          "cornerRadius": 9999,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "HxfF6",
+                              "name": "Cancel Text",
+                              "fill": "$text-primary",
+                              "content": "取消",
+                              "fontFamily": "$font-body",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "G8rQ1",
+                          "name": "Submit Action",
+                          "width": "fill_container",
+                          "height": 46,
+                          "fill": "$accent-primary",
+                          "cornerRadius": 9999,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "dMidW",
+                              "name": "Submit Text",
+                              "fill": "#FFFFFF",
+                              "content": "发送申请",
+                              "fontFamily": "$font-body",
+                              "fontSize": 13,
+                              "fontWeight": "600"
                             }
                           ]
                         }

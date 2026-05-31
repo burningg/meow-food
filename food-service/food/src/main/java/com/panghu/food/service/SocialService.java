@@ -7,6 +7,8 @@ import java.util.List;
 public interface SocialService {
     ProfileResponse getProfile();
 
+    AuthUserResponse updateProfile(ProfileUpdateRequest request);
+
     AuthUserResponse updateDefaultVisibility(ProfileVisibilityUpdateRequest request);
 
     List<FriendItemResponse> getFriends();

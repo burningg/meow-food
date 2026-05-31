@@ -3,13 +3,19 @@
     <section class="hero-card" data-motion="hero-card">
       <div class="hero-top">
         <div class="user-row">
-          <img class="avatar" :src="profile?.user.avatar" :alt="profile?.user.nickname" />
+          <img v-if="displayAvatar" class="avatar" :src="displayAvatar" :alt="displayName" />
+          <div v-else class="avatar avatar-fallback" aria-hidden="true">{{ displayName.slice(0, 1) }}</div>
           <div>
-            <h1>{{ profile?.user.nickname }}的美味空间</h1>
-            <p>{{ profile?.user.bio }}</p>
+            <h1 class="hero-title">
+              <span class="hero-title-name">{{ displayName }}</span>
+              <span class="hero-title-suffix">的美味空间</span>
+            </h1>
+            <p>{{ displayBio }}</p>
           </div>
         </div>
-        <button class="ghost-circle" type="button" @click="logout">⇥</button>
+        <div class="hero-actions">
+          <button class="ghost-circle" type="button" @click="openEditProfilePage">✎</button>
+        </div>
       </div>
 
       <div class="stats-row">
@@ -52,12 +58,16 @@
       </article>
     </section>
 
+    <section class="section logout-section" data-motion="section">
+      <button class="primary-button logout-button" type="button" @click="logout">退出登录</button>
+    </section>
+
     <AppTabBar active="profile" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { Message } from '@arco-design/web-vue'
 import AppTabBar from '@/components/AppTabBar.vue'
@@ -74,6 +84,10 @@ const profile = ref<ProfileResponse | null>(null)
 const pageRef = ref<HTMLElement | null>(null)
 let cleanupMotion: VoidFunction | undefined
 let cleanupProfileRows: VoidFunction | undefined
+
+const displayName = computed(() => profile.value?.user.nickname || authStore.user?.nickname || '胖虎')
+const displayBio = computed(() => profile.value?.user.bio || '菜单、好友和搭子圈都在这里慢慢展开。')
+const displayAvatar = computed(() => profile.value?.user.avatar || authStore.user?.avatar || '')
 
 const visibilityOptions: Array<{ value: Exclude<MenuVisibility, 'inherit'>; label: string; desc: string }> = [
   { value: 'friends', label: '好友可见', desc: '你的菜单会同步给好友和已加入的搭子圈。' },
@@ -107,6 +121,10 @@ function openFriendsPage() {
   router.push({ name: 'friends' })
 }
 
+function openEditProfilePage() {
+  router.push({ name: 'edit-profile' })
+}
+
 function logout() {
   authStore.logout()
   router.replace({ name: 'login' })
@@ -124,7 +142,7 @@ function setupMotion() {
 
     return attachPressAnimations(
       pageRef.value!,
-      '.ghost-circle, .stat-button, .visibility-row',
+      '.ghost-circle, .stat-button, .visibility-row, .logout-button',
       { activeScale: 0.97 },
     )
   })
@@ -172,7 +190,8 @@ watch(profile, () => {
 .hero-top,
 .user-row,
 .stats-row,
-.section-head {
+.section-head,
+.hero-actions {
   display: flex;
 }
 
@@ -186,11 +205,24 @@ watch(profile, () => {
   align-items: center;
 }
 
+.hero-actions {
+  gap: 8px;
+  align-items: flex-start;
+}
+
 .avatar {
   width: 58px;
   height: 58px;
   border-radius: 16px;
   object-fit: cover;
+}
+
+.avatar-fallback {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #7a9e7e, #a7be8f);
+  color: #fff;
+  font-weight: 700;
 }
 
 h1,
@@ -204,6 +236,24 @@ h1 {
   font-family: var(--font-serif);
   font-weight: 600;
   line-height: 1.25;
+}
+
+.hero-title {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  column-gap: 2px;
+  row-gap: 0;
+}
+
+.hero-title-name {
+  font-size: var(--title-lg);
+  color: var(--text-main);
+}
+
+.hero-title-suffix {
+  font-size: var(--text-md);
+  color: var(--text-muted);
 }
 
 .hero-top p,
@@ -333,5 +383,18 @@ small,
 
 .visibility-row.active i {
   background: var(--text-main);
+}
+
+.logout-section {
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.logout-button {
+  width: 100%;
+  background: #fff;
+  color: #b14d3a;
+  box-shadow: 0 12px 26px rgba(27, 58, 45, 0.06);
 }
 </style>
