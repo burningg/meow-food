@@ -4076,176 +4076,6 @@
                   "width": "fill_container",
                   "height": 1,
                   "fill": "#ECE5DC"
-                },
-                {
-                  "type": "frame",
-                  "id": "f4n",
-                  "name": "Access Rules",
-                  "width": "fill_container",
-                  "layout": "vertical",
-                  "gap": 12,
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "f4a",
-                      "name": "Rule Open",
-                      "width": "fill_container",
-                      "justifyContent": "space_between",
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "f48",
-                          "name": "Rule Open Copy",
-                          "layout": "vertical",
-                          "gap": 3,
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "t46",
-                              "name": "Rule Open Name",
-                              "fill": "$text-primary",
-                              "content": "公开菜单",
-                              "fontFamily": "$font-body",
-                              "fontSize": 14,
-                              "fontWeight": "600"
-                            },
-                            {
-                              "type": "text",
-                              "id": "t47",
-                              "name": "Rule Open Desc",
-                              "fill": "$text-muted",
-                              "content": "任何人都能进入。",
-                              "fontFamily": "$font-body",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "id": "t49",
-                          "name": "Rule Open Tag",
-                          "fill": "$accent-primary",
-                          "content": "可访问",
-                          "fontFamily": "$font-body",
-                          "fontSize": 11,
-                          "fontWeight": "600"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "f4b",
-                      "name": "Access Rule Divider",
-                      "width": "fill_container",
-                      "height": 1,
-                      "fill": "#ECE5DC"
-                    },
-                    {
-                      "type": "frame",
-                      "id": "f4g",
-                      "name": "Rule Friend",
-                      "width": "fill_container",
-                      "justifyContent": "space_between",
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "f4e",
-                          "name": "Rule Friend Copy",
-                          "layout": "vertical",
-                          "gap": 3,
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "t4c",
-                              "name": "Rule Friend Name",
-                              "fill": "$text-primary",
-                              "content": "好友可见菜单",
-                              "fontFamily": "$font-body",
-                              "fontSize": 14,
-                              "fontWeight": "600"
-                            },
-                            {
-                              "type": "text",
-                              "id": "t4d",
-                              "name": "Rule Friend Desc",
-                              "fill": "$text-muted",
-                              "content": "你可以直接收藏与查看详情。",
-                              "fontFamily": "$font-body",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "id": "t4f",
-                          "name": "Rule Friend Tag",
-                          "fill": "#346538",
-                          "content": "已开放",
-                          "fontFamily": "$font-body",
-                          "fontSize": 11,
-                          "fontWeight": "600"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "f4h",
-                      "name": "Access Rule Divider 2",
-                      "width": "fill_container",
-                      "height": 1,
-                      "fill": "#ECE5DC"
-                    },
-                    {
-                      "type": "frame",
-                      "id": "f4m",
-                      "name": "Rule Private",
-                      "width": "fill_container",
-                      "justifyContent": "space_between",
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "f4k",
-                          "name": "Rule Private Copy",
-                          "layout": "vertical",
-                          "gap": 3,
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "t4i",
-                              "name": "Rule Private Name",
-                              "fill": "$text-primary",
-                              "content": "私密菜单",
-                              "fontFamily": "$font-body",
-                              "fontSize": 14,
-                              "fontWeight": "normal"
-                            },
-                            {
-                              "type": "text",
-                              "id": "t4j",
-                              "name": "Rule Private Desc",
-                              "fill": "$text-muted",
-                              "content": "仅阿梨本人可见。",
-                              "fontFamily": "$font-body",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "icon",
-                          "id": "i4l",
-                          "name": "Rule Private Lock",
-                          "width": 16,
-                          "height": 16,
-                          "icon": "lock-key",
-                          "library": "phosphor",
-                          "fill": "$text-muted"
-                        }
-                      ]
-                    }
-                  ]
                 }
               ]
             },
@@ -5163,74 +4993,6 @@
               "children": [
                 {
                   "type": "frame",
-                  "id": "f5RMw",
-                  "name": "Summary Head",
-                  "width": "fill_container",
-                  "justifyContent": "space_between",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "ZLodl",
-                      "name": "Summary Copy",
-                      "width": 230,
-                      "layout": "vertical",
-                      "gap": 6,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "mvwzB",
-                          "name": "Summary Title",
-                          "fill": "#151515",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "今天有 2 条新的好友申请",
-                          "fontFamily": "$font-heading",
-                          "fontSize": 20,
-                          "fontWeight": "600"
-                        },
-                        {
-                          "type": "text",
-                          "id": "uRc6v",
-                          "name": "Summary Desc",
-                          "fill": "#787774",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "集中处理好友请求，先看对方是谁、留言是什么，再决定接受或拒绝。",
-                          "lineHeight": 1.5,
-                          "fontFamily": "$font-body",
-                          "fontSize": 13,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "CsSwM",
-                      "name": "Summary Badge",
-                      "fill": "#EDF3EC",
-                      "cornerRadius": 9999,
-                      "padding": [
-                        8,
-                        10
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "Xnfdt",
-                          "name": "Summary Badge Text",
-                          "fill": "#346538",
-                          "content": "待处理",
-                          "fontFamily": "$font-body",
-                          "fontSize": 11,
-                          "fontWeight": "600"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
                   "id": "XFf8p",
                   "name": "Request Stats",
                   "width": "fill_container",
@@ -5263,39 +5025,6 @@
                           "name": "待处理 Label",
                           "fill": "#8B857D",
                           "content": "待处理",
-                          "fontFamily": "$font-body",
-                          "fontSize": 11,
-                          "fontWeight": "500"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "E7edg",
-                      "name": "已通过 Stat",
-                      "width": "fill_container",
-                      "fill": "#F7F3EE",
-                      "cornerRadius": 12,
-                      "layout": "vertical",
-                      "gap": 6,
-                      "padding": 14,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "KDDMr",
-                          "name": "已通过 Value",
-                          "fill": "#151515",
-                          "content": "5",
-                          "fontFamily": "$font-data",
-                          "fontSize": 22,
-                          "fontWeight": "600"
-                        },
-                        {
-                          "type": "text",
-                          "id": "hnLwm",
-                          "name": "已通过 Label",
-                          "fill": "#8B857D",
-                          "content": "已通过",
                           "fontFamily": "$font-body",
                           "fontSize": 11,
                           "fontWeight": "500"
@@ -5362,16 +5091,6 @@
                       "layout": "vertical",
                       "gap": 4,
                       "children": [
-                        {
-                          "type": "text",
-                          "id": "x1gfGl",
-                          "name": "Pending Eyebrow",
-                          "fill": "#9F5C38",
-                          "content": "incoming",
-                          "fontFamily": "$font-body",
-                          "fontSize": 11,
-                          "fontWeight": "600"
-                        },
                         {
                           "type": "text",
                           "id": "HQ6e5",
@@ -5807,16 +5526,6 @@
                       "layout": "vertical",
                       "gap": 4,
                       "children": [
-                        {
-                          "type": "text",
-                          "id": "rlwQo",
-                          "name": "Outgoing Eyebrow",
-                          "fill": "#9F5C38",
-                          "content": "outgoing",
-                          "fontFamily": "$font-body",
-                          "fontSize": 11,
-                          "fontWeight": "600"
-                        },
                         {
                           "type": "text",
                           "id": "HDyMY",
@@ -8162,7 +7871,7 @@
       "name": "My Friends",
       "clip": true,
       "width": 390,
-      "height": 1156,
+      "height": 1260,
       "fill": "$bg-primary",
       "layout": "vertical",
       "children": [
@@ -8330,6 +8039,154 @@
                       "icon": "plus",
                       "library": "phosphor",
                       "fill": "#9F5C38"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "g9GR5",
+              "name": "Friend Requests Entry",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 12,
+              "padding": [
+                14,
+                16
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "e7u4em",
+                  "name": "Request Entry Copy",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Psi90",
+                      "x": 0,
+                      "y": 0,
+                      "name": "Request Entry Label",
+                      "enabled": false,
+                      "fill": "#9F5C38",
+                      "content": "好友关系",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 11,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "dkpH6",
+                      "name": "Request Entry Title",
+                      "fill": "#151515",
+                      "content": "好友申请",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ZxyNy",
+                      "name": "Request Entry Desc",
+                      "fill": "#8B857D",
+                      "content": "待处理 2 · 我发出的 1",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 12,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "T0SYB",
+                  "name": "Request Entry Right",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "L4UBK",
+                      "x": 0,
+                      "y": 0,
+                      "name": "Request Entry Stats",
+                      "enabled": false,
+                      "layout": "vertical",
+                      "gap": 8,
+                      "alignItems": "end",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "UWssz",
+                          "name": "Pending Badge",
+                          "fill": "#EDF5EE",
+                          "cornerRadius": 999,
+                          "padding": [
+                            7,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Wb6w0",
+                              "name": "Pending Badge Text",
+                              "fill": "#346538",
+                              "content": "2 待处理",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "k4HL8",
+                          "name": "Outgoing Badge",
+                          "fill": "#F5EDE7",
+                          "cornerRadius": 999,
+                          "padding": [
+                            7,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "csDDv",
+                              "name": "Outgoing Badge Text",
+                              "fill": "#9F5C38",
+                              "content": "1 我发出的",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "J0Eh3",
+                      "name": "Request Entry Arrow Shell",
+                      "width": 20,
+                      "height": 20,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "OSskU",
+                          "name": "Request Entry Arrow",
+                          "width": 12,
+                          "height": 12,
+                          "icon": "caret-right",
+                          "library": "phosphor",
+                          "fill": "#B3ACA3"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -9822,63 +9679,6 @@
                           "icon": "x",
                           "library": "phosphor",
                           "fill": "$text-muted"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "DWC0x",
-                  "name": "Hint Row",
-                  "width": "fill_container",
-                  "gap": 8,
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "Oh5sb",
-                      "name": "Hint One",
-                      "width": "fill_container",
-                      "fill": "#F7F3EE",
-                      "cornerRadius": 9999,
-                      "padding": [
-                        8,
-                        10
-                      ],
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "J0aOW",
-                          "name": "Hint One Text",
-                          "fill": "$text-muted",
-                          "content": "账号唯一且区分大小写",
-                          "fontFamily": "$font-body",
-                          "fontSize": 10,
-                          "fontWeight": "500"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "AmvbQ",
-                      "name": "Hint Two",
-                      "width": "fill_container",
-                      "fill": "#F7F3EE",
-                      "cornerRadius": 9999,
-                      "padding": [
-                        8,
-                        10
-                      ],
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "cmFAZ",
-                          "name": "Hint Two Text",
-                          "fill": "$text-muted",
-                          "content": "建议附一句简短介绍",
-                          "fontFamily": "$font-body",
-                          "fontSize": 10,
-                          "fontWeight": "500"
                         }
                       ]
                     }

@@ -14,15 +14,7 @@
       </div>
     </section>
 
-    <section class="rules-card">
-      <div v-for="rule in access?.accessRules || []" :key="rule.label" class="rule-row">
-        <div>
-          <strong>{{ rule.label }}</strong>
-          <p>{{ rule.description }}</p>
-        </div>
-        <span>{{ rule.state }}</span>
-      </div>
-    </section>
+   
 
     <section class="menus">
       <div class="section-head">

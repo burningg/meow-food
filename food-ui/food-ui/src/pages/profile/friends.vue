@@ -1,209 +1,118 @@
 <template>
   <div class="page-shell friends-page">
-    <template v-if="selectionMode">
-      <header class="top-nav">
-        <button class="icon-button" type="button" @click="router.back()">‹</button>
-        <div class="title-block">
-          <small>圈子邀请</small>
-          <h1>邀请好友加入搭子圈</h1>
-        </div>
-        <div class="top-actions">
-          <button class="icon-button" type="button" @click="loadCircleInviteData">↻</button>
-        </div>
-      </header>
-
-      <section class="summary-card">
-        <div>
-          <strong>{{ friends.length }}</strong>
-          <span>位好友</span>
-        </div>
-        <div>
-          <strong>{{ circleSummaryLabel }}</strong>
-          <span>当前搭子圈</span>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-head">
-          <div>
-            <small>成员选择</small>
-            <h2>从好友中挑选要加入的人</h2>
-          </div>
-          <span class="section-note">只能邀请已是好友的人</span>
-        </div>
-
-        <article
-          v-for="friend in friends"
-          :key="friend.id"
-          :class="['friend-row', { disabled: currentMemberIds.has(friend.id) }]"
-        >
-          <button class="friend-main" type="button" @click="toggleSelect(friend)">
-            <img class="avatar" :src="friend.avatar" :alt="friend.nickname" />
-            <div class="copy">
-              <div class="title-line">
-                <strong>{{ friend.nickname }}</strong>
-                <span v-if="currentMemberIds.has(friend.id)" class="state-chip muted">已在当前圈子</span>
-                <span v-else class="state-chip">可邀请</span>
-              </div>
-              <p>@{{ friend.account }} · {{ friend.bio || '一起分享菜单的好友' }}</p>
-              <div class="meta-line">
-                <span>可访问 {{ friend.visibleMenuCount }} 份菜单</span>
-                <span>共享 {{ friend.sharedMenuCount }} 份菜单</span>
-              </div>
-            </div>
-          </button>
-
-          <button
-            class="select-button"
-            type="button"
-            :disabled="currentMemberIds.has(friend.id) || submitting"
-            @click="toggleSelect(friend)"
-          >
-            {{ selectedFriendId === friend.id ? '已选中' : currentMemberIds.has(friend.id) ? '不可选' : '选择' }}
-          </button>
-        </article>
-
-        <article v-if="!friends.length" class="empty-card">
-          <strong>你还没有可邀请的好友</strong>
-          <p>先去添加好友，再把他们邀请进搭子圈。</p>
-        </article>
-      </section>
-
-      <div class="bottom-bar">
-        <div>
-          <strong>{{ selectedFriendName || '请选择一位好友' }}</strong>
-          <p>{{ selectedFriendName ? '确认后会直接加入当前搭子圈。' : '从好友列表里选择一位成员加入。' }}</p>
-        </div>
-        <button class="primary-button invite-button" type="button" :disabled="!selectedFriendId || submitting" @click="submitInvite">
-          {{ submitting ? '邀请中...' : '确认邀请' }}
-        </button>
-      </div>
-    </template>
-
-    <template v-else>
-      <header class="top-nav">
-        <button class="icon-button" type="button" @click="router.back()">‹</button>
-        <div class="title-block">
+    <div class="friends-content">
+      <section class="friends-top-card">
+        <button class="nav-shell" type="button" @click="router.back()">‹</button>
+        <div class="friends-title-stack">
           <small>好友关系</small>
           <h1>我的好友</h1>
         </div>
-        <div class="top-actions">
-          <button class="icon-button" type="button" @click="openAddFriendModal">＋</button>
-          <button class="icon-button" type="button" @click="loadFriendsPageData">↻</button>
-        </div>
-      </header>
-
-      <section class="summary-card">
-        <div>
-          <strong>{{ friends.length }}</strong>
-          <span>位好友</span>
-        </div>
+        <button class="nav-shell nav-shell-add" type="button" @click="openAddFriendModal">＋</button>
       </section>
 
-      <section class="section">
-        <div class="section-head">
+      <button class="friends-request-entry" type="button" @click="openFriendRequests">
+        <div class="friends-request-copy">
+          <strong>好友申请</strong>
+          <p>待处理 {{ pendingRequestCount }} · 我发出的 {{ outgoingRequestCount }}</p>
+        </div>
+        <span class="friends-request-arrow">›</span>
+      </button>
+
+      <section class="friends-list-section">
+        <div class="friends-list-head">
           <div>
-            <h2>一起吃饭的朋友们</h2>
+            <h3>好友列表</h3>
+            <p>点击可查看对方菜单</p>
           </div>
-          <span class="section-note">点击可查看对方菜单</span>
         </div>
 
-        <article
-          v-for="friend in friends"
-          :key="friend.id"
-          class="friend-row"
-        >
-          <button class="friend-main" type="button" @click="openFriend(friend.id)">
-            <img class="avatar" :src="friend.avatar" :alt="friend.nickname" />
-            <div class="copy">
-              <div class="title-line">
+        <div class="friends-simple-card">
+          <article v-for="(friend, index) in friends" :key="friend.id" class="simple-friend-row">
+            <button class="simple-friend-main" type="button" @click="openFriend(friend.id)">
+              <div :class="['friend-avatar-box', avatarToneClass(index)]">
+                <span>{{ avatarInitial(friend.nickname) }}</span>
+              </div>
+              <div class="simple-friend-copy">
                 <strong>{{ friend.nickname }}</strong>
+                <p>{{ simpleFriendMeta(friend, index) }}</p>
               </div>
-              <p>@{{ friend.account }} · {{ friend.bio || '一起分享菜单的好友' }}</p>
-              <div class="meta-line">
-                <span>可访问 {{ friend.visibleMenuCount }} 份菜单</span>
-                <span>共享 {{ friend.sharedMenuCount }} 份菜单</span>
-              </div>
-            </div>
-          </button>
+            </button>
+          </article>
 
-          <button class="ghost-link" type="button" @click="openFriend(friend.id)">查看菜单</button>
-        </article>
-
-        <article v-if="!friends.length" class="empty-card">
-          <strong>还没有好友</strong>
-        </article>
+          <article v-if="!friends.length" class="friends-empty-card">
+            <strong>还没有好友</strong>
+            <p>先发送一条好友申请，再一起分享菜单。</p>
+          </article>
+        </div>
       </section>
-    </template>
+    </div>
 
-    <a-modal
-      v-model:visible="addFriendVisible"
-      modal-class="add-friend-modal"
-      :footer="false"
-      :mask-closable="!addFriendSubmitting"
-      :esc-to-close="!addFriendSubmitting"
-      @cancel="resetAddFriendForm"
+    <div
+      v-if="addFriendVisible"
+      class="friends-modal-overlay"
+      @click.self="closeAddFriendModal"
     >
-      <template #title>
-        <div class="modal-title-block">
-          <small>好友关系</small>
-          <strong>添加好友</strong>
-        </div>
-      </template>
-
-      <div class="modal-copy">
-        <div class="modal-copy-hero">
-          <div>
-            <strong>输入账号发起申请</strong>
-            <p>对方确认后，你们会出现在彼此的好友列表里，还能互相查看好友可见菜单。</p>
+      <section class="friends-modal-card">
+        <div class="friends-modal-head">
+          <div class="friends-modal-title">
+            <small>好友关系</small>
+            <h2>添加好友</h2>
+            <p>输入对方账号即可发起好友申请，对方确认后会出现在彼此的好友列表里。</p>
           </div>
-          <span class="modal-copy-badge">双向建立关系</span>
+          <button class="modal-close-shell" type="button" :disabled="addFriendSubmitting" @click="closeAddFriendModal">×</button>
         </div>
 
-        <div class="modal-hints">
-          <span>账号需唯一且区分大小写</span>
-          <span>建议附上一句简短介绍</span>
+        <div class="friends-modal-form">
+          <label class="modal-field">
+            <div class="modal-label-row">
+              <span>对方账号</span>
+              <small>必填</small>
+            </div>
+            <input
+              v-model="friendAccount"
+              class="modal-input"
+              type="text"
+              placeholder="例如：ali"
+              maxlength="32"
+              :disabled="addFriendSubmitting"
+            />
+          </label>
+
+          <label class="modal-field">
+            <div class="modal-label-row">
+              <span>申请留言</span>
+              <small class="accent">{{ friendMessage.length }}/60</small>
+            </div>
+            <textarea
+              v-model="friendMessage"
+              class="modal-textarea"
+              placeholder="一起分享美味吧"
+              maxlength="60"
+              :disabled="addFriendSubmitting"
+            ></textarea>
+          </label>
         </div>
-      </div>
 
-      <div class="modal-form">
-        <label class="modal-field">
-          <span class="modal-label">对方账号</span>
-          <a-input
-            v-model="friendAccount"
-            placeholder="例如：ali"
-            allow-clear
-            :max-length="32"
-          />
-        </label>
+        <div class="friends-modal-divider"></div>
 
-        <label class="modal-field">
-          <div class="modal-label-row">
-            <span class="modal-label">申请留言</span>
-            <small>{{ friendMessage.length }}/60</small>
+        <div class="friends-modal-footer">
+          <p>发送后可在“好友申请”里查看状态。</p>
+          <div class="friends-modal-actions">
+            <button class="modal-action ghost" type="button" :disabled="addFriendSubmitting" @click="closeAddFriendModal">
+              取消
+            </button>
+            <button
+              class="modal-action primary"
+              type="button"
+              :disabled="!friendAccount.trim() || addFriendSubmitting"
+              @click="submitAddFriend"
+            >
+              {{ addFriendSubmitting ? '发送中...' : '发送申请' }}
+            </button>
           </div>
-          <a-textarea
-            v-model="friendMessage"
-            placeholder="一起分享美味吧"
-            :max-length="60"
-            allow-clear
-            :auto-size="{ minRows: 4, maxRows: 5 }"
-          />
-        </label>
-      </div>
-
-      <div class="modal-footer">
-        <p>发送后可在“好友申请”里查看状态。</p>
-        <div class="modal-actions">
-          <button class="modal-action ghost" type="button" :disabled="addFriendSubmitting" @click="addFriendVisible = false">
-            取消
-          </button>
-          <button class="modal-action primary" type="button" :disabled="!friendAccount.trim() || addFriendSubmitting" @click="submitAddFriend">
-            {{ addFriendSubmitting ? '发送中...' : '发送申请' }}
-          </button>
         </div>
-      </div>
-    </a-modal>
+      </section>
+    </div>
   </div>
 </template>
 
@@ -211,61 +120,59 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Message } from '@arco-design/web-vue'
-import { SocialService, type BuddyCircleDetail, type FriendItem } from '@/services/social-service'
+import { SocialService, type FriendItem, type FriendRequestItem } from '@/services/social-service'
 
 const route = useRoute()
 const router = useRouter()
 const socialService = new SocialService()
 
 const friends = ref<FriendItem[]>([])
-const circleDetail = ref<BuddyCircleDetail | null>(null)
-const selectedFriendId = ref<string | null>(null)
-const submitting = ref(false)
+const incomingRequests = ref<FriendRequestItem[]>([])
+const outgoingRequests = ref<FriendRequestItem[]>([])
 const addFriendVisible = ref(false)
 const addFriendSubmitting = ref(false)
 const friendAccount = ref('')
 const friendMessage = ref('一起分享美味吧')
 
-const selectionMode = computed(() => typeof route.query.circleId === 'string' && route.query.circleId.length > 0)
-const circleId = computed(() => (typeof route.query.circleId === 'string' ? route.query.circleId : ''))
-const circleSummaryLabel = computed(() => {
-  return typeof route.query.circleName === 'string' && route.query.circleName ? route.query.circleName : '当前圈子'
-})
-const currentMemberIds = computed(() => new Set((circleDetail.value?.members || []).map((member) => member.id)))
-const selectedFriendName = computed(() => friends.value.find((friend) => friend.id === selectedFriendId.value)?.nickname || '')
+const avatarTones = [
+  { box: 'tone-sage' },
+  { box: 'tone-apricot' },
+  { box: 'tone-lavender' },
+]
+
+const pendingRequestCount = computed(() => incomingRequests.value.filter((item) => item.status === 'pending').length)
+const outgoingRequestCount = computed(() => outgoingRequests.value.length)
 
 onMounted(() => {
-  if (selectionMode.value) {
-    loadCircleInviteData()
-    return
-  }
   loadFriendsPageData()
 })
+
 onMounted(handleInitialAction)
 
 async function loadFriendsPageData() {
-  try {
-    const { data } = await socialService.getFriends()
-    friends.value = data
-  } catch (error: any) {
+  const [friendsResult, requestsResult] = await Promise.allSettled([
+    socialService.getFriends(),
+    socialService.getFriendRequests(),
+  ])
+
+  if (friendsResult.status === 'fulfilled') {
+    friends.value = friendsResult.value.data
+  } else {
+    const error: any = friendsResult.reason
     Message.error(error?.response?.data?.message || '加载好友列表失败')
   }
-}
 
-async function loadCircleInviteData() {
-  if (!circleId.value) return
-  try {
-    const { data } = await socialService.getFriends()
-    friends.value = data
-    const { data: detailData } = await socialService.getCircleDetail(circleId.value)
-    circleDetail.value = detailData
-  } catch (error: any) {
-    Message.error(error?.response?.data?.message || '加载好友列表失败')
+  if (requestsResult.status === 'fulfilled') {
+    incomingRequests.value = requestsResult.value.data.incoming
+    outgoingRequests.value = requestsResult.value.data.outgoing
+  } else {
+    incomingRequests.value = []
+    outgoingRequests.value = []
   }
 }
 
 function handleInitialAction() {
-  if (selectionMode.value || route.query.action !== 'add') return
+  if (route.query.action !== 'add') return
   openAddFriendModal()
   router.replace({ name: 'friends' })
 }
@@ -273,6 +180,12 @@ function handleInitialAction() {
 function openAddFriendModal() {
   resetAddFriendForm()
   addFriendVisible.value = true
+}
+
+function closeAddFriendModal() {
+  if (addFriendSubmitting.value) return
+  addFriendVisible.value = false
+  resetAddFriendForm()
 }
 
 function resetAddFriendForm() {
@@ -290,8 +203,7 @@ async function submitAddFriend() {
       message: friendMessage.value.trim() || '一起分享美味吧',
     })
     Message.success('好友申请已发送')
-    addFriendVisible.value = false
-    resetAddFriendForm()
+    closeAddFriendModal()
     await loadFriendsPageData()
     return true
   } catch (error: any) {
@@ -306,217 +218,307 @@ function openFriend(userId: string) {
   router.push({ name: 'user-menu', params: { id: userId } })
 }
 
-function toggleSelect(friend: FriendItem) {
-  if (!selectionMode.value || currentMemberIds.value.has(friend.id)) return
-  selectedFriendId.value = selectedFriendId.value === friend.id ? null : friend.id
+function openFriendRequests() {
+  router.push({ name: 'friend-requests' })
 }
 
-async function submitInvite() {
-  if (!selectionMode.value || !selectedFriendId.value || !circleId.value) return
-  submitting.value = true
-  try {
-    await socialService.inviteToCircle(circleId.value, { inviteeUserId: selectedFriendId.value })
-    Message.success('好友已加入搭子圈')
-    router.replace({ name: 'circle-detail', params: { id: circleId.value } })
-  } catch (error: any) {
-    Message.error(error?.response?.data?.message || '邀请失败')
-  } finally {
-    submitting.value = false
+function avatarInitial(name: string) {
+  const text = (name || '?').trim()
+  return text.slice(0, 1).toUpperCase()
+}
+
+function avatarToneClass(index: number) {
+  return avatarTones[index % avatarTones.length].box
+}
+
+function simpleFriendMeta(friend: FriendItem, index: number) {
+  if (friend.bio?.trim()) {
+    return friend.bio.trim()
   }
+  const fallback = [
+    `好友可见 ${friend.visibleMenuCount} 份菜单`,
+    `共同收藏 ${Math.max(friend.sharedMenuCount, 1)} 道菜`,
+    `一起吃过 ${Math.max(friend.sharedMenuCount, 1)} 次`,
+  ]
+  return fallback[index % fallback.length]
 }
 </script>
 
 <style scoped>
 .friends-page {
-  padding-bottom: 128px;
+  position: relative;
+  min-height: 100vh;
+  background: #f7f6f3;
 }
 
-.top-nav,
-.summary-card,
-.section-head,
-.friend-main,
-.title-line,
-.meta-line,
-.bottom-bar,
-.top-actions {
+.friends-top-card,
+.friends-list-head,
+.simple-friend-main,
+.friends-modal-head,
+.modal-label-row,
+.friends-modal-actions {
   display: flex;
 }
 
-.top-nav,
-.section-head,
-.title-line,
-.bottom-bar {
+.friends-top-card,
+.friends-list-head,
+.friends-modal-head,
+.modal-label-row {
   justify-content: space-between;
 }
 
-.top-nav,
-.summary-card,
-.friend-main,
-.bottom-bar,
-.top-actions {
+.friends-top-card,
+.simple-friend-main,
+.modal-label-row,
+.friends-modal-actions {
   align-items: center;
 }
 
-.top-nav {
-  margin-bottom: 18px;
+.friends-content {
+  padding: 20px 20px 24px;
 }
 
-.top-actions {
-  gap: 8px;
+.friends-top-card,
+.friends-request-entry,
+.friends-simple-card,
+.friends-modal-card {
+  background: #ffffff;
 }
 
-.icon-button {
+.friends-top-card {
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.nav-shell,
+.modal-close-shell {
   border: none;
-  background: #fff;
-  width: 38px;
-  height: 38px;
   border-radius: 999px;
-  box-shadow: 0 10px 24px rgba(27, 58, 45, 0.08);
+  background: #f5efe7;
+  color: #151515;
 }
 
-.title-block {
+.nav-shell {
+  width: 36px;
+  height: 36px;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.nav-shell-add {
+  color: #9f5c38;
+}
+
+.friends-title-stack {
   text-align: center;
 }
 
-.title-block small,
-.section-note,
-.copy p,
-.meta-line,
-.bottom-bar p,
-.empty-card p,
-.modal-copy p,
-.modal-copy span {
-  color: var(--text-muted);
-}
-
-.title-block h1,
-.section-head h2,
-.summary-card strong,
-.bottom-bar strong {
-  margin: 0;
-  color: var(--text-main);
-}
-
-.title-block h1,
-.section-head h2 {
-  font-family: var(--font-serif);
-  font-weight: 600;
-  line-height: 1.25;
-}
-
-.title-block h1 {
-  font-size: var(--title-sm);
-}
-
-.section-head h2 {
-  font-size: var(--title-lg);
-}
-
-.summary-card,
-.section,
-.bottom-bar {
-  background: rgba(255, 255, 255, 0.94);
-  border-radius: 24px;
-  box-shadow: 0 18px 36px rgba(27, 58, 45, 0.08);
-}
-
-.summary-card {
-  gap: 12px;
-  justify-content: space-between;
-  padding: 18px;
-  margin-bottom: 16px;
-}
-
-.summary-card div {
-  flex: 1;
-  min-width: 0;
-}
-
-.summary-card strong,
-.summary-card span {
+.friends-title-stack small,
+.friends-modal-title small {
   display: block;
+  margin-bottom: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #9f5c38;
 }
 
-.summary-card span {
-  margin-top: 6px;
-  font-size: var(--text-sm);
-  color: var(--text-muted);
+.friends-title-stack h1,
+.friends-modal-title h2,
+.friends-list-head h3 {
+  margin: 0;
+  color: #151515;
 }
 
-.section {
+.friends-title-stack h1 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.friends-request-entry {
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px 16px;
+  border: none;
+  border-radius: 12px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.friends-request-copy strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #151515;
+}
+
+.friends-request-copy p,
+.friends-list-head p,
+.simple-friend-copy p,
+.friends-empty-card p,
+.friends-modal-title p,
+.friends-modal-footer p {
+  margin: 0;
+  color: #787774;
+}
+
+.friends-request-copy p,
+.simple-friend-copy p {
+  font-size: 12px;
+}
+
+.friends-request-arrow {
+  font-size: 20px;
+  color: #b3aca3;
+}
+
+.friends-list-section {
+  margin-top: 26px;
+}
+
+.friends-list-head {
+  margin-bottom: 12px;
+}
+
+.friends-list-head h3 {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.friends-list-head p {
+  margin-top: 4px;
+  font-size: 11px;
+}
+
+.friends-simple-card {
+  border-radius: 12px;
   padding: 18px;
 }
 
-.modal-copy {
-  display: grid;
-  gap: 12px;
-  margin-bottom: 16px;
+.simple-friend-row + .simple-friend-row {
+  border-top: 1px solid #ece5dc;
 }
 
-.modal-copy p,
-.modal-copy span {
-  margin: 0;
+.simple-friend-main {
+  width: 100%;
+  gap: 18px;
+  padding: 0;
+  min-height: 112px;
+  border: none;
+  background: transparent;
+  text-align: left;
 }
 
-.modal-title-block {
-  display: grid;
-  gap: 2px;
+.simple-friend-row:first-child .simple-friend-main {
+  padding-top: 0;
 }
 
-.modal-title-block small,
-.modal-label-row small {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--accent);
-}
-
-.modal-title-block strong,
-.modal-copy-hero strong,
-.modal-label {
-  color: var(--text-main);
-}
-
-.modal-copy-hero {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 14px;
-  border-radius: 18px;
-  background: linear-gradient(135deg, #fbf7f1, #f3ebe2);
-}
-
-.modal-copy-hero strong {
+.simple-friend-copy strong {
   display: block;
   margin-bottom: 6px;
-  font-size: 1rem;
+  font-size: 15px;
+  font-weight: 600;
+  color: #151515;
 }
 
-.modal-copy-badge {
+.friend-avatar-box {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
   flex-shrink: 0;
-  align-self: flex-start;
-  border-radius: 999px;
-  padding: 6px 10px;
-  background: rgba(120, 84, 54, 0.08);
-  color: var(--accent);
-  font-size: 0.72rem;
-  font-weight: 700;
 }
 
-.modal-hints {
+.friend-avatar-box span {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.tone-sage {
+  background: #edf3ec;
+}
+
+.tone-sage span,
+.status-sage {
+  color: #346538;
+}
+
+.tone-apricot {
+  background: #f9ebdd;
+}
+
+.tone-apricot span,
+.status-apricot {
+  color: #9f5c38;
+}
+
+.tone-lavender {
+  background: #eeeaf7;
+}
+
+.tone-lavender span,
+.status-lavender {
+  color: #6c58a5;
+}
+
+.friends-empty-card {
+  padding: 8px 0;
+}
+
+.friends-empty-card strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #151515;
+}
+
+.friends-modal-overlay {
+  position: absolute;
+  inset: 0;
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 208px 20px 32px;
+  background: rgba(21, 21, 21, 0.45);
 }
 
-.modal-hints span {
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: #f7f3ee;
-  font-size: 0.75rem;
+.friends-modal-card {
+  width: 100%;
+  max-width: 350px;
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
 }
 
-.modal-form {
+.friends-modal-title {
+  max-width: 236px;
+}
+
+.friends-modal-title h2 {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.friends-modal-title p {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.modal-close-shell {
+  width: 34px;
+  height: 34px;
+  font-size: 24px;
+  line-height: 1;
+  color: #787774;
+}
+
+.friends-modal-form {
+  margin-top: 16px;
   display: grid;
   gap: 14px;
 }
@@ -526,223 +528,98 @@ async function submitInvite() {
   gap: 8px;
 }
 
-.modal-label-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+.modal-label-row span,
+.modal-label-row small {
+  font-size: 12px;
 }
 
-.modal-label {
-  font-size: 0.84rem;
-  font-weight: 700;
+.modal-label-row span {
+  font-weight: 600;
+  color: #151515;
 }
 
-.modal-footer {
-  display: grid;
-  gap: 12px;
-  margin-top: 18px;
+.modal-label-row small {
+  color: #787774;
 }
 
-.modal-footer p {
-  margin: 0;
-  font-size: 0.78rem;
-  color: var(--text-muted);
+.modal-label-row small.accent {
+  color: #9f5c38;
 }
 
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
+.modal-input,
+.modal-textarea {
+  width: 100%;
+  border: 1px solid #efe5db;
+  border-radius: 16px;
+  background: #fbf8f4;
+  color: #2f3437;
+  resize: none;
+}
+
+.modal-input::placeholder,
+.modal-textarea::placeholder {
+  color: #9b948b;
+}
+
+.modal-input {
+  height: 52px;
+  padding: 0 16px;
+}
+
+.modal-textarea {
+  min-height: 98px;
+  padding: 14px 16px;
+}
+
+.friends-modal-divider {
+  height: 1px;
+  margin: 16px 0 12px;
+  background: #ece5dc;
+}
+
+.friends-modal-footer p {
+  font-size: 11px;
+}
+
+.friends-modal-actions {
   gap: 10px;
+  margin-top: 12px;
 }
 
 .modal-action {
-  min-width: 100px;
+  flex: 1;
+  height: 46px;
   border: none;
   border-radius: 999px;
-  padding: 10px 18px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .modal-action.ghost {
   background: #f3eee8;
-  color: var(--text-main);
+  color: #151515;
 }
 
 .modal-action.primary {
-  background: linear-gradient(135deg, #7d9a73, #5c7d58);
-  color: #fff;
+  background: #9f5c38;
+  color: #ffffff;
 }
 
-.modal-action:disabled {
-  opacity: 0.6;
+.modal-action:disabled,
+.modal-close-shell:disabled,
+.nav-shell:disabled {
+  opacity: 0.55;
 }
 
-.section-head {
-  align-items: end;
-  gap: 12px;
-  margin-bottom: 14px;
-}
+@media (max-width: 420px) {
+  .friends-content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 
-.section-note,
-.copy p,
-.meta-line,
-.bottom-bar p,
-.empty-card p,
-.modal-copy p,
-.modal-copy span {
-  font-size: var(--text-sm);
-}
-
-.friend-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 0;
-  border-top: 1px solid var(--line);
-}
-
-.friend-row:first-of-type {
-  border-top: none;
-  padding-top: 0;
-}
-
-.friend-row.disabled {
-  opacity: 0.72;
-}
-
-.friend-main {
-  flex: 1;
-  gap: 12px;
-  min-width: 0;
-  border: none;
-  background: transparent;
-  padding: 0;
-  text-align: left;
-}
-
-.avatar {
-  width: 54px;
-  height: 54px;
-  border-radius: 16px;
-  object-fit: cover;
-  background: #f3eee8;
-}
-
-.copy {
-  min-width: 0;
-}
-
-.copy strong,
-.copy p,
-.meta-line span {
-  display: block;
-}
-
-.copy p,
-.meta-line {
-  margin: 6px 0 0;
-  font-size: 0.82rem;
-  line-height: 1.5;
-}
-
-.title-line {
-  align-items: center;
-  gap: 8px;
-}
-
-.meta-line {
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.state-chip,
-.select-button {
-  border-radius: 999px;
-  padding: 7px 12px;
-  font-size: 0.76rem;
-}
-
-.state-chip {
-  background: #edf5ee;
-  color: #346538;
-}
-
-.state-chip.muted {
-  background: #f3efe9;
-  color: #8b8b8b;
-}
-
-.select-button {
-  border: none;
-  background: #f5ede7;
-  color: var(--accent);
-  font-weight: 700;
-}
-
-.select-button:disabled {
-  color: #aaa29a;
-  background: #f3f0eb;
-}
-
-.empty-card {
-  border-radius: 18px;
-  background: #fbf8f4;
-  padding: 18px;
-}
-
-.empty-card strong,
-.empty-card p {
-  display: block;
-}
-
-.empty-card p {
-  margin: 8px 0 0;
-}
-
-.bottom-bar {
-  position: fixed;
-  left: 16px;
-  right: 16px;
-  bottom: 16px;
-  padding: 16px;
-  gap: 14px;
-}
-
-.invite-button {
-  min-width: 120px;
-  white-space: nowrap;
-}
-
-:deep(.add-friend-modal .arco-modal-header) {
-  margin-bottom: 0;
-  border-bottom: none;
-  padding-bottom: 8px;
-}
-
-:deep(.add-friend-modal .arco-modal-title) {
-  width: 100%;
-}
-
-:deep(.add-friend-modal .arco-modal-body) {
-  padding-top: 6px;
-}
-
-:deep(.add-friend-modal .arco-input-wrapper),
-:deep(.add-friend-modal .arco-textarea-wrapper) {
-  border-radius: 16px;
-  background: #fbf8f4;
-  border: 1px solid #efe5db;
-}
-
-:deep(.add-friend-modal .arco-input-wrapper:focus-within),
-:deep(.add-friend-modal .arco-textarea-wrapper:focus-within) {
-  border-color: rgba(92, 125, 88, 0.42);
-  background: #fff;
-}
-
-:deep(.add-friend-modal .arco-input),
-:deep(.add-friend-modal .arco-textarea) {
-  font-size: 0.92rem;
+  .friends-modal-overlay {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
 }
 </style>
