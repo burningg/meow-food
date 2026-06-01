@@ -3,7 +3,7 @@ import axios from 'axios'
 export const TOKEN_KEY = 'food-me-token'
 
 export const http = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: import.meta.env.PROD ? 'https://meow-service.youl.work' : 'http://localhost:8080',
 })
 
 http.interceptors.request.use((config) => {

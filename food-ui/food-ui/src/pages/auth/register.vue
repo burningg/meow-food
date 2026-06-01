@@ -1,15 +1,15 @@
 <template>
-  <div ref="pageRef" class="login-page">
-    
+  <div ref="pageRef" class="register-page">
+   
 
-    <section class="login-content">
+    <section class="register-content">
       <div class="auth-badge" data-motion="item">
         <span class="badge-dot"></span>
-        <span>meow小馆 · 欢迎回来</span>
+        <span>meow小馆 · 新用户注册</span>
       </div>
 
-      <section class="login-card" data-motion="card">
-        <h1 data-motion="item">登录你的美味空间</h1>
+      <section class="register-card" data-motion="card">
+        <h1 data-motion="item">账号密码注册</h1>
 
         <label class="field" data-motion="item">
           <span>账号</span>
@@ -18,20 +18,29 @@
 
         <label class="field" data-motion="item">
           <span>密码</span>
-          <input v-model.trim="form.password" type="password" placeholder="输入密码" />
+          <input v-model.trim="form.password" type="password" placeholder="输入 6-20 位密码" />
+        </label>
+
+        <label class="field" data-motion="item">
+          <span>确认密码</span>
+          <input
+            v-model.trim="form.confirmPassword"
+            type="password"
+            placeholder="再次输入密码"
+          />
         </label>
 
         <div class="submit-block" data-motion="item">
           <button class="primary-button submit" type="button" :disabled="loading" @click="submit">
-            {{ loading ? '登录中...' : '进入美味空间' }}
+            {{ loading ? '注册中...' : '注册并进入我的厨房' }}
           </button>
-          <p class="submit-hint">登录后可管理你的菜谱、收藏与好友动态。</p>
+          <p class="submit-hint">注册即表示你同意使用账号密码保存个人菜谱、收藏与好友关系。</p>
         </div>
       </section>
 
       <div class="footer-prompt" data-motion="item">
-        <span>还没有账号？</span>
-        <button type="button" class="footer-link" @click="goRegister">去注册</button>
+        <span>已经有账号？</span>
+        <button type="button" class="footer-link" @click="goLogin">去登录</button>
       </div>
     </section>
   </div>
@@ -39,13 +48,12 @@
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, reactive, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import { Message } from '@arco-design/web-vue'
+import { useRouter } from 'vue-router'
 import { animateStagger, attachPressAnimations, runScopedMotion } from '@/lib/motion'
 import { useAuthStore } from '@/stores/auth-store'
 
 const router = useRouter()
-const route = useRoute()
 const authStore = useAuthStore()
 const pageRef = ref<HTMLElement | null>(null)
 let cleanupMotion: VoidFunction | undefined
@@ -54,6 +62,7 @@ const loading = ref(false)
 const form = reactive({
   account: '',
   password: '',
+  confirmPassword: '',
 })
 
 onMounted(() => {
@@ -81,29 +90,32 @@ onUnmounted(() => {
 })
 
 async function submit() {
-  if (!form.account || !form.password) {
-    Message.warning('请输入账号和密码')
+  if (!form.account || !form.password || !form.confirmPassword) {
+    Message.warning('请填写完整注册信息')
+    return
+  }
+  if (form.password !== form.confirmPassword) {
+    Message.warning('两次输入的密码不一致')
     return
   }
   loading.value = true
   try {
-    await authStore.login(form.account, form.password)
-    const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : '/home'
-    router.replace(redirect)
+    await authStore.register(form.account, form.password)
+    router.replace('/home')
   } catch (error: any) {
-    Message.error(error?.response?.data?.message || '登录失败')
+    Message.error(error?.response?.data?.message || '注册失败')
   } finally {
     loading.value = false
   }
 }
 
-function goRegister() {
-  router.push({ name: 'register' })
+function goLogin() {
+  router.push({ name: 'login' })
 }
 </script>
 
 <style scoped>
-.login-page {
+.register-page {
   min-height: 100vh;
   position: relative;
   overflow: hidden;
@@ -114,7 +126,7 @@ function goRegister() {
     linear-gradient(180deg, #fbf4ec 0%, #f7f6f3 44%, #eef4eb 100%);
 }
 
-.login-page::after {
+.register-page::after {
   content: '';
   position: absolute;
   right: 78px;
@@ -126,7 +138,7 @@ function goRegister() {
 }
 
 .status-bar,
-.login-content {
+.register-content {
   width: min(390px, 100%);
   margin: 0 auto;
 }
@@ -149,7 +161,7 @@ function goRegister() {
   font-size: 12px;
 }
 
-.login-content {
+.register-content {
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -176,7 +188,7 @@ function goRegister() {
   background: currentColor;
 }
 
-.login-card {
+.register-card {
   background: rgba(255, 255, 255, 0.91);
   border-radius: 22px;
   padding: 22px 18px;
@@ -273,11 +285,11 @@ h1 {
 }
 
 @media (max-width: 420px) {
-  .login-page {
+  .register-page {
     padding-bottom: 20px;
   }
 
-  .login-content {
+  .register-content {
     padding-inline: 16px;
   }
 }

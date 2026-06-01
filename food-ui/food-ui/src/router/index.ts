@@ -11,14 +11,22 @@ const router = createRouter({
       meta: { transition: 'forward' },
     },
     {
+      path: '/register',
+      name: 'register',
+      component: () => import('../pages/auth/register.vue'),
+      meta: { transition: 'forward' },
+    },
+    {
       path: '/',
-      redirect: '/home',
+      name: 'loading',
+      component: () => import('../pages/loading/loading.vue'),
+      meta: { transition: 'tab' },
     },
     {
       path: '/home',
       name: 'home',
       component: () => import('../pages/home/home.vue'),
-      meta: { transition: 'tab' },
+      meta: { requiresAuth: true, transition: 'tab' },
     },
     {
       path: '/dish/add',
@@ -87,9 +95,21 @@ const router = createRouter({
       meta: { requiresAuth: true, transition: 'tab' },
     },
     {
+      path: '/circles/create',
+      name: 'create-circle',
+      component: () => import('../pages/circles/create-circle.vue'),
+      meta: { requiresAuth: true, transition: 'forward' },
+    },
+    {
       path: '/circles/:id',
       name: 'circle-detail',
       component: () => import('../pages/circles/circle-detail.vue'),
+      meta: { requiresAuth: true, transition: 'forward' },
+    },
+    {
+      path: '/circles/:id/members',
+      name: 'circle-members',
+      component: () => import('../pages/circles/circle-members.vue'),
       meta: { requiresAuth: true, transition: 'forward' },
     },
   ],
@@ -103,13 +123,16 @@ router.beforeEach(async (to) => {
     restored = true
     await authStore.restore()
   }
+  if (to.name === 'loading') {
+    return authStore.isLoggedIn ? { name: 'home' } : { name: 'login' }
+  }
   if (to.meta.requiresAuth && !authStore.isLoggedIn) {
     return {
       name: 'login',
       query: { redirect: to.fullPath },
     }
   }
-  if (to.name === 'login' && authStore.isLoggedIn) {
+  if ((to.name === 'login' || to.name === 'register') && authStore.isLoggedIn) {
     return { name: 'home' }
   }
   return true

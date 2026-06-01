@@ -6,6 +6,7 @@ import com.panghu.food.auth.JwtTokenUtil;
 import com.panghu.food.auth.PasswordUtils;
 import com.panghu.food.dto.AuthLoginRequest;
 import com.panghu.food.dto.AuthLoginResponse;
+import com.panghu.food.dto.AuthRegisterRequest;
 import com.panghu.food.dto.AuthUserResponse;
 import com.panghu.food.entity.UserAccount;
 import com.panghu.food.entity.UserProfileSettings;
@@ -31,11 +32,47 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthLoginResponse login(AuthLoginRequest request) {
+        if (request == null || isBlank(request.getAccount()) || isBlank(request.getPassword())) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "账号和密码不能为空");
+        }
         UserAccount user = userAccountMapper.selectOne(new QueryWrapper<UserAccount>()
-                .eq("account", request.getAccount()).last("LIMIT 1"));
+                .eq("account", request.getAccount().trim()).last("LIMIT 1"));
         if (user == null || !PasswordUtils.matches(request.getPassword(), user.getPasswordHash())) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "账号或密码错误");
         }
+        return issueSession(user);
+    }
+
+    @Override
+    public AuthLoginResponse register(AuthRegisterRequest request) {
+        if (request == null || isBlank(request.getAccount()) || isBlank(request.getPassword())) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "账号和密码不能为空");
+        }
+        String account = request.getAccount().trim();
+        String password = request.getPassword();
+        if (account.length() < 3 || account.length() > 20) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "账号长度需为 3-20 位");
+        }
+        if (password.length() < 6 || password.length() > 20) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "密码长度需为 6-20 位");
+        }
+        UserAccount exists = userAccountMapper.selectOne(new QueryWrapper<UserAccount>()
+                .eq("account", account).last("LIMIT 1"));
+        if (exists != null) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "账号已存在");
+        }
+
+        UserAccount user = new UserAccount();
+        user.setAccount(account);
+        user.setPasswordHash(PasswordUtils.hash(password));
+        user.setUsername(account);
+        user.setNickname(account);
+        userAccountMapper.insert(user);
+
+        return issueSession(user);
+    }
+
+    private AuthLoginResponse issueSession(UserAccount user) {
         AuthLoginResponse response = new AuthLoginResponse();
         response.setToken(jwtTokenUtil.createToken(user.getId()));
         response.setUser(toAuthUser(user, getSettings(user.getId())));
@@ -73,5 +110,9 @@ public class AuthServiceImpl implements AuthService {
         response.setBio(user.getBio());
         response.setDefaultMenuVisibility(VisibilityUtils.normalizeProfileVisibility(settings.getDefaultMenuVisibility()));
         return response;
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
     }
 }

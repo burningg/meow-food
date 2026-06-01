@@ -2,6 +2,7 @@ package com.panghu.food.web;
 
 import com.panghu.food.dto.AuthLoginRequest;
 import com.panghu.food.dto.AuthLoginResponse;
+import com.panghu.food.dto.AuthRegisterRequest;
 import com.panghu.food.dto.AuthUserResponse;
 import com.panghu.food.service.AuthService;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,11 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthLoginResponse> login(@RequestBody AuthLoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<AuthLoginResponse> register(@RequestBody AuthRegisterRequest request) {
+        return ResponseEntity.ok(authService.register(request));
     }
 
     @GetMapping("/me")

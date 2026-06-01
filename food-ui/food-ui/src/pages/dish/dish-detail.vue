@@ -6,7 +6,7 @@
       </div>
       <div class="hero-overlay">
         <button class="icon-button" type="button" aria-label="返回" @click="goBack">‹</button>
-        <button class="icon-button text-button" type="button" @click="goEdit">编辑</button>
+        <button v-if="isOwner" class="icon-button text-button" type="button" @click="goEdit">编辑</button>
       </div>
     </section>
 
@@ -78,13 +78,14 @@
 
       <div class="divider"></div>
 
-      <section class="owner-actions" data-motion="actions">
+      <section v-if="isOwner" class="owner-actions" data-motion="actions">
         <button class="ghost-button" type="button" @click="goEdit">继续完善</button>
         <button class="ghost-button danger-button" type="button" @click="confirmDelete">删除菜谱</button>
       </section>
     </section>
 
     <footer class="bottom-bar" data-motion="footer">
+      <button class="secondary-button" type="button" @click="shareDish">分享菜谱</button>
       <button class="primary-button" type="button" @click="startCooking">开始烹饪</button>
     </footer>
   </div>
@@ -93,18 +94,21 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Message } from '@arco-design/web-vue'
 import { showConfirmDialog } from 'vant'
 import { animateStagger, attachPressAnimations, runScopedMotion } from '@/lib/motion'
 import { FoodService, type DishDetail } from '@/services/food-service'
+import { useAuthStore } from '@/stores/auth-store'
 
 const route = useRoute()
 const router = useRouter()
 const foodService = new FoodService()
+const authStore = useAuthStore()
 const dish = ref<DishDetail | null>(null)
 const pageRef = ref<HTMLElement | null>(null)
+const isOwner = computed(() => Boolean(dish.value && authStore.user?.id === dish.value.ownerUserId))
 let cleanupMotion: VoidFunction | undefined
 
 onMounted(async () => {
@@ -141,6 +145,35 @@ function difficultyLabel(value: string) {
 
 function startCooking() {
   Message.success('开火吧，祝你做菜顺利')
+}
+
+async function shareDish() {
+  if (!dish.value) return
+
+  const href = router.resolve({
+    name: 'dish-detail',
+    params: { id: route.params.id },
+  }).href
+  const shareText = `${window.location.origin}${href}，快来meow看看我的${dish.value.name}～`
+
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(shareText)
+    } else {
+      const input = document.createElement('textarea')
+      input.value = shareText
+      input.setAttribute('readonly', 'true')
+      input.style.position = 'absolute'
+      input.style.left = '-9999px'
+      document.body.appendChild(input)
+      input.select()
+      document.execCommand('copy')
+      document.body.removeChild(input)
+    }
+    Message.success('分享文案已复制')
+  } catch (error) {
+    Message.error('复制失败，请稍后重试')
+  }
 }
 
 async function confirmDelete() {
@@ -197,7 +230,7 @@ async function refreshDetailMotion() {
 
     return attachPressAnimations(
       pageRef.value!,
-      '.icon-button, .ghost-button, .primary-button',
+      '.icon-button, .ghost-button, .secondary-button, .primary-button',
       { activeScale: 0.97 },
     )
   })
@@ -448,6 +481,7 @@ watch(dish, () => {
 }
 
 .ghost-button,
+.secondary-button,
 .primary-button {
   border: none;
   border-radius: 10px;
@@ -472,13 +506,26 @@ watch(dish, () => {
   transform: translateX(-50%);
   width: min(390px, 100%);
   justify-content: center;
+  gap: 12px;
   padding: 12px 20px 20px;
   background: rgba(247, 246, 243, 0.96);
   backdrop-filter: blur(14px);
 }
 
+.secondary-button,
 .primary-button {
-  width: 100%;
+  flex: 1;
+}
+
+.secondary-button {
+  background: #f2e9e2;
+  color: #9f5c38;
+  font-size: 0.95rem;
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px #d8c3b6;
+}
+
+.primary-button {
   background: #9f5c38;
   color: #fff;
   font-size: 0.95rem;

@@ -43,7 +43,6 @@
         <div class="group-head">
           <div>
             <h2>食材</h2>
-            <p class="group-tip">可选，不写也可以</p>
           </div>
           <button class="pill-button" type="button" @click="addIngredient">＋ 添加</button>
         </div>

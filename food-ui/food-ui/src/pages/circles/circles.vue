@@ -8,7 +8,7 @@
     <section class="create-hint" data-motion="create-hint">
       <h2>还想再建一个新圈子？</h2>
       <div class="create-hint-action">
-        <span>把常一起吃饭的人拉起来，菜单共享会更happy</span>
+        <span>菜单共享会更happy</span>
         <button class="create-button" type="button" @click="createCircle">新建圈子</button>
       </div>
     </section>
@@ -17,9 +17,7 @@
       <div class="section-head" data-motion="section-head">
         <div>
           <small>全部圈子</small>
-          <h2>按最近互动排序</h2>
         </div>
-        <span class="filter-chip">最近更新</span>
       </div>
 
       <article
@@ -57,7 +55,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import { Message } from '@arco-design/web-vue'
 import AppTabBar from '@/components/AppTabBar.vue'
 import { animateStagger, attachPressAnimations, attachRevealOnScroll, runScopedMotion } from '@/lib/motion'
 import { SocialService, type BuddyCircleSummary } from '@/services/social-service'
@@ -107,20 +104,7 @@ async function loadData() {
 }
 
 async function createCircle() {
-  const name = window.prompt('输入搭子圈名称', '周末探店局')
-  if (!name) return
-  const description = window.prompt('补一句圈子介绍', '和好友一起建圈、邀人、共享菜单。') || ''
-  const { data } = await socialService.createCircle({ name, description })
-  Message.success('搭子圈已创建')
-  router.push({ name: 'circle-detail', params: { id: data.circle.id } })
-}
-
-function goBack() {
-  if (window.history.length > 1) {
-    router.back()
-    return
-  }
-  router.push({ name: 'home' })
+  router.push({ name: 'create-circle' })
 }
 
 function openCircle(id: string) {

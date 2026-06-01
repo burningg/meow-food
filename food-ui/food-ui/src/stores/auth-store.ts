@@ -29,6 +29,12 @@ export const useAuthStore = defineStore('auth', () => {
     return data.user
   }
 
+  async function register(account: string, password: string) {
+    const { data } = await authService.register({ account, password })
+    setSession(data.token, data.user)
+    return data.user
+  }
+
   async function restore() {
     if (!token.value) {
       return null
@@ -52,6 +58,7 @@ export const useAuthStore = defineStore('auth', () => {
     user,
     isLoggedIn,
     login,
+    register,
     restore,
     logout,
     setSession,

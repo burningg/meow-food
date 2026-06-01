@@ -16,6 +16,11 @@ export interface LoginRequest {
   password: string
 }
 
+export interface RegisterRequest {
+  account: string
+  password: string
+}
+
 export interface LoginResponse {
   token: string
   user: AuthUser
@@ -24,6 +29,10 @@ export interface LoginResponse {
 export class AuthService {
   login(data: LoginRequest) {
     return http.post<LoginResponse>('/api/auth/login', data)
+  }
+
+  register(data: RegisterRequest) {
+    return http.post<LoginResponse>('/api/auth/register', data)
   }
 
   me() {
