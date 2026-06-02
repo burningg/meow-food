@@ -148,12 +148,15 @@
         </div>
       </section>
     </div>
+
+    <AppTabBar active="circles" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import AppTabBar from '@/components/AppTabBar.vue'
 import { animateStagger, attachPressAnimations, runScopedMotion } from '@/lib/motion'
 import type { DishSummary } from '@/services/food-service'
 import {
@@ -202,8 +205,8 @@ const categories = computed(() => {
 
 const visibleMenus = computed(() => {
   const menus = activeDetail.value?.sharedMenus || []
-  if (activeCategory.value === '全部') return menus.slice(0, 4)
-  return menus.filter((menu) => menu.categoryName === activeCategory.value).slice(0, 4)
+  if (activeCategory.value === '全部') return menus
+  return menus.filter((menu) => menu.categoryName === activeCategory.value)
 })
 
 const previewMembers = computed<PreviewMember[]>(() =>
@@ -336,7 +339,7 @@ async function refreshMotion() {
 <style scoped>
 .circles-page {
   min-height: 100vh;
-  padding: 0 0 28px;
+  padding: 0 0 120px;
   background: #f7f6f3;
 }
 
@@ -600,7 +603,8 @@ h3 {
 }
 
 .recipe-grid {
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   margin-top: 12px;
 }
@@ -615,7 +619,7 @@ h3 {
 }
 
 .recipe-card {
-  width: calc((100% - 12px) / 2);
+  min-width: 0;
 }
 
 .recipe-image {
@@ -795,13 +799,4 @@ h4 {
   font-weight: 600;
 }
 
-@media (max-width: 360px) {
-  .recipe-card {
-    width: 100%;
-  }
-
-  .recipe-grid {
-    flex-direction: column;
-  }
-}
 </style>

@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;600;700&display=swap');
-
 :root {
   color-scheme: light;
   --bg-page: #f5f2ed;
@@ -10,22 +8,16 @@
   --accent-soft: #e8f0e9;
   --line: #e8e5e0;
   --font-sans:
-    'Noto Sans SC',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Helvetica Neue',
     'PingFang SC',
     'Hiragino Sans GB',
     'Microsoft YaHei',
+    Arial,
     sans-serif;
-  --font-serif:
-    'Noto Serif SC',
-    'Songti SC',
-    'STSong',
-    serif;
-  --font-mono:
-    'JetBrains Mono',
-    'SFMono-Regular',
-    'Roboto Mono',
-    'Fira Code',
-    monospace;
+  --font-serif: var(--font-sans);
+  --font-mono: var(--font-sans);
   --text-xs: 0.75rem;
   --text-sm: 0.82rem;
   --text-md: 0.95rem;
