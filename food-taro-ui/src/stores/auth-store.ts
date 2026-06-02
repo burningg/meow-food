@@ -37,11 +37,16 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function wechatLogin() {
+    const wechatUser = await getWechatUserInfo()
     const loginResult = await Taro.login()
     if (!loginResult.code) {
       throw new Error(loginResult.errMsg || '微信登录失败')
     }
-    const { data } = await authService.wechatLogin({ code: loginResult.code })
+    const { data } = await authService.wechatLogin({
+      code: loginResult.code,
+      nickname: wechatUser.nickname,
+      avatar: wechatUser.avatar,
+    })
     setSession(data.token, data.user)
     return data.user
   }
@@ -77,3 +82,35 @@ export const useAuthStore = defineStore('auth', () => {
     setSession,
   }
 })
+
+async function getWechatUserInfo(): Promise<{ nickname?: string; avatar?: string }> {
+  if (process.env.TARO_ENV !== 'weapp') {
+    return {}
+  }
+
+  try {
+    const setting = await Taro.getSetting()
+    if (setting.authSetting?.['scope.userInfo']) {
+      const { userInfo } = await Taro.getUserInfo({ lang: 'zh_CN' })
+      return {
+        nickname: userInfo.nickName,
+        avatar: userInfo.avatarUrl,
+      }
+    }
+  } catch {
+  }
+
+  try {
+    const { userInfo } = await Taro.getUserProfile({
+      desc: '用于完善用户资料',
+      lang: 'zh_CN',
+    })
+    console.log(userInfo);
+    return {
+      nickname: userInfo.nickName,
+      avatar: userInfo.avatarUrl,
+    }
+  } catch {
+    return {}
+  }
+}

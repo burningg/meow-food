@@ -21,7 +21,7 @@
               <image class="avatar" :src="item.requesterAvatar" mode="aspectFill" />
               <view>
                 <text class="strong">{{ item.requesterNickname }}</text>
-                <text class="muted">{{ formatRequestMeta(item) }}</text>
+                <text class="muted">{{ formatRequestMeta() }}</text>
               </view>
             </view>
             <text class="time-chip">{{ formatRelativeTime(item.createdAt) }}</text>
@@ -135,12 +135,12 @@ async function handleReject(requestId: string) {
   }
 }
 
-function formatRequestMeta(item: FriendRequestItem) {
-  return `向你发来好友申请 · @${item.requesterUserId}`
+function formatRequestMeta() {
+  return '向你发来好友申请'
 }
 
 function formatOutgoingMeta(item: FriendRequestItem) {
-  return `发送给 @${item.targetUserId} · ${formatRelativeTime(item.createdAt)}`
+  return `发送申请 · ${formatRelativeTime(item.createdAt)}`
 }
 
 function formatRelativeTime(value: string) {

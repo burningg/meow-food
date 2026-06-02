@@ -225,11 +225,14 @@ async function submitProfile() {
   justify-content: center;
   width: 100%;
   min-height: 44px;
+  padding: 10px 16px;
   border-radius: 14px;
   background: #faf5ef;
   color: #151515;
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
 }
 
 .section-head {
@@ -237,23 +240,56 @@ async function submitProfile() {
 }
 
 .field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   margin-bottom: 16px;
+}
+
+.field:last-of-type {
+  margin-bottom: 0;
 }
 
 .field input,
 .field textarea {
-  margin-top: 8px;
-  border-radius: 14px;
-  background: #f6f2ec;
-  padding: 0 14px;
+  width: 100%;
+  border-radius: 16px;
+  background: #fffaf6;
+  color: #151515;
+  padding: 0 16px;
 }
 
 .field input {
-  min-height: 48px;
+  min-height: 52px;
 }
 
 .field textarea {
   min-height: 104px;
-  padding-top: 12px;
+  padding-top: 14px;
+}
+
+.edit-profile-page .bottom-bar {
+  position: fixed;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  z-index: 18;
+  width: min(358px, calc(100vw - 32px));
+  transform: translateX(-50%);
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 18px 32px rgba(21, 21, 21, 0.08);
+  backdrop-filter: blur(14px);
+}
+
+.save-button {
+  width: 100%;
+  min-height: 50px;
+  background: #9f5c38;
+  box-shadow: none;
+}
+
+.save-button[disabled] {
+  opacity: 0.7;
 }
 </style>

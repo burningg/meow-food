@@ -98,7 +98,8 @@ public class AuthServiceImpl implements AuthService {
             user.setAccount(account);
             user.setPasswordHash(PasswordUtils.hash("wechat:" + auth.getOpenid()));
             user.setUsername(account);
-            user.setNickname("微信用户");
+            user.setNickname(normalizeNickname(request.getNickname()));
+            user.setAvatar(normalizeOptional(request.getAvatar()));
             userAccountMapper.insert(user);
         }
 
@@ -147,5 +148,14 @@ public class AuthServiceImpl implements AuthService {
 
     private boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();
+    }
+
+    private String normalizeNickname(String nickname) {
+        String value = isBlank(nickname) ? "微信用户" : nickname.trim();
+        return value.length() > 20 ? value.substring(0, 20) : value;
+    }
+
+    private String normalizeOptional(String value) {
+        return isBlank(value) ? null : value.trim();
     }
 }

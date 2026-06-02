@@ -495,7 +495,7 @@ public class SocialServiceImpl implements SocialService {
             return true;
         }
         if ("public".equals(feed.getVisibilityScope())) {
-            return true;
+            return isFriend(viewerUserId, feed.getActorUserId());
         }
         if ("friends".equals(feed.getVisibilityScope())) {
             return isFriend(viewerUserId, feed.getActorUserId());

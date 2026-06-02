@@ -23,6 +23,8 @@ export interface RegisterRequest {
 
 export interface WechatLoginRequest {
   code: string
+  nickname?: string
+  avatar?: string
 }
 
 export interface LoginResponse {
