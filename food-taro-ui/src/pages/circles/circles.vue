@@ -243,7 +243,7 @@ function getInitial(member: BuddyCircleMember) {
 }
 </script>
 
-<style scoped>
+<style>
 .circles-page {
   min-height: 100vh;
   padding: 0 0 120px;

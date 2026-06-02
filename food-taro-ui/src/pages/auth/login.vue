@@ -36,14 +36,14 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { Message } from '@/lib/feedback'
 import { getRouteParams, navigateByLegacyPath, push, replace } from '@/lib/navigation'
 import { useAuthStore } from '@/stores/auth-store'
 
 const authStore = useAuthStore()
 const loading = ref(false)
-const params = getRouteParams<{ redirect?: string }>()
+const params = getRouteParams() as { redirect?: string }
 
 const form = reactive({
   account: '',
@@ -58,11 +58,7 @@ async function submit() {
   loading.value = true
   try {
     await authStore.login(form.account, form.password)
-    if (params.redirect) {
-      navigateByLegacyPath(decodeURIComponent(params.redirect), 'home')
-      return
-    }
-    replace('home')
+    goAfterLogin()
   } catch (error: any) {
     Message.error(error?.response?.data?.message || '登录失败')
   } finally {
@@ -70,12 +66,38 @@ async function submit() {
   }
 }
 
+async function autoWechatLogin() {
+  loading.value = true
+  try {
+    await authStore.wechatLogin()
+    goAfterLogin()
+  } catch (error: any) {
+    Message.error(error?.response?.data?.message || error?.message || '微信登录失败')
+  } finally {
+    loading.value = false
+  }
+}
+
+function goAfterLogin() {
+  if (params.redirect) {
+    navigateByLegacyPath(decodeURIComponent(params.redirect), 'home')
+    return
+  }
+  replace('home')
+}
+
 function goRegister() {
   push('register')
 }
+
+onMounted(() => {
+  if (process.env.TARO_ENV === 'weapp') {
+    autoWechatLogin()
+  }
+})
 </script>
 
-<style scoped>
+<style>
 .login-page {
   min-height: 100vh;
   overflow: hidden;

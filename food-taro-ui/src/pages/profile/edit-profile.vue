@@ -123,7 +123,7 @@ async function submitProfile() {
 }
 </script>
 
-<style scoped>
+<style>
 .edit-profile-page {
   min-height: 100vh;
   padding-bottom: 120px;

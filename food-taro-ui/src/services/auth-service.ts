@@ -21,6 +21,10 @@ export interface RegisterRequest {
   password: string
 }
 
+export interface WechatLoginRequest {
+  code: string
+}
+
 export interface LoginResponse {
   token: string
   user: AuthUser
@@ -33,6 +37,10 @@ export class AuthService {
 
   register(data: RegisterRequest) {
     return http.post<LoginResponse>('/api/auth/register', data)
+  }
+
+  wechatLogin(data: WechatLoginRequest) {
+    return http.post<LoginResponse>('/api/auth/wechat-login', data)
   }
 
   me() {

@@ -110,7 +110,7 @@ function selectCategory(categoryId: string) {
 }
 </script>
 
-<style scoped>
+<style>
 .home-page {
   padding-bottom: 120px;
 }

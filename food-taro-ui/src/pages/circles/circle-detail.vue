@@ -150,7 +150,7 @@ import {
 
 type PreviewMember = { id: string; initial: string; avatarTone: number }
 
-const params = getRouteParams<{ id?: string }>()
+const params = getRouteParams() as { id?: string }
 const socialService = new SocialService()
 const detail = ref<BuddyCircleDetail | null>(null)
 const circles = ref<BuddyCircleSummary[]>([])
@@ -331,7 +331,7 @@ function inviteFriendMeta(friend: FriendItem, index: number) {
 }
 </script>
 
-<style scoped>
+<style>
 .circle-detail-page {
   padding: 0 0 28px;
   background: #f7f6f3;

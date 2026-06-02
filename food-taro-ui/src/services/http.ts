@@ -6,13 +6,9 @@ export const TOKEN_KEY = 'food-me-token'
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
 type QueryParams = Record<string, string | number | boolean | undefined>
 
-const PROD_BASE_URL = 'https://meow-service.youl.work'
-const DEV_BASE_URL = 'http://localhost:8080'
-
 let isRedirectingToLogin = false
 
-export const API_BASE_URL =
-  process.env.TARO_APP_API_BASE || (process.env.NODE_ENV === 'production' ? PROD_BASE_URL : DEV_BASE_URL)
+export const API_BASE_URL = __API_BASE_URL__
 
 export function getToken() {
   return Taro.getStorageSync<string>(TOKEN_KEY) || ''
@@ -72,7 +68,7 @@ async function request<T>(method: HttpMethod, path: string, options: { params?: 
     return { data: response.data, status: response.statusCode }
   }
 
-  const isAuthSubmit = path === '/api/auth/login' || path === '/api/auth/register'
+  const isAuthSubmit = path === '/api/auth/login' || path === '/api/auth/register' || path === '/api/auth/wechat-login'
   if (response.statusCode === 401 && !isAuthSubmit) {
     removeToken()
     if (!isRedirectingToLogin) {

@@ -1,4 +1,5 @@
 import { defineConfig } from '@tarojs/cli'
+import path from 'node:path'
 import devConfig from './dev'
 import prodConfig from './prod'
 
@@ -11,9 +12,17 @@ const config = {
   },
   sourceRoot: 'src',
   outputRoot: 'dist',
+  alias: {
+    '@': path.resolve(process.cwd(), 'src'),
+  },
   plugins: ['@tarojs/plugin-html'],
   framework: 'vue3',
-  compiler: 'webpack5',
+  compiler: {
+    type: 'webpack5',
+    prebundle: {
+      enable: false,
+    },
+  },
   cache: {
     enable: false,
   },
@@ -54,8 +63,8 @@ const config = {
   },
 }
 
-export default defineConfig(async (merge, { command }) => {
-  if (command === 'build') {
+export default defineConfig(async (merge, { command, mode }) => {
+  if (command === 'build' && mode === 'production') {
     return merge({}, config, prodConfig)
   }
   return merge({}, config, devConfig)

@@ -45,7 +45,7 @@ function openDish(id: string) {
 }
 </script>
 
-<style scoped>
+<style>
 .feed-page {
   padding-bottom: 120px;
 }

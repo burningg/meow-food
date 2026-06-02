@@ -99,7 +99,7 @@ import { Message } from '@/lib/feedback'
 import { getRouteParams, goBack, push, replace } from '@/lib/navigation'
 import { SocialService, type FriendItem, type FriendRequestItem } from '@/services/social-service'
 
-const params = getRouteParams<{ action?: string }>()
+const params = getRouteParams() as { action?: string }
 const socialService = new SocialService()
 const friends = ref<FriendItem[]>([])
 const incomingRequests = ref<FriendRequestItem[]>([])
@@ -211,7 +211,7 @@ function simpleFriendMeta(friend: FriendItem, index: number) {
 }
 </script>
 
-<style scoped>
+<style>
 .friends-page {
   position: relative;
   min-height: 100vh;

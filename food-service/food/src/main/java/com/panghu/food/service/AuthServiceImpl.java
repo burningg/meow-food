@@ -4,12 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.panghu.food.auth.AuthContext;
 import com.panghu.food.auth.JwtTokenUtil;
 import com.panghu.food.auth.PasswordUtils;
+import com.panghu.food.component.WechatComponent;
 import com.panghu.food.dto.AuthLoginRequest;
 import com.panghu.food.dto.AuthLoginResponse;
 import com.panghu.food.dto.AuthRegisterRequest;
 import com.panghu.food.dto.AuthUserResponse;
+import com.panghu.food.dto.WechatLoginRequest;
 import com.panghu.food.entity.UserAccount;
 import com.panghu.food.entity.UserProfileSettings;
+import com.panghu.food.entity.WechatAuthVO;
 import com.panghu.food.exception.ApiException;
 import com.panghu.food.mapper.UserAccountMapper;
 import com.panghu.food.mapper.UserProfileSettingsMapper;
@@ -21,13 +24,16 @@ public class AuthServiceImpl implements AuthService {
     private final UserAccountMapper userAccountMapper;
     private final UserProfileSettingsMapper userProfileSettingsMapper;
     private final JwtTokenUtil jwtTokenUtil;
+    private final WechatComponent wechatComponent;
 
     public AuthServiceImpl(UserAccountMapper userAccountMapper,
                            UserProfileSettingsMapper userProfileSettingsMapper,
-                           JwtTokenUtil jwtTokenUtil) {
+                           JwtTokenUtil jwtTokenUtil,
+                           WechatComponent wechatComponent) {
         this.userAccountMapper = userAccountMapper;
         this.userProfileSettingsMapper = userProfileSettingsMapper;
         this.jwtTokenUtil = jwtTokenUtil;
+        this.wechatComponent = wechatComponent;
     }
 
     @Override
@@ -68,6 +74,33 @@ public class AuthServiceImpl implements AuthService {
         user.setUsername(account);
         user.setNickname(account);
         userAccountMapper.insert(user);
+
+        return issueSession(user);
+    }
+
+    @Override
+    public AuthLoginResponse wechatLogin(WechatLoginRequest request) {
+        if (request == null || isBlank(request.getCode())) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "微信登录凭证不能为空");
+        }
+
+        WechatAuthVO auth = wechatComponent.getWechatAuth(request.getCode().trim());
+        if (auth == null || !isBlank(auth.getErrcode()) || isBlank(auth.getOpenid())) {
+            String message = auth != null && !isBlank(auth.getErrmsg()) ? auth.getErrmsg() : "微信登录失败";
+            throw new ApiException(HttpStatus.BAD_REQUEST, message);
+        }
+
+        String account = "wx_" + auth.getOpenid();
+        UserAccount user = userAccountMapper.selectOne(new QueryWrapper<UserAccount>()
+                .eq("account", account).last("LIMIT 1"));
+        if (user == null) {
+            user = new UserAccount();
+            user.setAccount(account);
+            user.setPasswordHash(PasswordUtils.hash("wechat:" + auth.getOpenid()));
+            user.setUsername(account);
+            user.setNickname("微信用户");
+            userAccountMapper.insert(user);
+        }
 
         return issueSession(user);
     }

@@ -33,7 +33,7 @@ onMounted(async () => {
 })
 </script>
 
-<style scoped>
+<style>
 .loading-page {
   display: flex;
   align-items: center;

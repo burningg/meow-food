@@ -156,7 +156,7 @@ function formatRelativeTime(value: string) {
 }
 </script>
 
-<style scoped>
+<style>
 .requests-page {
   padding-bottom: 40px;
 }

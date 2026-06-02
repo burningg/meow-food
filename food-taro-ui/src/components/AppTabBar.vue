@@ -41,7 +41,7 @@ function navigate(item: TabItem) {
 }
 </script>
 
-<style scoped>
+<style>
 .tab-bar {
   position: fixed;
   left: 50%;

@@ -47,7 +47,7 @@ import { SocialService, type UserMenuAccessResponse } from '@/services/social-se
 
 const socialService = new SocialService()
 const access = ref<UserMenuAccessResponse | null>(null)
-const params = getRouteParams<{ id?: string }>()
+const params = getRouteParams() as { id?: string }
 
 onMounted(async () => {
   if (!(await requireAuth('user-menu'))) return
@@ -81,7 +81,7 @@ async function handleAction() {
 }
 </script>
 
-<style scoped>
+<style>
 .user-menu-page {
   padding-bottom: 48px;
 }

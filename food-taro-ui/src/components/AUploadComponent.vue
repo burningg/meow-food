@@ -53,7 +53,7 @@ async function chooseImage() {
 }
 </script>
 
-<style scoped>
+<style>
 .upload-box {
   position: relative;
   display: flex;

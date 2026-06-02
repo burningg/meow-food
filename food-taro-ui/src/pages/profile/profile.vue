@@ -115,7 +115,7 @@ function logout() {
 }
 </script>
 
-<style scoped>
+<style>
 .profile-page {
   padding-bottom: 120px;
 }

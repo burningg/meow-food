@@ -95,7 +95,7 @@ import { getRouteParams, push, replace } from '@/lib/navigation'
 import { FoodService, type DishDetail } from '@/services/food-service'
 import { useAuthStore } from '@/stores/auth-store'
 
-const params = getRouteParams<{ id?: string }>()
+const params = getRouteParams() as { id?: string }
 const foodService = new FoodService()
 const authStore = useAuthStore()
 const dish = ref<DishDetail | null>(null)
@@ -162,7 +162,7 @@ async function confirmDelete() {
 }
 </script>
 
-<style scoped>
+<style>
 .detail-page {
   min-height: 100vh;
   padding-bottom: 108px;

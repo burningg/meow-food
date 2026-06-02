@@ -79,7 +79,7 @@ function goLogin() {
 }
 </script>
 
-<style scoped>
+<style>
 .register-page {
   min-height: 100vh;
   overflow: hidden;

@@ -127,7 +127,7 @@ import {
 } from '@/services/food-service'
 
 const foodService = new FoodService()
-const params = getRouteParams<{ id?: string; mode?: string }>()
+const params = getRouteParams() as { id?: string; mode?: string }
 const categories = ref<Category[]>([])
 const saving = ref(false)
 
@@ -288,7 +288,7 @@ function cancel() {
 }
 </script>
 
-<style scoped>
+<style>
 .form-page {
   padding-bottom: 48px;
 }

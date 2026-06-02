@@ -68,7 +68,7 @@ async function submit() {
 }
 </script>
 
-<style scoped>
+<style>
 .create-circle-page {
   padding: 0 0 28px;
   background: #f7f6f3;

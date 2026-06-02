@@ -59,7 +59,7 @@ import { Message } from '@/lib/feedback'
 import { getRouteParams, goBack, push } from '@/lib/navigation'
 import { SocialService, type BuddyCircleDetail, type BuddyCircleMember } from '@/services/social-service'
 
-const params = getRouteParams<{ id?: string }>()
+const params = getRouteParams() as { id?: string }
 const socialService = new SocialService()
 const detail = ref<BuddyCircleDetail | null>(null)
 const isLoading = ref(true)
@@ -117,7 +117,7 @@ function memberMeta(member: BuddyCircleMember, index: number) {
 }
 </script>
 
-<style scoped>
+<style>
 .circle-members-page {
   min-height: 100vh;
   background: #f7f6f3;

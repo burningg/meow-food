@@ -32,7 +32,7 @@ const badgeText = computed(() => {
 })
 </script>
 
-<style scoped>
+<style>
 .activity-card {
   display: flex;
   gap: 12px;

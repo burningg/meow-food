@@ -145,7 +145,7 @@ async function submitAvatar() {
 }
 </script>
 
-<style scoped>
+<style>
 .edit-avatar-page {
   min-height: 100vh;
   padding-bottom: 120px;
