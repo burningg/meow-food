@@ -91,7 +91,7 @@ let cleanupMotion: VoidFunction | undefined
 
 const defaultAvatarMap = new Map(defaultAvatarOptions.map((option) => [option.src, option.label]))
 const avatarUrl = computed(() => avatar.value)
-const displayName = computed(() => authStore.user?.nickname || '胖虎')
+const displayName = computed(() => authStore.user?.nickname || 'meow')
 const nicknameInitial = computed(() => (authStore.user?.nickname || authStore.user?.account || '我').slice(0, 1))
 const isCustomAvatar = computed(() => Boolean(avatar.value) && !defaultAvatarMap.has(avatar.value))
 const fallbackDefaultAvatar = computed(() => {

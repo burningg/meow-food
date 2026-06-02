@@ -23,7 +23,6 @@ button,
 .route-stage {
   min-height: 100vh;
   transform-origin: 50% 12%;
-  will-change: transform, opacity;
 }
 
 .page-shell {

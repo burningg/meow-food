@@ -119,12 +119,12 @@ let restored = false
 
 router.beforeEach(async (to) => {
   const authStore = useAuthStore()
+  if (to.name === 'loading') {
+    return true
+  }
   if (!restored) {
     restored = true
     await authStore.restore()
-  }
-  if (to.name === 'loading') {
-    return authStore.isLoggedIn ? { name: 'home' } : { name: 'login' }
   }
   if (to.meta.requiresAuth && !authStore.isLoggedIn) {
     return {

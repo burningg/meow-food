@@ -85,7 +85,7 @@ const pageRef = ref<HTMLElement | null>(null)
 let cleanupMotion: VoidFunction | undefined
 let cleanupProfileRows: VoidFunction | undefined
 
-const displayName = computed(() => profile.value?.user.nickname || authStore.user?.nickname || '胖虎')
+const displayName = computed(() => profile.value?.user.nickname || authStore.user?.nickname || 'meow')
 const displayBio = computed(() => profile.value?.user.bio || '菜单、好友和搭子圈都在这里慢慢展开。')
 const displayAvatar = computed(() => profile.value?.user.avatar || authStore.user?.avatar || '')
 

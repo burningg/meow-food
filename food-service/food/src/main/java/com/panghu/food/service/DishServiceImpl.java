@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class DishServiceImpl implements DishService {
-    private static final int HOME_LIST_LIMIT = 3;
+    private static final int HOME_FEATURED_LIST_LIMIT = 3;
 
     @Value("${upload.base-path:./uploads}")
     private String basePath;
@@ -102,7 +102,6 @@ public class DishServiceImpl implements DishService {
         }
         return dishMapper.selectByOwnerUserId(currentUserId).stream()
                 .map(this::applyEffectiveVisibility)
-                .limit(HOME_LIST_LIMIT)
                 .collect(Collectors.toList());
     }
 
@@ -277,7 +276,7 @@ public class DishServiceImpl implements DishService {
                 .map(this::applyEffectiveVisibility)
                 .filter(extraFilter)
                 .filter(item -> canViewDish(item, currentUserId, false))
-                .limit(HOME_LIST_LIMIT)
+                .limit(HOME_FEATURED_LIST_LIMIT)
                 .collect(Collectors.toList());
     }
 

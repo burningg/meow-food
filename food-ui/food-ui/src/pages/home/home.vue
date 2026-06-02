@@ -90,7 +90,7 @@ const homeData = ref<HomeResponse>({
   featuredByCategory: [],
 })
 const selectedCategoryId = ref('')
-const displayName = computed(() => authStore.user?.nickname ?? '胖虎')
+const displayName = computed(() => authStore.user?.nickname ?? 'meow')
 const filteredDishes = computed(() => {
   if (!selectedCategoryId.value) {
     return homeData.value.recentDishes

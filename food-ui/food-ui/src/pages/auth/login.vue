@@ -5,7 +5,7 @@
     <section class="login-content">
       <div class="auth-badge" data-motion="item">
         <span class="badge-dot"></span>
-        <span>meow小馆 · 欢迎回来</span>
+        <span>meow食堂 · 欢迎回来</span>
       </div>
 
       <section class="login-card" data-motion="card">

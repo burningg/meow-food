@@ -14,21 +14,26 @@
       <section class="overview-card">
         <div class="overview-head">
           <div class="overview-copy">
-            <span class="eyebrow">搭子圈</span>
+            <span class="eyebrow">当前圈子</span>
             <h2>{{ detail.circle.name }}</h2>
           </div>
-          <span class="state-pill">{{ stateLabel }}</span>
+          <span class="state-pill">{{ detail.stats.memberCount }}人 · {{ detail.stats.sharedMenuCount }}菜谱</span>
         </div>
 
-        <div class="overview-meta">
-          <div>
-            <strong>发起人 {{ detail.circle.ownerNickname }}</strong>
-            <p>{{ detail.stats.memberCount }} 位成员 · {{ detail.stats.sharedMenuCount }} 份共享菜谱</p>
-          </div>
-          <button class="invite-button" type="button" @click="openInvitePicker">邀请好友</button>
+        <div v-if="switcherCircles.length" class="circle-switch-list" aria-label="切换搭子圈">
+          <button
+            v-for="circle in switcherCircles"
+            :key="circle.id"
+            class="circle-switch-row"
+            :class="{ active: circle.id === activeCircleId }"
+            :title="circle.name"
+            type="button"
+            @click="switchCircle(circle.id)"
+          >
+            <strong>{{ circle.name }}</strong>
+            <small>{{ circle.memberCount }}人 · {{ circle.sharedMenuCount }}菜谱</small>
+          </button>
         </div>
-
-        <p class="overview-description">{{ detail.circle.description }}</p>
       </section>
 
       <section class="section-block">
@@ -175,7 +180,13 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Message } from '@arco-design/web-vue'
 import type { DishSummary } from '@/services/food-service'
-import { SocialService, type BuddyCircleDetail, type BuddyCircleMember, type FriendItem } from '@/services/social-service'
+import {
+  SocialService,
+  type BuddyCircleDetail,
+  type BuddyCircleMember,
+  type BuddyCircleSummary,
+  type FriendItem,
+} from '@/services/social-service'
 
 type PreviewMember = {
   id: string
@@ -188,6 +199,7 @@ const router = useRouter()
 const socialService = new SocialService()
 
 const detail = ref<BuddyCircleDetail | null>(null)
+const circles = ref<BuddyCircleSummary[]>([])
 const activeCategory = ref('全部')
 const isLoading = ref(true)
 const inviteModalVisible = ref(false)
@@ -196,6 +208,7 @@ const inviteSubmitting = ref(false)
 const inviteLoadFailed = ref(false)
 const friends = ref<FriendItem[]>([])
 const selectedFriendId = ref('')
+let detailRequestToken = 0
 
 const avatarPalette = [
   { bg: '#edf3ec', fg: '#346538' },
@@ -204,8 +217,12 @@ const avatarPalette = [
 ]
 
 const circleId = computed(() => String(route.params.id || ''))
+const activeCircleId = computed(() => detail.value?.circle.id || circleId.value)
 
-const stateLabel = computed(() => (detail.value?.stats.weeklyUpdateCount ? '活跃中' : '待更新'))
+const switcherCircles = computed(() => {
+  if (circles.value.length) return circles.value
+  return detail.value ? [detail.value.circle] : []
+})
 
 const categories = computed(() => {
   const names = Array.from(new Set((detail.value?.sharedMenus || []).map((menu) => menu.categoryName).filter(Boolean)))
@@ -246,6 +263,11 @@ const inviteEmptyText = computed(() => {
 
 onMounted(loadData)
 
+watch(circleId, (nextId, prevId) => {
+  if (!nextId || nextId === prevId) return
+  void loadDetail(nextId)
+})
+
 watch(categories, (nextCategories) => {
   if (!nextCategories.includes(activeCategory.value)) {
     activeCategory.value = '全部'
@@ -253,16 +275,34 @@ watch(categories, (nextCategories) => {
 })
 
 async function loadData() {
-  if (!circleId.value) {
+  try {
+    const [{ data: circleList }] = await Promise.all([
+      socialService.getCircles(),
+      loadDetail(circleId.value),
+    ])
+    circles.value = circleList
+  } finally {
+    if (!circles.value.length) {
+      isLoading.value = false
+    }
+  }
+}
+
+async function loadDetail(targetCircleId: string) {
+  if (!targetCircleId) {
+    detail.value = null
     isLoading.value = false
     return
   }
 
+  const requestToken = ++detailRequestToken
   isLoading.value = true
   try {
-    const { data } = await socialService.getCircleDetail(circleId.value)
+    const { data } = await socialService.getCircleDetail(targetCircleId)
+    if (requestToken !== detailRequestToken) return
     detail.value = data
   } finally {
+    if (requestToken !== detailRequestToken) return
     isLoading.value = false
   }
 }
@@ -318,11 +358,11 @@ function syncSelectedFriend() {
 }
 
 async function submitInvite() {
-  if (!circleId.value || !selectedFriendId.value) return
+  if (!activeCircleId.value || !selectedFriendId.value) return
 
   inviteSubmitting.value = true
   try {
-    const { data } = await socialService.inviteToCircle(circleId.value, {
+    const { data } = await socialService.inviteToCircle(activeCircleId.value, {
       inviteeUserId: selectedFriendId.value,
     })
     detail.value = data
@@ -339,12 +379,18 @@ function openMembers() {
   if (!detail.value) return
   router.push({
     name: 'circle-members',
-    params: { id: circleId.value },
+    params: { id: activeCircleId.value },
   })
 }
 
 function openDish(id: DishSummary['id']) {
   router.push({ name: 'dish-detail', params: { id } })
+}
+
+function switchCircle(id: string) {
+  if (!id || id === activeCircleId.value) return
+  closeInvitePicker()
+  router.push({ name: 'circle-detail', params: { id } })
 }
 
 function avatarInitial(name: string) {
@@ -378,8 +424,8 @@ function inviteFriendMeta(friend: FriendItem, index: number) {
 
 .top-nav,
 .overview-head,
-.overview-meta,
 .section-head,
+.circle-switch-list,
 .member-entry,
 .member-avatars,
 .recipe-grid,
@@ -391,7 +437,6 @@ function inviteFriendMeta(friend: FriendItem, index: number) {
 
 .top-nav,
 .overview-head,
-.overview-meta,
 .section-head,
 .member-entry,
 .invite-modal-head {
@@ -448,20 +493,21 @@ h1 {
 .status-card {
   margin: 0 20px;
   background: #fff;
-  border-radius: 16px;
-  padding: 18px;
+  border-radius: 14px;
+  padding: 14px;
 }
 
 .overview-card {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
 }
 
 .overview-copy {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 3px;
+  min-width: 0;
 }
 
 .eyebrow,
@@ -481,8 +527,11 @@ h3 {
 }
 
 h2 {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 h3 {
@@ -494,25 +543,62 @@ h3 {
   background: #edf3ec;
   color: #346538;
   border-radius: 999px;
-  padding: 6px 12px;
+  padding: 6px 10px;
   font-size: 0.6875rem;
   font-weight: 600;
   white-space: nowrap;
 }
 
-.overview-meta {
-  gap: 12px;
+.circle-switch-list {
+  flex-direction: column;
+  gap: 6px;
 }
 
-.overview-meta strong {
-  display: block;
+.circle-switch-row {
+  cursor: pointer;
+  width: 100%;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #f8f3ec;
+  padding: 0 10px;
+  text-align: left;
+}
+
+.circle-switch-row strong {
+  min-width: 0;
+  overflow: hidden;
   color: #151515;
   font-size: 0.8125rem;
   font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.overview-meta p,
-.overview-description,
+.circle-switch-row small {
+  flex: none;
+  color: #9f5c38;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.circle-switch-row.active {
+  background: #1b3a2d;
+}
+
+.circle-switch-row.active strong {
+  color: #fff;
+}
+
+.circle-switch-row.active small {
+  color: #dde8dd;
+}
+
 .section-head p,
 .recipe-category,
 .status-card p {
@@ -520,26 +606,8 @@ h3 {
   font-size: 0.75rem;
 }
 
-.overview-meta p,
 .section-head p {
   margin-top: 4px;
-}
-
-.overview-description {
-  color: #2f3437;
-  line-height: 1.5;
-}
-
-.invite-button {
-  cursor: pointer;
-  border: none;
-  border-radius: 999px;
-  background: #9f5c38;
-  color: #fff;
-  padding: 10px 14px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  white-space: nowrap;
 }
 
 .section-block {
@@ -869,12 +937,6 @@ h4 {
 }
 
 @media (max-width: 360px) {
-  .overview-meta {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .invite-button,
   .recipe-card {
     width: 100%;
   }

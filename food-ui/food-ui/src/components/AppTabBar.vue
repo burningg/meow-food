@@ -151,7 +151,7 @@ onUnmounted(() => {
 .tab-bar {
   position: fixed;
   left: 50%;
-  bottom: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom));
   transform: translateX(-50%);
   width: min(358px, calc(100vw - 32px));
   display: flex;

@@ -2255,7 +2255,7 @@
                           "type": "text",
                           "id": "lMPxS",
                           "name": "Ing Amt",
-                          "fill": "$text-muted",
+                          "fill": "#D7E2D8",
                           "content": "1000g",
                           "fontFamily": "$font-data",
                           "fontSize": 13,
@@ -4648,151 +4648,135 @@
             {
               "type": "frame",
               "id": "Tk9LJ",
-              "name": "Circle Overview Compact",
+              "name": "Circle Switch Panel",
               "width": "fill_container",
               "fill": "#FFFFFF",
-              "cornerRadius": 16,
+              "cornerRadius": 14,
               "layout": "vertical",
-              "gap": 14,
-              "padding": 18,
+              "gap": 10,
+              "padding": 12,
               "children": [
                 {
                   "type": "frame",
-                  "id": "Fy7mq",
-                  "name": "Circle Overview Head",
+                  "id": "rqPrd",
+                  "name": "Switch Panel Header",
                   "width": "fill_container",
                   "justifyContent": "space_between",
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "frame",
-                      "id": "hJYJn",
-                      "name": "Circle Overview Copy",
-                      "layout": "vertical",
-                      "gap": 6,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "LMZZg",
-                          "name": "Circle Eyebrow",
-                          "fill": "#9F5C38",
-                          "content": "搭子圈",
-                          "fontFamily": "Noto Sans SC",
-                          "fontSize": 11,
-                          "fontWeight": "600",
-                          "letterSpacing": 0.5
-                        },
-                        {
-                          "type": "text",
-                          "id": "fQPCi",
-                          "name": "Circle Name",
-                          "fill": "#151515",
-                          "content": "周末探店局",
-                          "fontFamily": "Noto Serif SC",
-                          "fontSize": 24,
-                          "fontWeight": "600"
-                        }
-                      ]
+                      "type": "text",
+                      "id": "TkIW2",
+                      "name": "Switch Panel Title",
+                      "fill": "#151515",
+                      "content": "圈子",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 13,
+                      "fontWeight": "600"
                     },
                     {
-                      "type": "frame",
-                      "id": "SPWeM",
-                      "name": "Circle State",
-                      "fill": "#EDF3EC",
-                      "cornerRadius": 9999,
-                      "padding": [
-                        6,
-                        12
-                      ],
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "K1btSF",
-                          "name": "Circle State Text",
-                          "fill": "#346538",
-                          "content": "活跃中",
-                          "fontFamily": "Noto Sans SC",
-                          "fontSize": 11,
-                          "fontWeight": "600"
-                        }
-                      ]
+                      "type": "text",
+                      "id": "ICEBu",
+                      "name": "Switch Panel Count",
+                      "fill": "#787774",
+                      "content": "当前 · 周末探店局",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 11,
+                      "fontWeight": "600"
                     }
                   ]
                 },
                 {
                   "type": "frame",
-                  "id": "oFWk6",
-                  "name": "Circle Meta Row",
+                  "id": "L0rMhn",
+                  "name": "Circle Compact Picker",
                   "width": "fill_container",
-                  "justifyContent": "space_between",
-                  "alignItems": "center",
+                  "layout": "vertical",
+                  "gap": 8,
                   "children": [
                     {
                       "type": "frame",
-                      "id": "A5Y3Mn",
-                      "name": "Circle Meta Left",
-                      "layout": "vertical",
-                      "gap": 4,
+                      "id": "uaXsP",
+                      "name": "Current Circle Summary",
+                      "width": "fill_container",
+                      "height": 54,
+                      "fill": "#EDF3EC",
+                      "cornerRadius": 12,
+                      "padding": [
+                        0,
+                        12
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
                       "children": [
                         {
-                          "type": "text",
-                          "id": "snBGq",
-                          "name": "Owner Label",
-                          "fill": "#151515",
-                          "content": "发起人 阿梨",
-                          "fontFamily": "Noto Sans SC",
-                          "fontSize": 13,
-                          "fontWeight": "600"
+                          "type": "frame",
+                          "id": "I6GzYY",
+                          "name": "Current Circle Summary Left",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "FZwHs",
+                              "name": "Current Circle Summary Name",
+                              "fill": "#151515",
+                              "content": "周末探店局",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 15,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "pi9hC",
+                              "name": "Current Circle Summary Meta",
+                              "fill": "#346538",
+                              "content": "4人 · 12菜谱 · 正在使用",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "500"
+                            }
+                          ]
                         },
                         {
-                          "type": "text",
-                          "id": "btPCl",
-                          "name": "Circle Summary",
-                          "fill": "#787774",
-                          "content": "4 位成员 · 12 份共享菜谱",
-                          "fontFamily": "Noto Sans SC",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "g0HqY",
-                      "name": "Invite Button",
-                      "fill": "#9F5C38",
-                      "cornerRadius": 9999,
-                      "padding": [
-                        10,
-                        14
-                      ],
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "CbPF1",
-                          "name": "Invite Text",
+                          "type": "frame",
+                          "id": "HLfDc",
+                          "name": "Circle Switch Button",
+                          "height": 28,
                           "fill": "#FFFFFF",
-                          "content": "邀请好友",
-                          "fontFamily": "Noto Sans SC",
-                          "fontSize": 12,
-                          "fontWeight": "600"
+                          "cornerRadius": 9999,
+                          "gap": 4,
+                          "padding": [
+                            0,
+                            10
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "W6yMGh",
+                              "name": "Circle Switch Button Label",
+                              "fill": "#346538",
+                              "content": "切换",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "fous5",
+                              "name": "Circle Switch Button Icon",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "caret-down",
+                              "library": "phosphor",
+                              "fill": "#346538"
+                            }
+                          ]
                         }
                       ]
                     }
                   ]
-                },
-                {
-                  "type": "text",
-                  "id": "FJQo3",
-                  "name": "Circle Desc",
-                  "fill": "#2F3437",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "这个圈用来约周末探店和临时拼饭，圈内一起收集想吃的店和能复刻的菜。",
-                  "lineHeight": 1.5,
-                  "fontFamily": "Noto Sans SC",
-                  "fontSize": 12,
-                  "fontWeight": "normal"
                 }
               ]
             },
@@ -4828,16 +4812,6 @@
                           "fontFamily": "Noto Serif SC",
                           "fontSize": 19,
                           "fontWeight": "600"
-                        },
-                        {
-                          "type": "text",
-                          "id": "o0sYRA",
-                          "name": "Members Entry Subtitle",
-                          "fill": "#8B8B8B",
-                          "content": "点击进入成员页，查看圈成员关系",
-                          "fontFamily": "Noto Sans SC",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
                         }
                       ]
                     },
@@ -6582,7 +6556,7 @@
             {
               "type": "frame",
               "id": "V0xmwf",
-              "name": "Circle List Section",
+              "name": "Circle Switcher Section",
               "width": "fill_container",
               "layout": "vertical",
               "gap": 12,
@@ -6607,7 +6581,7 @@
                           "id": "z9Uc0A",
                           "name": "Section Label",
                           "fill": "$text-muted",
-                          "content": "全部圈子",
+                          "content": "切换圈子",
                           "fontFamily": "$font-body",
                           "fontSize": 12,
                           "fontWeight": "500"
@@ -6617,7 +6591,7 @@
                           "id": "X44F7",
                           "name": "Section Title",
                           "fill": "$text-primary",
-                          "content": "按最近互动排序",
+                          "content": "当前圈子在上，其他圈子可切换",
                           "fontFamily": "$font-heading",
                           "fontSize": 24,
                           "fontWeight": "normal"
@@ -6640,7 +6614,7 @@
                           "id": "xzi5q",
                           "name": "Filter Text",
                           "fill": "$accent-primary",
-                          "content": "最近更新",
+                          "content": "共 3 个圈",
                           "fontFamily": "$font-body",
                           "fontSize": 11,
                           "fontWeight": "600"
@@ -6651,10 +6625,88 @@
                 },
                 {
                   "type": "frame",
-                  "id": "YCIOU",
-                  "name": "Circle Card 1",
+                  "id": "zBzx4",
+                  "name": "Circle Selector Row",
                   "width": "fill_container",
-                  "fill": "$bg-card",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "ye0ei",
+                      "name": "Circle Selector Current",
+                      "fill": "#1B3A2D",
+                      "cornerRadius": 9999,
+                      "padding": [
+                        8,
+                        14
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "RYeCn",
+                          "name": "Circle Selector Current Text",
+                          "fill": "#FFFFFF",
+                          "content": "周末探店局 · 当前",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "z23KGM",
+                      "name": "Circle Selector Two",
+                      "fill": "#F3EEE7",
+                      "cornerRadius": 9999,
+                      "padding": [
+                        8,
+                        14
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "FyGJr",
+                          "name": "Circle Selector Two Text",
+                          "fill": "#9F5C38",
+                          "content": "办公室拼饭群",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "IMOsE",
+                      "name": "Circle Selector Three",
+                      "fill": "#F3EEE7",
+                      "cornerRadius": 9999,
+                      "padding": [
+                        8,
+                        14
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "vOePJ",
+                          "name": "Circle Selector Three Text",
+                          "fill": "#9F5C38",
+                          "content": "深夜火锅队",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "YCIOU",
+                  "name": "Current Circle Card",
+                  "width": "fill_container",
+                  "fill": "#1B3A2D",
                   "cornerRadius": "$radius-card",
                   "layout": "vertical",
                   "gap": 14,
@@ -6709,7 +6761,7 @@
                                   "type": "text",
                                   "id": "roHZc",
                                   "name": "Circle Card 1 Title",
-                                  "fill": "$text-primary",
+                                  "fill": "#FFFFFF",
                                   "content": "周末探店局",
                                   "fontFamily": "Geist",
                                   "fontSize": 15,
@@ -6719,7 +6771,7 @@
                                   "type": "text",
                                   "id": "tPplv",
                                   "name": "Circle Card 1 Meta",
-                                  "fill": "$text-muted",
+                                  "fill": "#D7E2D8",
                                   "content": "8 人 · 4 份菜单",
                                   "fontFamily": "Geist",
                                   "fontSize": 12,
@@ -6735,10 +6787,10 @@
                       "type": "text",
                       "id": "SevLw",
                       "name": "Circle Card 1 Desc",
-                      "fill": "$text-body",
+                      "fill": "#E7EFE8",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
-                      "content": "收藏了适合聊天的小馆子和甜品店。",
+                      "content": "下方正在展示这个圈子的分类和菜谱。",
                       "lineHeight": 1.5,
                       "fontFamily": "$font-body",
                       "fontSize": 13,
@@ -6757,7 +6809,7 @@
                           "id": "n6qXqu",
                           "name": "Circle Card 1 Update",
                           "fill": "$text-muted",
-                          "content": "今天刚更新",
+                          "content": "先点上方标签，再切换下方内容",
                           "fontFamily": "$font-body",
                           "fontSize": 12,
                           "fontWeight": "500"
@@ -6765,23 +6817,23 @@
                         {
                           "type": "frame",
                           "id": "rBCPk",
-                          "name": "Circle Card 1 Arrow",
-                          "width": 30,
+                          "name": "Current Circle Badge",
+                          "width": 64,
                           "height": 30,
-                          "fill": "#F7EFE6",
+                          "fill": "#335B47",
                           "cornerRadius": "$radius-pill",
                           "justifyContent": "center",
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon",
+                              "type": "text",
                               "id": "Ruzzj",
-                              "name": "Circle Card 1 Arrow Icon",
-                              "width": 16,
-                              "height": 16,
-                              "icon": "arrow-up-right",
-                              "library": "phosphor",
-                              "fill": "$accent-primary"
+                              "name": "Current Circle Badge Text",
+                              "fill": "#FFFFFF",
+                              "content": "当前",
+                              "fontFamily": "$font-body",
+                              "fontSize": 11,
+                              "fontWeight": "600"
                             }
                           ]
                         }
@@ -6797,8 +6849,8 @@
                   "fill": "$bg-card",
                   "cornerRadius": "$radius-card",
                   "layout": "vertical",
-                  "gap": 14,
-                  "padding": 16,
+                  "gap": 10,
+                  "padding": 14,
                   "children": [
                     {
                       "type": "frame",
@@ -6878,7 +6930,7 @@
                       "fill": "$text-body",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
-                      "content": "工作日中午互相抄作业，少纠结吃什么。",
+                      "content": "点一下切到这个圈。",
                       "lineHeight": 1.5,
                       "fontFamily": "$font-body",
                       "fontSize": 13,
@@ -6897,7 +6949,7 @@
                           "id": "xZBuw",
                           "name": "Circle Card 2 Update",
                           "fill": "$text-muted",
-                          "content": "昨天 21:10",
+                          "content": "也可以直接点这张卡",
                           "fontFamily": "$font-body",
                           "fontSize": 12,
                           "fontWeight": "500"
@@ -6905,8 +6957,8 @@
                         {
                           "type": "frame",
                           "id": "IZAIO",
-                          "name": "Circle Card 2 Arrow",
-                          "width": 30,
+                          "name": "Circle Card 2 Switch",
+                          "width": 52,
                           "height": 30,
                           "fill": "#EEF3EC",
                           "cornerRadius": "$radius-pill",
@@ -6914,14 +6966,14 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon",
+                              "type": "text",
                               "id": "qcpHn",
-                              "name": "Circle Card 2 Arrow Icon",
-                              "width": 16,
-                              "height": 16,
-                              "icon": "arrow-up-right",
-                              "library": "phosphor",
-                              "fill": "$accent-primary"
+                              "name": "Circle Card 2 Switch Text",
+                              "fill": "$accent-primary",
+                              "content": "切换",
+                              "fontFamily": "$font-body",
+                              "fontSize": 11,
+                              "fontWeight": "600"
                             }
                           ]
                         }
@@ -6937,8 +6989,8 @@
                   "fill": "$bg-card",
                   "cornerRadius": "$radius-card",
                   "layout": "vertical",
-                  "gap": 14,
-                  "padding": 16,
+                  "gap": 10,
+                  "padding": 14,
                   "children": [
                     {
                       "type": "frame",
@@ -7018,7 +7070,7 @@
                       "fill": "$text-body",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
-                      "content": "专门存重口味和宵夜局的菜单灵感。",
+                      "content": "切到这里看这圈菜谱。",
                       "lineHeight": 1.5,
                       "fontFamily": "$font-body",
                       "fontSize": 13,
@@ -7037,7 +7089,7 @@
                           "id": "t2uOE",
                           "name": "Circle Card 3 Update",
                           "fill": "$text-muted",
-                          "content": "周三 19:42",
+                          "content": "也可以直接点这张卡",
                           "fontFamily": "$font-body",
                           "fontSize": 12,
                           "fontWeight": "500"
@@ -7045,8 +7097,8 @@
                         {
                           "type": "frame",
                           "id": "dvzZn",
-                          "name": "Circle Card 3 Arrow",
-                          "width": 30,
+                          "name": "Circle Card 3 Switch",
+                          "width": 52,
                           "height": 30,
                           "fill": "#F7ECEA",
                           "cornerRadius": "$radius-pill",
@@ -7054,14 +7106,14 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon",
+                              "type": "text",
                               "id": "ekuLw",
-                              "name": "Circle Card 3 Arrow Icon",
-                              "width": 16,
-                              "height": 16,
-                              "icon": "arrow-up-right",
-                              "library": "phosphor",
-                              "fill": "$accent-primary"
+                              "name": "Circle Card 3 Switch Text",
+                              "fill": "$accent-primary",
+                              "content": "切换",
+                              "fontFamily": "$font-body",
+                              "fontSize": 11,
+                              "fontWeight": "600"
                             }
                           ]
                         }

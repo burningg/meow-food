@@ -6,7 +6,7 @@
     <artifactId>food</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>food</name>
-    <description>胖虎的菜谱</description>
+    <description>meow的菜谱</description>
     <properties>
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

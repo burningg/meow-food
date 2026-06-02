@@ -35,7 +35,7 @@
 
       <label class="field">
         <span>昵称</span>
-        <input v-model.trim="form.nickname" type="text" maxlength="20" placeholder="例如 胖虎今天吃什么" />
+        <input v-model.trim="form.nickname" type="text" maxlength="20" placeholder="例如 meow今天吃什么" />
       </label>
 
       <label class="field">

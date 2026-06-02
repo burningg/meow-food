@@ -5,7 +5,7 @@
     <section class="register-content">
       <div class="auth-badge" data-motion="item">
         <span class="badge-dot"></span>
-        <span>meow小馆 · 新用户注册</span>
+        <span>meow食堂 · 新用户注册</span>
       </div>
 
       <section class="register-card" data-motion="card">
