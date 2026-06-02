@@ -1,0 +1,65 @@
+<template>
+  <view class="page-shell feed-page">
+    <header class="top-nav">
+      <text class="page-title">好友动态</text>
+      <button class="back" @tap="loadData">↻</button>
+    </header>
+
+    <section class="list-section">
+      <ActivityCard v-for="item in feeds" :key="item.id" :item="item" @open="openDish(item.dishId)" />
+      <view v-if="!feeds.length" class="empty-card">暂时还没有好友动态</view>
+    </section>
+
+    <AppTabBar active="feed" />
+  </view>
+</template>
+
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import AppTabBar from '@/components/AppTabBar.vue'
+import ActivityCard from '@/components/ActivityCard.vue'
+import { requireAuth } from '@/lib/auth'
+import { Message } from '@/lib/feedback'
+import { push } from '@/lib/navigation'
+import { SocialService, type FeedItem } from '@/services/social-service'
+
+const socialService = new SocialService()
+const feeds = ref<FeedItem[]>([])
+
+onMounted(async () => {
+  if (!(await requireAuth('feed'))) return
+  await loadData()
+})
+
+async function loadData() {
+  try {
+    const { data } = await socialService.getFeed('all')
+    feeds.value = data
+  } catch (error: any) {
+    Message.error(error?.response?.data?.message || '动态加载失败')
+  }
+}
+
+function openDish(id: string) {
+  push({ name: 'dish-detail', params: { id } })
+}
+</script>
+
+<style scoped>
+.feed-page {
+  padding-bottom: 120px;
+}
+
+.page-title {
+  color: var(--text-main);
+  font-size: var(--title-lg);
+  font-weight: 800;
+}
+
+.list-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 18px 0;
+}
+</style>

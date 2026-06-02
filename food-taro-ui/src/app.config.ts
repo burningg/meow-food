@@ -1,0 +1,27 @@
+export default defineAppConfig({
+  pages: [
+    'pages/loading/loading',
+    'pages/auth/login',
+    'pages/auth/register',
+    'pages/home/home',
+    'pages/dish/add-dish',
+    'pages/dish/dish-detail',
+    'pages/profile/profile',
+    'pages/profile/edit-profile',
+    'pages/profile/edit-avatar',
+    'pages/profile/friends',
+    'pages/profile/friend-requests',
+    'pages/feed/feed',
+    'pages/user/user-menu',
+    'pages/circles/circles',
+    'pages/circles/create-circle',
+    'pages/circles/circle-detail',
+    'pages/circles/circle-members',
+  ],
+  window: {
+    backgroundTextStyle: 'light',
+    navigationBarBackgroundColor: '#f5f2ed',
+    navigationBarTitleText: 'meow食堂',
+    navigationBarTextStyle: 'black',
+  },
+})

@@ -1,0 +1,35 @@
+{
+  "name": "food-taro-ui",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev:weapp": "taro build --type weapp --watch",
+    "build:weapp": "taro build --type weapp",
+    "dev:h5": "taro build --type h5 --watch",
+    "build:h5": "taro build --type h5",
+    "type-check": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "@tarojs/components": "^4.1.7",
+    "@tarojs/helper": "^4.1.7",
+    "@tarojs/plugin-framework-vue3": "^4.1.7",
+    "@tarojs/plugin-html": "^4.1.7",
+    "@tarojs/plugin-platform-h5": "^4.1.7",
+    "@tarojs/plugin-platform-weapp": "^4.1.7",
+    "@tarojs/runtime": "^4.1.7",
+    "@tarojs/shared": "^4.1.7",
+    "@tarojs/taro": "^4.1.7",
+    "pinia": "^3.0.3",
+    "vue": "^3.5.17"
+  },
+  "devDependencies": {
+    "@tarojs/cli": "^4.1.7",
+    "@tarojs/webpack5-runner": "^4.1.7",
+    "@types/node": "^22.15.32",
+    "@vue/tsconfig": "^0.7.0",
+    "sass": "^1.89.2",
+    "typescript": "~5.8.0",
+    "vue-tsc": "^2.2.10"
+  }
+}

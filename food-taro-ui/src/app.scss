@@ -1,0 +1,181 @@
+:root,
+page {
+  color-scheme: light;
+  --bg-page: #f5f2ed;
+  --bg-card: #ffffff;
+  --text-main: #1b3a2d;
+  --text-muted: #8b8b8b;
+  --accent: #c4704b;
+  --accent-dark: #9f5c38;
+  --accent-soft: #e8f0e9;
+  --line: #e8e5e0;
+  --shadow: 0 12px 26px rgba(27, 58, 45, 0.06);
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-md: 15px;
+  --text-lg: 17px;
+  --title-sm: 16px;
+  --title-md: 18px;
+  --title-lg: 22px;
+}
+
+page {
+  min-height: 100%;
+  background: #f5f2ed;
+  color: var(--text-main);
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+  font-size: var(--text-md);
+  line-height: 1.55;
+}
+
+view,
+text,
+button,
+input,
+textarea,
+picker {
+  box-sizing: border-box;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  line-height: inherit;
+  font: inherit;
+}
+
+button::after {
+  border: none;
+}
+
+image {
+  display: block;
+  max-width: 100%;
+}
+
+.page-shell {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 18px 16px 24px;
+  background: var(--bg-page);
+}
+
+@media screen and (min-width: 391px) {
+  .page-shell,
+  .login-content,
+  .register-content {
+    max-width: 390px;
+  }
+}
+
+.primary-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  border-radius: 14px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 14px 26px rgba(196, 112, 75, 0.24);
+}
+
+.secondary-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  border-radius: 14px;
+  background: #f1eee9;
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.card {
+  border-radius: 18px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow);
+}
+
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.icon-button,
+.nav-shell,
+.back,
+.nav-button,
+.icon-shell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: #fff;
+  color: #151515;
+  font-size: 22px;
+  box-shadow: 0 4px 14px rgba(27, 58, 45, 0.05);
+}
+
+.placeholder {
+  visibility: hidden;
+}
+
+.field,
+.field-block,
+.field-group,
+.modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.line-input,
+.textarea-input,
+.mini-input,
+.step-input,
+.modal-input,
+.modal-textarea {
+  width: 100%;
+  min-height: 46px;
+  color: var(--text-main);
+  font-size: var(--text-md);
+}
+
+.empty-card,
+.empty-state,
+.status-card {
+  border-radius: 18px;
+  background: #fff;
+  padding: 18px;
+  color: var(--text-muted);
+  box-shadow: var(--shadow);
+}
+
+.bottom-bar {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  z-index: 18;
+  width: min(390px, 100vw);
+  transform: translateX(-50%);
+  padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
+  background: rgba(247, 246, 243, 0.94);
+  backdrop-filter: blur(14px);
+}
+
+.pressable {
+  transition: transform 0.18s ease;
+}
+
+.pressable:active {
+  transform: scale(0.97);
+}
