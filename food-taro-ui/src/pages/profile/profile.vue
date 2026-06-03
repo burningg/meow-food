@@ -53,13 +53,13 @@
     </section>
 
     <section class="invite-section">
-      <button class="invite-card pressable" :disabled="sharingInvite" @tap="shareFriendInvite">
+      <button class="invite-card pressable" open-type="share">
         <view class="invite-mark">邀</view>
         <view class="invite-copy">
           <text class="invite-title">邀请好友加入 meow食堂</text>
           <text class="invite-desc">发送一张小程序卡片，对方接受后会自动成为好友。</text>
         </view>
-        <text class="invite-action">{{ sharingInvite ? '发送中' : '去分享' }}</text>
+        <text class="invite-action">分享好友</text>
       </button>
     </section>
 
@@ -73,11 +73,11 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
+import { useShareAppMessage } from '@tarojs/taro'
 import AppTabBar from '@/components/AppTabBar.vue'
 import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
-import { push, replace } from '@/lib/navigation'
-import { shareAppMessageToGroup } from '@/lib/share'
+import { push, replace, resolveSharePath } from '@/lib/navigation'
 import { SocialService, type ProfileResponse } from '@/services/social-service'
 import { useAuthStore } from '@/stores/auth-store'
 import type { MenuVisibility } from '@/services/auth-service'
@@ -85,11 +85,11 @@ import type { MenuVisibility } from '@/services/auth-service'
 const authStore = useAuthStore()
 const socialService = new SocialService()
 const profile = ref<ProfileResponse | null>(null)
-const sharingInvite = ref(false)
 
 const displayName = computed(() => profile.value?.user.nickname || authStore.user?.nickname || 'meow')
 const displayBio = computed(() => profile.value?.user.bio || '菜单、好友和搭子圈都在这里慢慢展开。')
 const displayAvatar = computed(() => profile.value?.user.avatar || authStore.user?.avatar || '')
+const inviterId = computed(() => profile.value?.user.id || authStore.user?.id || '')
 
 const visibilityOptions: Array<{ value: Exclude<MenuVisibility, 'inherit'>; label: string; desc: string }> = [
   { value: 'friends', label: '好友可见', desc: '你的菜单会同步给好友和已加入的搭子圈。' },
@@ -101,6 +101,11 @@ onMounted(async () => {
   if (!(await requireAuth('profile'))) return
   await loadProfile()
 })
+
+useShareAppMessage(() => ({
+  title: '我在 meow食堂邀请你成为好友',
+  path: resolveSharePath({ name: 'friend-invite', params: { inviterId: inviterId.value } }),
+}))
 
 async function loadProfile() {
   const { data } = await socialService.getProfile()
@@ -122,24 +127,6 @@ function openEditProfilePage() {
   push('edit-profile')
 }
 
-async function shareFriendInvite() {
-  const inviterId = profile.value?.user.id || authStore.user?.id
-  if (!inviterId || sharingInvite.value) return
-  sharingInvite.value = true
-  try {
-    await shareAppMessageToGroup({
-      title: '我在 meow食堂邀请你成为好友',
-      path: `/pages/profile/friend-invite?inviterId=${encodeURIComponent(inviterId)}`,
-      imageUrl: '',
-    })
-    Message.success('邀请卡片已发送')
-  } catch (error: any) {
-    Message.warning(error?.message || '当前微信版本暂不支持分享到聊天，请升级微信后重试')
-  } finally {
-    sharingInvite.value = false
-  }
-}
-
 function logout() {
   authStore.logout()
   replace('login')
@@ -152,7 +139,6 @@ function logout() {
 }
 
 .hero-card,
-.visibility-card,
 .section-card {
   border-radius: 22px;
   background: #fff;
@@ -223,10 +209,14 @@ function logout() {
 }
 
 .ghost-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 36px;
   height: 36px;
   border-radius: 999px;
   background: #f5f2ed;
+  line-height: 1;
 }
 
 .stats-row {
@@ -317,6 +307,7 @@ function logout() {
 
 .visibility-card {
   margin-top: 12px;
+  border-radius: 18px;
   overflow: hidden;
 }
 

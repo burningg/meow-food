@@ -22,6 +22,8 @@ export type RouteName =
   | 'circle-members'
   | 'circle-share-invite'
 
+const primaryRouteNames: RouteName[] = ['home', 'feed', 'circles', 'profile']
+
 type RouteLocation = {
   name: RouteName
   params?: Record<string, string | number | undefined>
@@ -86,12 +88,25 @@ export function resolveRoute(location: RouteLocation | RouteName) {
   return queryText ? `${path}?${queryText}` : path
 }
 
+export function resolveSharePath(location: RouteLocation | RouteName) {
+  return resolveRoute(location).replace(/^\//, '')
+}
+
+export function isPrimaryRoute(routeName: RouteName) {
+  return primaryRouteNames.includes(routeName)
+}
+
 export function push(location: RouteLocation | RouteName) {
   return Taro.navigateTo({ url: resolveRoute(location) })
 }
 
 export function replace(location: RouteLocation | RouteName) {
   return Taro.redirectTo({ url: resolveRoute(location) })
+}
+
+export function openPrimaryRoute(location: RouteLocation | RouteName) {
+  const target = typeof location === 'string' ? { name: location } : location
+  return Taro.reLaunch({ url: resolveRoute(target) })
 }
 
 export function goBack(fallback?: RouteLocation | RouteName) {
@@ -123,12 +138,12 @@ export function currentPageUrl() {
 export function navigateByLegacyPath(path: string, fallback: RouteName = 'home') {
   if (!path) return replace(fallback)
   if (path.startsWith('/pages/')) return replaceByUrl(path)
-  if (path === '/' || path === '/home') return replace('home')
+  if (path === '/' || path === '/home') return openPrimaryRoute('home')
   if (path === '/login') return replace('login')
   if (path === '/register') return replace('register')
-  if (path === '/profile') return replace('profile')
-  if (path === '/feed') return replace('feed')
-  if (path === '/circles') return replace('circles')
+  if (path === '/profile') return openPrimaryRoute('profile')
+  if (path === '/feed') return openPrimaryRoute('feed')
+  if (path === '/circles') return openPrimaryRoute('circles')
   if (path === '/dish/add') return push('add-dish')
 
   const dishMatch = path.match(/^\/dish\/([^/?#]+)(\/edit)?/)

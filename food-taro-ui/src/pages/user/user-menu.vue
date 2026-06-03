@@ -26,7 +26,7 @@
         <image :src="menu.image" mode="aspectFill" />
         <view>
           <text class="menu-name">{{ menu.name }}</text>
-          <text class="muted">{{ menu.effectiveVisibility === 'friends' ? '好友可见' : '公开菜单' }}</text>
+          <text class="muted">{{ menu.description }}</text>
         </view>
       </button>
       <view v-if="access && !access.menus.length" class="empty-card">暂无可访问菜单</view>

@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import { push, type RouteName } from '@/lib/navigation'
+import { openPrimaryRoute, push, type RouteName } from '@/lib/navigation'
 
 const props = defineProps<{
   active: 'home' | 'feed' | 'profile' | 'circles'
@@ -66,7 +66,11 @@ const items: TabItem[] = [
 
 function navigate(item: TabItem) {
   if (item.name === props.active) return
-  push(item.route)
+  if (item.add) {
+    push(item.route)
+    return
+  }
+  openPrimaryRoute(item.route)
 }
 </script>
 
@@ -84,23 +88,27 @@ function navigate(item: TabItem) {
   padding: 8px 12px;
   transform: translateX(-50%);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.96);
+  background: #fff;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(16px);
   box-sizing: border-box;
 }
 
 .tab-item {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
+  min-width: 44px;
+  height: 40px;
   padding: 8px 12px;
+  border: 0;
   border-radius: 999px;
   background: transparent;
   color: #787774;
   flex-shrink: 0;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  line-height: 1;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .tab-item.active {
@@ -113,8 +121,9 @@ function navigate(item: TabItem) {
 }
 
 .tab-item.add {
-  min-width: 56px;
-  min-height: 40px;
+  min-width: 54px;
+  width: 54px;
+  height: 40px;
   padding: 8px 16px;
   background: #9f5c38;
   color: #fff;
@@ -152,12 +161,12 @@ function navigate(item: TabItem) {
 }
 
 .home-roof {
-  top: 2px;
+  top: 3px;
   left: 5px;
-  width: 11px;
-  height: 11px;
-  border-left: 2px solid currentColor;
-  border-top: 2px solid currentColor;
+  width: 10px;
+  height: 10px;
+  border-left: 1.8px solid currentColor;
+  border-top: 1.8px solid currentColor;
   border-radius: 2px 0 0;
   transform: rotate(45deg);
 }
@@ -167,7 +176,7 @@ function navigate(item: TabItem) {
   bottom: 2px;
   width: 12px;
   height: 10px;
-  border: 2px solid currentColor;
+  border: 1.8px solid currentColor;
   border-top: none;
   border-radius: 0 0 3px 3px;
 }
@@ -175,9 +184,9 @@ function navigate(item: TabItem) {
 .home-door {
   left: 9px;
   bottom: 2px;
-  width: 4px;
-  height: 7px;
-  border-left: 2px solid currentColor;
+  width: 0;
+  height: 6px;
+  border-left: 1.8px solid currentColor;
 }
 
 .feed-bubble {
@@ -189,18 +198,18 @@ function navigate(item: TabItem) {
   gap: 3px;
   width: 17px;
   height: 14px;
-  border: 2px solid currentColor;
+  border: 1.8px solid currentColor;
   border-radius: 999px;
 }
 
 .feed-tail {
   left: 4px;
   bottom: 2px;
-  width: 6px;
-  height: 6px;
-  border-left: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
-  transform: skew(-18deg);
+  width: 5px;
+  height: 5px;
+  border-left: 1.8px solid currentColor;
+  border-bottom: 1.8px solid currentColor;
+  transform: skew(-20deg);
 }
 
 .feed-dot {
@@ -225,20 +234,20 @@ function navigate(item: TabItem) {
 }
 
 .circle-node {
-  border: 2px solid currentColor;
+  border: 1.8px solid currentColor;
   border-radius: 999px;
 }
 
 .circle-node-main {
-  left: 2px;
-  top: 3px;
-  width: 9px;
-  height: 9px;
+  left: 1px;
+  top: 4px;
+  width: 6px;
+  height: 6px;
 }
 
 .circle-node-side {
-  right: 2px;
-  top: 4px;
+  right: 3px;
+  top: 5px;
   width: 7px;
   height: 7px;
 }
@@ -251,41 +260,43 @@ function navigate(item: TabItem) {
 }
 
 .circle-arc-main {
-  left: 1px;
+  left: 0;
   bottom: 2px;
-  width: 14px;
-  height: 8px;
-  border-width: 2px 2px 0;
+  width: 11px;
+  height: 7px;
+  border-width: 1.8px 1.8px 0;
 }
 
 .circle-arc-side {
   right: 1px;
   bottom: 3px;
-  width: 10px;
+  width: 9px;
   height: 6px;
-  border-width: 2px 2px 0;
+  border-width: 1.8px 1.8px 0;
 }
 
 .profile-head {
   left: 6px;
   top: 2px;
-  width: 8px;
-  height: 8px;
-  border: 2px solid currentColor;
+  width: 7px;
+  height: 7px;
+  border: 1.8px solid currentColor;
   border-radius: 999px;
 }
 
 .profile-shoulders {
   left: 3px;
   bottom: 2px;
-  width: 14px;
-  height: 8px;
-  border: 2px solid currentColor;
+  width: 13px;
+  height: 7px;
+  border: 1.8px solid currentColor;
   border-bottom: none;
   border-radius: 999px 999px 0 0;
 }
 
 .tab-label {
+  color: #151515;
+  font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   font-size: 12px;
   font-weight: 600;
   line-height: 1;

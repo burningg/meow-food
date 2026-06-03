@@ -4,7 +4,7 @@
       <button class="icon-shell" @tap="goBack('circles')">‹</button>
       <text class="page-title">美食搭子</text>
       <view class="circle-nav-actions">
-        <button class="icon-shell share-shell" :disabled="sharingCircle" @tap="shareCircleInvite">↗</button>
+        <button class="icon-shell share-shell" open-type="share">↗</button>
         <button class="icon-shell" @tap="openInvitePicker">＋</button>
       </view>
     </header>
@@ -139,10 +139,10 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
+import { useShareAppMessage } from '@tarojs/taro'
 import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
-import { getRouteParams, goBack, push } from '@/lib/navigation'
-import { shareAppMessageToGroup } from '@/lib/share'
+import { getRouteParams, goBack, push, resolveSharePath } from '@/lib/navigation'
 import type { DishSummary } from '@/services/food-service'
 import {
   SocialService,
@@ -162,7 +162,6 @@ const detail = ref<BuddyCircleDetail | null>(null)
 const circles = ref<BuddyCircleSummary[]>([])
 const activeCategory = ref('全部')
 const isLoading = ref(true)
-const sharingCircle = ref(false)
 const inviteModalVisible = ref(false)
 const inviteLoading = ref(false)
 const inviteSubmitting = ref(false)
@@ -211,6 +210,20 @@ const inviteEmptyText = computed(() => {
   return '你的好友已经都在这个搭子圈里了。'
 })
 
+useShareAppMessage(() => {
+  const circle = detail.value?.circle
+  const inviterId = authStore.user?.id || ''
+  const sharedCircleId = circle?.id || circleId.value
+
+  return {
+    title: circle ? `邀请你加入「${circle.name}」搭子圈` : '邀请你加入 meow食堂搭子圈',
+    path: resolveSharePath({
+      name: 'circle-share-invite',
+      params: { circleId: sharedCircleId, inviterId },
+    }),
+  }
+})
+
 onMounted(async () => {
   if (!(await requireAuth('circle-detail'))) return
   await loadData()
@@ -254,23 +267,6 @@ function openInvitePicker() {
   if (!detail.value) return
   inviteModalVisible.value = true
   void ensureInviteCandidates()
-}
-
-async function shareCircleInvite() {
-  const circle = detail.value?.circle
-  const inviterId = authStore.user?.id
-  if (!circle || !inviterId || sharingCircle.value) return
-  sharingCircle.value = true
-  try {
-    await shareAppMessageToGroup({
-      title: `邀请你加入「${circle.name}」搭子圈`,
-      path: `/pages/circles/circle-share-invite?circleId=${encodeURIComponent(circle.id)}&inviterId=${encodeURIComponent(inviterId)}`,
-    })
-  } catch (error: any) {
-    Message.error(error?.message || '当前环境暂不支持分享到聊天')
-  } finally {
-    sharingCircle.value = false
-  }
 }
 
 function closeInvitePicker() {

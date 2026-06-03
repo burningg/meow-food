@@ -78,7 +78,7 @@
     </section>
 
     <footer class="bottom-bar actions-bar">
-      <button class="secondary-button action-button" @tap="shareDish">分享菜谱</button>
+      <button class="secondary-button action-button" open-type="share">分享菜谱</button>
       <button class="primary-button action-button" @tap="startCooking">开始烹饪</button>
     </footer>
   </view>
@@ -87,11 +87,11 @@
 </template>
 
 <script setup lang="ts">
-import Taro from '@tarojs/taro'
+import { useShareAppMessage } from '@tarojs/taro'
 import { computed, onMounted, ref } from 'vue'
 import { requireAuth } from '@/lib/auth'
 import { confirmDialog, Message } from '@/lib/feedback'
-import { getRouteParams, push, replace } from '@/lib/navigation'
+import { getRouteParams, push, replace, resolveSharePath } from '@/lib/navigation'
 import { FoodService, type DishDetail } from '@/services/food-service'
 import { useAuthStore } from '@/stores/auth-store'
 
@@ -100,6 +100,16 @@ const foodService = new FoodService()
 const authStore = useAuthStore()
 const dish = ref<DishDetail | null>(null)
 const isOwner = computed(() => Boolean(dish.value && authStore.user?.id === dish.value.ownerUserId))
+
+useShareAppMessage(() => {
+  const currentDish = dish.value
+  const dishId = String(params.id || '')
+
+  return {
+    title: currentDish ? `分享一道菜给你：${currentDish.name}` : '分享一道 meow 食堂里的菜谱给你',
+    path: resolveSharePath({ name: 'dish-detail', params: { id: dishId } }),
+  }
+})
 
 onMounted(async () => {
   if (!(await requireAuth('dish-detail'))) return
@@ -132,17 +142,6 @@ function difficultyLabel(value: string) {
 
 function startCooking() {
   Message.success('开火吧，祝你做菜顺利')
-}
-
-async function shareDish() {
-  if (!dish.value) return
-  const shareText = `/dish/${params.id}，快来meow看看我的${dish.value.name}～`
-  try {
-    await Taro.setClipboardData({ data: shareText })
-    Message.success('分享文案已复制')
-  } catch (error) {
-    Message.error('复制失败，请稍后重试')
-  }
 }
 
 async function confirmDelete() {
@@ -342,7 +341,10 @@ async function confirmDelete() {
 }
 
 .ghost-button {
+  display: flex;
   flex: 1;
+  align-items: center;
+  justify-content: center;
   min-height: 42px;
   border-radius: 14px;
   background: #f5f2ed;
@@ -359,6 +361,9 @@ async function confirmDelete() {
 }
 
 .action-button {
+  display: flex;
   flex: 1;
+  align-items: center;
+  justify-content: center;
 }
 </style>

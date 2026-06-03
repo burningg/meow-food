@@ -4574,29 +4574,6 @@
           "alignItems": "center",
           "children": [
             {
-              "type": "frame",
-              "id": "f5a",
-              "name": "Back Shell",
-              "width": 36,
-              "height": 36,
-              "fill": "$bg-card",
-              "cornerRadius": "$radius-pill",
-              "justifyContent": "center",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "i59",
-                  "name": "Back Icon",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "caret-left",
-                  "library": "phosphor",
-                  "fill": "$text-primary"
-                }
-              ]
-            },
-            {
               "type": "text",
               "id": "t5b",
               "name": "Page Title",
