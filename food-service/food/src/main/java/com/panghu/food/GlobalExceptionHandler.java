@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ApiException.class)
     public org.springframework.http.ResponseEntity<ErrorResponse> handleApiException(ApiException e) {
         return org.springframework.http.ResponseEntity.status(e.getStatus())
-                .body(new ErrorResponse("ERROR", e.getMessage()));
+                .body(new ErrorResponse(e.getCode(), e.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)

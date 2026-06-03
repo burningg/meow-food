@@ -6,17 +6,24 @@ export default defineAppConfig({
     'pages/home/home',
     'pages/dish/add-dish',
     'pages/dish/dish-detail',
-    'pages/profile/profile',
-    'pages/profile/edit-profile',
-    'pages/profile/edit-avatar',
-    'pages/profile/friends',
-    'pages/profile/friend-requests',
-    'pages/feed/feed',
-    'pages/user/user-menu',
-    'pages/circles/circles',
-    'pages/circles/create-circle',
-    'pages/circles/circle-detail',
-    'pages/circles/circle-members',
+  ],
+  subPackages: [
+    {
+      root: 'pages/profile',
+      pages: ['profile', 'edit-profile', 'edit-avatar', 'friends', 'friend-requests'],
+    },
+    {
+      root: 'pages/feed',
+      pages: ['feed'],
+    },
+    {
+      root: 'pages/user',
+      pages: ['user-menu'],
+    },
+    {
+      root: 'pages/circles',
+      pages: ['circles', 'create-circle', 'circle-detail', 'circle-members'],
+    },
   ],
   window: {
     backgroundTextStyle: 'light',

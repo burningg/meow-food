@@ -94,6 +94,13 @@ public class AuthServiceImpl implements AuthService {
         UserAccount user = userAccountMapper.selectOne(new QueryWrapper<UserAccount>()
                 .eq("account", account).last("LIMIT 1"));
         if (user == null) {
+            if (isBlank(request.getNickname()) || isBlank(request.getAvatar())) {
+                throw new ApiException(
+                        HttpStatus.BAD_REQUEST,
+                        "WECHAT_PROFILE_REQUIRED",
+                        "首次微信登录请先选择头像并填写昵称");
+            }
+
             user = new UserAccount();
             user.setAccount(account);
             user.setPasswordHash(PasswordUtils.hash("wechat:" + auth.getOpenid()));

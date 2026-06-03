@@ -36,6 +36,10 @@ const config = {
     options: {},
   },
   mini: {
+    enableSourceMap: false,
+    optimizeMainPackage: {
+      enable: true,
+    },
     postcss: {
       pxtransform: {
         enable: true,

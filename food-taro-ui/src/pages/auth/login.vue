@@ -9,21 +9,46 @@
       <view class="login-card">
         <text class="auth-title">登录你的美味空间</text>
 
-        <label class="field">
-          <text>账号</text>
-          <input v-model.trim="form.account" placeholder="输入账号" />
-        </label>
+        <view v-if="profileRequired" class="wechat-profile-card">
+          <button
+            class="avatar-picker"
+            open-type="chooseAvatar"
+            :disabled="loading || avatarUploading"
+            @chooseavatar="handleChooseAvatar"
+          >
+            <image
+              v-if="form.avatar"
+              class="avatar-image"
+              :src="form.avatar"
+              mode="aspectFill"
+            />
+            <view v-else class="avatar-placeholder">
+              <text class="avatar-plus">{{ avatarUploading ? "..." : "+" }}</text>
+              <text>{{ avatarUploading ? "上传中" : "选择头像" }}</text>
+            </view>
+          </button>
 
-        <label class="field">
-          <text>密码</text>
-          <input v-model.trim="form.password" password placeholder="输入密码" />
-        </label>
+          <label class="field">
+            <text>微信昵称</text>
+            <input
+              v-model.trim="form.nickname"
+              class="field-input"
+              :type="isWeapp ? 'nickname' : 'text'"
+              maxlength="20"
+              placeholder="点击填写昵称"
+            />
+          </label>
+        </view>
 
         <view class="submit-block">
-          <button class="primary-button submit" :disabled="loading" @tap="submit">
-            {{ loading ? '登录中...' : '进入美味空间' }}
+          <button
+            class="primary-button submit"
+            :disabled="loading || avatarUploading"
+            @tap="submitWechatLogin"
+          >
+            {{ submitText }}
           </button>
-          <text class="submit-hint">登录后可管理你的菜谱、收藏与好友动态。</text>
+          <text class="submit-hint">{{ submitHint }}</text>
         </view>
       </view>
 
@@ -36,65 +61,105 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
-import { Message } from '@/lib/feedback'
-import { getRouteParams, navigateByLegacyPath, push, replace } from '@/lib/navigation'
-import { useAuthStore } from '@/stores/auth-store'
+import { computed, reactive, ref } from "vue";
+import { Message } from "@/lib/feedback";
+import {
+  getRouteParams,
+  navigateByLegacyPath,
+  push,
+  replace,
+} from "@/lib/navigation";
+import { FoodService } from "@/services/food-service";
+import { isWechatNicknameReady, useAuthStore } from "@/stores/auth-store";
 
-const authStore = useAuthStore()
-const loading = ref(false)
-const params = getRouteParams() as { redirect?: string }
-
+const authStore = useAuthStore();
+const foodService = new FoodService();
+const loading = ref(false);
+const avatarUploading = ref(false);
+const profileRequired = ref(false);
+const params = getRouteParams() as { redirect?: string };
+const isWeapp = process.env.TARO_ENV === "weapp";
 const form = reactive({
-  account: '',
-  password: '',
-})
+  nickname: "",
+  avatar: "",
+});
+const submitHint = computed(() =>
+  profileRequired.value
+    ? "首次微信登录请先选择头像并填写昵称，后续登录无需重复填写。"
+    : "登录后可管理你的菜谱、收藏与好友动态。",
+);
+const submitText = computed(() => {
+  if (loading.value) return "登录中...";
+  return profileRequired.value ? "完成微信登录" : "微信一键登录";
+});
 
-async function submit() {
-  if (!form.account || !form.password) {
-    Message.warning('请输入账号和密码')
-    return
+async function submitWechatLogin() {
+  if (!isWeapp) {
+    Message.warning("请在微信小程序中完成登录");
+    return;
   }
-  loading.value = true
+
+  if (profileRequired.value && !form.avatar) {
+    Message.warning("请先选择微信头像");
+    return;
+  }
+
+  if (profileRequired.value && !isWechatNicknameReady(form.nickname)) {
+    Message.warning("请先填写可用的微信昵称");
+    return;
+  }
+
   try {
-    await authStore.login(form.account, form.password)
-    goAfterLogin()
+    loading.value = true;
+    await authStore.wechatLogin({
+      nickname: profileRequired.value ? form.nickname.trim() : undefined,
+      avatar: profileRequired.value ? form.avatar : undefined,
+    });
+    goAfterLogin();
   } catch (error: any) {
-    Message.error(error?.response?.data?.message || '登录失败')
+    if (error?.response?.data?.code === "WECHAT_PROFILE_REQUIRED") {
+      profileRequired.value = true;
+      Message.warning("首次微信登录请先选择头像并填写昵称");
+      return;
+    }
+
+    const errMsg =
+      error?.errMsg || error?.response?.data?.message || error?.message || "";
+    Message.error(errMsg || "微信登录失败");
   } finally {
-    loading.value = false
+    loading.value = false;
   }
 }
 
-async function autoWechatLogin() {
-  loading.value = true
+async function handleChooseAvatar(event: any) {
+  const filePath = event?.detail?.avatarUrl;
+  if (!filePath || avatarUploading.value) {
+    return;
+  }
+
+  avatarUploading.value = true;
   try {
-    await authStore.wechatLogin()
-    goAfterLogin()
+    const { data } = await foodService.uploadImage(filePath);
+    form.avatar = data;
+    Message.success("头像已上传");
   } catch (error: any) {
-    Message.error(error?.response?.data?.message || error?.message || '微信登录失败')
+    Message.error(error?.response?.data?.message || error?.message || "头像上传失败");
   } finally {
-    loading.value = false
+    avatarUploading.value = false;
   }
 }
 
 function goAfterLogin() {
   if (params.redirect) {
-    navigateByLegacyPath(decodeURIComponent(params.redirect), 'home')
-    return
+    navigateByLegacyPath(decodeURIComponent(params.redirect), "home");
+    return;
   }
-  replace('home')
+  replace("home");
 }
 
 function goRegister() {
-  push('register')
+  push("register");
 }
-
-onMounted(() => {
-  if (process.env.TARO_ENV === 'weapp') {
-    autoWechatLogin()
-  }
-})
 </script>
 
 <style>
@@ -103,8 +168,16 @@ onMounted(() => {
   overflow: hidden;
   padding: 14px 0 24px;
   background:
-    radial-gradient(circle at 85% 12%, rgba(231, 165, 106, 0.3), transparent 24%),
-    radial-gradient(circle at 10% 86%, rgba(140, 178, 122, 0.2), transparent 28%),
+    radial-gradient(
+      circle at 85% 12%,
+      rgba(231, 165, 106, 0.3),
+      transparent 24%
+    ),
+    radial-gradient(
+      circle at 10% 86%,
+      rgba(140, 178, 122, 0.2),
+      transparent 28%
+    ),
     linear-gradient(180deg, #fbf4ec 0%, #f7f6f3 44%, #eef4eb 100%);
 }
 
@@ -154,8 +227,51 @@ onMounted(() => {
   font-weight: 700;
 }
 
+.wechat-profile-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.avatar-picker {
+  display: flex;
+  width: 92px;
+  height: 92px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid #eadbcb;
+  border-radius: 24px;
+  background: #fff8f2;
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+}
+
+.avatar-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: #8c7662;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.avatar-plus {
+  font-size: 28px;
+  line-height: 1;
+}
+
 .field {
-  margin-bottom: 14px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
 .field text {
@@ -164,7 +280,7 @@ onMounted(() => {
   font-weight: 700;
 }
 
-.field input {
+.field-input {
   min-height: 54px;
   margin-top: 8px;
   border: 1px solid #e8dccf;
@@ -183,6 +299,7 @@ onMounted(() => {
 
 .submit {
   width: 100%;
+  min-height: 54px;
   border-radius: 18px;
   font-size: 15px;
 }
