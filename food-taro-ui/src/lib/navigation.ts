@@ -18,7 +18,6 @@ export type RouteName =
   | 'user-menu'
   | 'circles'
   | 'create-circle'
-  | 'circle-detail'
   | 'circle-members'
   | 'circle-share-invite'
 
@@ -48,7 +47,6 @@ const routePathMap: Record<RouteName, string> = {
   'user-menu': '/pages/user/user-menu',
   circles: '/pages/circles/circles',
   'create-circle': '/pages/circles/create-circle',
-  'circle-detail': '/pages/circles/circle-detail',
   'circle-members': '/pages/circles/circle-members',
   'circle-share-invite': '/pages/circles/circle-share-invite',
 }
@@ -65,7 +63,7 @@ export function resolveRoute(location: RouteLocation | RouteName) {
   const params = target.params || {}
   const query = { ...(target.query || {}) }
 
-  if (target.name === 'dish-detail' || target.name === 'user-menu' || target.name === 'circle-detail' || target.name === 'circle-members') {
+  if (target.name === 'dish-detail' || target.name === 'user-menu' || target.name === 'circles' || target.name === 'circle-members') {
     query.id = params.id
   }
 
@@ -157,7 +155,7 @@ export function navigateByLegacyPath(path: string, fallback: RouteName = 'home')
   if (circleMembersMatch) return replace({ name: 'circle-members', params: { id: circleMembersMatch[1] } })
 
   const circleMatch = path.match(/^\/circles\/([^/?#]+)/)
-  if (circleMatch) return replace({ name: 'circle-detail', params: { id: circleMatch[1] } })
+  if (circleMatch) return replace({ name: 'circles', params: { id: circleMatch[1] } })
 
   return replace(fallback)
 }

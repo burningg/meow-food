@@ -57,7 +57,7 @@ async function submit() {
       description: form.description.trim(),
     })
     Message.success('搭子圈已创建')
-    push({ name: 'circle-detail', params: { id: data.circle.id } })
+    push({ name: 'circles', params: { id: data.circle.id } })
   } catch (error: any) {
     Message.error(error?.response?.data?.message || '创建圈子失败')
   } finally {

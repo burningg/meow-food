@@ -51,12 +51,17 @@
             </view>
           </view>
 
-          <scroll-view class="category-group" scroll-x>
+          <scroll-view
+            class="category-group"
+            :scroll-x="true"
+            :scroll-left="categoryScrollLeft"
+            :scroll-with-animation="true"
+          >
             <button
               v-for="category in categories"
               :key="category"
               :class="['category-chip', { active: category === activeCategory }]"
-              @tap="activeCategory = category"
+              @tap="selectCategory(category)"
             >
               <text>{{ category }}</text>
             </button>
@@ -118,12 +123,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import Taro from '@tarojs/taro'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import AppTabBar from '@/components/AppTabBar.vue'
 import SmartImage from '@/components/SmartImage.vue'
 import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
-import { push } from '@/lib/navigation'
+import { getRouteParams, push } from '@/lib/navigation'
 import type { DishSummary } from '@/services/food-service'
 import {
   SocialService,
@@ -139,10 +145,12 @@ type PreviewMember = {
 }
 
 const socialService = new SocialService()
+const params = getRouteParams() as { id?: string }
 const circles = ref<BuddyCircleSummary[]>([])
 const activeDetail = ref<BuddyCircleDetail | null>(null)
 const activeCircleId = ref('')
 const activeCategory = ref('全部')
+const categoryScrollLeft = ref(0)
 const isLoading = ref(true)
 const switcherVisible = ref(false)
 let detailRequestToken = 0
@@ -176,6 +184,7 @@ onMounted(async () => {
 
 watch(categories, (nextCategories) => {
   if (!nextCategories.includes(activeCategory.value)) activeCategory.value = '全部'
+  void centerSelectedCategory()
 })
 
 watch(activeCircleId, (circleId) => {
@@ -187,7 +196,7 @@ async function loadData() {
   try {
     const { data } = await socialService.getCircles()
     circles.value = data
-    activeCircleId.value = presentedCircles.value[0]?.id || ''
+    activeCircleId.value = params.id || presentedCircles.value[0]?.id || ''
     if (!activeCircleId.value) activeDetail.value = null
   } catch (error: any) {
     Message.error(error?.response?.data?.message || '搭子圈加载失败')
@@ -223,7 +232,52 @@ function selectCircle(circleId: string) {
   closeCircleSwitcher()
   if (!circleId || circleId === activeCircleId.value) return
   activeCategory.value = '全部'
+  categoryScrollLeft.value = 0
   activeCircleId.value = circleId
+}
+
+function selectCategory(category: string) {
+  activeCategory.value = category
+  void centerSelectedCategory()
+}
+
+async function centerSelectedCategory() {
+  await nextTick()
+
+  const [groupRect, activeRect, chipRects] = await new Promise<
+    [
+      Taro.NodesRef.BoundingClientRectCallbackResult | null,
+      Taro.NodesRef.BoundingClientRectCallbackResult | null,
+      Taro.NodesRef.BoundingClientRectCallbackResult[],
+    ]
+  >((resolve) => {
+    Taro.createSelectorQuery()
+      .select('.category-group')
+      .boundingClientRect()
+      .select('.category-chip.active')
+      .boundingClientRect()
+      .selectAll('.category-chip')
+      .boundingClientRect()
+      .exec((result) => {
+        resolve([
+          (result?.[0] as Taro.NodesRef.BoundingClientRectCallbackResult | null) ?? null,
+          (result?.[1] as Taro.NodesRef.BoundingClientRectCallbackResult | null) ?? null,
+          (result?.[2] as Taro.NodesRef.BoundingClientRectCallbackResult[]) ?? [],
+        ])
+      })
+  })
+
+  if (!groupRect || !activeRect || !chipRects.length) return
+
+  const contentLeft = Math.min(...chipRects.map((rect) => rect.left))
+  const contentRight = Math.max(...chipRects.map((rect) => rect.right))
+  const nextScrollLeft =
+    categoryScrollLeft.value +
+    (activeRect.left - groupRect.left) -
+    (groupRect.width - activeRect.width) / 2
+  const maxScrollLeft = Math.max(contentRight - contentLeft - groupRect.width, 0)
+
+  categoryScrollLeft.value = Math.min(Math.max(nextScrollLeft, 0), maxScrollLeft)
 }
 
 function createCircle() {

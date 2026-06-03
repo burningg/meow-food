@@ -105,14 +105,14 @@ async function acceptInvite() {
     return
   }
   if (invitation.value?.member) {
-    replace({ name: 'circle-detail', params: { id: params.circleId } })
+    replace({ name: 'circles', params: { id: params.circleId } })
     return
   }
   submitting.value = true
   try {
     const { data } = await socialService.acceptCircleShareInvitation(params.circleId, params.inviterId)
     Message.success('已加入搭子圈')
-    replace({ name: 'circle-detail', params: { id: data.circle.id } })
+    replace({ name: 'circles', params: { id: data.circle.id } })
   } catch (error: any) {
     Message.error(error?.response?.data?.message || '加入搭子圈失败')
   } finally {

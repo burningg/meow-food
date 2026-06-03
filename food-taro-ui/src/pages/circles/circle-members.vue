@@ -2,12 +2,15 @@
   <view class="page-shell circle-members-page">
     <view class="circle-members-content">
       <section class="circle-members-top-card">
-        <button class="nav-shell" @tap="goBack({ name: 'circle-detail', params: { id: circleId } })">‹</button>
+        <button class="nav-shell" @tap="goBack({ name: 'circles', params: { id: circleId } })">‹</button>
         <view class="circle-members-title-stack">
           <text class="eyebrow">搭子圈成员</text>
           <text class="title">圈内成员</text>
         </view>
-        <view class="nav-shell nav-shell-placeholder"></view>
+        <view class="circle-members-actions">
+          <button class="nav-shell share-shell" open-type="share">↗</button>
+          <button class="nav-shell" @tap="openInvitePicker">＋</button>
+        </view>
       </section>
 
       <section v-if="detail" class="circle-members-intro-card">
@@ -49,20 +52,74 @@
         </section>
       </section>
     </view>
+
+    <view v-if="inviteModalVisible" class="invite-modal-overlay" @tap="closeInvitePicker">
+      <section class="invite-modal-card" @tap.stop>
+        <view class="invite-modal-handle"></view>
+        <view class="invite-modal-head">
+          <view class="invite-modal-title">
+            <text class="eyebrow">搭子圈邀请</text>
+            <text class="invite-title">邀请好友加入</text>
+          </view>
+          <button class="modal-close-shell" :disabled="inviteSubmitting" @tap="closeInvitePicker">×</button>
+        </view>
+
+        <view v-if="inviteCandidates.length" class="invite-friends-card">
+          <article v-for="(friend, index) in inviteCandidates" :key="friend.id" class="invite-friend-row">
+            <button class="invite-friend-main" :disabled="inviteSubmitting" @tap="selectedFriendId = friend.id">
+              <view :class="['invite-avatar-box', avatarToneClass(index)]">
+                <text>{{ avatarInitial(friend.nickname) }}</text>
+              </view>
+              <view class="invite-friend-copy">
+                <text class="strong">{{ friend.nickname }}</text>
+                <text class="muted">{{ inviteFriendMeta(friend, index) }}</text>
+              </view>
+              <text :class="['invite-check', { active: selectedFriendId === friend.id }]">
+                {{ selectedFriendId === friend.id ? '✓' : '' }}
+              </text>
+            </button>
+          </article>
+        </view>
+
+        <view v-else class="invite-empty-card">
+          <text class="strong">{{ inviteEmptyTitle }}</text>
+          <text class="muted">{{ inviteEmptyText }}</text>
+        </view>
+
+        <view class="invite-modal-footer">
+          <text class="muted">一次选择 1 位好友发出邀请。</text>
+          <view class="invite-modal-actions">
+            <button class="modal-action ghost" :disabled="inviteSubmitting" @tap="closeInvitePicker">取消</button>
+            <button class="modal-action primary" :disabled="!selectedFriendId || inviteSubmitting || inviteLoading" @tap="submitInvite">
+              {{ inviteSubmitting ? '邀请中...' : inviteButtonText }}
+            </button>
+          </view>
+        </view>
+      </section>
+    </view>
   </view>
 </template>
 
 <script setup lang="ts">
+import { useShareAppMessage } from '@tarojs/taro'
 import { computed, onMounted, ref } from 'vue'
 import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
-import { getRouteParams, goBack, push } from '@/lib/navigation'
-import { SocialService, type BuddyCircleDetail, type BuddyCircleMember } from '@/services/social-service'
+import { getRouteParams, goBack, push, resolveSharePath } from '@/lib/navigation'
+import { SocialService, type BuddyCircleDetail, type BuddyCircleMember, type FriendItem } from '@/services/social-service'
+import { useAuthStore } from '@/stores/auth-store'
 
 const params = getRouteParams() as { id?: string }
 const socialService = new SocialService()
+const authStore = useAuthStore()
 const detail = ref<BuddyCircleDetail | null>(null)
 const isLoading = ref(true)
+const inviteModalVisible = ref(false)
+const inviteLoading = ref(false)
+const inviteSubmitting = ref(false)
+const inviteLoadFailed = ref(false)
+const friends = ref<FriendItem[]>([])
+const selectedFriendId = ref('')
 const avatarTones = ['tone-sage', 'tone-apricot', 'tone-lavender']
 const circleId = computed(() => String(params.id || ''))
 const orderedMembers = computed(() => {
@@ -71,6 +128,36 @@ const orderedMembers = computed(() => {
     if (left.role === right.role) return 0
     return left.role === 'owner' ? -1 : 1
   })
+})
+const circleMemberIds = computed(() => new Set((detail.value?.members || []).map((member) => member.id)))
+const inviteCandidates = computed(() => friends.value.filter((friend) => !circleMemberIds.value.has(friend.id)))
+const inviteButtonText = computed(() => {
+  const target = inviteCandidates.value.find((friend) => friend.id === selectedFriendId.value)
+  return target ? `邀请${target.nickname}加入搭子圈` : '选择好友后邀请'
+})
+const inviteEmptyTitle = computed(() => {
+  if (inviteLoading.value) return '正在加载好友'
+  if (inviteLoadFailed.value) return '好友加载失败'
+  return '暂无可邀请好友'
+})
+const inviteEmptyText = computed(() => {
+  if (inviteLoading.value) return '稍等一下，马上就好。'
+  if (inviteLoadFailed.value) return '请稍后重试。'
+  return '你的好友已经都在这个搭子圈里了。'
+})
+
+useShareAppMessage(() => {
+  const circle = detail.value?.circle
+  const inviterId = authStore.user?.id || ''
+  const sharedCircleId = circle?.id || circleId.value
+
+  return {
+    title: circle ? `邀请你加入「${circle.name}」搭子圈` : '邀请你加入 meow食堂搭子圈',
+    path: resolveSharePath({
+      name: 'circle-share-invite',
+      params: { circleId: sharedCircleId, inviterId },
+    }),
+  }
 })
 
 onMounted(async () => {
@@ -98,6 +185,60 @@ function openMember(userId: string) {
   push({ name: 'user-menu', params: { id: userId } })
 }
 
+function openInvitePicker() {
+  if (!detail.value) return
+  inviteModalVisible.value = true
+  void ensureInviteCandidates()
+}
+
+function closeInvitePicker() {
+  if (inviteSubmitting.value) return
+  inviteModalVisible.value = false
+  selectedFriendId.value = ''
+}
+
+async function ensureInviteCandidates() {
+  if (friends.value.length) {
+    inviteLoadFailed.value = false
+    syncSelectedFriend()
+    return
+  }
+  inviteLoading.value = true
+  inviteLoadFailed.value = false
+  try {
+    const { data } = await socialService.getFriends()
+    friends.value = data
+    syncSelectedFriend()
+  } catch (error: any) {
+    inviteLoadFailed.value = true
+    Message.error(error?.response?.data?.message || '加载好友列表失败')
+  } finally {
+    inviteLoading.value = false
+  }
+}
+
+function syncSelectedFriend() {
+  if (inviteCandidates.value.some((friend) => friend.id === selectedFriendId.value)) return
+  selectedFriendId.value = inviteCandidates.value[0]?.id || ''
+}
+
+async function submitInvite() {
+  if (!circleId.value || !selectedFriendId.value) return
+  inviteSubmitting.value = true
+  try {
+    const { data } = await socialService.inviteToCircle(circleId.value, {
+      inviteeUserId: selectedFriendId.value,
+    })
+    detail.value = data
+    Message.success('邀请已发送')
+    closeInvitePicker()
+  } catch (error: any) {
+    Message.error(error?.response?.data?.message || '邀请失败')
+  } finally {
+    inviteSubmitting.value = false
+  }
+}
+
 function avatarInitial(name: string) {
   return (name || '?').trim().slice(0, 1).toUpperCase()
 }
@@ -112,6 +253,16 @@ function memberMeta(member: BuddyCircleMember, index: number) {
     `共享了 ${member.sharedMenuCount} 份菜单`,
     `通过搭子圈可见 ${Math.max(member.sharedMenuCount, 1)} 份内容`,
     `圈内一起收藏了不少想吃的菜`,
+  ]
+  return fallback[index % fallback.length]
+}
+
+function inviteFriendMeta(friend: FriendItem, index: number) {
+  if (friend.bio?.trim()) return friend.bio.trim()
+  const fallback = [
+    `好友可见 ${friend.visibleMenuCount} 份菜单`,
+    `共同收藏 ${Math.max(friend.sharedMenuCount, 1)} 道菜`,
+    `一起吃过 ${Math.max(friend.sharedMenuCount, 1)} 次`,
   ]
   return fallback[index % fallback.length]
 }
@@ -137,7 +288,11 @@ function memberMeta(member: BuddyCircleMember, index: number) {
 .circle-members-top-card,
 .circle-members-list-head,
 .circle-member-main,
-.circle-member-name-row {
+.circle-member-name-row,
+.circle-members-actions,
+.invite-modal-head,
+.invite-friend-main,
+.invite-modal-actions {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -148,8 +303,12 @@ function memberMeta(member: BuddyCircleMember, index: number) {
   padding: 16px;
 }
 
-.nav-shell-placeholder {
-  visibility: hidden;
+.circle-members-actions {
+  gap: 8px;
+}
+
+.share-shell {
+  color: #1b3a2d;
 }
 
 .circle-members-title-stack {
@@ -271,5 +430,131 @@ function memberMeta(member: BuddyCircleMember, index: number) {
 
 .circle-members-empty-card {
   padding: 18px;
+}
+
+.invite-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  align-items: flex-end;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.invite-modal-card {
+  width: 100%;
+  border-radius: 24px 24px 0 0;
+  background: #fff;
+  padding: 12px 20px 24px;
+}
+
+.invite-modal-handle {
+  width: 42px;
+  height: 4px;
+  margin: 0 auto 14px;
+  border-radius: 999px;
+  background: #ded8d0;
+}
+
+.invite-modal-title,
+.invite-friend-copy,
+.invite-modal-footer {
+  display: flex;
+  flex-direction: column;
+}
+
+.invite-title {
+  color: #151515;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.modal-close-shell {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: #f5efe7;
+  color: #151515;
+  font-size: 22px;
+}
+
+.invite-friends-card,
+.invite-empty-card {
+  margin-top: 14px;
+  border-radius: 16px;
+  background: #f8f5f0;
+  overflow: hidden;
+}
+
+.invite-empty-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+}
+
+.invite-friend-main {
+  width: 100%;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 14px;
+  border-bottom: 1px solid #ebe4dc;
+  text-align: left;
+}
+
+.invite-avatar-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  font-weight: 800;
+}
+
+.invite-friend-copy {
+  flex: 1;
+}
+
+.invite-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid #d8d0c6;
+  border-radius: 999px;
+}
+
+.invite-check.active {
+  border-color: #9f5c38;
+  background: #9f5c38;
+  color: #fff;
+}
+
+.invite-modal-footer {
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.invite-modal-actions {
+  gap: 10px;
+}
+
+.modal-action {
+  flex: 1;
+  min-height: 44px;
+  border-radius: 14px;
+  font-weight: 800;
+}
+
+.modal-action.ghost {
+  background: #f5efe7;
+  color: #151515;
+}
+
+.modal-action.primary {
+  background: #9f5c38;
+  color: #fff;
 }
 </style>
