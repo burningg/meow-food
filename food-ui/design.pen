@@ -13061,6 +13061,764 @@
           "height": 16
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "nV4wS",
+      "x": 8048.373812941696,
+      "y": 0,
+      "name": "Friend Invite Accept",
+      "clip": true,
+      "width": 390,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "#FBF4EC",
+            "position": 0
+          },
+          {
+            "color": "#F7F6F3",
+            "position": 0.52
+          },
+          {
+            "color": "#EDF4EB",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "zoNUV",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24,
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "hZ9aI",
+              "name": "Time",
+              "fill": "$text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "VDTRs",
+              "name": "Status Right",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 3,
+                  "id": "nIrXY",
+                  "name": "Signal",
+                  "fill": "$text-primary",
+                  "width": 18,
+                  "height": 10
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 5,
+                  "id": "QsKJR",
+                  "name": "Wifi",
+                  "fill": "$text-primary",
+                  "width": 15,
+                  "height": 10
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 3,
+                  "id": "cbdbg",
+                  "name": "Battery",
+                  "fill": "$text-primary",
+                  "width": 22,
+                  "height": 11
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "aeqcR",
+          "name": "Invite Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 20,
+          "padding": [
+            20,
+            20,
+            28,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "TCiK5",
+              "name": "Invite Badge",
+              "fill": "#FFFFFFB8",
+              "cornerRadius": "$radius-pill",
+              "gap": 8,
+              "padding": [
+                8,
+                14
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "sm6WQ",
+                  "name": "Badge Dot",
+                  "fill": "$accent-primary",
+                  "width": 8,
+                  "height": 8
+                },
+                {
+                  "type": "text",
+                  "id": "bYhwP",
+                  "name": "Badge Text",
+                  "fill": "$accent-primary",
+                  "content": "meow食堂 · 好友邀请",
+                  "fontFamily": "$font-body",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "T1rBwC",
+              "name": "Invite Hero Card",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 30,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1B3A2D1A",
+                "offset": {
+                  "x": 0,
+                  "y": 22
+                },
+                "blur": 54
+              },
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                24,
+                18,
+                18,
+                18
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "CwIa3",
+                  "name": "Avatar Plate",
+                  "width": 112,
+                  "height": 112,
+                  "fill": "#FFF8F2",
+                  "cornerRadius": "$radius-pill",
+                  "stroke": "#EADBCB",
+                  "strokeWidth": 1,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#C4704B29",
+                    "offset": {
+                      "x": 0,
+                      "y": 18
+                    },
+                    "blur": 30
+                  },
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "K6wmd",
+                      "name": "Inviter Avatar",
+                      "width": 82,
+                      "height": 82,
+                      "fill": {
+                        "type": "gradient",
+                        "gradientType": "linear",
+                        "enabled": true,
+                        "rotation": 135,
+                        "size": {
+                          "height": 1
+                        },
+                        "colors": [
+                          {
+                            "color": "#7A9E7E",
+                            "position": 0
+                          },
+                          {
+                            "color": "#C4704B",
+                            "position": 1
+                          }
+                        ]
+                      },
+                      "cornerRadius": "$radius-pill",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "x56LHI",
+                          "name": "Avatar Initial",
+                          "fill": "#FFFFFF",
+                          "content": "阿",
+                          "fontFamily": "$font-body",
+                          "fontSize": 30,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "BPmOz",
+                  "name": "Invite Copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "HVvUK",
+                      "name": "Invite Kicker",
+                      "fill": "$accent-primary",
+                      "content": "来自 阿梨 的邀请",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "TEdjX",
+                      "name": "Invite Title",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "一起交换私房菜单和美味灵感",
+                      "lineHeight": 1.14,
+                      "textAlign": "center",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 27,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "text",
+                      "id": "YAhQu",
+                      "name": "Invite Description",
+                      "fill": "#6D776D",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "接受后，你们会自动成为好友，可以查看彼此开放给好友的菜单。",
+                      "lineHeight": 1.7,
+                      "textAlign": "center",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "BjXnV",
+                  "name": "Invitation Status",
+                  "width": "fill_container",
+                  "fill": "#F8F5F0",
+                  "cornerRadius": 18,
+                  "padding": 12,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "rrwJ4",
+                      "name": "Status Text",
+                      "fill": "#6B625B",
+                      "content": "确认后会自动建立好友关系。",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "oKIV3",
+                  "name": "Invite Actions",
+                  "width": "fill_container",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Ro1r4",
+                      "name": "Reject Button",
+                      "width": "fill_container",
+                      "height": 48,
+                      "fill": "#F1EEE9",
+                      "cornerRadius": 14,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "XS7dX",
+                          "name": "Reject Label",
+                          "fill": "$text-primary",
+                          "content": "暂不接受",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "iWAsY",
+                      "name": "Accept Button",
+                      "width": "fill_container",
+                      "height": 48,
+                      "fill": "$accent-primary",
+                      "cornerRadius": 14,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#C4704B3D",
+                        "offset": {
+                          "x": 0,
+                          "y": 14
+                        },
+                        "blur": 26
+                      },
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "zCeRk",
+                          "name": "Accept Label",
+                          "fill": "#FFFFFF",
+                          "content": "接受邀请",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "RDPxo",
+      "x": 8518.373812941696,
+      "y": 0,
+      "name": "Circle Share Accept",
+      "clip": true,
+      "width": 390,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "#FBF4EC",
+            "position": 0
+          },
+          {
+            "color": "#F7F6F3",
+            "position": 0.52
+          },
+          {
+            "color": "#EDF4EB",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "u6Zjh",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24,
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "YWA8O",
+              "name": "Time",
+              "fill": "$text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "i3GX80",
+              "name": "Status Right",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 3,
+                  "id": "kaizs",
+                  "name": "Signal",
+                  "fill": "$text-primary",
+                  "width": 18,
+                  "height": 10
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 5,
+                  "id": "yU8S7",
+                  "name": "Wifi",
+                  "fill": "$text-primary",
+                  "width": 15,
+                  "height": 10
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 3,
+                  "id": "z9cbn",
+                  "name": "Battery",
+                  "fill": "$text-primary",
+                  "width": 22,
+                  "height": 11
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "moYey",
+          "name": "Invite Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 20,
+          "padding": [
+            20,
+            20,
+            28,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "O90sNt",
+              "name": "Invite Badge",
+              "fill": "#FFFFFFB8",
+              "cornerRadius": "$radius-pill",
+              "gap": 8,
+              "padding": [
+                8,
+                14
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "M5Adfh",
+                  "name": "Badge Dot",
+                  "fill": "$accent-primary",
+                  "width": 8,
+                  "height": 8
+                },
+                {
+                  "type": "text",
+                  "id": "G3Ci2V",
+                  "name": "Badge Text",
+                  "fill": "$accent-primary",
+                  "content": "meow食堂 · 搭子圈邀请",
+                  "fontFamily": "$font-body",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "l50CYr",
+              "name": "Invite Hero Card",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 30,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1B3A2D1A",
+                "offset": {
+                  "x": 0,
+                  "y": 22
+                },
+                "blur": 54
+              },
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                24,
+                18,
+                18,
+                18
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "HmQNq",
+                  "name": "Circle Plate",
+                  "width": 112,
+                  "height": 112,
+                  "fill": "#EDF3EC",
+                  "cornerRadius": "$radius-pill",
+                  "stroke": "#DCE8D9",
+                  "strokeWidth": 1,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#C4704B29",
+                    "offset": {
+                      "x": 0,
+                      "y": 18
+                    },
+                    "blur": 30
+                  },
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "a5igpi",
+                      "name": "Circle Avatar",
+                      "width": 82,
+                      "height": 82,
+                      "fill": {
+                        "type": "gradient",
+                        "gradientType": "linear",
+                        "enabled": true,
+                        "rotation": 135,
+                        "size": {
+                          "height": 1
+                        },
+                        "colors": [
+                          {
+                            "color": "#1B3A2D",
+                            "position": 0
+                          },
+                          {
+                            "color": "#7A9E7E",
+                            "position": 1
+                          }
+                        ]
+                      },
+                      "cornerRadius": "$radius-pill",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "K5mF14",
+                          "name": "Avatar Initial",
+                          "fill": "#FFFFFF",
+                          "content": "圈",
+                          "fontFamily": "$font-body",
+                          "fontSize": 30,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "FQ2p5",
+                  "name": "Invite Copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "gzGmm",
+                      "name": "Invite Kicker",
+                      "fill": "$accent-primary",
+                      "content": "胖虎邀请你加入",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "wLhAW",
+                      "name": "Invite Title",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "周末火锅搭子圈",
+                      "lineHeight": 1.14,
+                      "textAlign": "center",
+                      "fontFamily": "Noto Serif SC",
+                      "fontSize": 27,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "text",
+                      "id": "t5YSKz",
+                      "name": "Invite Description",
+                      "fill": "#6D776D",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "点击接受后，会先成为好友，再自动加入这个搭子圈，一起共享菜单和约饭灵感。",
+                      "lineHeight": 1.7,
+                      "textAlign": "center",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "SlCtB",
+                  "name": "Invitation Status",
+                  "width": "fill_container",
+                  "fill": "#F8F5F0",
+                  "cornerRadius": 18,
+                  "padding": 12,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "vTPaK",
+                      "name": "Status Text",
+                      "fill": "#6B625B",
+                      "content": "未成为好友也没关系，系统会先接受好友邀请。",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "WVwuN",
+                  "name": "Invite Actions",
+                  "width": "fill_container",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "AKLKr",
+                      "name": "Reject Button",
+                      "width": "fill_container",
+                      "height": 48,
+                      "fill": "#F1EEE9",
+                      "cornerRadius": 14,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "v3807",
+                          "name": "Reject Label",
+                          "fill": "$text-primary",
+                          "content": "稍后再说",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "xUpM5",
+                      "name": "Accept Button",
+                      "width": "fill_container",
+                      "height": 48,
+                      "fill": "#1B3A2D",
+                      "cornerRadius": 14,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#1B3A2D33",
+                        "offset": {
+                          "x": 0,
+                          "y": 14
+                        },
+                        "blur": 26
+                      },
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "fycGX",
+                          "name": "Accept Label",
+                          "fill": "#FFFFFF",
+                          "content": "接受并加入",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "variables": {

@@ -1,6 +1,7 @@
 package com.panghu.food.web;
 
 import com.panghu.food.dto.FriendItemResponse;
+import com.panghu.food.dto.FriendInvitationResponse;
 import com.panghu.food.dto.FriendRequestActionRequest;
 import com.panghu.food.dto.FriendRequestItemResponse;
 import com.panghu.food.dto.FriendRequestsResponse;
@@ -32,6 +33,21 @@ public class FriendController {
     @GetMapping("/requests")
     public ResponseEntity<FriendRequestsResponse> getRequests() {
         return ResponseEntity.ok(socialService.getFriendRequests());
+    }
+
+    @GetMapping("/invitations/{inviterUserId}")
+    public ResponseEntity<FriendInvitationResponse> getInvitation(@PathVariable String inviterUserId) {
+        return ResponseEntity.ok(socialService.getFriendInvitation(inviterUserId));
+    }
+
+    @PostMapping("/invitations/{inviterUserId}/accept")
+    public ResponseEntity<FriendInvitationResponse> acceptInvitation(@PathVariable String inviterUserId) {
+        return ResponseEntity.ok(socialService.acceptFriendInvitation(inviterUserId));
+    }
+
+    @PostMapping("/invitations/{inviterUserId}/reject")
+    public ResponseEntity<FriendInvitationResponse> rejectInvitation(@PathVariable String inviterUserId) {
+        return ResponseEntity.ok(socialService.rejectFriendInvitation(inviterUserId));
     }
 
     @PostMapping("/requests/{requestId}/accept")

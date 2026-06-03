@@ -74,6 +74,7 @@ const items: TabItem[] = [
 ]
 
 function navigate(item: TabItem) {
+  if (item.name === props.active) return
   router.push(item.route)
 }
 

@@ -38,6 +38,12 @@ export interface FriendRequestsResponse {
   outgoing: FriendRequestItem[]
 }
 
+export interface FriendInvitationResponse {
+  inviter: AuthUser
+  status: 'pending' | 'accepted' | 'rejected' | 'cancelled' | 'already_friend'
+  request?: FriendRequestItem
+}
+
 export interface FeedItem {
   id: string
   actorUserId: string
@@ -106,6 +112,14 @@ export interface BuddyCircleDetail {
   sharedMenus: DishSummary[]
 }
 
+export interface BuddyCircleShareInvitation {
+  inviter: AuthUser
+  circle: BuddyCircleSummary
+  friend: boolean
+  member: boolean
+  status: 'need_friend_accept' | 'friend_ready' | 'already_member'
+}
+
 export interface ProfileResponse {
   user: AuthUser
   stats: ProfileStats
@@ -144,6 +158,18 @@ export class SocialService {
     return http.get<FriendRequestsResponse>('/api/friends/requests')
   }
 
+  getFriendInvitation(inviterUserId: string) {
+    return http.get<FriendInvitationResponse>(`/api/friends/invitations/${inviterUserId}`)
+  }
+
+  acceptFriendInvitation(inviterUserId: string) {
+    return http.post<FriendInvitationResponse>(`/api/friends/invitations/${inviterUserId}/accept`)
+  }
+
+  rejectFriendInvitation(inviterUserId: string) {
+    return http.post<FriendInvitationResponse>(`/api/friends/invitations/${inviterUserId}/reject`)
+  }
+
   acceptFriendRequest(requestId: string) {
     return http.post<FriendRequestItem>(`/api/friends/requests/${requestId}/accept`)
   }
@@ -178,6 +204,14 @@ export class SocialService {
 
   getCircleDetail(circleId: string) {
     return http.get<BuddyCircleDetail>(`/api/circles/${circleId}`)
+  }
+
+  getCircleShareInvitation(circleId: string, inviterUserId: string) {
+    return http.get<BuddyCircleShareInvitation>(`/api/circles/${circleId}/share-invitations/${inviterUserId}`)
+  }
+
+  acceptCircleShareInvitation(circleId: string, inviterUserId: string) {
+    return http.post<BuddyCircleDetail>(`/api/circles/${circleId}/share-invitations/${inviterUserId}/accept`)
   }
 
   inviteToCircle(circleId: string, payload: { inviteeUserId?: string; inviteeAccount?: string }) {

@@ -3,7 +3,10 @@
     <header class="top-nav circle-nav">
       <button class="icon-shell" @tap="goBack('circles')">‹</button>
       <text class="page-title">美食搭子</text>
-      <button class="icon-shell" @tap="openInvitePicker">＋</button>
+      <view class="circle-nav-actions">
+        <button class="icon-shell share-shell" :disabled="sharingCircle" @tap="shareCircleInvite">↗</button>
+        <button class="icon-shell" @tap="openInvitePicker">＋</button>
+      </view>
     </header>
 
     <template v-if="detail">
@@ -139,6 +142,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
 import { getRouteParams, goBack, push } from '@/lib/navigation'
+import { shareAppMessageToGroup } from '@/lib/share'
 import type { DishSummary } from '@/services/food-service'
 import {
   SocialService,
@@ -147,15 +151,18 @@ import {
   type BuddyCircleSummary,
   type FriendItem,
 } from '@/services/social-service'
+import { useAuthStore } from '@/stores/auth-store'
 
 type PreviewMember = { id: string; initial: string; avatarTone: number }
 
 const params = getRouteParams() as { id?: string }
 const socialService = new SocialService()
+const authStore = useAuthStore()
 const detail = ref<BuddyCircleDetail | null>(null)
 const circles = ref<BuddyCircleSummary[]>([])
 const activeCategory = ref('全部')
 const isLoading = ref(true)
+const sharingCircle = ref(false)
 const inviteModalVisible = ref(false)
 const inviteLoading = ref(false)
 const inviteSubmitting = ref(false)
@@ -249,6 +256,23 @@ function openInvitePicker() {
   void ensureInviteCandidates()
 }
 
+async function shareCircleInvite() {
+  const circle = detail.value?.circle
+  const inviterId = authStore.user?.id
+  if (!circle || !inviterId || sharingCircle.value) return
+  sharingCircle.value = true
+  try {
+    await shareAppMessageToGroup({
+      title: `邀请你加入「${circle.name}」搭子圈`,
+      path: `/pages/circles/circle-share-invite?circleId=${encodeURIComponent(circle.id)}&inviterId=${encodeURIComponent(inviterId)}`,
+    })
+  } catch (error: any) {
+    Message.error(error?.message || '当前环境暂不支持分享到聊天')
+  } finally {
+    sharingCircle.value = false
+  }
+}
+
 function closeInvitePicker() {
   if (inviteSubmitting.value) return
   inviteModalVisible.value = false
@@ -340,6 +364,16 @@ function inviteFriendMeta(friend: FriendItem, index: number) {
 .circle-nav {
   height: 54px;
   padding: 14px 20px 12px;
+}
+
+.circle-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.share-shell {
+  color: #1b3a2d;
 }
 
 .page-title,

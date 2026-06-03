@@ -10,7 +10,7 @@ export default defineAppConfig({
   subPackages: [
     {
       root: 'pages/profile',
-      pages: ['profile', 'edit-profile', 'edit-avatar', 'friends', 'friend-requests'],
+      pages: ['profile', 'edit-profile', 'edit-avatar', 'friends', 'friend-requests', 'friend-invite'],
     },
     {
       root: 'pages/feed',
@@ -22,7 +22,7 @@ export default defineAppConfig({
     },
     {
       root: 'pages/circles',
-      pages: ['circles', 'create-circle', 'circle-detail', 'circle-members'],
+      pages: ['circles', 'create-circle', 'circle-detail', 'circle-members', 'circle-share-invite'],
     },
   ],
   window: {

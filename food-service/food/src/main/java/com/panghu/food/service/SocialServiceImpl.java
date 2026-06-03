@@ -174,6 +174,52 @@ public class SocialServiceImpl implements SocialService {
     }
 
     @Override
+    public FriendInvitationResponse getFriendInvitation(String inviterUserId) {
+        String currentUserId = AuthContext.requireUserId();
+        UserAccount inviter = requireInvitationInviter(inviterUserId, currentUserId);
+        FriendRequest request = findLatestInvitationRequest(inviterUserId, currentUserId);
+        return buildInvitationResponse(inviter, currentUserId, request);
+    }
+
+    @Override
+    @Transactional
+    public FriendInvitationResponse acceptFriendInvitation(String inviterUserId) {
+        String currentUserId = AuthContext.requireUserId();
+        UserAccount inviter = requireInvitationInviter(inviterUserId, currentUserId);
+        FriendRequest request = findLatestInvitationRequest(inviterUserId, currentUserId);
+        if (isFriend(inviterUserId, currentUserId)) {
+            return buildInvitationResponse(inviter, currentUserId, request);
+        }
+        if (request == null || !"pending".equals(request.getStatus())) {
+            request = createInvitationRequest(inviterUserId, currentUserId);
+        }
+        request.setStatus("accepted");
+        request.setHandledAt(LocalDateTime.now());
+        friendRequestMapper.updateById(request);
+        createFriendRelation(inviterUserId, currentUserId);
+        createFriendRelation(currentUserId, inviterUserId);
+        return buildInvitationResponse(inviter, currentUserId, request);
+    }
+
+    @Override
+    @Transactional
+    public FriendInvitationResponse rejectFriendInvitation(String inviterUserId) {
+        String currentUserId = AuthContext.requireUserId();
+        UserAccount inviter = requireInvitationInviter(inviterUserId, currentUserId);
+        FriendRequest request = findLatestInvitationRequest(inviterUserId, currentUserId);
+        if (isFriend(inviterUserId, currentUserId)) {
+            return buildInvitationResponse(inviter, currentUserId, request);
+        }
+        if (request == null || !"pending".equals(request.getStatus())) {
+            request = createInvitationRequest(inviterUserId, currentUserId);
+        }
+        request.setStatus("rejected");
+        request.setHandledAt(LocalDateTime.now());
+        friendRequestMapper.updateById(request);
+        return buildInvitationResponse(inviter, currentUserId, request);
+    }
+
+    @Override
     @Transactional
     public FriendRequestItemResponse acceptFriendRequest(String requestId) {
         String currentUserId = AuthContext.requireUserId();
@@ -338,6 +384,13 @@ public class SocialServiceImpl implements SocialService {
     }
 
     @Override
+    public BuddyCircleShareInvitationResponse getCircleShareInvitation(String circleId, String inviterUserId) {
+        String currentUserId = AuthContext.requireUserId();
+        BuddyCircle circle = requireCircleShareInviter(circleId, inviterUserId, currentUserId);
+        return buildCircleShareInvitationResponse(circle, inviterUserId, currentUserId);
+    }
+
+    @Override
     public List<BuddyCircleMemberResponse> getCircleMembers(String circleId) {
         String currentUserId = AuthContext.requireUserId();
         requireCircleMember(circleId, currentUserId);
@@ -400,6 +453,26 @@ public class SocialServiceImpl implements SocialService {
         return getCircleDetail(circleId);
     }
 
+    @Override
+    @Transactional
+    public BuddyCircleDetailResponse acceptCircleShareInvitation(String circleId, String inviterUserId) {
+        String currentUserId = AuthContext.requireUserId();
+        requireCircleShareInviter(circleId, inviterUserId, currentUserId);
+        if (!isFriend(inviterUserId, currentUserId)) {
+            FriendRequest request = findLatestInvitationRequest(inviterUserId, currentUserId);
+            if (request == null || !"pending".equals(request.getStatus())) {
+                request = createInvitationRequest(inviterUserId, currentUserId);
+            }
+            request.setStatus("accepted");
+            request.setHandledAt(LocalDateTime.now());
+            friendRequestMapper.updateById(request);
+            createFriendRelation(inviterUserId, currentUserId);
+            createFriendRelation(currentUserId, inviterUserId);
+        }
+        addCircleMember(circleId, inviterUserId, currentUserId);
+        return getCircleDetail(circleId);
+    }
+
     private ProfileStatsResponse buildProfileStats(String userId) {
         ProfileStatsResponse stats = new ProfileStatsResponse();
         stats.setFriendCount(friendRelationMapper.selectCount(new QueryWrapper<FriendRelation>()
@@ -447,6 +520,50 @@ public class SocialServiceImpl implements SocialService {
             }
         }
         throw new ApiException(HttpStatus.BAD_REQUEST, "请选择有效的用户");
+    }
+
+    private UserAccount requireInvitationInviter(String inviterUserId, String currentUserId) {
+        if (Objects.equals(inviterUserId, currentUserId)) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "不能邀请自己成为好友");
+        }
+        UserAccount inviter = userAccountMapper.selectById(inviterUserId);
+        if (inviter == null) {
+            throw new ApiException(HttpStatus.NOT_FOUND, "邀请人不存在");
+        }
+        return inviter;
+    }
+
+    private FriendRequest findLatestInvitationRequest(String inviterUserId, String currentUserId) {
+        return friendRequestMapper.selectOne(new QueryWrapper<FriendRequest>()
+                .eq("requester_user_id", inviterUserId)
+                .eq("target_user_id", currentUserId)
+                .orderByDesc("created_at")
+                .last("LIMIT 1"));
+    }
+
+    private FriendRequest createInvitationRequest(String inviterUserId, String currentUserId) {
+        FriendRequest request = new FriendRequest();
+        request.setRequesterUserId(inviterUserId);
+        request.setTargetUserId(currentUserId);
+        request.setMessage("通过小程序卡片邀请成为好友");
+        request.setStatus("pending");
+        request.setCreatedAt(LocalDateTime.now());
+        friendRequestMapper.insert(request);
+        return request;
+    }
+
+    private FriendInvitationResponse buildInvitationResponse(UserAccount inviter, String currentUserId, FriendRequest request) {
+        FriendInvitationResponse response = new FriendInvitationResponse();
+        response.setInviter(toAuthUser(inviter));
+        response.setRequest(request == null ? null : toFriendRequestItem(request));
+        if (isFriend(inviter.getId(), currentUserId)) {
+            response.setStatus("already_friend");
+        } else if (request != null) {
+            response.setStatus(request.getStatus());
+        } else {
+            response.setStatus("pending");
+        }
+        return response;
     }
 
     private FriendRequestItemResponse toFriendRequestItem(FriendRequest request) {
@@ -632,6 +749,69 @@ public class SocialServiceImpl implements SocialService {
             throw new ApiException(HttpStatus.FORBIDDEN, "你还不在这个搭子圈里");
         }
         return circle;
+    }
+
+    private BuddyCircle requireCircleShareInviter(String circleId, String inviterUserId, String currentUserId) {
+        if (Objects.equals(inviterUserId, currentUserId)) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "不能通过自己的分享卡片加入搭子圈");
+        }
+        BuddyCircle circle = buddyCircleMapper.selectById(circleId);
+        if (circle == null) {
+            throw new ApiException(HttpStatus.NOT_FOUND, "搭子圈不存在");
+        }
+        UserAccount inviter = userAccountMapper.selectById(inviterUserId);
+        if (inviter == null) {
+            throw new ApiException(HttpStatus.NOT_FOUND, "邀请人不存在");
+        }
+        long inviterInCircle = buddyCircleMemberMapper.selectCount(new QueryWrapper<BuddyCircleMember>()
+                .eq("circle_id", circleId)
+                .eq("user_id", inviterUserId));
+        if (inviterInCircle == 0) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "邀请人不在这个搭子圈里");
+        }
+        return circle;
+    }
+
+    private BuddyCircleShareInvitationResponse buildCircleShareInvitationResponse(BuddyCircle circle, String inviterUserId, String currentUserId) {
+        UserAccount inviter = userAccountMapper.selectById(inviterUserId);
+        boolean friend = isFriend(inviterUserId, currentUserId);
+        boolean member = isCircleMember(circle.getId(), currentUserId);
+        BuddyCircleShareInvitationResponse response = new BuddyCircleShareInvitationResponse();
+        response.setInviter(toAuthUser(inviter));
+        response.setCircle(buildShareCircleSummary(circle));
+        response.setFriend(friend);
+        response.setMember(member);
+        response.setStatus(member ? "already_member" : friend ? "friend_ready" : "need_friend_accept");
+        return response;
+    }
+
+    private BuddyCircleSummaryResponse buildShareCircleSummary(BuddyCircle circle) {
+        BuddyCircleSummaryResponse summary = new BuddyCircleSummaryResponse();
+        summary.setId(circle.getId());
+        summary.setName(circle.getName());
+        summary.setDescription(circle.getDescription());
+        summary.setOwnerUserId(circle.getOwnerUserId());
+        UserAccount owner = userAccountMapper.selectById(circle.getOwnerUserId());
+        summary.setOwnerNickname(owner == null ? "" : owner.getNickname());
+        summary.setMemberCount(buddyCircleMemberMapper.selectCount(new QueryWrapper<BuddyCircleMember>().eq("circle_id", circle.getId())));
+        summary.setSharedMenuCount(countCircleActiveMenus(circle.getId()));
+        summary.setWeeklyUpdateCount(countCircleWeeklyUpdates(circle.getId()));
+        return summary;
+    }
+
+    private boolean isCircleMember(String circleId, String userId) {
+        return buddyCircleMemberMapper.selectCount(new QueryWrapper<BuddyCircleMember>()
+                .eq("circle_id", circleId)
+                .eq("user_id", userId)) > 0;
+    }
+
+    private long countCircleActiveMenus(String circleId) {
+        return buddyCircleMemberMapper.selectList(new QueryWrapper<BuddyCircleMember>().eq("circle_id", circleId))
+                .stream()
+                .mapToLong(member -> dishMapper.selectCount(new QueryWrapper<Dish>()
+                        .eq("owner_user_id", member.getUserId())
+                        .eq("status", 1)))
+                .sum();
     }
 
     private void addCircleMember(String circleId, String inviterUserId, String inviteeUserId) {

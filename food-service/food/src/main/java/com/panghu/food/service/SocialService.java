@@ -17,6 +17,12 @@ public interface SocialService {
 
     FriendRequestsResponse getFriendRequests();
 
+    FriendInvitationResponse getFriendInvitation(String inviterUserId);
+
+    FriendInvitationResponse acceptFriendInvitation(String inviterUserId);
+
+    FriendInvitationResponse rejectFriendInvitation(String inviterUserId);
+
     FriendRequestItemResponse acceptFriendRequest(String requestId);
 
     FriendRequestItemResponse rejectFriendRequest(String requestId);
@@ -35,9 +41,13 @@ public interface SocialService {
 
     BuddyCircleDetailResponse getCircleDetail(String circleId);
 
+    BuddyCircleShareInvitationResponse getCircleShareInvitation(String circleId, String inviterUserId);
+
     List<BuddyCircleMemberResponse> getCircleMembers(String circleId);
 
     List<DishSummaryResponse> getCircleMenus(String circleId);
 
     BuddyCircleDetailResponse inviteToCircle(String circleId, BuddyCircleInviteRequest request);
+
+    BuddyCircleDetailResponse acceptCircleShareInvitation(String circleId, String inviterUserId);
 }

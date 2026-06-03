@@ -44,7 +44,7 @@
 <script setup lang="ts">
 import { push, type RouteName } from '@/lib/navigation'
 
-defineProps<{
+const props = defineProps<{
   active: 'home' | 'feed' | 'profile' | 'circles'
 }>()
 
@@ -65,6 +65,7 @@ const items: TabItem[] = [
 ]
 
 function navigate(item: TabItem) {
+  if (item.name === props.active) return
   push(item.route)
 }
 </script>

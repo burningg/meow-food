@@ -31,6 +31,18 @@ public class BuddyCircleController {
         return ResponseEntity.ok(socialService.getCircleDetail(circleId));
     }
 
+    @GetMapping("/{circleId}/share-invitations/{inviterUserId}")
+    public ResponseEntity<BuddyCircleShareInvitationResponse> getShareInvitation(@PathVariable String circleId,
+                                                                                 @PathVariable String inviterUserId) {
+        return ResponseEntity.ok(socialService.getCircleShareInvitation(circleId, inviterUserId));
+    }
+
+    @PostMapping("/{circleId}/share-invitations/{inviterUserId}/accept")
+    public ResponseEntity<BuddyCircleDetailResponse> acceptShareInvitation(@PathVariable String circleId,
+                                                                          @PathVariable String inviterUserId) {
+        return ResponseEntity.ok(socialService.acceptCircleShareInvitation(circleId, inviterUserId));
+    }
+
     @PostMapping("/{circleId}/invite")
     public ResponseEntity<BuddyCircleDetailResponse> invite(@PathVariable String circleId,
                                                             @RequestBody BuddyCircleInviteRequest request) {

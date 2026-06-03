@@ -52,6 +52,17 @@
       </article>
     </section>
 
+    <section class="invite-section">
+      <button class="invite-card pressable" :disabled="sharingInvite" @tap="shareFriendInvite">
+        <view class="invite-mark">邀</view>
+        <view class="invite-copy">
+          <text class="invite-title">邀请好友加入 meow食堂</text>
+          <text class="invite-desc">发送一张小程序卡片，对方接受后会自动成为好友。</text>
+        </view>
+        <text class="invite-action">{{ sharingInvite ? '发送中' : '去分享' }}</text>
+      </button>
+    </section>
+
     <section class="logout-section">
       <button class="primary-button logout-button" @tap="logout">退出登录</button>
     </section>
@@ -66,6 +77,7 @@ import AppTabBar from '@/components/AppTabBar.vue'
 import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
 import { push, replace } from '@/lib/navigation'
+import { shareAppMessageToGroup } from '@/lib/share'
 import { SocialService, type ProfileResponse } from '@/services/social-service'
 import { useAuthStore } from '@/stores/auth-store'
 import type { MenuVisibility } from '@/services/auth-service'
@@ -73,6 +85,7 @@ import type { MenuVisibility } from '@/services/auth-service'
 const authStore = useAuthStore()
 const socialService = new SocialService()
 const profile = ref<ProfileResponse | null>(null)
+const sharingInvite = ref(false)
 
 const displayName = computed(() => profile.value?.user.nickname || authStore.user?.nickname || 'meow')
 const displayBio = computed(() => profile.value?.user.bio || '菜单、好友和搭子圈都在这里慢慢展开。')
@@ -107,6 +120,24 @@ function openFriendsPage() {
 
 function openEditProfilePage() {
   push('edit-profile')
+}
+
+async function shareFriendInvite() {
+  const inviterId = profile.value?.user.id || authStore.user?.id
+  if (!inviterId || sharingInvite.value) return
+  sharingInvite.value = true
+  try {
+    await shareAppMessageToGroup({
+      title: '我在 meow食堂邀请你成为好友',
+      path: `/pages/profile/friend-invite?inviterId=${encodeURIComponent(inviterId)}`,
+      imageUrl: '',
+    })
+    Message.success('邀请卡片已发送')
+  } catch (error: any) {
+    Message.warning(error?.message || '当前微信版本暂不支持分享到聊天，请升级微信后重试')
+  } finally {
+    sharingInvite.value = false
+  }
 }
 
 function logout() {
@@ -222,6 +253,66 @@ function logout() {
 
 .section-card {
   padding: 18px;
+}
+
+.invite-section {
+  margin-top: 18px;
+}
+
+.invite-card {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 12px;
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 88% 18%, rgba(196, 112, 75, 0.18), transparent 26%),
+    linear-gradient(135deg, #fffaf4 0%, #ffffff 60%, #eef4eb 100%);
+  padding: 16px;
+  text-align: left;
+  box-shadow: var(--shadow);
+}
+
+.invite-mark {
+  display: flex;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: var(--text-main);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.invite-copy {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.invite-title {
+  color: var(--text-main);
+  font-weight: 800;
+}
+
+.invite-desc {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.invite-action {
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: rgba(196, 112, 75, 0.12);
+  color: var(--accent-dark);
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 800;
 }
 
 .visibility-card {

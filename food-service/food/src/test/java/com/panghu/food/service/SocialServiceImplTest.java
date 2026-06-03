@@ -3,10 +3,13 @@ package com.panghu.food.service;
 import com.panghu.food.auth.AuthContext;
 import com.panghu.food.dto.DishSummaryResponse;
 import com.panghu.food.dto.FeedItemResponse;
+import com.panghu.food.dto.FriendInvitationResponse;
 import com.panghu.food.entity.ActivityFeed;
+import com.panghu.food.entity.FriendRequest;
 import com.panghu.food.entity.FriendRelation;
 import com.panghu.food.entity.UserAccount;
 import com.panghu.food.entity.UserProfileSettings;
+import com.panghu.food.exception.ApiException;
 import com.panghu.food.mapper.ActivityFeedMapper;
 import com.panghu.food.mapper.BuddyCircleInviteMapper;
 import com.panghu.food.mapper.BuddyCircleMapper;
@@ -23,8 +26,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class SocialServiceImplTest {
@@ -85,6 +92,73 @@ class SocialServiceImplTest {
         assertThat(result).hasSize(1);
         assertThat(result.get(0).getActorUserId()).isEqualTo("friend");
         assertThat(result.get(0).getDishId()).isEqualTo("dish-1");
+    }
+
+    @Test
+    void acceptFriendInvitationCreatesAcceptedRequestAndRelations() {
+        AuthContext.setUserId("target");
+        when(userAccountMapper.selectById("inviter")).thenReturn(user("inviter"));
+        when(userProfileSettingsMapper.selectById("inviter")).thenReturn(settings("inviter"));
+        when(friendRequestMapper.selectOne(any())).thenReturn(null);
+        when(friendRelationMapper.selectCount(any())).thenReturn(0L);
+
+        FriendInvitationResponse result = socialService.acceptFriendInvitation("inviter");
+
+        assertThat(result.getStatus()).isEqualTo("accepted");
+        assertThat(result.getInviter().getId()).isEqualTo("inviter");
+        verify(friendRequestMapper).insert(any(FriendRequest.class));
+        verify(friendRequestMapper).updateById(any(FriendRequest.class));
+        verify(friendRelationMapper, times(2)).insert(any(FriendRelation.class));
+    }
+
+    @Test
+    void rejectFriendInvitationCreatesRejectedRequestWithoutRelations() {
+        AuthContext.setUserId("target");
+        when(userAccountMapper.selectById("inviter")).thenReturn(user("inviter"));
+        when(userProfileSettingsMapper.selectById("inviter")).thenReturn(settings("inviter"));
+        when(friendRequestMapper.selectOne(any())).thenReturn(null);
+        when(friendRelationMapper.selectCount(any())).thenReturn(0L);
+
+        FriendInvitationResponse result = socialService.rejectFriendInvitation("inviter");
+
+        assertThat(result.getStatus()).isEqualTo("rejected");
+        verify(friendRequestMapper).insert(any(FriendRequest.class));
+        verify(friendRequestMapper).updateById(any(FriendRequest.class));
+        verify(friendRelationMapper, never()).insert(any(FriendRelation.class));
+    }
+
+    @Test
+    void acceptFriendInvitationReturnsAlreadyFriendWithoutCreatingRequest() {
+        AuthContext.setUserId("target");
+        when(userAccountMapper.selectById("inviter")).thenReturn(user("inviter"));
+        when(userProfileSettingsMapper.selectById("inviter")).thenReturn(settings("inviter"));
+        when(friendRequestMapper.selectOne(any())).thenReturn(null);
+        when(friendRelationMapper.selectCount(any())).thenReturn(1L);
+
+        FriendInvitationResponse result = socialService.acceptFriendInvitation("inviter");
+
+        assertThat(result.getStatus()).isEqualTo("already_friend");
+        verify(friendRequestMapper, never()).insert(any(FriendRequest.class));
+        verify(friendRelationMapper, never()).insert(any(FriendRelation.class));
+    }
+
+    @Test
+    void getFriendInvitationRejectsSelfInvite() {
+        AuthContext.setUserId("target");
+
+        assertThatThrownBy(() -> socialService.getFriendInvitation("target"))
+                .isInstanceOf(ApiException.class)
+                .hasMessageContaining("不能邀请自己成为好友");
+    }
+
+    @Test
+    void getFriendInvitationRejectsMissingInviter() {
+        AuthContext.setUserId("target");
+        when(userAccountMapper.selectById("missing")).thenReturn(null);
+
+        assertThatThrownBy(() -> socialService.getFriendInvitation("missing"))
+                .isInstanceOf(ApiException.class)
+                .hasMessageContaining("邀请人不存在");
     }
 
     private ActivityFeed publicFeed(String id, String actorUserId, String dishId) {

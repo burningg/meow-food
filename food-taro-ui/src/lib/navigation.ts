@@ -13,12 +13,14 @@ export type RouteName =
   | 'edit-avatar'
   | 'friends'
   | 'friend-requests'
+  | 'friend-invite'
   | 'feed'
   | 'user-menu'
   | 'circles'
   | 'create-circle'
   | 'circle-detail'
   | 'circle-members'
+  | 'circle-share-invite'
 
 type RouteLocation = {
   name: RouteName
@@ -39,12 +41,14 @@ const routePathMap: Record<RouteName, string> = {
   'edit-avatar': '/pages/profile/edit-avatar',
   friends: '/pages/profile/friends',
   'friend-requests': '/pages/profile/friend-requests',
+  'friend-invite': '/pages/profile/friend-invite',
   feed: '/pages/feed/feed',
   'user-menu': '/pages/user/user-menu',
   circles: '/pages/circles/circles',
   'create-circle': '/pages/circles/create-circle',
   'circle-detail': '/pages/circles/circle-detail',
   'circle-members': '/pages/circles/circle-members',
+  'circle-share-invite': '/pages/circles/circle-share-invite',
 }
 
 function encodeQuery(query: Record<string, string | number | undefined>) {
@@ -61,6 +65,15 @@ export function resolveRoute(location: RouteLocation | RouteName) {
 
   if (target.name === 'dish-detail' || target.name === 'user-menu' || target.name === 'circle-detail' || target.name === 'circle-members') {
     query.id = params.id
+  }
+
+  if (target.name === 'friend-invite') {
+    query.inviterId = params.inviterId
+  }
+
+  if (target.name === 'circle-share-invite') {
+    query.circleId = params.circleId
+    query.inviterId = params.inviterId
   }
 
   if (target.name === 'edit-dish') {

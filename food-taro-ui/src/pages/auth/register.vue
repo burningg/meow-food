@@ -43,11 +43,12 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { Message } from '@/lib/feedback'
-import { push, replace } from '@/lib/navigation'
+import { getRouteParams, navigateByLegacyPath, push, replace } from '@/lib/navigation'
 import { useAuthStore } from '@/stores/auth-store'
 
 const authStore = useAuthStore()
 const loading = ref(false)
+const params = getRouteParams() as { redirect?: string }
 const form = reactive({
   account: '',
   password: '',
@@ -66,7 +67,7 @@ async function submit() {
   loading.value = true
   try {
     await authStore.register(form.account, form.password)
-    replace('home')
+    goAfterRegister()
   } catch (error: any) {
     Message.error(error?.response?.data?.message || '注册失败')
   } finally {
@@ -75,7 +76,18 @@ async function submit() {
 }
 
 function goLogin() {
-  push('login')
+  push({
+    name: 'login',
+    query: params.redirect ? { redirect: params.redirect } : undefined,
+  })
+}
+
+function goAfterRegister() {
+  if (params.redirect) {
+    navigateByLegacyPath(decodeURIComponent(params.redirect), 'home')
+    return
+  }
+  replace('home')
 }
 </script>
 

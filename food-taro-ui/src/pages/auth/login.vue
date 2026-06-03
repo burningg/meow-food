@@ -158,7 +158,10 @@ function goAfterLogin() {
 }
 
 function goRegister() {
-  push("register");
+  push({
+    name: "register",
+    query: params.redirect ? { redirect: params.redirect } : undefined,
+  });
 }
 </script>
 
