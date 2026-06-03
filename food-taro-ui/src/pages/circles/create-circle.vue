@@ -3,7 +3,6 @@
     <header class="top-nav circle-nav">
       <button class="nav-shell" @tap="goBack('circles')">‹</button>
       <text class="page-title">新建圈子</text>
-      <button class="publish-chip" :disabled="submitDisabled" @tap="submit">{{ saving ? '提交中' : '完成' }}</button>
     </header>
 
     <section class="page-content">
@@ -27,7 +26,6 @@
         <button class="submit-button" :disabled="submitDisabled" @tap="submit">
           {{ saving ? '创建中...' : '创建圈子并发送邀请' }}
         </button>
-        <text>创建后你仍然可以编辑圈子介绍、增减成员和调整加入方式。</text>
       </section>
     </section>
   </view>
@@ -87,16 +85,22 @@ async function submit() {
 
 .publish-chip,
 .submit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 999px;
   background: #9f5c38;
   color: #fff;
   font-size: 13px;
   font-weight: 800;
+  line-height: 1;
+  text-align: center;
 }
 
 .publish-chip {
   min-width: 54px;
-  padding: 8px 14px;
+  min-height: 32px;
+  padding: 0 14px;
 }
 
 .page-content {
@@ -157,5 +161,6 @@ async function submit() {
 
 .submit-button {
   min-height: 48px;
+  padding: 0 18px;
 }
 </style>

@@ -12,18 +12,20 @@
       <text>搜索菜谱...</text>
     </section>
 
-    <scroll-view class="category-strip" scroll-x>
-      <button :class="['category-pill', { active: !selectedCategoryId }]" @tap="selectCategory('')">
-        全部
-      </button>
-      <button
-        v-for="category in homeData.categories"
-        :key="category.id"
-        :class="['category-pill', { active: category.id === selectedCategoryId }]"
-        @tap="selectCategory(category.id)"
-      >
-        {{ category.name }}
-      </button>
+    <scroll-view class="category-strip" :scroll-x="true" :scroll-left="categoryScrollLeft" :scroll-with-animation="true">
+      <view class="category-strip-content">
+        <button :class="['category-pill', { active: !selectedCategoryId }]" @tap="selectCategory('')">
+          全部
+        </button>
+        <button
+          v-for="category in homeData.categories"
+          :key="category.id"
+          :class="['category-pill', { active: category.id === selectedCategoryId }]"
+          @tap="selectCategory(category.id)"
+        >
+          {{ category.name }}
+        </button>
+      </view>
     </scroll-view>
 
     <section class="section-block">
@@ -55,7 +57,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import Taro from '@tarojs/taro'
+import { computed, nextTick, onMounted, ref } from 'vue'
 import AppTabBar from '@/components/AppTabBar.vue'
 import SmartImage from '@/components/SmartImage.vue'
 import { Message } from '@/lib/feedback'
@@ -74,6 +77,7 @@ const homeData = ref<HomeResponse>({
   featuredByCategory: [],
 })
 const selectedCategoryId = ref('')
+const categoryScrollLeft = ref(0)
 const displayName = computed(() => authStore.user?.nickname ?? 'meow')
 const filteredDishes = computed(() => {
   if (!selectedCategoryId.value) return homeData.value.recentDishes
@@ -108,6 +112,40 @@ function goToProfile() {
 
 function selectCategory(categoryId: string) {
   selectedCategoryId.value = categoryId
+  void centerSelectedCategory()
+}
+
+async function centerSelectedCategory() {
+  await nextTick()
+
+  const [stripRect, activeRect, contentRect] = await new Promise<
+    [Taro.NodesRef.BoundingClientRectCallbackResult | null, Taro.NodesRef.BoundingClientRectCallbackResult | null, Taro.NodesRef.BoundingClientRectCallbackResult | null]
+  >((resolve) => {
+    Taro.createSelectorQuery()
+      .select('.category-strip')
+      .boundingClientRect()
+      .select('.category-pill.active')
+      .boundingClientRect()
+      .select('.category-strip-content')
+      .boundingClientRect()
+      .exec((result) => {
+        resolve([
+          (result?.[0] as Taro.NodesRef.BoundingClientRectCallbackResult | null) ?? null,
+          (result?.[1] as Taro.NodesRef.BoundingClientRectCallbackResult | null) ?? null,
+          (result?.[2] as Taro.NodesRef.BoundingClientRectCallbackResult | null) ?? null,
+        ])
+      })
+  })
+
+  if (!stripRect || !activeRect || !contentRect) return
+
+  const nextScrollLeft =
+    categoryScrollLeft.value +
+    (activeRect.left - stripRect.left) -
+    (stripRect.width - activeRect.width) / 2
+  const maxScrollLeft = Math.max(contentRect.width - stripRect.width, 0)
+
+  categoryScrollLeft.value = Math.min(Math.max(nextScrollLeft, 0), maxScrollLeft)
 }
 </script>
 
@@ -162,9 +200,14 @@ function selectCategory(categoryId: string) {
 }
 
 .category-strip {
+  padding: 0 2px 8px;
   white-space: nowrap;
-  padding-bottom: 8px;
   margin-bottom: 18px;
+}
+
+.category-strip-content {
+  display: inline-flex;
+  padding-right: 8px;
 }
 
 .category-pill {
@@ -174,16 +217,21 @@ function selectCategory(categoryId: string) {
   margin-right: 8px;
   border-radius: 999px;
   background: #fff;
-  color: #3d3d3d;
   padding: 10px 16px;
   font-size: var(--text-sm);
   font-weight: 700;
-  box-shadow: 0 8px 22px rgba(27, 58, 45, 0.08);
 }
 
 .category-pill.active {
   background: #1b3a2d;
   color: #fff;
+}
+
+.section-block {
+  padding: 18px;
+  border-radius: 22px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow);
 }
 
 .section-title {

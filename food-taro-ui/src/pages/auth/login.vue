@@ -52,10 +52,10 @@
         </view>
       </view>
 
-      <view class="footer-prompt">
+      <!-- <view class="footer-prompt">
         <text>还没有账号？</text>
         <button class="footer-link" @tap="goRegister">去注册</button>
-      </view>
+      </view> -->
     </view>
   </view>
 </template>
@@ -232,7 +232,8 @@ function goRegister() {
 
 .wechat-profile-card {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   gap: 14px;
   margin-bottom: 18px;
 }
@@ -243,6 +244,7 @@ function goRegister() {
   height: 92px;
   align-items: center;
   justify-content: center;
+  align-self: center;
   padding: 0;
   overflow: hidden;
   flex-shrink: 0;

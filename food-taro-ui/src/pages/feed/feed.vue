@@ -1,6 +1,7 @@
 <template>
   <view class="page-shell feed-page">
     <header class="top-nav">
+      <view class="nav-placeholder"></view>
       <text class="page-title">好友动态</text>
       <button class="back" @tap="loadData">↻</button>
     </header>
@@ -50,7 +51,19 @@ function openDish(id: string) {
   padding-bottom: 120px;
 }
 
+.top-nav {
+  display: grid;
+  grid-template-columns: 36px 1fr 36px;
+  align-items: center;
+}
+
+.nav-placeholder {
+  width: 36px;
+  height: 36px;
+}
+
 .page-title {
+  justify-self: center;
   color: var(--text-main);
   font-size: var(--title-lg);
   font-weight: 800;

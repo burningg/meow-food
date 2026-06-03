@@ -161,24 +161,24 @@ function navigate(item: TabItem) {
 }
 
 .home-roof {
-  top: 3px;
-  left: 5px;
-  width: 10px;
-  height: 10px;
-  border-left: 1.8px solid currentColor;
-  border-top: 1.8px solid currentColor;
-  border-radius: 2px 0 0;
+  top: 2px;
+  left: 4px;
+  width: 12px;
+  height: 12px;
+  border-top: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+  border-radius: 3px 0 0 0;
   transform: rotate(45deg);
 }
 
 .home-body {
-  left: 4px;
+  left: 3px;
   bottom: 2px;
-  width: 12px;
+  width: 14px;
   height: 10px;
-  border: 1.8px solid currentColor;
+  border: 2px solid currentColor;
   border-top: none;
-  border-radius: 0 0 3px 3px;
+  border-radius: 0 0 4px 4px;
 }
 
 .home-door {
@@ -186,35 +186,65 @@ function navigate(item: TabItem) {
   bottom: 2px;
   width: 0;
   height: 6px;
-  border-left: 1.8px solid currentColor;
+  border-left: 2px solid currentColor;
+}
+
+.tab-item.active .home-roof {
+  top: 3px;
+  left: 4px;
+  width: 12px;
+  height: 12px;
+  border: none;
+  border-radius: 3px 3px 0 0;
+  background: currentColor;
+  transform: rotate(45deg);
+}
+
+.tab-item.active .home-body {
+  left: 4px;
+  width: 12px;
+  height: 10px;
+  border: none;
+  border-radius: 0 0 4px 4px;
+  background: currentColor;
+}
+
+.tab-item.active .home-door {
+  left: 9px;
+  width: 4px;
+  height: 5px;
+  border: none;
+  border-radius: 3px 3px 0 0;
+  background: #edf3ec;
 }
 
 .feed-bubble {
   left: 2px;
-  top: 3px;
+  top: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 3px;
-  width: 17px;
+  width: 16px;
   height: 14px;
-  border: 1.8px solid currentColor;
-  border-radius: 999px;
+  border: 2px solid currentColor;
+  border-radius: 8px;
 }
 
 .feed-tail {
-  left: 4px;
+  left: 5px;
   bottom: 2px;
   width: 5px;
   height: 5px;
-  border-left: 1.8px solid currentColor;
-  border-bottom: 1.8px solid currentColor;
-  transform: skew(-20deg);
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  border-bottom-left-radius: 2px;
+  transform: skew(-18deg);
 }
 
 .feed-dot {
-  width: 2px;
-  height: 2px;
+  width: 2.5px;
+  height: 2.5px;
   border-radius: 999px;
   background: currentColor;
 }
@@ -234,20 +264,20 @@ function navigate(item: TabItem) {
 }
 
 .circle-node {
-  border: 1.8px solid currentColor;
+  border: 2px solid currentColor;
   border-radius: 999px;
 }
 
 .circle-node-main {
   left: 1px;
-  top: 4px;
+  top: 3px;
   width: 6px;
   height: 6px;
 }
 
 .circle-node-side {
-  right: 3px;
-  top: 5px;
+  right: 1px;
+  top: 2px;
   width: 7px;
   height: 7px;
 }
@@ -262,17 +292,17 @@ function navigate(item: TabItem) {
 .circle-arc-main {
   left: 0;
   bottom: 2px;
-  width: 11px;
+  width: 10px;
   height: 7px;
-  border-width: 1.8px 1.8px 0;
+  border-width: 2px 2px 0;
 }
 
 .circle-arc-side {
-  right: 1px;
-  bottom: 3px;
-  width: 9px;
+  right: 0;
+  bottom: 2px;
+  width: 10px;
   height: 6px;
-  border-width: 1.8px 1.8px 0;
+  border-width: 2px 2px 0;
 }
 
 .profile-head {
@@ -280,7 +310,7 @@ function navigate(item: TabItem) {
   top: 2px;
   width: 7px;
   height: 7px;
-  border: 1.8px solid currentColor;
+  border: 2px solid currentColor;
   border-radius: 999px;
 }
 
@@ -289,7 +319,7 @@ function navigate(item: TabItem) {
   bottom: 2px;
   width: 13px;
   height: 7px;
-  border: 1.8px solid currentColor;
+  border: 2px solid currentColor;
   border-bottom: none;
   border-radius: 999px 999px 0 0;
 }

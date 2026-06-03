@@ -59,29 +59,29 @@
         <view class="section-head">
           <view>
             <text class="section-title">圈内菜谱</text>
-            <text class="muted">按分类快速看圈内最近共享的菜</text>
           </view>
-          <text class="section-link">最近更新</text>
         </view>
 
-        <scroll-view class="category-group" scroll-x>
-          <button
-            v-for="category in categories"
-            :key="category"
-            :class="['category-chip', { active: category === activeCategory }]"
-            @tap="activeCategory = category"
-          >
-            {{ category }}
-          </button>
+        <scroll-view class="circle-category-strip" :scroll-x="true" :scroll-left="categoryScrollLeft" :scroll-with-animation="true">
+          <view class="circle-category-strip-content">
+            <button
+              v-for="category in categories"
+              :key="category"
+              :class="['circle-category-pill', { active: category === activeCategory }]"
+              @tap="selectCategory(category)"
+            >
+              {{ category }}
+            </button>
+          </view>
         </scroll-view>
 
-        <view v-if="visibleMenus.length" class="recipe-grid">
-          <button v-for="menu in visibleMenus" :key="menu.id" class="recipe-card" @tap="openDish(menu.id)">
-            <SmartImage :src="menu.image" class-name="recipe-image" />
-            <view class="recipe-copy">
+        <view v-if="visibleMenus.length" class="recent-row">
+          <button v-for="menu in visibleMenus" :key="menu.id" class="recent-card" @tap="openDish(menu.id)">
+            <SmartImage :src="menu.image" class-name="recent-image" />
+            <view class="recent-copy">
               <text class="recipe-name">{{ menu.name }}</text>
-              <text class="muted">{{ menu.categoryName }}</text>
-              <text class="recipe-owner">{{ menu.ownerNickname }}创建</text>
+              <text class="recent-category">{{ menu.categoryName }}</text>
+              <text class="recent-owner">{{ menu.ownerNickname }}创建</text>
             </view>
           </button>
         </view>
@@ -138,8 +138,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
-import { useShareAppMessage } from '@tarojs/taro'
+import Taro, { useShareAppMessage } from '@tarojs/taro'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import SmartImage from '@/components/SmartImage.vue'
 import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
@@ -162,6 +162,7 @@ const authStore = useAuthStore()
 const detail = ref<BuddyCircleDetail | null>(null)
 const circles = ref<BuddyCircleSummary[]>([])
 const activeCategory = ref('全部')
+const categoryScrollLeft = ref(0)
 const isLoading = ref(true)
 const inviteModalVisible = ref(false)
 const inviteLoading = ref(false)
@@ -183,8 +184,8 @@ const switcherCircles = computed(() => (circles.value.length ? circles.value : d
 const categories = computed(() => ['全部', ...Array.from(new Set((detail.value?.sharedMenus || []).map((menu) => menu.categoryName).filter(Boolean)))])
 const visibleMenus = computed(() => {
   const menus = detail.value?.sharedMenus || []
-  if (activeCategory.value === '全部') return menus.slice(0, 4)
-  return menus.filter((menu) => menu.categoryName === activeCategory.value).slice(0, 4)
+  if (activeCategory.value === '全部') return menus.slice(0, 3)
+  return menus.filter((menu) => menu.categoryName === activeCategory.value).slice(0, 3)
 })
 const previewMembers = computed<PreviewMember[]>(() =>
   (detail.value?.members || []).slice(0, 3).map((member, index) => ({
@@ -228,10 +229,12 @@ useShareAppMessage(() => {
 onMounted(async () => {
   if (!(await requireAuth('circle-detail'))) return
   await loadData()
+  void centerSelectedCategory()
 })
 
 watch(categories, (nextCategories) => {
   if (!nextCategories.includes(activeCategory.value)) activeCategory.value = '全部'
+  void centerSelectedCategory()
 })
 
 async function loadData() {
@@ -327,10 +330,48 @@ function openDish(id: DishSummary['id']) {
   push({ name: 'dish-detail', params: { id } })
 }
 
+function selectCategory(category: string) {
+  activeCategory.value = category
+  void centerSelectedCategory()
+}
+
 function switchCircle(id: string) {
   if (!id || id === activeCircleId.value) return
   closeInvitePicker()
   push({ name: 'circle-detail', params: { id } })
+}
+
+async function centerSelectedCategory() {
+  await nextTick()
+
+  const [stripRect, activeRect, contentRect] = await new Promise<
+    [Taro.NodesRef.BoundingClientRectCallbackResult | null, Taro.NodesRef.BoundingClientRectCallbackResult | null, Taro.NodesRef.BoundingClientRectCallbackResult | null]
+  >((resolve) => {
+    Taro.createSelectorQuery()
+      .select('.circle-category-strip')
+      .boundingClientRect()
+      .select('.circle-category-pill.active')
+      .boundingClientRect()
+      .select('.circle-category-strip-content')
+      .boundingClientRect()
+      .exec((result) => {
+        resolve([
+          (result?.[0] as Taro.NodesRef.BoundingClientRectCallbackResult | null) ?? null,
+          (result?.[1] as Taro.NodesRef.BoundingClientRectCallbackResult | null) ?? null,
+          (result?.[2] as Taro.NodesRef.BoundingClientRectCallbackResult | null) ?? null,
+        ])
+      })
+  })
+
+  if (!stripRect || !activeRect || !contentRect) return
+
+  const nextScrollLeft =
+    categoryScrollLeft.value +
+    (activeRect.left - stripRect.left) -
+    (stripRect.width - activeRect.width) / 2
+  const maxScrollLeft = Math.max(contentRect.width - stripRect.width, 0)
+
+  categoryScrollLeft.value = Math.min(Math.max(nextScrollLeft, 0), maxScrollLeft)
 }
 
 function avatarInitial(name: string) {
@@ -407,13 +448,12 @@ function inviteFriendMeta(friend: FriendItem, index: number) {
 }
 
 .section-head view,
-.recipe-copy {
+.recent-copy {
   display: flex;
   flex-direction: column;
 }
 
 .section-link,
-.recipe-owner,
 .eyebrow {
   color: #9f5c38;
   font-size: 12px;
@@ -441,48 +481,79 @@ function inviteFriendMeta(friend: FriendItem, index: number) {
   font-weight: 800;
 }
 
-.category-group {
+.circle-category-strip {
+  padding: 0 2px 8px;
   white-space: nowrap;
-  margin: 14px 0;
+  margin: 14px 0 16px;
 }
 
-.category-chip {
+.circle-category-strip-content {
   display: inline-flex;
+  padding-right: 8px;
+}
+
+.circle-category-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin-right: 8px;
   border-radius: 999px;
-  background: #f5f2ed;
-  color: #787774;
-  padding: 8px 12px;
-  font-size: 12px;
-  font-weight: 800;
+  background: #fff;
+  color: #3d3d3d;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 700;
 }
 
-.category-chip.active {
+.circle-category-pill.active {
   background: #1b3a2d;
   color: #fff;
 }
 
-.recipe-grid {
+.recent-row {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 
-.recipe-card {
+.recent-card {
+  position: relative;
+  height: 128px;
   overflow: hidden;
-  border-radius: 16px;
-  background: #f7f4ef;
+  border-radius: 18px;
+  background: #ddd;
   text-align: left;
 }
 
-.recipe-image {
+.recent-image {
   width: 100%;
-  height: 112px;
+  height: 100%;
 }
 
-.recipe-copy {
-  gap: 3px;
-  padding: 10px;
+.recent-copy {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  gap: 2px;
+  padding: 32px 10px 10px;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.62));
+}
+
+.recipe-name {
+  color: #fff;
+  font-size: 13px;
+}
+
+.recent-category {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 11px;
+}
+
+.recent-owner {
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .overview-card {

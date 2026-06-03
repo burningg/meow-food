@@ -8,9 +8,8 @@
           <view class="user-copy">
             <view class="hero-title">
               <text class="hero-title-name">{{ displayName }}</text>
-              <text class="hero-title-suffix">的美味空间</text>
+              <text class="hero-title-suffix"> 的美味空间</text>
             </view>
-            <text class="bio">{{ displayBio }}</text>
           </view>
         </view>
         <button class="ghost-circle" @tap="openEditProfilePage">✎</button>
@@ -87,7 +86,6 @@ const socialService = new SocialService()
 const profile = ref<ProfileResponse | null>(null)
 
 const displayName = computed(() => profile.value?.user.nickname || authStore.user?.nickname || 'meow')
-const displayBio = computed(() => profile.value?.user.bio || '菜单、好友和搭子圈都在这里慢慢展开。')
 const displayAvatar = computed(() => profile.value?.user.avatar || authStore.user?.avatar || '')
 const inviterId = computed(() => profile.value?.user.id || authStore.user?.id || '')
 
@@ -200,6 +198,7 @@ function logout() {
 .visibility-desc,
 .eyebrow {
   color: var(--text-muted);
+  margin-left: 3px;
 }
 
 .bio {

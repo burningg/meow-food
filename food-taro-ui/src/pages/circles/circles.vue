@@ -1,7 +1,7 @@
 <template>
   <view class="page-shell circles-page">
     <header class="top-nav circle-nav">
-      <button class="nav-button" @tap="goBack('home')">‹</button>
+      <view class="nav-placeholder"></view>
       <text class="page-title">美食搭子</text>
       <button class="nav-button" @tap="createCircle">＋</button>
     </header>
@@ -48,9 +48,7 @@
           <view class="section-head">
             <view>
               <text class="section-title">圈内菜谱</text>
-              <text class="muted">按分类快速看圈内最近共享的菜</text>
             </view>
-            <text class="section-link">最近更新</text>
           </view>
 
           <scroll-view class="category-group" scroll-x>
@@ -123,7 +121,7 @@ import AppTabBar from '@/components/AppTabBar.vue'
 import SmartImage from '@/components/SmartImage.vue'
 import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
-import { goBack, push } from '@/lib/navigation'
+import { push } from '@/lib/navigation'
 import type { DishSummary } from '@/services/food-service'
 import {
   SocialService,
@@ -254,6 +252,14 @@ function getInitial(member: BuddyCircleMember) {
 .circle-nav {
   height: 54px;
   padding: 14px 20px 0;
+  display: grid;
+  grid-template-columns: 36px 1fr 36px;
+  align-items: center;
+}
+
+.nav-placeholder {
+  width: 36px;
+  height: 36px;
 }
 
 .page-title,
@@ -267,7 +273,8 @@ function getInitial(member: BuddyCircleMember) {
 }
 
 .page-title {
-  font-size: 16px;
+  justify-self: center;
+  font-size: var(--title-lg);
 }
 
 .muted,
