@@ -17,13 +17,13 @@
 
     <section class="menus">
       <view class="section-head">
-        <view>
-          <text class="section-title">可访问菜单</text>
-        </view>
-        <text class="muted">{{ access?.accessibleCount ?? 0 }} 份</text>
+      <view>
+        <text class="section-title">可访问菜单</text>
       </view>
-      <button v-for="menu in access?.menus || []" :key="menu.id" class="menu-row" @tap="openDish(menu.id)">
-        <image :src="menu.image" mode="aspectFill" />
+      <text class="muted">{{ access?.accessibleCount ?? 0 }} 份</text>
+    </view>
+    <button v-for="menu in access?.menus || []" :key="menu.id" class="menu-row" @tap="openDish(menu.id)">
+        <SmartImage :src="menu.image" class-name="menu-image" />
         <view>
           <text class="menu-name">{{ menu.name }}</text>
           <text class="muted">{{ menu.description }}</text>
@@ -40,6 +40,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import SmartImage from '@/components/SmartImage.vue'
 import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
 import { getRouteParams, goBack, push } from '@/lib/navigation'
@@ -164,7 +165,7 @@ async function handleAction() {
   text-align: left;
 }
 
-.menu-row image {
+.menu-image {
   width: 62px;
   height: 62px;
   border-radius: 16px;

@@ -35,7 +35,7 @@
 
       <view v-if="filteredDishes.length" class="recent-row">
         <button v-for="dish in filteredDishes" :key="dish.id" class="recent-card" @tap="goToDetail(dish.id)">
-          <image :src="dish.image" mode="aspectFill" />
+          <SmartImage :src="dish.image" class-name="recent-image" />
           <view class="recent-copy">
             <text class="recent-name">{{ dish.name }}</text>
             <text class="recent-category">{{ dish.categoryName }}</text>
@@ -57,6 +57,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import AppTabBar from '@/components/AppTabBar.vue'
+import SmartImage from '@/components/SmartImage.vue'
 import { Message } from '@/lib/feedback'
 import { push } from '@/lib/navigation'
 import { requireAuth } from '@/lib/auth'
@@ -206,7 +207,7 @@ function selectCategory(categoryId: string) {
   text-align: left;
 }
 
-.recent-card image {
+.recent-image {
   width: 100%;
   height: 100%;
 }

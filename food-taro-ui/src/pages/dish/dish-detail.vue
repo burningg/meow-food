@@ -1,7 +1,7 @@
 <template>
   <view v-if="dish" class="detail-page">
     <section class="hero-shell">
-      <image class="hero-image" :src="dish.image" mode="aspectFill" />
+      <SmartImage :src="dish.image" variant="hero" class-name="hero-image" />
       <view class="hero-overlay">
         <button class="icon-button" @tap="goBack">‹</button>
         <button v-if="isOwner" class="icon-button text-button" @tap="goEdit">编辑</button>
@@ -89,6 +89,7 @@
 <script setup lang="ts">
 import { useShareAppMessage } from '@tarojs/taro'
 import { computed, onMounted, ref } from 'vue'
+import SmartImage from '@/components/SmartImage.vue'
 import { requireAuth } from '@/lib/auth'
 import { confirmDialog, Message } from '@/lib/feedback'
 import { getRouteParams, push, replace, resolveSharePath } from '@/lib/navigation'

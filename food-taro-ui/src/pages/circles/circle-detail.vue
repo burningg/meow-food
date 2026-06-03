@@ -77,7 +77,7 @@
 
         <view v-if="visibleMenus.length" class="recipe-grid">
           <button v-for="menu in visibleMenus" :key="menu.id" class="recipe-card" @tap="openDish(menu.id)">
-            <image class="recipe-image" :src="menu.image" mode="aspectFill" />
+            <SmartImage :src="menu.image" class-name="recipe-image" />
             <view class="recipe-copy">
               <text class="recipe-name">{{ menu.name }}</text>
               <text class="muted">{{ menu.categoryName }}</text>
@@ -140,6 +140,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
 import { useShareAppMessage } from '@tarojs/taro'
+import SmartImage from '@/components/SmartImage.vue'
 import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
 import { getRouteParams, goBack, push, resolveSharePath } from '@/lib/navigation'
