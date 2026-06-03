@@ -16,18 +16,31 @@
             <text class="eyebrow">当前圈子</text>
             <text class="circle-title">{{ detail.circle.name }}</text>
           </view>
-          <text class="state-pill">{{ detail.stats.memberCount }}人 · {{ detail.stats.sharedMenuCount }}菜谱</text>
+          <text class="state-pill"
+            >{{ detail.stats.memberCount }}人 ·
+            {{ detail.stats.sharedMenuCount }}菜谱</text
+          >
         </view>
 
-        <scroll-view v-if="switcherCircles.length" class="circle-switch-list" scroll-x>
+        <scroll-view
+          v-if="switcherCircles.length"
+          class="circle-switch-list"
+          scroll-x
+        >
           <button
             v-for="circle in switcherCircles"
             :key="circle.id"
-            :class="['circle-switch-row', { active: circle.id === activeCircleId }]"
+            :class="[
+              'circle-switch-row',
+              { active: circle.id === activeCircleId },
+            ]"
             @tap="switchCircle(circle.id)"
           >
             <text>{{ circle.name }}</text>
-            <text>{{ circle.memberCount }}人 · {{ circle.sharedMenuCount }}菜谱</text>
+            <text
+              >{{ circle.memberCount }}人 ·
+              {{ circle.sharedMenuCount }}菜谱</text
+            >
           </button>
         </scroll-view>
       </section>
@@ -46,7 +59,10 @@
               v-for="member in previewMembers"
               :key="member.id"
               class="avatar-badge"
-              :style="{ background: avatarPalette[member.avatarTone].bg, color: avatarPalette[member.avatarTone].fg }"
+              :style="{
+                background: avatarPalette[member.avatarTone].bg,
+                color: avatarPalette[member.avatarTone].fg,
+              }"
             >
               {{ member.initial }}
             </view>
@@ -62,12 +78,26 @@
           </view>
         </view>
 
-        <scroll-view class="circle-category-strip" :scroll-x="true" :scroll-left="categoryScrollLeft" :scroll-with-animation="true">
-          <view class="circle-category-strip-content">
+        <scroll-view
+          class="category-strip"
+          :scroll-x="true"
+          :scroll-left="categoryScrollLeft"
+          :scroll-with-animation="true"
+        >
+          <view class="category-strip-content">
+            <button
+              :class="['category-pill', { active: activeCategory === '全部' }]"
+              @tap="selectCategory('')"
+            >
+              全部
+            </button>
             <button
               v-for="category in categories"
               :key="category"
-              :class="['circle-category-pill', { active: category === activeCategory }]"
+              :class="[
+                'category-pill',
+                { active: category === activeCategory },
+              ]"
               @tap="selectCategory(category)"
             >
               {{ category }}
@@ -76,10 +106,15 @@
         </scroll-view>
 
         <view v-if="visibleMenus.length" class="recent-row">
-          <button v-for="menu in visibleMenus" :key="menu.id" class="recent-card" @tap="openDish(menu.id)">
+          <button
+            v-for="menu in visibleMenus"
+            :key="menu.id"
+            class="recent-card"
+            @tap="openDish(menu.id)"
+          >
             <SmartImage :src="menu.image" class-name="recent-image" />
             <view class="recent-copy">
-              <text class="recipe-name">{{ menu.name }}</text>
+              <text class="recent-name">{{ menu.name }}</text>
               <text class="recent-category">{{ menu.categoryName }}</text>
               <text class="recent-owner">{{ menu.ownerNickname }}创建</text>
             </view>
@@ -91,28 +126,53 @@
 
     <section v-else class="status-card">{{ statusText }}</section>
 
-    <view v-if="inviteModalVisible" class="invite-modal-overlay" @tap="closeInvitePicker">
+    <view
+      v-if="inviteModalVisible"
+      class="invite-modal-overlay"
+      @tap="closeInvitePicker"
+    >
       <section class="invite-modal-card" @tap.stop>
         <view class="invite-modal-handle"></view>
         <view class="invite-modal-head">
           <view class="invite-modal-title">
             <text class="eyebrow">搭子圈邀请</text>
           </view>
-          <button class="modal-close-shell" :disabled="inviteSubmitting" @tap="closeInvitePicker">×</button>
+          <button
+            class="modal-close-shell"
+            :disabled="inviteSubmitting"
+            @tap="closeInvitePicker"
+          >
+            ×
+          </button>
         </view>
 
         <view v-if="inviteCandidates.length" class="invite-friends-card">
-          <article v-for="(friend, index) in inviteCandidates" :key="friend.id" class="invite-friend-row">
-            <button class="invite-friend-main" :disabled="inviteSubmitting" @tap="selectedFriendId = friend.id">
-              <view :class="['invite-avatar-box', inviteAvatarToneClass(index)]">
+          <article
+            v-for="(friend, index) in inviteCandidates"
+            :key="friend.id"
+            class="invite-friend-row"
+          >
+            <button
+              class="invite-friend-main"
+              :disabled="inviteSubmitting"
+              @tap="selectedFriendId = friend.id"
+            >
+              <view
+                :class="['invite-avatar-box', inviteAvatarToneClass(index)]"
+              >
                 <text>{{ avatarInitial(friend.nickname) }}</text>
               </view>
               <view class="invite-friend-copy">
                 <text class="strong">{{ friend.nickname }}</text>
                 <text class="muted">{{ inviteFriendMeta(friend, index) }}</text>
               </view>
-              <text :class="['invite-check', { active: selectedFriendId === friend.id }]">
-                {{ selectedFriendId === friend.id ? '✓' : '' }}
+              <text
+                :class="[
+                  'invite-check',
+                  { active: selectedFriendId === friend.id },
+                ]"
+              >
+                {{ selectedFriendId === friend.id ? "✓" : "" }}
               </text>
             </button>
           </article>
@@ -126,9 +186,19 @@
         <view class="invite-modal-footer">
           <text class="muted">一次选择 1 位好友发出邀请。</text>
           <view class="invite-modal-actions">
-            <button class="modal-action ghost" :disabled="inviteSubmitting" @tap="closeInvitePicker">取消</button>
-            <button class="modal-action primary" :disabled="!selectedFriendId || inviteSubmitting || inviteLoading" @tap="submitInvite">
-              {{ inviteSubmitting ? '邀请中...' : inviteButtonText }}
+            <button
+              class="modal-action ghost"
+              :disabled="inviteSubmitting"
+              @tap="closeInvitePicker"
+            >
+              取消
+            </button>
+            <button
+              class="modal-action primary"
+              :disabled="!selectedFriendId || inviteSubmitting || inviteLoading"
+              @tap="submitInvite"
+            >
+              {{ inviteSubmitting ? "邀请中..." : inviteButtonText }}
             </button>
           </view>
         </view>
@@ -138,258 +208,313 @@
 </template>
 
 <script setup lang="ts">
-import Taro, { useShareAppMessage } from '@tarojs/taro'
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
-import SmartImage from '@/components/SmartImage.vue'
-import { requireAuth } from '@/lib/auth'
-import { Message } from '@/lib/feedback'
-import { getRouteParams, goBack, push, resolveSharePath } from '@/lib/navigation'
-import type { DishSummary } from '@/services/food-service'
+import Taro, { useShareAppMessage } from "@tarojs/taro";
+import { computed, nextTick, onMounted, ref, watch } from "vue";
+import SmartImage from "@/components/SmartImage.vue";
+import { requireAuth } from "@/lib/auth";
+import { Message } from "@/lib/feedback";
+import {
+  getRouteParams,
+  goBack,
+  push,
+  resolveSharePath,
+} from "@/lib/navigation";
+import type { DishSummary } from "@/services/food-service";
 import {
   SocialService,
   type BuddyCircleDetail,
   type BuddyCircleMember,
   type BuddyCircleSummary,
   type FriendItem,
-} from '@/services/social-service'
-import { useAuthStore } from '@/stores/auth-store'
+} from "@/services/social-service";
+import { useAuthStore } from "@/stores/auth-store";
 
-type PreviewMember = { id: string; initial: string; avatarTone: number }
+type PreviewMember = { id: string; initial: string; avatarTone: number };
 
-const params = getRouteParams() as { id?: string }
-const socialService = new SocialService()
-const authStore = useAuthStore()
-const detail = ref<BuddyCircleDetail | null>(null)
-const circles = ref<BuddyCircleSummary[]>([])
-const activeCategory = ref('全部')
-const categoryScrollLeft = ref(0)
-const isLoading = ref(true)
-const inviteModalVisible = ref(false)
-const inviteLoading = ref(false)
-const inviteSubmitting = ref(false)
-const inviteLoadFailed = ref(false)
-const friends = ref<FriendItem[]>([])
-const selectedFriendId = ref('')
-let detailRequestToken = 0
+const params = getRouteParams() as { id?: string };
+const socialService = new SocialService();
+const authStore = useAuthStore();
+const detail = ref<BuddyCircleDetail | null>(null);
+const circles = ref<BuddyCircleSummary[]>([]);
+const activeCategory = ref("全部");
+const categoryScrollLeft = ref(0);
+const isLoading = ref(true);
+const inviteModalVisible = ref(false);
+const inviteLoading = ref(false);
+const inviteSubmitting = ref(false);
+const inviteLoadFailed = ref(false);
+const friends = ref<FriendItem[]>([]);
+const selectedFriendId = ref("");
+let detailRequestToken = 0;
 
 const avatarPalette = [
-  { bg: '#edf3ec', fg: '#346538' },
-  { bg: '#f9ebdd', fg: '#9f5c38' },
-  { bg: '#eeeaf7', fg: '#6c58a5' },
-]
+  { bg: "#edf3ec", fg: "#346538" },
+  { bg: "#f9ebdd", fg: "#9f5c38" },
+  { bg: "#eeeaf7", fg: "#6c58a5" },
+];
 
-const circleId = computed(() => String(params.id || ''))
-const activeCircleId = computed(() => detail.value?.circle.id || circleId.value)
-const switcherCircles = computed(() => (circles.value.length ? circles.value : detail.value ? [detail.value.circle] : []))
-const categories = computed(() => ['全部', ...Array.from(new Set((detail.value?.sharedMenus || []).map((menu) => menu.categoryName).filter(Boolean)))])
+const circleId = computed(() => String(params.id || ""));
+const activeCircleId = computed(
+  () => detail.value?.circle.id || circleId.value,
+);
+const switcherCircles = computed(() =>
+  circles.value.length
+    ? circles.value
+    : detail.value
+      ? [detail.value.circle]
+      : [],
+);
+const categories = computed(() =>
+  Array.from(
+    new Set(
+      (detail.value?.sharedMenus || [])
+        .map((menu) => menu.categoryName)
+        .filter(Boolean),
+    ),
+  ),
+);
 const visibleMenus = computed(() => {
-  const menus = detail.value?.sharedMenus || []
-  if (activeCategory.value === '全部') return menus.slice(0, 3)
-  return menus.filter((menu) => menu.categoryName === activeCategory.value).slice(0, 3)
-})
+  const menus = detail.value?.sharedMenus || [];
+  if (activeCategory.value === "全部") return menus.slice(0, 3);
+  return menus
+    .filter((menu) => menu.categoryName === activeCategory.value)
+    .slice(0, 3);
+});
 const previewMembers = computed<PreviewMember[]>(() =>
   (detail.value?.members || []).slice(0, 3).map((member, index) => ({
     id: member.id,
     initial: getInitial(member),
     avatarTone: index % avatarPalette.length,
   })),
-)
-const statusText = computed(() => (isLoading.value ? '正在加载搭子圈...' : '没有找到这个搭子圈'))
-const circleMemberIds = computed(() => new Set((detail.value?.members || []).map((member) => member.id)))
-const inviteCandidates = computed(() => friends.value.filter((friend) => !circleMemberIds.value.has(friend.id)))
+);
+const statusText = computed(() =>
+  isLoading.value ? "正在加载搭子圈..." : "没有找到这个搭子圈",
+);
+const circleMemberIds = computed(
+  () => new Set((detail.value?.members || []).map((member) => member.id)),
+);
+const inviteCandidates = computed(() =>
+  friends.value.filter((friend) => !circleMemberIds.value.has(friend.id)),
+);
 const inviteButtonText = computed(() => {
-  const target = inviteCandidates.value.find((friend) => friend.id === selectedFriendId.value)
-  return target ? `邀请${target.nickname}加入搭子圈` : '选择好友后邀请'
-})
+  const target = inviteCandidates.value.find(
+    (friend) => friend.id === selectedFriendId.value,
+  );
+  return target ? `邀请${target.nickname}加入搭子圈` : "选择好友后邀请";
+});
 const inviteEmptyTitle = computed(() => {
-  if (inviteLoading.value) return '正在加载好友'
-  if (inviteLoadFailed.value) return '好友加载失败'
-  return '暂无可邀请好友'
-})
+  if (inviteLoading.value) return "正在加载好友";
+  if (inviteLoadFailed.value) return "好友加载失败";
+  return "暂无可邀请好友";
+});
 const inviteEmptyText = computed(() => {
-  if (inviteLoading.value) return '稍等一下，马上就好。'
-  if (inviteLoadFailed.value) return '请稍后重试。'
-  return '你的好友已经都在这个搭子圈里了。'
-})
+  if (inviteLoading.value) return "稍等一下，马上就好。";
+  if (inviteLoadFailed.value) return "请稍后重试。";
+  return "你的好友已经都在这个搭子圈里了。";
+});
 
 useShareAppMessage(() => {
-  const circle = detail.value?.circle
-  const inviterId = authStore.user?.id || ''
-  const sharedCircleId = circle?.id || circleId.value
+  const circle = detail.value?.circle;
+  const inviterId = authStore.user?.id || "";
+  const sharedCircleId = circle?.id || circleId.value;
 
   return {
-    title: circle ? `邀请你加入「${circle.name}」搭子圈` : '邀请你加入 meow食堂搭子圈',
+    title: circle
+      ? `邀请你加入「${circle.name}」搭子圈`
+      : "邀请你加入 meow食堂搭子圈",
     path: resolveSharePath({
-      name: 'circle-share-invite',
+      name: "circle-share-invite",
       params: { circleId: sharedCircleId, inviterId },
     }),
-  }
-})
+  };
+});
 
 onMounted(async () => {
-  if (!(await requireAuth('circle-detail'))) return
-  await loadData()
-  void centerSelectedCategory()
-})
+  if (!(await requireAuth("circle-detail"))) return;
+  await loadData();
+  void centerSelectedCategory();
+});
 
 watch(categories, (nextCategories) => {
-  if (!nextCategories.includes(activeCategory.value)) activeCategory.value = '全部'
-  void centerSelectedCategory()
-})
+  if (!nextCategories.includes(activeCategory.value))
+    activeCategory.value = "全部";
+  void centerSelectedCategory();
+});
 
 async function loadData() {
   try {
-    const [{ data: circleList }] = await Promise.all([socialService.getCircles(), loadDetail(circleId.value)])
-    circles.value = circleList
+    const [{ data: circleList }] = await Promise.all([
+      socialService.getCircles(),
+      loadDetail(circleId.value),
+    ]);
+    circles.value = circleList;
   } finally {
-    if (!circles.value.length) isLoading.value = false
+    if (!circles.value.length) isLoading.value = false;
   }
 }
 
 async function loadDetail(targetCircleId: string) {
   if (!targetCircleId) {
-    detail.value = null
-    isLoading.value = false
-    return
+    detail.value = null;
+    isLoading.value = false;
+    return;
   }
-  const requestToken = ++detailRequestToken
-  isLoading.value = true
+  const requestToken = ++detailRequestToken;
+  isLoading.value = true;
   try {
-    const { data } = await socialService.getCircleDetail(targetCircleId)
-    if (requestToken !== detailRequestToken) return
-    detail.value = data
+    const { data } = await socialService.getCircleDetail(targetCircleId);
+    if (requestToken !== detailRequestToken) return;
+    detail.value = data;
   } finally {
-    if (requestToken === detailRequestToken) isLoading.value = false
+    if (requestToken === detailRequestToken) isLoading.value = false;
   }
 }
 
 function getInitial(member: BuddyCircleMember) {
-  return (member.nickname || member.account || '?').trim().slice(0, 1).toUpperCase()
+  return (member.nickname || member.account || "?")
+    .trim()
+    .slice(0, 1)
+    .toUpperCase();
 }
 
 function openInvitePicker() {
-  if (!detail.value) return
-  inviteModalVisible.value = true
-  void ensureInviteCandidates()
+  if (!detail.value) return;
+  inviteModalVisible.value = true;
+  void ensureInviteCandidates();
 }
 
 function closeInvitePicker() {
-  if (inviteSubmitting.value) return
-  inviteModalVisible.value = false
-  selectedFriendId.value = ''
+  if (inviteSubmitting.value) return;
+  inviteModalVisible.value = false;
+  selectedFriendId.value = "";
 }
 
 async function ensureInviteCandidates() {
   if (friends.value.length) {
-    inviteLoadFailed.value = false
-    syncSelectedFriend()
-    return
+    inviteLoadFailed.value = false;
+    syncSelectedFriend();
+    return;
   }
-  inviteLoading.value = true
-  inviteLoadFailed.value = false
+  inviteLoading.value = true;
+  inviteLoadFailed.value = false;
   try {
-    const { data } = await socialService.getFriends()
-    friends.value = data
-    syncSelectedFriend()
+    const { data } = await socialService.getFriends();
+    friends.value = data;
+    syncSelectedFriend();
   } catch (error: any) {
-    inviteLoadFailed.value = true
-    Message.error(error?.response?.data?.message || '加载好友列表失败')
+    inviteLoadFailed.value = true;
+    Message.error(error?.response?.data?.message || "加载好友列表失败");
   } finally {
-    inviteLoading.value = false
+    inviteLoading.value = false;
   }
 }
 
 function syncSelectedFriend() {
-  if (inviteCandidates.value.some((friend) => friend.id === selectedFriendId.value)) return
-  selectedFriendId.value = inviteCandidates.value[0]?.id || ''
+  if (
+    inviteCandidates.value.some(
+      (friend) => friend.id === selectedFriendId.value,
+    )
+  )
+    return;
+  selectedFriendId.value = inviteCandidates.value[0]?.id || "";
 }
 
 async function submitInvite() {
-  if (!activeCircleId.value || !selectedFriendId.value) return
-  inviteSubmitting.value = true
+  if (!activeCircleId.value || !selectedFriendId.value) return;
+  inviteSubmitting.value = true;
   try {
     const { data } = await socialService.inviteToCircle(activeCircleId.value, {
       inviteeUserId: selectedFriendId.value,
-    })
-    detail.value = data
-    Message.success('邀请已发送')
-    closeInvitePicker()
+    });
+    detail.value = data;
+    Message.success("邀请已发送");
+    closeInvitePicker();
   } catch (error: any) {
-    Message.error(error?.response?.data?.message || '邀请失败')
+    Message.error(error?.response?.data?.message || "邀请失败");
   } finally {
-    inviteSubmitting.value = false
+    inviteSubmitting.value = false;
   }
 }
 
 function openMembers() {
-  if (!detail.value) return
-  push({ name: 'circle-members', params: { id: activeCircleId.value } })
+  if (!detail.value) return;
+  push({ name: "circle-members", params: { id: activeCircleId.value } });
 }
 
-function openDish(id: DishSummary['id']) {
-  push({ name: 'dish-detail', params: { id } })
+function openDish(id: DishSummary["id"]) {
+  push({ name: "dish-detail", params: { id } });
 }
 
 function selectCategory(category: string) {
-  activeCategory.value = category
-  void centerSelectedCategory()
+  activeCategory.value = category;
+  void centerSelectedCategory();
 }
 
 function switchCircle(id: string) {
-  if (!id || id === activeCircleId.value) return
-  closeInvitePicker()
-  push({ name: 'circle-detail', params: { id } })
+  if (!id || id === activeCircleId.value) return;
+  closeInvitePicker();
+  push({ name: "circle-detail", params: { id } });
 }
 
 async function centerSelectedCategory() {
-  await nextTick()
+  await nextTick();
 
   const [stripRect, activeRect, contentRect] = await new Promise<
-    [Taro.NodesRef.BoundingClientRectCallbackResult | null, Taro.NodesRef.BoundingClientRectCallbackResult | null, Taro.NodesRef.BoundingClientRectCallbackResult | null]
+    [
+      Taro.NodesRef.BoundingClientRectCallbackResult | null,
+      Taro.NodesRef.BoundingClientRectCallbackResult | null,
+      Taro.NodesRef.BoundingClientRectCallbackResult | null,
+    ]
   >((resolve) => {
     Taro.createSelectorQuery()
-      .select('.circle-category-strip')
+      .select(".category-strip")
       .boundingClientRect()
-      .select('.circle-category-pill.active')
+      .select(".category-pill.active")
       .boundingClientRect()
-      .select('.circle-category-strip-content')
+      .select(".category-strip-content")
       .boundingClientRect()
       .exec((result) => {
         resolve([
-          (result?.[0] as Taro.NodesRef.BoundingClientRectCallbackResult | null) ?? null,
-          (result?.[1] as Taro.NodesRef.BoundingClientRectCallbackResult | null) ?? null,
-          (result?.[2] as Taro.NodesRef.BoundingClientRectCallbackResult | null) ?? null,
-        ])
-      })
-  })
+          (result?.[0] as Taro.NodesRef.BoundingClientRectCallbackResult | null) ??
+            null,
+          (result?.[1] as Taro.NodesRef.BoundingClientRectCallbackResult | null) ??
+            null,
+          (result?.[2] as Taro.NodesRef.BoundingClientRectCallbackResult | null) ??
+            null,
+        ]);
+      });
+  });
 
-  if (!stripRect || !activeRect || !contentRect) return
+  if (!stripRect || !activeRect || !contentRect) return;
 
   const nextScrollLeft =
     categoryScrollLeft.value +
     (activeRect.left - stripRect.left) -
-    (stripRect.width - activeRect.width) / 2
-  const maxScrollLeft = Math.max(contentRect.width - stripRect.width, 0)
+    (stripRect.width - activeRect.width) / 2;
+  const maxScrollLeft = Math.max(contentRect.width - stripRect.width, 0);
 
-  categoryScrollLeft.value = Math.min(Math.max(nextScrollLeft, 0), maxScrollLeft)
+  categoryScrollLeft.value = Math.min(
+    Math.max(nextScrollLeft, 0),
+    maxScrollLeft,
+  );
 }
 
 function avatarInitial(name: string) {
-  return (name || '?').trim().slice(0, 1).toUpperCase()
+  return (name || "?").trim().slice(0, 1).toUpperCase();
 }
 
 function inviteAvatarToneClass(index: number) {
-  return ['tone-sage', 'tone-apricot', 'tone-lavender'][index % 3]
+  return ["tone-sage", "tone-apricot", "tone-lavender"][index % 3];
 }
 
 function inviteFriendMeta(friend: FriendItem, index: number) {
-  if (friend.bio?.trim()) return friend.bio.trim()
+  if (friend.bio?.trim()) return friend.bio.trim();
   const fallback = [
     `好友可见 ${friend.visibleMenuCount} 份菜单`,
     `共同收藏 ${Math.max(friend.sharedMenuCount, 1)} 道菜`,
     `一起吃过 ${Math.max(friend.sharedMenuCount, 1)} 次`,
-  ]
-  return fallback[index % fallback.length]
+  ];
+  return fallback[index % fallback.length];
 }
 </script>
 
@@ -481,31 +606,34 @@ function inviteFriendMeta(friend: FriendItem, index: number) {
   font-weight: 800;
 }
 
-.circle-category-strip {
+.category-strip {
+  width: 100%;
   padding: 0 2px 8px;
+  overflow: hidden;
   white-space: nowrap;
-  margin: 14px 0 16px;
+  margin-bottom: 18px;
 }
 
-.circle-category-strip-content {
+.category-strip-content {
   display: inline-flex;
+  width: max-content;
   padding-right: 8px;
 }
 
-.circle-category-pill {
+.category-pill {
   display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
   margin-right: 8px;
   border-radius: 999px;
   background: #fff;
-  color: #3d3d3d;
   padding: 10px 16px;
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 700;
 }
 
-.circle-category-pill.active {
+.category-pill.active {
   background: #1b3a2d;
   color: #fff;
 }
@@ -540,9 +668,10 @@ function inviteFriendMeta(friend: FriendItem, index: number) {
   background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.62));
 }
 
-.recipe-name {
+.recent-name {
   color: #fff;
   font-size: 13px;
+  font-weight: 800;
 }
 
 .recent-category {

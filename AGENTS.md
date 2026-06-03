@@ -4,7 +4,7 @@ Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-s
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
-**注意：** 修改前端样式和布局时，先使用pencil mcp修改design.pen设计图 ；taro项目才是前端跨平台项目，food-ui是历史项目，不用修改
+**注意：** 当需要修改design.pen设计图时，使用pencil mcp修改；taro项目才是前端跨平台项目，food-ui是历史项目，不用修改
 
 ## 1. Think Before Coding
 

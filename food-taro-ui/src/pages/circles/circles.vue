@@ -19,7 +19,7 @@
               <text class="muted">{{ activeDetail.stats.memberCount }}人 · {{ activeDetail.stats.sharedMenuCount }}菜谱 · 正在使用</text>
             </view>
             <button class="circle-switch-button" :disabled="presentedCircles.length <= 1" @tap="openCircleSwitcher">
-              切换 ⌄
+              <text>切换</text>
             </button>
           </view>
         </section>
@@ -58,7 +58,7 @@
               :class="['category-chip', { active: category === activeCategory }]"
               @tap="activeCategory = category"
             >
-              {{ category }}
+              <text>{{ category }}</text>
             </button>
           </scroll-view>
 
@@ -80,7 +80,9 @@
 
     <section v-else class="status-card">
       <text>{{ statusText }}</text>
-      <button v-if="!isLoading" class="create-button" @tap="createCircle">新建圈子</button>
+      <button v-if="!isLoading" class="create-button" @tap="createCircle">
+        <text>新建圈子</text>
+      </button>
     </section>
 
     <view v-if="switcherVisible" class="circle-switch-overlay" @tap="closeCircleSwitcher">

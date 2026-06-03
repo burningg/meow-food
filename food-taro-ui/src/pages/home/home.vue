@@ -31,7 +31,7 @@
     <section class="section-block">
       <view class="section-head">
         <view>
-          <text class="section-title">我的菜品</text>
+          <text class="section-title">我的菜谱</text>
         </view>
       </view>
 
