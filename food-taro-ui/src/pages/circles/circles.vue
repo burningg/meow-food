@@ -383,18 +383,39 @@ function getInitial(member: BuddyCircleMember) {
   flex-direction: column;
 }
 
+.current-circle-copy {
+  flex: 1;
+  min-width: 0;
+}
+
 .circle-name {
   font-size: 18px;
 }
 
 .circle-switch-button,
 .create-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 999px;
   background: #fff;
   color: #9f5c38;
   padding: 8px 12px;
   font-size: 12px;
   font-weight: 800;
+  line-height: 1;
+  text-align: center;
+}
+
+.circle-switch-button {
+  flex-shrink: 0;
+  min-width: 52px;
+  min-height: 32px;
+}
+
+.circle-switch-button[disabled] {
+  color: #b48d73;
+  opacity: 1;
 }
 
 .section-link,
