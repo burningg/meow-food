@@ -25,6 +25,7 @@ CREATE TABLE `user` (
 CREATE TABLE `user_profile_settings` (
   `user_id` varchar(36) NOT NULL COMMENT '用户ID(UUID)',
   `default_menu_visibility` varchar(20) NOT NULL DEFAULT 'friends' COMMENT '默认菜单可见范围',
+  `last_selected_circle_id` varchar(36) DEFAULT NULL COMMENT '上次选中的圈子ID',
   `allow_friend_feed` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否允许进入好友动态',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`user_id`),

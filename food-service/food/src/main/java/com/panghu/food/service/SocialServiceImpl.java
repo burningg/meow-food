@@ -22,6 +22,7 @@ public class SocialServiceImpl implements SocialService {
     private final FriendRequestMapper friendRequestMapper;
     private final FriendRelationMapper friendRelationMapper;
     private final DishMapper dishMapper;
+    private final DishIngredientMapper dishIngredientMapper;
     private final ActivityFeedMapper activityFeedMapper;
     private final BuddyCircleMapper buddyCircleMapper;
     private final BuddyCircleMemberMapper buddyCircleMemberMapper;
@@ -33,6 +34,7 @@ public class SocialServiceImpl implements SocialService {
                              FriendRequestMapper friendRequestMapper,
                              FriendRelationMapper friendRelationMapper,
                              DishMapper dishMapper,
+                             DishIngredientMapper dishIngredientMapper,
                              ActivityFeedMapper activityFeedMapper,
                              BuddyCircleMapper buddyCircleMapper,
                              BuddyCircleMemberMapper buddyCircleMemberMapper,
@@ -43,6 +45,7 @@ public class SocialServiceImpl implements SocialService {
         this.friendRequestMapper = friendRequestMapper;
         this.friendRelationMapper = friendRelationMapper;
         this.dishMapper = dishMapper;
+        this.dishIngredientMapper = dishIngredientMapper;
         this.activityFeedMapper = activityFeedMapper;
         this.buddyCircleMapper = buddyCircleMapper;
         this.buddyCircleMemberMapper = buddyCircleMemberMapper;
@@ -53,11 +56,13 @@ public class SocialServiceImpl implements SocialService {
     @Override
     public ProfileResponse getProfile() {
         String userId = AuthContext.requireUserId();
+        UserProfileSettings settings = getSettings(userId);
         ProfileResponse response = new ProfileResponse();
         response.setUser(authService.getCurrentUser());
         response.setStats(buildProfileStats(userId));
         response.setFriendPreview(getFriends().stream().limit(2).collect(Collectors.toList()));
-        response.setDefaultMenuVisibility(getSettings(userId).getDefaultMenuVisibility());
+        response.setDefaultMenuVisibility(settings.getDefaultMenuVisibility());
+        response.setLastSelectedCircleId(settings.getLastSelectedCircleId());
         return response;
     }
 
@@ -101,6 +106,32 @@ public class SocialServiceImpl implements SocialService {
         settings.setDefaultMenuVisibility(VisibilityUtils.normalizeProfileVisibility(request.getDefaultMenuVisibility()));
         userProfileSettingsMapper.updateById(settings);
         return authService.getCurrentUser();
+    }
+
+    @Override
+    @Transactional
+    public void updateLastSelectedCircle(ProfileLastSelectedCircleUpdateRequest request) {
+        String userId = AuthContext.requireUserId();
+        UserProfileSettings settings = getSettings(userId);
+        String circleId = request == null || request.getLastSelectedCircleId() == null
+                ? null
+                : request.getLastSelectedCircleId().trim();
+
+        if (circleId != null && circleId.isEmpty()) {
+            circleId = null;
+        }
+
+        if (circleId != null) {
+            long memberCount = buddyCircleMemberMapper.selectCount(new QueryWrapper<BuddyCircleMember>()
+                    .eq("circle_id", circleId)
+                    .eq("user_id", userId));
+            if (memberCount == 0) {
+                throw new ApiException(HttpStatus.BAD_REQUEST, "只能保存你已加入的圈子");
+            }
+        }
+
+        settings.setLastSelectedCircleId(circleId);
+        userProfileSettingsMapper.updateById(settings);
     }
 
     @Override
@@ -433,7 +464,11 @@ public class SocialServiceImpl implements SocialService {
                 }
             }
         }
-        result.sort(Comparator.comparing(DishSummaryResponse::getId));
+        hydrateIngredientNames(result);
+        result.sort(Comparator
+                .comparing(DishSummaryResponse::getCreatedAt,
+                        Comparator.nullsLast(Comparator.reverseOrder()))
+                .thenComparing(DishSummaryResponse::getId, Comparator.nullsLast(String::compareTo)));
         return result;
     }
 
@@ -749,6 +784,30 @@ public class SocialServiceImpl implements SocialService {
             throw new ApiException(HttpStatus.FORBIDDEN, "你还不在这个搭子圈里");
         }
         return circle;
+    }
+
+    private void hydrateIngredientNames(List<DishSummaryResponse> dishes) {
+        List<String> dishIds = dishes.stream()
+                .map(DishSummaryResponse::getId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        if (dishIds.isEmpty()) {
+            return;
+        }
+
+        Map<String, List<String>> ingredientNamesByDishId = dishIngredientMapper.selectList(new QueryWrapper<DishIngredient>()
+                        .in("dish_id", dishIds)
+                        .orderByAsc("sort")
+                        .orderByAsc("id"))
+                .stream()
+                .filter(item -> item.getDishId() != null && item.getName() != null && !item.getName().trim().isEmpty())
+                .collect(Collectors.groupingBy(
+                        DishIngredient::getDishId,
+                        Collectors.mapping(DishIngredient::getName, Collectors.toList())));
+
+        for (DishSummaryResponse dish : dishes) {
+            dish.setIngredientNames(new ArrayList<>(ingredientNamesByDishId.getOrDefault(dish.getId(), Collections.emptyList())));
+        }
     }
 
     private BuddyCircle requireCircleShareInviter(String circleId, String inviterUserId, String currentUserId) {

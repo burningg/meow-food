@@ -2,6 +2,10 @@ package com.panghu.food.dto;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 public class DishSummaryResponse {
     private String id;
@@ -18,4 +22,6 @@ public class DishSummaryResponse {
     private String visibility;
     private String effectiveVisibility;
     private Boolean isFeatured;
+    private LocalDateTime createdAt;
+    private List<String> ingredientNames = new ArrayList<>();
 }

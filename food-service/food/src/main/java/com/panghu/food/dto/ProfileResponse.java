@@ -11,4 +11,5 @@ public class ProfileResponse {
     private ProfileStatsResponse stats;
     private List<FriendItemResponse> friendPreview = new ArrayList<>();
     private String defaultMenuVisibility;
+    private String lastSelectedCircleId;
 }

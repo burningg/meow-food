@@ -37,6 +37,8 @@ export interface DishSummary {
   visibility: MenuVisibility
   effectiveVisibility: Exclude<MenuVisibility, 'inherit'>
   isFeatured: boolean
+  createdAt?: string
+  ingredientNames: string[]
 }
 
 export interface DishDetail extends DishSummary {

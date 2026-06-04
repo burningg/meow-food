@@ -51,6 +51,16 @@
             </view>
           </view>
 
+          <view class="recipe-search">
+            <text class="recipe-search-icon">⌕</text>
+            <input
+              v-model.trim="searchKeyword"
+              class="recipe-search-input"
+              maxlength="24"
+              placeholder="搜索菜谱名或食材"
+            />
+          </view>
+
           <scroll-view
             class="category-group"
             :scroll-x="true"
@@ -72,13 +82,26 @@
               <SmartImage :src="menu.image" class-name="recipe-image" />
               <view class="recipe-copy">
                 <text class="recipe-name">{{ menu.name }}</text>
-                <text class="muted">{{ menu.categoryName }}</text>
-                <text class="recipe-owner">{{ menu.ownerNickname }}创建</text>
+                <view class="recipe-meta">
+                  <text class="muted">{{ menu.categoryName }}</text>
+                  <view
+                    class="recipe-owner-avatar"
+                    :style="{
+                      background: avatarPalette[getMenuOwnerTone(menu)].bg,
+                      color: avatarPalette[getMenuOwnerTone(menu)].fg,
+                    }"
+                  >
+                    {{ getMenuOwnerInitial(menu) }}
+                  </view>
+                </view>
+                <text v-if="menu.matchedIngredientNames.length" class="recipe-hit">
+                  食材：{{ menu.matchedIngredientNames.join(' / ') }}
+                </text>
               </view>
             </button>
           </view>
 
-          <view v-else class="empty-card">这个分类还没有共享菜谱</view>
+          <view v-else class="empty-card">{{ emptyRecipeText }}</view>
         </section>
       </main>
     </template>
@@ -144,6 +167,10 @@ type PreviewMember = {
   avatarTone: number
 }
 
+type VisibleCircleMenu = DishSummary & {
+  matchedIngredientNames: string[]
+}
+
 const socialService = new SocialService()
 const params = getRouteParams() as { id?: string }
 const circles = ref<BuddyCircleSummary[]>([])
@@ -153,7 +180,9 @@ const activeCategory = ref('全部')
 const categoryScrollLeft = ref(0)
 const isLoading = ref(true)
 const switcherVisible = ref(false)
+const searchKeyword = ref('')
 let detailRequestToken = 0
+let persistedCircleId = ''
 
 const avatarPalette = [
   { bg: '#edf3ec', fg: '#346538' },
@@ -163,10 +192,30 @@ const avatarPalette = [
 
 const presentedCircles = computed(() => [...circles.value].sort((left, right) => right.weeklyUpdateCount - left.weeklyUpdateCount))
 const categories = computed(() => ['全部', ...Array.from(new Set((activeDetail.value?.sharedMenus || []).map((menu) => menu.categoryName).filter(Boolean)))])
-const visibleMenus = computed(() => {
+const visibleMenus = computed<VisibleCircleMenu[]>(() => {
   const menus = activeDetail.value?.sharedMenus || []
-  if (activeCategory.value === '全部') return menus
-  return menus.filter((menu) => menu.categoryName === activeCategory.value)
+  const categoryMenus =
+    activeCategory.value === '全部' ? menus : menus.filter((menu) => menu.categoryName === activeCategory.value)
+  const keyword = searchKeyword.value.trim().toLowerCase()
+
+  if (!keyword) {
+    return categoryMenus.map((menu) => ({ ...menu, matchedIngredientNames: [] }))
+  }
+
+  return categoryMenus
+    .map((menu) => {
+      const nameMatched = menu.name.toLowerCase().includes(keyword)
+      const matchedIngredientNames = Array.from(
+        new Set((menu.ingredientNames || []).filter((ingredientName) => ingredientName.toLowerCase().includes(keyword))),
+      )
+      if (!nameMatched && !matchedIngredientNames.length) return null
+      return { ...menu, matchedIngredientNames }
+    })
+    .filter((menu): menu is VisibleCircleMenu => Boolean(menu))
+})
+const emptyRecipeText = computed(() => {
+  if (searchKeyword.value.trim()) return '没有找到相关菜谱，换个名字或食材试试'
+  return '这个分类还没有共享菜谱'
 })
 const previewMembers = computed<PreviewMember[]>(() =>
   (activeDetail.value?.members || []).slice(0, 3).map((member, index) => ({
@@ -194,10 +243,16 @@ watch(activeCircleId, (circleId) => {
 async function loadData() {
   isLoading.value = true
   try {
-    const { data } = await socialService.getCircles()
+    const [{ data: profile }, { data }] = await Promise.all([socialService.getProfile(), socialService.getCircles()])
     circles.value = data
-    activeCircleId.value = params.id || presentedCircles.value[0]?.id || ''
+    persistedCircleId = profile.lastSelectedCircleId || ''
+    const routeCircleId = params.id || ''
+    const savedCircleId = persistedCircleId && data.some((circle) => circle.id === persistedCircleId) ? persistedCircleId : ''
+    activeCircleId.value = routeCircleId || savedCircleId || presentedCircles.value[0]?.id || ''
     if (!activeCircleId.value) activeDetail.value = null
+    if (activeCircleId.value && activeCircleId.value !== persistedCircleId) {
+      void persistLastSelectedCircle(activeCircleId.value)
+    }
   } catch (error: any) {
     Message.error(error?.response?.data?.message || '搭子圈加载失败')
   } finally {
@@ -233,7 +288,19 @@ function selectCircle(circleId: string) {
   if (!circleId || circleId === activeCircleId.value) return
   activeCategory.value = '全部'
   categoryScrollLeft.value = 0
+  searchKeyword.value = ''
   activeCircleId.value = circleId
+  void persistLastSelectedCircle(circleId)
+}
+
+async function persistLastSelectedCircle(circleId: string) {
+  if (!circleId || circleId === persistedCircleId) return
+  try {
+    await socialService.updateLastSelectedCircle(circleId)
+    persistedCircleId = circleId
+  } catch (error: any) {
+    Message.error(error?.response?.data?.message || '圈子选择保存失败')
+  }
 }
 
 function selectCategory(category: string) {
@@ -291,6 +358,14 @@ function openMembers() {
 
 function openDish(id: DishSummary['id']) {
   push({ name: 'dish-detail', params: { id } })
+}
+
+function getMenuOwnerInitial(menu: DishSummary) {
+  return (menu.ownerNickname || '?').trim().slice(0, 1).toUpperCase()
+}
+
+function getMenuOwnerTone(menu: DishSummary) {
+  return menu.ownerUserId.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0) % avatarPalette.length
 }
 
 function getInitial(member: BuddyCircleMember) {
@@ -419,7 +494,6 @@ function getInitial(member: BuddyCircleMember) {
 }
 
 .section-link,
-.recipe-owner,
 .eyebrow {
   color: #9f5c38;
   font-size: 12px;
@@ -452,6 +526,33 @@ function getInitial(member: BuddyCircleMember) {
   margin: 14px 0;
 }
 
+.recipe-search,
+.recipe-search-input {
+  display: flex;
+  align-items: center;
+}
+
+.recipe-search {
+  gap: 8px;
+  min-height: 42px;
+  border-radius: 12px;
+  background: #f7f4ef;
+  padding: 0 12px;
+}
+
+.recipe-search-icon {
+  color: #9c968e;
+  font-size: 14px;
+}
+
+.recipe-search-input {
+  flex: 1;
+  min-width: 0;
+  height: 42px;
+  color: #151515;
+  font-size: 14px;
+}
+
 .category-chip {
   display: inline-flex;
   margin-right: 8px;
@@ -475,6 +576,7 @@ function getInitial(member: BuddyCircleMember) {
 }
 
 .recipe-card {
+  position: relative;
   overflow: hidden;
   border-radius: 16px;
   background: #f7f4ef;
@@ -489,6 +591,34 @@ function getInitial(member: BuddyCircleMember) {
 .recipe-copy {
   gap: 3px;
   padding: 10px;
+}
+
+.recipe-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.recipe-hit {
+  color: #346538;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.recipe-owner-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 6px 14px rgba(21, 21, 21, 0.08);
 }
 
 .status-card {

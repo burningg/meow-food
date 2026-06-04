@@ -9,7 +9,7 @@
 
     <section class="search-bar">
       <text class="search-icon">⌕</text>
-      <text>搜索菜谱...</text>
+      <input v-model.trim="searchKeyword" class="search-input" maxlength="24" placeholder="搜索菜谱名或食材" />
     </section>
 
     <scroll-view class="category-strip" :scroll-x="true" :scroll-left="categoryScrollLeft" :scroll-with-animation="true">
@@ -41,13 +41,16 @@
           <view class="recent-copy">
             <text class="recent-name">{{ dish.name }}</text>
             <text class="recent-category">{{ dish.categoryName }}</text>
+            <text v-if="dish.matchedIngredientNames.length" class="recent-hit">
+              命中食材：{{ dish.matchedIngredientNames.join(' / ') }}
+            </text>
           </view>
         </button>
       </view>
 
       <view v-else class="empty-state">
-        <text>你还没有添加自己的菜品，先从第一道开始吧。</text>
-        <button class="primary-button small" @tap="goToAdd">添加菜谱</button>
+        <text>{{ emptyStateText }}</text>
+        <button v-if="!searchKeyword.trim() && !homeData.recentDishes.length" class="primary-button small" @tap="goToAdd">添加菜谱</button>
       </view>
     </section>
 
@@ -67,6 +70,10 @@ import { requireAuth } from '@/lib/auth'
 import { FoodService, type DishSummary, type HomeResponse } from '@/services/food-service'
 import { useAuthStore } from '@/stores/auth-store'
 
+type VisibleDish = DishSummary & {
+  matchedIngredientNames: string[]
+}
+
 const foodService = new FoodService()
 const authStore = useAuthStore()
 
@@ -78,10 +85,32 @@ const homeData = ref<HomeResponse>({
 })
 const selectedCategoryId = ref('')
 const categoryScrollLeft = ref(0)
+const searchKeyword = ref('')
 const displayName = computed(() => authStore.user?.nickname ?? 'meow')
-const filteredDishes = computed(() => {
-  if (!selectedCategoryId.value) return homeData.value.recentDishes
-  return homeData.value.recentDishes.filter((dish: DishSummary) => dish.categoryId === selectedCategoryId.value)
+const filteredDishes = computed<VisibleDish[]>(() => {
+  const categoryDishes = !selectedCategoryId.value
+    ? homeData.value.recentDishes
+    : homeData.value.recentDishes.filter((dish: DishSummary) => dish.categoryId === selectedCategoryId.value)
+  const keyword = searchKeyword.value.trim().toLowerCase()
+
+  if (!keyword) {
+    return categoryDishes.map((dish) => ({ ...dish, matchedIngredientNames: [] }))
+  }
+
+  return categoryDishes
+    .map((dish) => {
+      const nameMatched = dish.name.toLowerCase().includes(keyword)
+      const matchedIngredientNames = Array.from(
+        new Set((dish.ingredientNames || []).filter((ingredientName) => ingredientName.toLowerCase().includes(keyword))),
+      )
+      if (!nameMatched && !matchedIngredientNames.length) return null
+      return { ...dish, matchedIngredientNames }
+    })
+    .filter((dish): dish is VisibleDish => Boolean(dish))
+})
+const emptyStateText = computed(() => {
+  if (searchKeyword.value.trim()) return '没有找到相关菜谱，换个名字或食材试试。'
+  return '你还没有添加自己的菜品，先从第一道开始吧。'
 })
 
 onMounted(async () => {
@@ -199,6 +228,13 @@ async function centerSelectedCategory() {
   margin-bottom: 16px;
 }
 
+.search-input {
+  flex: 1;
+  min-width: 0;
+  color: #151515;
+  font-size: 14px;
+}
+
 .category-strip {
   padding: 0 2px 8px;
   white-space: nowrap;
@@ -278,6 +314,11 @@ async function centerSelectedCategory() {
 
 .recent-category {
   color: rgba(255, 255, 255, 0.78);
+  font-size: 11px;
+}
+
+.recent-hit {
+  color: #d8f0d5;
   font-size: 11px;
 }
 

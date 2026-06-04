@@ -12,6 +12,7 @@ public class UserProfileSettings {
     @TableId
     private String userId;
     private String defaultMenuVisibility;
+    private String lastSelectedCircleId;
     private Boolean allowFriendFeed;
     private LocalDateTime updatedAt;
 }

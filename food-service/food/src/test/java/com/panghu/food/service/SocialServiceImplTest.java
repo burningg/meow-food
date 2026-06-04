@@ -5,6 +5,9 @@ import com.panghu.food.dto.DishSummaryResponse;
 import com.panghu.food.dto.FeedItemResponse;
 import com.panghu.food.dto.FriendInvitationResponse;
 import com.panghu.food.entity.ActivityFeed;
+import com.panghu.food.entity.BuddyCircle;
+import com.panghu.food.entity.BuddyCircleMember;
+import com.panghu.food.entity.DishIngredient;
 import com.panghu.food.entity.FriendRequest;
 import com.panghu.food.entity.FriendRelation;
 import com.panghu.food.entity.UserAccount;
@@ -14,6 +17,7 @@ import com.panghu.food.mapper.ActivityFeedMapper;
 import com.panghu.food.mapper.BuddyCircleInviteMapper;
 import com.panghu.food.mapper.BuddyCircleMapper;
 import com.panghu.food.mapper.BuddyCircleMemberMapper;
+import com.panghu.food.mapper.DishIngredientMapper;
 import com.panghu.food.mapper.DishMapper;
 import com.panghu.food.mapper.FriendRelationMapper;
 import com.panghu.food.mapper.FriendRequestMapper;
@@ -40,6 +44,7 @@ class SocialServiceImplTest {
     private final FriendRequestMapper friendRequestMapper = mock(FriendRequestMapper.class);
     private final FriendRelationMapper friendRelationMapper = mock(FriendRelationMapper.class);
     private final DishMapper dishMapper = mock(DishMapper.class);
+    private final DishIngredientMapper dishIngredientMapper = mock(DishIngredientMapper.class);
     private final ActivityFeedMapper activityFeedMapper = mock(ActivityFeedMapper.class);
     private final BuddyCircleMapper buddyCircleMapper = mock(BuddyCircleMapper.class);
     private final BuddyCircleMemberMapper buddyCircleMemberMapper = mock(BuddyCircleMemberMapper.class);
@@ -52,6 +57,7 @@ class SocialServiceImplTest {
             friendRequestMapper,
             friendRelationMapper,
             dishMapper,
+            dishIngredientMapper,
             activityFeedMapper,
             buddyCircleMapper,
             buddyCircleMemberMapper,
@@ -161,6 +167,46 @@ class SocialServiceImplTest {
                 .hasMessageContaining("邀请人不存在");
     }
 
+    @Test
+    void getCircleMenusSortsByCreatedAtDescAndIncludesIngredientNames() {
+        AuthContext.setUserId("viewer");
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(1L);
+        when(buddyCircleMemberMapper.selectList(any())).thenReturn(List.of(circleMember("circle-1", "owner-1")));
+        when(dishMapper.selectByOwnerUserId("owner-1")).thenReturn(List.of(
+                dish("dish-older", "owner-1", LocalDateTime.of(2024, 1, 1, 12, 0), "public"),
+                dish("dish-newer", "owner-1", LocalDateTime.of(2024, 1, 2, 12, 0), "public")));
+        when(dishIngredientMapper.selectList(any())).thenReturn(List.of(
+                ingredient("dish-newer", "土豆"),
+                ingredient("dish-newer", "牛肉"),
+                ingredient("dish-older", "番茄")));
+
+        List<DishSummaryResponse> result = socialService.getCircleMenus("circle-1");
+
+        assertThat(result).extracting(DishSummaryResponse::getId).containsExactly("dish-newer", "dish-older");
+        assertThat(result.get(0).getIngredientNames()).containsExactly("土豆", "牛肉");
+        assertThat(result.get(1).getIngredientNames()).containsExactly("番茄");
+    }
+
+    @Test
+    void getCircleMenusKeepsInvisibleMenusFilteredWhenHydratingIngredients() {
+        AuthContext.setUserId("viewer");
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(1L);
+        when(buddyCircleMemberMapper.selectList(any())).thenReturn(List.of(circleMember("circle-1", "owner-1")));
+        when(dishMapper.selectByOwnerUserId("owner-1")).thenReturn(List.of(
+                dish("dish-public", "owner-1", LocalDateTime.of(2024, 1, 2, 12, 0), "public"),
+                dish("dish-private", "owner-1", LocalDateTime.of(2024, 1, 3, 12, 0), "private")));
+        when(dishIngredientMapper.selectList(any())).thenReturn(List.of(
+                ingredient("dish-public", "鸡蛋"),
+                ingredient("dish-private", "秘密配方")));
+
+        List<DishSummaryResponse> result = socialService.getCircleMenus("circle-1");
+
+        assertThat(result).extracting(DishSummaryResponse::getId).containsExactly("dish-public");
+        assertThat(result.get(0).getIngredientNames()).containsExactly("鸡蛋");
+    }
+
     private ActivityFeed publicFeed(String id, String actorUserId, String dishId) {
         ActivityFeed feed = new ActivityFeed();
         feed.setId(id);
@@ -179,12 +225,41 @@ class SocialServiceImplTest {
         return user;
     }
 
+    private BuddyCircle circle(String id) {
+        BuddyCircle circle = new BuddyCircle();
+        circle.setId(id);
+        circle.setOwnerUserId("owner-1");
+        circle.setName("搭子圈");
+        return circle;
+    }
+
+    private BuddyCircleMember circleMember(String circleId, String userId) {
+        BuddyCircleMember member = new BuddyCircleMember();
+        member.setCircleId(circleId);
+        member.setUserId(userId);
+        return member;
+    }
+
+    private DishIngredient ingredient(String dishId, String name) {
+        DishIngredient ingredient = new DishIngredient();
+        ingredient.setDishId(dishId);
+        ingredient.setName(name);
+        return ingredient;
+    }
+
     private DishSummaryResponse dish(String id, String ownerUserId) {
         DishSummaryResponse dish = new DishSummaryResponse();
         dish.setId(id);
         dish.setOwnerUserId(ownerUserId);
         dish.setName("番茄炒蛋");
         dish.setVisibility("public");
+        return dish;
+    }
+
+    private DishSummaryResponse dish(String id, String ownerUserId, LocalDateTime createdAt, String visibility) {
+        DishSummaryResponse dish = dish(id, ownerUserId);
+        dish.setCreatedAt(createdAt);
+        dish.setVisibility(visibility);
         return dish;
     }
 

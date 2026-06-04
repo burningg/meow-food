@@ -15,6 +15,7 @@
         <result column="servings" property="servings" />
         <result column="visibility" property="visibility" />
         <result column="is_featured" property="isFeatured" />
+        <result column="created_at" property="createdAt" />
     </resultMap>
 
     <resultMap id="DishDetailMap" type="com.panghu.food.dto.DishDetailResponse">
@@ -50,7 +51,8 @@
         d.difficulty,
         d.servings,
         d.visibility,
-        d.is_featured
+        d.is_featured,
+        d.created_at
     </sql>
 
     <select id="selectByCategoryId" resultMap="DishSummaryMap">

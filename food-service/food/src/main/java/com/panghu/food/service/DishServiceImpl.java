@@ -31,7 +31,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -78,11 +80,13 @@ public class DishServiceImpl implements DishService {
         } else {
             dishes = dishMapper.selectAllActive();
         }
-        return dishes.stream()
+        List<DishSummaryResponse> visibleDishes = dishes.stream()
                 .map(this::applyEffectiveVisibility)
                 .filter(item -> categoryId == null || categoryId.equals(item.getCategoryId()))
                 .filter(item -> canViewDish(item, currentUserId, "circle".equals(scope)))
                 .collect(Collectors.toList());
+        hydrateIngredientNames(visibleDishes);
+        return visibleDishes;
     }
 
     @Override
@@ -100,9 +104,11 @@ public class DishServiceImpl implements DishService {
         if (currentUserId == null) {
             return new ArrayList<>();
         }
-        return dishMapper.selectByOwnerUserId(currentUserId).stream()
+        List<DishSummaryResponse> recentDishes = dishMapper.selectByOwnerUserId(currentUserId).stream()
                 .map(this::applyEffectiveVisibility)
                 .collect(Collectors.toList());
+        hydrateIngredientNames(recentDishes);
+        return recentDishes;
     }
 
     @Override
@@ -272,12 +278,38 @@ public class DishServiceImpl implements DishService {
             List<DishSummaryResponse> source,
             String currentUserId,
             Predicate<DishSummaryResponse> extraFilter) {
-        return source.stream()
+        List<DishSummaryResponse> dishes = source.stream()
                 .map(this::applyEffectiveVisibility)
                 .filter(extraFilter)
                 .filter(item -> canViewDish(item, currentUserId, false))
                 .limit(HOME_FEATURED_LIST_LIMIT)
                 .collect(Collectors.toList());
+        hydrateIngredientNames(dishes);
+        return dishes;
+    }
+
+    private void hydrateIngredientNames(List<DishSummaryResponse> dishes) {
+        List<String> dishIds = dishes.stream()
+                .map(DishSummaryResponse::getId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        if (dishIds.isEmpty()) {
+            return;
+        }
+
+        Map<String, List<String>> ingredientNamesByDishId = dishIngredientMapper.selectList(new QueryWrapper<DishIngredient>()
+                        .in("dish_id", dishIds)
+                        .orderByAsc("sort")
+                        .orderByAsc("id"))
+                .stream()
+                .filter(item -> item.getDishId() != null && item.getName() != null && !item.getName().trim().isEmpty())
+                .collect(Collectors.groupingBy(
+                        DishIngredient::getDishId,
+                        Collectors.mapping(DishIngredient::getName, Collectors.toList())));
+
+        for (DishSummaryResponse dish : dishes) {
+            dish.setIngredientNames(new ArrayList<>(ingredientNamesByDishId.getOrDefault(dish.getId(), Collections.emptyList())));
+        }
     }
 
     private DishSummaryResponse applyEffectiveVisibility(DishSummaryResponse item) {

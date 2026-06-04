@@ -125,6 +125,7 @@ export interface ProfileResponse {
   stats: ProfileStats
   friendPreview: FriendItem[]
   defaultMenuVisibility: Exclude<MenuVisibility, 'inherit'>
+  lastSelectedCircleId?: string
 }
 
 export interface ProfileUpdatePayload {
@@ -144,6 +145,10 @@ export class SocialService {
 
   updateVisibility(defaultMenuVisibility: Exclude<MenuVisibility, 'inherit'>) {
     return http.put<AuthUser>('/api/profile/visibility', { defaultMenuVisibility })
+  }
+
+  updateLastSelectedCircle(lastSelectedCircleId?: string) {
+    return http.put<void>('/api/profile/last-selected-circle', { lastSelectedCircleId: lastSelectedCircleId || null })
   }
 
   getFriends() {
