@@ -8,6 +8,17 @@ export interface ProfileStats {
   circleCount: number
 }
 
+export interface VipInfo {
+  vip: boolean
+  vipLevel?: string
+  openedAt?: string
+  expiresAt?: string
+  openAmount?: number
+  dailyRecipeAnalysisLimit: number
+  dailyRecipeAnalysisUsed: number
+  dailyRecipeAnalysisRemaining: number
+}
+
 export interface FriendItem {
   id: string
   account: string
@@ -126,6 +137,7 @@ export interface ProfileResponse {
   friendPreview: FriendItem[]
   defaultMenuVisibility: Exclude<MenuVisibility, 'inherit'>
   lastSelectedCircleId?: string
+  vipInfo: VipInfo
 }
 
 export interface ProfileUpdatePayload {

@@ -3,6 +3,8 @@ package com.panghu.food.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.panghu.food.auth.AuthContext;
 import com.panghu.food.dto.DishDetailResponse;
+import com.panghu.food.dto.DishAiAnalysisRequest;
+import com.panghu.food.dto.DishAiAnalysisResponse;
 import com.panghu.food.dto.DishSummaryResponse;
 import com.panghu.food.dto.DishUpsertRequest;
 import com.panghu.food.dto.IngredientItem;
@@ -70,6 +72,12 @@ public class DishServiceImpl implements DishService {
 
     @Autowired
     private BuddyCircleMemberMapper buddyCircleMemberMapper;
+
+    @Autowired
+    private VipService vipService;
+
+    @Autowired
+    private DishAiService dishAiService;
 
     @Override
     public List<DishSummaryResponse> getDishes(String categoryId, String ownerUserId, String scope, String circleId) {
@@ -183,6 +191,18 @@ public class DishServiceImpl implements DishService {
         replaceChildren(id, dishUpdateDTO);
         createActivity(currentUserId, dish.getId(), "dish_updated", resolveActivityScope(dish.getVisibility(), currentUserId));
         return getDishById(id);
+    }
+
+    @Override
+    public DishAiAnalysisResponse analyzeDishByAi(DishAiAnalysisRequest request) {
+        String currentUserId = AuthContext.requireUserId();
+        if (request == null || isBlank(request.getImage())) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "请先上传菜品图片");
+        }
+        vipService.assertCanUseAi(currentUserId);
+        DishAiAnalysisResponse response = dishAiService.analyzeDish(request.getImage(), request.getName());
+        response.setUsage(vipService.consumeAiUsage(currentUserId));
+        return response;
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.panghu.food.service;
 
 import com.panghu.food.dto.DishDetailResponse;
 import com.panghu.food.dto.DishSummaryResponse;
+import com.panghu.food.dto.DishAiAnalysisRequest;
+import com.panghu.food.dto.DishAiAnalysisResponse;
 import com.panghu.food.dto.DishUpsertRequest;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,5 +17,6 @@ public interface DishService {
     String uploadImage(MultipartFile file);
     DishDetailResponse createDish(DishUpsertRequest dishCreateDTO);
     DishDetailResponse updateDish(String id, DishUpsertRequest dishUpdateDTO);
+    DishAiAnalysisResponse analyzeDishByAi(DishAiAnalysisRequest request);
     void deleteDish(String id);
 }

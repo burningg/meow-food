@@ -50,6 +50,7 @@ class SocialServiceImplTest {
     private final BuddyCircleMemberMapper buddyCircleMemberMapper = mock(BuddyCircleMemberMapper.class);
     private final BuddyCircleInviteMapper buddyCircleInviteMapper = mock(BuddyCircleInviteMapper.class);
     private final AuthService authService = mock(AuthService.class);
+    private final VipService vipService = mock(VipService.class);
 
     private final SocialServiceImpl socialService = new SocialServiceImpl(
             userAccountMapper,
@@ -62,7 +63,8 @@ class SocialServiceImplTest {
             buddyCircleMapper,
             buddyCircleMemberMapper,
             buddyCircleInviteMapper,
-            authService);
+            authService,
+            vipService);
 
     @AfterEach
     void tearDown() {

@@ -84,7 +84,7 @@ class DishServiceImplTest {
         ArgumentCaptor<DishIngredient> captor = ArgumentCaptor.forClass(DishIngredient.class);
         verify(dishIngredientMapper).insert(captor.capture());
         assertThat(captor.getValue().getName()).isEqualTo("土豆");
-        assertThat(captor.getValue().getAmount()).isEqualTo("适量");
+        assertThat(captor.getValue().getAmount()).isEqualTo("");
     }
 
     private DishDetailResponse dish(String id, String ownerUserId) {

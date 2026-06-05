@@ -25,15 +25,18 @@ public class AuthServiceImpl implements AuthService {
     private final UserProfileSettingsMapper userProfileSettingsMapper;
     private final JwtTokenUtil jwtTokenUtil;
     private final WechatComponent wechatComponent;
+    private final VipService vipService;
 
     public AuthServiceImpl(UserAccountMapper userAccountMapper,
                            UserProfileSettingsMapper userProfileSettingsMapper,
                            JwtTokenUtil jwtTokenUtil,
-                           WechatComponent wechatComponent) {
+                           WechatComponent wechatComponent,
+                           VipService vipService) {
         this.userAccountMapper = userAccountMapper;
         this.userProfileSettingsMapper = userProfileSettingsMapper;
         this.jwtTokenUtil = jwtTokenUtil;
         this.wechatComponent = wechatComponent;
+        this.vipService = vipService;
     }
 
     @Override
@@ -143,6 +146,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private AuthUserResponse toAuthUser(UserAccount user, UserProfileSettings settings) {
+        var vipInfo = vipService.getVipInfo(user.getId());
         AuthUserResponse response = new AuthUserResponse();
         response.setId(user.getId());
         response.setAccount(user.getAccount());
@@ -150,6 +154,8 @@ public class AuthServiceImpl implements AuthService {
         response.setAvatar(user.getAvatar());
         response.setBio(user.getBio());
         response.setDefaultMenuVisibility(VisibilityUtils.normalizeProfileVisibility(settings.getDefaultMenuVisibility()));
+        response.setVip(vipInfo.getVip());
+        response.setVipLevel(vipInfo.getVipLevel());
         return response;
     }
 

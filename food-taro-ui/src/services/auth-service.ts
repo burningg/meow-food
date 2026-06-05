@@ -9,6 +9,8 @@ export interface AuthUser {
   avatar: string
   bio: string
   defaultMenuVisibility: Exclude<MenuVisibility, 'inherit'>
+  vip: boolean
+  vipLevel?: string
 }
 
 export interface LoginRequest {

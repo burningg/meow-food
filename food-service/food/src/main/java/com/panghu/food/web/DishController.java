@@ -1,6 +1,8 @@
 package com.panghu.food.web;
 
 import com.panghu.food.dto.DishDetailResponse;
+import com.panghu.food.dto.DishAiAnalysisRequest;
+import com.panghu.food.dto.DishAiAnalysisResponse;
 import com.panghu.food.dto.DishSummaryResponse;
 import com.panghu.food.dto.DishUpsertRequest;
 import com.panghu.food.service.DishService;
@@ -59,6 +61,11 @@ public class DishController {
             @RequestBody DishUpsertRequest dishUpdateDTO) {
         DishDetailResponse dishDTO = dishService.updateDish(id, dishUpdateDTO);
         return ResponseEntity.ok(dishDTO);
+    }
+
+    @PostMapping("/ai-analysis")
+    public ResponseEntity<DishAiAnalysisResponse> analyzeDishByAi(@RequestBody DishAiAnalysisRequest request) {
+        return ResponseEntity.ok(dishService.analyzeDishByAi(request));
     }
 
     @PostMapping("/upload")

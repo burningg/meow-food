@@ -10,4 +10,6 @@ public class AuthUserResponse {
     private String avatar;
     private String bio;
     private String defaultMenuVisibility;
+    private Boolean vip;
+    private String vipLevel;
 }

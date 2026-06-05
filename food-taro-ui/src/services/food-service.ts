@@ -22,6 +22,24 @@ export interface StepItem {
   content: string
 }
 
+export interface VipUsage {
+  dailyLimit: number
+  usedToday: number
+  remainingToday: number
+}
+
+export interface DishAiAnalysisRequest {
+  image: string
+  name?: string
+}
+
+export interface DishAiAnalysisResponse {
+  name?: string
+  ingredients: IngredientItem[]
+  steps: StepItem[]
+  usage: VipUsage
+}
+
 export interface DishSummary {
   id: string
   ownerUserId: string
@@ -135,5 +153,9 @@ export class FoodService {
 
   updateDish(id: string, data: DishUpsertRequest) {
     return http.put<DishDetail>(`/api/dishes/${id}`, data)
+  }
+
+  analyzeDishByAi(data: DishAiAnalysisRequest) {
+    return http.post<DishAiAnalysisResponse>('/api/dishes/ai-analysis', data)
   }
 }

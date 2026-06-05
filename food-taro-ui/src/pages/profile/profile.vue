@@ -12,6 +12,8 @@
                   <text class="hero-title-name">{{ displayName }}</text>
                   <text class="hero-title-suffix"> 的美味空间</text>
                 </view>
+                <text class="bio">{{ displayBio }}</text>
+                <text v-if="vipChipLabel" class="vip-chip">{{ vipChipLabel }}</text>
               </view>
             </view>
             <button class="ghost-circle" @tap="openEditProfilePage">✎</button>
@@ -92,7 +94,9 @@ const profile = ref<ProfileResponse | null>(null)
 
 const displayName = computed(() => profile.value?.user.nickname || authStore.user?.nickname || 'meow')
 const displayAvatar = computed(() => profile.value?.user.avatar || authStore.user?.avatar || '')
+const displayBio = computed(() => profile.value?.user.bio?.trim() || authStore.user?.bio?.trim() || '还没有留下简介')
 const inviterId = computed(() => profile.value?.user.id || authStore.user?.id || '')
+const vipChipLabel = computed(() => formatVipLabel(profile.value?.vipInfo?.vip ? profile.value?.vipInfo?.vipLevel : undefined))
 
 const visibilityOptions: Array<{ value: Exclude<MenuVisibility, 'inherit'>; label: string; desc: string }> = [
   { value: 'friends', label: '好友可见', desc: '你的菜单会同步给好友和已加入的搭子圈。' },
@@ -143,6 +147,11 @@ function logout() {
   authStore.logout()
   replace('login')
 }
+
+function formatVipLabel(level?: string) {
+  if (!level) return ''
+  return level.replace(/\s+/g, '·')
+}
 </script>
 
 <style>
@@ -176,7 +185,7 @@ function logout() {
 
 .user-row {
   gap: 14px;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .avatar {
@@ -198,6 +207,7 @@ function logout() {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
+  gap: 2px;
 }
 
 .hero-title-name {
@@ -215,10 +225,17 @@ function logout() {
   margin-left: 3px;
 }
 
+.user-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
 .bio {
   display: block;
-  margin-top: 8px;
   font-size: var(--text-sm);
+  line-height: 1.5;
 }
 
 .ghost-circle {
@@ -256,6 +273,20 @@ function logout() {
 
 .section-card {
   padding: 18px;
+}
+
+.vip-chip {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #6e4317 0%, #b97a2a 100%);
+  box-shadow: 0 6px 14px rgba(164, 111, 31, 0.12);
+  color: #fff3d6;
+  padding: 5px 9px;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .invite-section {

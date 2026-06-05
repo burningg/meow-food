@@ -32,6 +32,24 @@ CREATE TABLE `user_profile_settings` (
   CONSTRAINT `fk_profile_settings_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户资料配置';
 
+CREATE TABLE `user_vip` (
+  `id` varchar(36) NOT NULL COMMENT 'VIP记录ID(UUID)',
+  `user_id` varchar(36) NOT NULL COMMENT '用户ID(UUID)',
+  `vip_level` varchar(20) DEFAULT NULL COMMENT 'VIP等级',
+  `is_vip` tinyint(1) NOT NULL DEFAULT '0' COMMENT '当前是否VIP',
+  `opened_at` datetime DEFAULT NULL COMMENT '开通时间',
+  `expires_at` datetime DEFAULT NULL COMMENT '截止时间',
+  `open_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '开通金额',
+  `daily_recipe_analysis_limit` int NOT NULL DEFAULT '0' COMMENT '每日菜谱分析次数上限',
+  `daily_recipe_analysis_used` int NOT NULL DEFAULT '0' COMMENT '每日菜谱分析已使用次数',
+  `daily_recipe_analysis_date` date DEFAULT NULL COMMENT '每日次数统计日期',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_user_vip_user_id` (`user_id`),
+  CONSTRAINT `fk_user_vip_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户VIP表';
+
 CREATE TABLE `dish` (
   `id` varchar(36) NOT NULL COMMENT '菜品ID(UUID)',
   `owner_user_id` varchar(36) NOT NULL COMMENT '所属用户ID(UUID)',
@@ -149,3 +167,6 @@ INSERT INTO `user` (`id`, `account`, `password_hash`, `username`, `nickname`, `a
 ('b2a6d8c1-9f44-4e7e-a2d6-3d2f07b2c102', 'ali', '10000:FQIbdD4rx2LE459Dn2ereQ==:qVz9FQvpypcRhuGcDZYvNWWy17F2XOMQ77GtozS7uG0=', '阿梨', '阿梨', 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80', '喜欢做适合夏天分享的清爽菜。', '13800000002'),
 ('c3e9a0f2-6d51-45bd-86cf-5b0e8a93d203', 'zhouzhou', '10000:FQIbdD4rx2LE459Dn2ereQ==:qVz9FQvpypcRhuGcDZYvNWWy17F2XOMQ77GtozS7uG0=', '周周', '周周', 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80', '公开分享轻食和 brunch 灵感。', '13800000003'),
 ('d4f7b1c3-8a62-4f8d-97ae-7c1f9b04e304', 'ahao', '10000:FQIbdD4rx2LE459Dn2ereQ==:qVz9FQvpypcRhuGcDZYvNWWy17F2XOMQ77GtozS7uG0=', '阿豪', '阿豪', 'https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=400&q=80', '周末烧烤和夜宵摊专业户。', '13800000004');
+
+INSERT INTO `user_vip` (`id`, `user_id`, `vip_level`, `is_vip`, `opened_at`, `expires_at`, `open_amount`, `daily_recipe_analysis_limit`, `daily_recipe_analysis_used`, `daily_recipe_analysis_date`) VALUES
+('a4d19c4d-2fa8-4f15-b484-8186b7bb1111', '6f1b2b8d-3ef7-4b7d-9eb2-6d9e8e4b1a01', 'VIP 3', 1, '2026-06-01 00:00:00', '2026-12-31 23:59:59', 199.00, 3, 0, '2026-06-05');

@@ -28,6 +28,7 @@ public class SocialServiceImpl implements SocialService {
     private final BuddyCircleMemberMapper buddyCircleMemberMapper;
     private final BuddyCircleInviteMapper buddyCircleInviteMapper;
     private final AuthService authService;
+    private final VipService vipService;
 
     public SocialServiceImpl(UserAccountMapper userAccountMapper,
                              UserProfileSettingsMapper userProfileSettingsMapper,
@@ -39,7 +40,8 @@ public class SocialServiceImpl implements SocialService {
                              BuddyCircleMapper buddyCircleMapper,
                              BuddyCircleMemberMapper buddyCircleMemberMapper,
                              BuddyCircleInviteMapper buddyCircleInviteMapper,
-                             AuthService authService) {
+                             AuthService authService,
+                             VipService vipService) {
         this.userAccountMapper = userAccountMapper;
         this.userProfileSettingsMapper = userProfileSettingsMapper;
         this.friendRequestMapper = friendRequestMapper;
@@ -51,6 +53,7 @@ public class SocialServiceImpl implements SocialService {
         this.buddyCircleMemberMapper = buddyCircleMemberMapper;
         this.buddyCircleInviteMapper = buddyCircleInviteMapper;
         this.authService = authService;
+        this.vipService = vipService;
     }
 
     @Override
@@ -63,6 +66,7 @@ public class SocialServiceImpl implements SocialService {
         response.setFriendPreview(getFriends().stream().limit(2).collect(Collectors.toList()));
         response.setDefaultMenuVisibility(settings.getDefaultMenuVisibility());
         response.setLastSelectedCircleId(settings.getLastSelectedCircleId());
+        response.setVipInfo(vipService.getVipInfo(userId));
         return response;
     }
 
