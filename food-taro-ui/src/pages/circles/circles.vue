@@ -224,7 +224,7 @@ const emptyRecipeText = computed(() => {
   return '这个分类还没有共享菜谱'
 })
 const previewMembers = computed<PreviewMember[]>(() =>
-  (activeDetail.value?.members || []).slice(0, 3).map((member, index) => ({
+  (activeDetail.value?.members || []).slice(0, 7).map((member, index) => ({
     id: member.id,
     initial: getInitial(member),
     avatarTone: index % avatarPalette.length,
