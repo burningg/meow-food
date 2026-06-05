@@ -222,13 +222,13 @@ public class DishServiceImpl implements DishService {
                 : request.getIngredients();
         for (int i = 0; i < ingredients.size(); i++) {
             IngredientItem item = ingredients.get(i);
-            if (item == null || isBlank(item.getName()) || isBlank(item.getAmount())) {
+            if (item == null || isBlank(item.getName())) {
                 continue;
             }
             DishIngredient ingredient = new DishIngredient();
             ingredient.setDishId(dishId);
             ingredient.setName(item.getName());
-            ingredient.setAmount(item.getAmount());
+            ingredient.setAmount(isBlank(item.getAmount()) ? "" : item.getAmount().trim());
             ingredient.setSort(item.getSort() == null ? i + 1 : item.getSort());
             dishIngredientMapper.insert(ingredient);
         }

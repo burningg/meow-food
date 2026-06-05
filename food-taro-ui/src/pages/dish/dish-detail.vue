@@ -18,7 +18,7 @@
       <view class="meta-row">
         <view class="meta-item">
           <text class="meta-icon">◷</text>
-          <text class="meta-strong">{{ dish.cookTimeMinutes ?? '--' }} min</text>
+          <text class="meta-strong">{{ dish.cookTimeMinutes == null ? '-' : `${dish.cookTimeMinutes} min` }}</text>
           <text class="meta-small">烹饪时间</text>
         </view>
         <view class="meta-item">

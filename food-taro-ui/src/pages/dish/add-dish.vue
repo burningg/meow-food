@@ -73,7 +73,12 @@
 
         <label class="field-row">
           <text>烹饪时间</text>
-          <input v-model.number="form.cookTimeMinutes" class="mini-input" type="number" />
+          <input
+            v-model.number="form.cookTimeMinutes"
+            class="mini-input"
+            type="number"
+            placeholder="选填"
+          />
           <text class="field-unit">min</text>
         </label>
 
@@ -161,7 +166,7 @@ function createEmptyIngredient(): IngredientFormItem {
   return {
     clientId: nextIngredientClientId(),
     name: '',
-    amount: '适量',
+    amount: '',
   }
 }
 
@@ -171,7 +176,7 @@ function createDefaultFormState(): DishFormState {
     image: '',
     description: '',
     categoryId: '',
-    cookTimeMinutes: 25,
+    cookTimeMinutes: null,
     difficulty: 'medium',
     servings: 1,
     visibility: 'inherit',
@@ -259,7 +264,7 @@ function fillForm(detail: DishDetail) {
   form.image = detail.image || ''
   form.description = detail.description || ''
   form.categoryId = detail.categoryId || ''
-  form.cookTimeMinutes = detail.cookTimeMinutes ?? 25
+  form.cookTimeMinutes = detail.cookTimeMinutes ?? null
   form.difficulty = (detail.difficulty as Difficulty) || 'medium'
   form.servings = detail.servings ?? 1
   form.visibility = (detail.visibility as MenuVisibility) || 'inherit'
@@ -309,7 +314,6 @@ function validateForm() {
   if (!form.name) return '请输入菜品名称'
   if (!form.categoryId) return '请选择分类'
   if (!form.description) return '请补充菜品描述'
-  if (!form.cookTimeMinutes) return '请填写烹饪时间'
   if (!form.servings) return '请填写份量'
   return ''
 }
@@ -333,6 +337,12 @@ function normalizedSteps() {
     }))
 }
 
+function normalizedCookTimeMinutes() {
+  return typeof form.cookTimeMinutes === 'number' && Number.isFinite(form.cookTimeMinutes)
+    ? form.cookTimeMinutes
+    : null
+}
+
 async function save() {
   const errorText = validateForm()
   if (errorText) {
@@ -342,6 +352,7 @@ async function save() {
 
   const payload: DishUpsertRequest = {
     ...form,
+    cookTimeMinutes: normalizedCookTimeMinutes(),
     ingredients: normalizedIngredients(),
     steps: normalizedSteps(),
   }

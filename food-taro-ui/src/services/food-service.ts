@@ -31,7 +31,7 @@ export interface DishSummary {
   description: string
   categoryId: string
   categoryName: string
-  cookTimeMinutes: number
+  cookTimeMinutes: number | null
   difficulty: Difficulty
   servings: number
   visibility: MenuVisibility

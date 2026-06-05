@@ -1,8 +1,11 @@
 package com.panghu.food.service;
 
+import com.panghu.food.dto.DishUpsertRequest;
+import com.panghu.food.dto.IngredientItem;
 import com.panghu.food.auth.AuthContext;
 import com.panghu.food.dto.DishDetailResponse;
 import com.panghu.food.entity.BuddyCircleMember;
+import com.panghu.food.entity.DishIngredient;
 import com.panghu.food.entity.UserProfileSettings;
 import com.panghu.food.mapper.ActivityFeedMapper;
 import com.panghu.food.mapper.BuddyCircleMemberMapper;
@@ -19,8 +22,10 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import org.mockito.ArgumentCaptor;
 
 class DishServiceImplTest {
     private final DishMapper dishMapper = mock(DishMapper.class);
@@ -64,6 +69,22 @@ class DishServiceImplTest {
         assertThat(result).isNotNull();
         assertThat(result.getId()).isEqualTo("dish-1");
         assertThat(result.getEffectiveVisibility()).isEqualTo("friends");
+    }
+
+    @Test
+    void replaceChildrenKeepsIngredientWhenAmountIsBlank() {
+        DishUpsertRequest request = new DishUpsertRequest();
+        IngredientItem ingredientItem = new IngredientItem();
+        ingredientItem.setName("土豆");
+        ingredientItem.setAmount("");
+        request.setIngredients(List.of(ingredientItem));
+
+        ReflectionTestUtils.invokeMethod(dishService, "replaceChildren", "dish-1", request);
+
+        ArgumentCaptor<DishIngredient> captor = ArgumentCaptor.forClass(DishIngredient.class);
+        verify(dishIngredientMapper).insert(captor.capture());
+        assertThat(captor.getValue().getName()).isEqualTo("土豆");
+        assertThat(captor.getValue().getAmount()).isEqualTo("适量");
     }
 
     private DishDetailResponse dish(String id, String ownerUserId) {
