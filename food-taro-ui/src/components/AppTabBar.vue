@@ -3,7 +3,11 @@
     <button
       v-for="item in visibleItems"
       :key="item.name"
-      :class="['tab-item', `tab-item-${item.name}`, { active: item.name === active, add: item.add }]"
+      :class="[
+        'tab-item',
+        `tab-item-${item.name}`,
+        { active: item.name === active, add: item.add },
+      ]"
       hover-class="pressable"
       @tap="navigate(item)"
     >
@@ -11,53 +15,91 @@
         :class="['tab-icon', { 'tab-icon-add': item.add }]"
         :style="{ '--tab-icon-mask': `url(${item.iconSrc})` }"
       ></view>
-      <text v-if="item.name === active && !item.add" class="tab-label">{{ item.label }}</text>
+      <text v-if="item.name === active && !item.add" class="tab-label">{{
+        item.label
+      }}</text>
     </button>
   </view>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { openPrimaryRoute, push, type RouteName } from '@/lib/navigation'
-import homeIcon from '@/assets/tab-bar-icons/home.svg'
-import feedIcon from '@/assets/tab-bar-icons/feed.svg'
-import addIcon from '@/assets/tab-bar-icons/add.svg'
-import circlesIcon from '@/assets/tab-bar-icons/circles.svg'
-import profileIcon from '@/assets/tab-bar-icons/profile.svg'
+import { computed } from "vue";
+import { openPrimaryRoute, push, type RouteName } from "@/lib/navigation";
+import homeIcon from "@/assets/tab-bar-icons/home.svg";
+import feedIcon from "@/assets/tab-bar-icons/feed.svg";
+import addIcon from "@/assets/tab-bar-icons/add.svg";
+import circlesIcon from "@/assets/tab-bar-icons/circles.svg";
+import profileIcon from "@/assets/tab-bar-icons/profile.svg";
 
-const props = withDefaults(defineProps<{
-  active: 'home' | 'feed' | 'profile' | 'circles'
-  showAdd?: boolean
-}>(), {
-  showAdd: true,
-})
+const props = withDefaults(
+  defineProps<{
+    active: "home" | "feed" | "profile" | "circles";
+    showAdd?: boolean;
+  }>(),
+  {
+    showAdd: true,
+  },
+);
 
 type TabItem = {
-  name: string
-  label: string
-  icon: 'home' | 'feed' | 'add' | 'circles' | 'profile'
-  iconSrc: string
-  route: RouteName
-  add?: boolean
-}
+  name: string;
+  label: string;
+  icon: "home" | "feed" | "add" | "circles" | "profile";
+  iconSrc: string;
+  route: RouteName;
+  add?: boolean;
+};
 
 const items: TabItem[] = [
-  { name: 'home', label: '首页', icon: 'home', iconSrc: homeIcon, route: 'home' },
-  { name: 'feed', label: '动态', icon: 'feed', iconSrc: feedIcon, route: 'feed' },
-  { name: 'add', label: '添加', icon: 'add', iconSrc: addIcon, route: 'add-dish', add: true },
-  { name: 'circles', label: '搭子圈', icon: 'circles', iconSrc: circlesIcon, route: 'circles' },
-  { name: 'profile', label: '我的', icon: 'profile', iconSrc: profileIcon, route: 'profile' },
-]
+  {
+    name: "home",
+    label: "首页",
+    icon: "home",
+    iconSrc: homeIcon,
+    route: "home",
+  },
+  {
+    name: "feed",
+    label: "动态",
+    icon: "feed",
+    iconSrc: feedIcon,
+    route: "feed",
+  },
+  {
+    name: "add",
+    label: "添加",
+    icon: "add",
+    iconSrc: addIcon,
+    route: "add-dish",
+    add: true,
+  },
+  {
+    name: "circles",
+    label: "搭子圈",
+    icon: "circles",
+    iconSrc: circlesIcon,
+    route: "circles",
+  },
+  {
+    name: "profile",
+    label: "我的",
+    icon: "profile",
+    iconSrc: profileIcon,
+    route: "profile",
+  },
+];
 
-const visibleItems = computed(() => items.filter((item) => props.showAdd || !item.add))
+const visibleItems = computed(() =>
+  items.filter((item) => props.showAdd || !item.add),
+);
 
 function navigate(item: TabItem) {
-  if (item.name === props.active) return
+  if (item.name === props.active) return;
   if (item.add) {
-    push(item.route)
-    return
+    push(item.route);
+    return;
   }
-  openPrimaryRoute(item.route)
+  openPrimaryRoute(item.route);
 }
 </script>
 
@@ -65,7 +107,7 @@ function navigate(item: TabItem) {
 .tab-bar {
   position: fixed;
   left: 50%;
-  bottom: 18px;
+  bottom: calc(env(safe-area-inset-bottom) - 6px);
   z-index: 20;
   display: flex;
   align-items: center;
@@ -89,7 +131,7 @@ function navigate(item: TabItem) {
 
 .tab-bar::before,
 .tab-bar::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -97,8 +139,12 @@ function navigate(item: TabItem) {
 }
 
 .tab-bar::before {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.14) 44%, rgba(255, 255, 255, 0.02) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.34) 0%,
+    rgba(255, 255, 255, 0.14) 44%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
 }
 
 .tab-bar::after {
@@ -147,7 +193,10 @@ function navigate(item: TabItem) {
   color: #787774;
   flex-shrink: 0;
   line-height: 1;
-  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .tab-item.active {
@@ -194,7 +243,7 @@ function navigate(item: TabItem) {
 
 .tab-label {
   color: #151515;
-  font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
   font-size: 12px;
   font-weight: 600;
   line-height: 1;

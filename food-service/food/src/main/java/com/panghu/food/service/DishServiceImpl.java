@@ -11,10 +11,12 @@ import com.panghu.food.entity.ActivityFeed;
 import com.panghu.food.entity.Dish;
 import com.panghu.food.entity.DishIngredient;
 import com.panghu.food.entity.DishStep;
+import com.panghu.food.entity.BuddyCircleMember;
 import com.panghu.food.entity.FriendRelation;
 import com.panghu.food.entity.UserProfileSettings;
 import com.panghu.food.exception.ApiException;
 import com.panghu.food.mapper.ActivityFeedMapper;
+import com.panghu.food.mapper.BuddyCircleMemberMapper;
 import com.panghu.food.mapper.DishMapper;
 import com.panghu.food.mapper.DishIngredientMapper;
 import com.panghu.food.mapper.DishStepMapper;
@@ -65,6 +67,9 @@ public class DishServiceImpl implements DishService {
 
     @Autowired
     private ActivityFeedMapper activityFeedMapper;
+
+    @Autowired
+    private BuddyCircleMemberMapper buddyCircleMemberMapper;
 
     @Override
     public List<DishSummaryResponse> getDishes(String categoryId, String ownerUserId, String scope, String circleId) {
@@ -350,7 +355,9 @@ public class DishServiceImpl implements DishService {
             return false;
         }
         if ("friends".equals(visibility)) {
-            return viewerUserId != null && (isFriend(viewerUserId, dish.getOwnerUserId()) || circleMode);
+            return viewerUserId != null
+                    && (isFriend(viewerUserId, dish.getOwnerUserId())
+                    || (circleMode && hasSharedCircle(viewerUserId, dish.getOwnerUserId())));
         }
         return false;
     }
@@ -370,9 +377,25 @@ public class DishServiceImpl implements DishService {
             return false;
         }
         if ("friends".equals(visibility)) {
-            return viewerUserId != null && (isFriend(viewerUserId, dish.getOwnerUserId()) || circleMode);
+            return viewerUserId != null
+                    && (isFriend(viewerUserId, dish.getOwnerUserId()) || hasSharedCircle(viewerUserId, dish.getOwnerUserId()));
         }
         return false;
+    }
+
+    private boolean hasSharedCircle(String viewerUserId, String ownerUserId) {
+        List<String> viewerCircleIds = buddyCircleMemberMapper.selectList(new QueryWrapper<BuddyCircleMember>()
+                        .eq("user_id", viewerUserId))
+                .stream()
+                .map(BuddyCircleMember::getCircleId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        if (viewerCircleIds.isEmpty()) {
+            return false;
+        }
+        return buddyCircleMemberMapper.selectCount(new QueryWrapper<BuddyCircleMember>()
+                .eq("user_id", ownerUserId)
+                .in("circle_id", viewerCircleIds)) > 0;
     }
 
     private void createActivity(String userId, String dishId, String type, String visibilityScope) {
