@@ -33,7 +33,7 @@ public class Dish {
 
     private Integer servings;
 
-    private String visibility = "inherit";
+    private String visibility = "public";
 
     private Boolean isFeatured = false;
 

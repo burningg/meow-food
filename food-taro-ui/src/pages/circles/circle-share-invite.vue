@@ -65,7 +65,7 @@ const inviterInitial = computed(() => (invitation.value?.inviter.nickname || '?'
 const circleInitial = computed(() => (invitation.value?.circle.name || '圈').trim().slice(0, 1).toUpperCase())
 const descriptionText = computed(() => {
   const circleName = invitation.value?.circle.name || '这个搭子圈'
-  return `点击接受后，会先成为好友，再自动加入「${circleName}」，一起共享菜单和约饭灵感。`
+  return `点击接受后，会直接加入「${circleName}」，一起共享菜单和约饭灵感。`
 })
 const acceptButtonText = computed(() => {
   if (submitting.value) return '处理中...'
@@ -75,8 +75,7 @@ const acceptButtonText = computed(() => {
 const statusText = computed(() => {
   if (!invitation.value) return '邀请确认中'
   if (invitation.value.member) return '你已经在这个搭子圈里，可以直接进入。'
-  if (invitation.value.friend) return '你们已经是好友，点击后会自动加入圈子。'
-  return '未成为好友也没关系，系统会先接受好友邀请。'
+  return '确认后会加入这个搭子圈，不会自动添加好友。'
 })
 
 onMounted(async () => {

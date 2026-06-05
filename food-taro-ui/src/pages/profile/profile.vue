@@ -22,10 +22,6 @@
           </view>
 
           <view class="stats-row">
-            <button class="stat-button" @tap="openFriendsPage">
-              <text class="stat-number">{{ profile?.stats.friendCount ?? 0 }}</text>
-              <text>好友</text>
-            </button>
             <view class="stat-item">
               <text class="stat-number">{{ profile?.stats.menuCount ?? 0 }}</text>
               <text>菜单</text>
@@ -45,14 +41,34 @@
             <button
               v-for="option in visibilityOptions"
               :key="option.value"
-              :class="['visibility-row', { active: profile?.defaultMenuVisibility === option.value }]"
-              @tap="updateVisibility(option.value)"
+              :class="['visibility-row', { active: draftVisibility === option.value }]"
+              @tap="selectVisibility(option.value)"
             >
               <view>
                 <text class="visibility-title">{{ option.label }}</text>
                 <text class="visibility-desc">{{ option.desc }}</text>
               </view>
               <text class="visibility-dot"></text>
+            </button>
+            <view v-if="draftVisibility === 'circle'" class="circle-picker-card">
+              <view class="circle-picker-head">
+                <text class="visibility-title">默认开放圈子</text>
+                <text class="visibility-desc">{{ draftCircleIds.length }} 个已选</text>
+              </view>
+              <view v-if="circles.length" class="circle-chip-list">
+                <button
+                  v-for="circle in circles"
+                  :key="circle.id"
+                  :class="['circle-chip', { active: draftCircleIds.includes(circle.id) }]"
+                  @tap="toggleCircle(circle.id)"
+                >
+                  {{ circle.name }}
+                </button>
+              </view>
+              <text v-else class="visibility-desc">你还没有加入圈子，暂时不能把默认权限设为指定圈子。</text>
+            </view>
+            <button class="primary-button visibility-save" :disabled="savingVisibility" @tap="saveVisibility">
+              {{ savingVisibility ? '保存中' : '保存默认权限' }}
             </button>
           </article>
         </section>
@@ -86,13 +102,17 @@ import PullRefreshPage from '@/components/PullRefreshPage.vue'
 import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
 import { push, replace, resolveSharePath } from '@/lib/navigation'
-import { SocialService, type ProfileResponse } from '@/services/social-service'
+import { SocialService, type BuddyCircleSummary, type ProfileResponse } from '@/services/social-service'
 import { useAuthStore } from '@/stores/auth-store'
 import type { MenuVisibility } from '@/services/auth-service'
 
 const authStore = useAuthStore()
 const socialService = new SocialService()
 const profile = ref<ProfileResponse | null>(null)
+const circles = ref<BuddyCircleSummary[]>([])
+const draftVisibility = ref<Exclude<MenuVisibility, 'inherit'>>('public')
+const draftCircleIds = ref<string[]>([])
+const savingVisibility = ref(false)
 
 const displayName = computed(() => profile.value?.user.nickname || authStore.user?.nickname || 'meow')
 const displayAvatar = computed(() => profile.value?.user.avatar || authStore.user?.avatar || '')
@@ -101,8 +121,8 @@ const inviterId = computed(() => profile.value?.user.id || authStore.user?.id ||
 const vipChipLabel = computed(() => formatVipLabel(profile.value?.vipInfo?.vip ? profile.value?.vipInfo?.vipLevel : undefined))
 
 const visibilityOptions: Array<{ value: Exclude<MenuVisibility, 'inherit'>; label: string; desc: string }> = [
-  { value: 'friends', label: '好友可见', desc: '你的菜单会同步给好友和已加入的搭子圈。' },
-  { value: 'public', label: '公开', desc: '任何用户都可以从动态和菜单页进入。' },
+  { value: 'public', label: '圈内公开', desc: '只要对方已经加入任意圈子，就能看到你的菜单。' },
+  { value: 'circle', label: '指定圈子', desc: '仅对你选中的圈子成员开放，可随时调整。' },
   { value: 'private', label: '仅自己可见', desc: '只在你自己的菜单空间展示。' },
 ]
 
@@ -118,8 +138,22 @@ useShareAppMessage(() => ({
 
 async function loadProfile() {
   try {
-    const { data } = await socialService.getProfile()
-    profile.value = data
+    const [profileResult, circlesResult] = await Promise.allSettled([
+      socialService.getProfile(),
+      socialService.getCircles(),
+    ])
+    if (profileResult.status === 'fulfilled') {
+      profile.value = profileResult.value.data
+      draftVisibility.value = profileResult.value.data.defaultMenuVisibility
+      draftCircleIds.value = [...profileResult.value.data.defaultMenuCircleIds]
+    } else {
+      throw profileResult.reason
+    }
+    if (circlesResult.status === 'fulfilled') {
+      circles.value = circlesResult.value.data
+    } else {
+      circles.value = []
+    }
   } catch (error: any) {
     Message.error(error?.response?.data?.message || '个人资料加载失败')
   }
@@ -130,15 +164,36 @@ async function refreshProfile() {
   await authStore.restore()
 }
 
-async function updateVisibility(value: Exclude<MenuVisibility, 'inherit'>) {
-  await socialService.updateVisibility(value)
-  Message.success('菜单默认可见范围已更新')
-  await loadProfile()
-  await authStore.restore()
+function selectVisibility(value: Exclude<MenuVisibility, 'inherit'>) {
+  draftVisibility.value = value
 }
 
-function openFriendsPage() {
-  push('friends')
+function toggleCircle(circleId: string) {
+  if (!circleId) return
+  if (draftCircleIds.value.includes(circleId)) {
+    draftCircleIds.value = draftCircleIds.value.filter((id) => id !== circleId)
+    return
+  }
+  draftCircleIds.value = [...draftCircleIds.value, circleId]
+}
+
+async function saveVisibility() {
+  if (draftVisibility.value === 'circle' && !draftCircleIds.value.length) {
+    Message.warning('请选择至少一个默认圈子')
+    return
+  }
+  savingVisibility.value = true
+  try {
+    await socialService.updateVisibility(
+      draftVisibility.value,
+      draftVisibility.value === 'circle' ? draftCircleIds.value : [],
+    )
+    Message.success('菜单默认可见范围已更新')
+    await loadProfile()
+    await authStore.restore()
+  } finally {
+    savingVisibility.value = false
+  }
 }
 
 function openEditProfilePage() {
@@ -263,7 +318,6 @@ function formatVipLabel(level?: string) {
   border-top: 1px solid var(--line);
 }
 
-.stat-button,
 .stat-item {
   display: flex;
   flex: 1;
@@ -412,6 +466,48 @@ function formatVipLabel(level?: string) {
 .visibility-row.active .visibility-dot {
   border-color: var(--accent);
   background: var(--accent);
+}
+
+.circle-picker-card {
+  margin-top: 14px;
+  border-radius: 16px;
+  background: #f7f4ef;
+  padding: 14px;
+}
+
+.circle-picker-head,
+.circle-chip-list {
+  display: flex;
+}
+
+.circle-picker-head {
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.circle-chip-list {
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.circle-chip {
+  border-radius: 999px;
+  background: #ebe4d8;
+  color: #6e6253;
+  padding: 8px 12px;
+  font-size: var(--text-xs);
+  font-weight: 800;
+}
+
+.circle-chip.active {
+  background: #9f5c38;
+  color: #fff;
+}
+
+.visibility-save {
+  margin-top: 14px;
 }
 
 .logout-section {

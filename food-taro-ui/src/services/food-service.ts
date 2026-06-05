@@ -54,6 +54,8 @@ export interface DishSummary {
   servings: number
   visibility: MenuVisibility
   effectiveVisibility: Exclude<MenuVisibility, 'inherit'>
+  visibilityCircleIds: string[]
+  effectiveCircleIds: string[]
   isFeatured: boolean
   createdAt?: string
   ingredientNames: string[]
@@ -76,7 +78,8 @@ export interface DishUpsertRequest {
   cookTimeMinutes: number | null
   difficulty: Difficulty
   servings: number | null
-  visibility: MenuVisibility
+  visibility: Exclude<MenuVisibility, 'inherit'>
+  visibilityCircleIds: string[]
   ingredients: IngredientItem[]
   steps: StepItem[]
 }

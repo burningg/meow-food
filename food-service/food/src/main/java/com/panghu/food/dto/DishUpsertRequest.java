@@ -15,6 +15,7 @@ public class DishUpsertRequest {
     private String difficulty;
     private Integer servings;
     private String visibility;
+    private List<String> visibilityCircleIds = new ArrayList<>();
     private List<IngredientItem> ingredients = new ArrayList<>();
     private List<StepItem> steps = new ArrayList<>();
 }

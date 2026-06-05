@@ -2784,25 +2784,25 @@
             },
             {
               "type": "frame",
-              "id": "imchJ",
+              "id": "JDE4h",
               "name": "Extra Info",
-              "width": "fill_container",
+              "width": 350,
               "layout": "vertical",
               "gap": 14,
               "children": [
                 {
                   "type": "text",
-                  "id": "B7yyjP",
+                  "id": "EsUfN",
                   "name": "Extra Title",
-                  "fill": "$text-primary",
+                  "fill": "#151515",
                   "content": "额外信息",
-                  "fontFamily": "$font-heading",
+                  "fontFamily": "Noto Serif SC",
                   "fontSize": 16,
                   "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
-                  "id": "FvA4X",
+                  "id": "SiQvs",
                   "name": "Time Row",
                   "width": "fill_container",
                   "justifyContent": "space_between",
@@ -2810,40 +2810,40 @@
                   "children": [
                     {
                       "type": "text",
-                      "id": "YDW5I",
+                      "id": "j5rdPV",
                       "name": "Time Row Label",
-                      "fill": "$text-body",
+                      "fill": "#2F3437",
                       "content": "烹饪时间",
-                      "fontFamily": "$font-body",
+                      "fontFamily": "Noto Sans SC",
                       "fontSize": 14,
                       "fontWeight": "normal"
                     },
                     {
                       "type": "frame",
-                      "id": "AhEbE",
+                      "id": "Qbttb",
                       "name": "Time Right",
                       "gap": 6,
                       "alignItems": "center",
                       "children": [
                         {
                           "type": "text",
-                          "id": "WiUWU",
+                          "id": "PQ92u",
                           "name": "Time Row Value",
-                          "fill": "$text-primary",
+                          "fill": "#151515",
                           "content": "45 min",
-                          "fontFamily": "$font-data",
+                          "fontFamily": "JetBrains Mono",
                           "fontSize": 14,
                           "fontWeight": "normal"
                         },
                         {
                           "type": "icon",
-                          "id": "qXHAh",
+                          "id": "AVIqA",
                           "name": "Time Chevron",
                           "width": 16,
                           "height": 16,
                           "icon": "caret-right",
                           "library": "phosphor",
-                          "fill": "$text-muted"
+                          "fill": "#787774"
                         }
                       ]
                     }
@@ -2851,7 +2851,7 @@
                 },
                 {
                   "type": "frame",
-                  "id": "JCyjL",
+                  "id": "LOp8B",
                   "name": "Difficulty Row",
                   "width": "fill_container",
                   "justifyContent": "space_between",
@@ -2859,26 +2859,26 @@
                   "children": [
                     {
                       "type": "text",
-                      "id": "V9rJ72",
+                      "id": "BSZt9",
                       "name": "Diff Row Label",
-                      "fill": "$text-body",
+                      "fill": "#2F3437",
                       "content": "难度",
-                      "fontFamily": "$font-body",
+                      "fontFamily": "Noto Sans SC",
                       "fontSize": 14,
                       "fontWeight": "normal"
                     },
                     {
                       "type": "frame",
-                      "id": "ULgpl",
+                      "id": "fV26l",
                       "name": "Diff Pills",
                       "gap": 6,
                       "children": [
                         {
                           "type": "frame",
-                          "id": "KZpvr",
+                          "id": "XYUeS",
                           "name": "Pill Easy",
-                          "fill": "$bg-primary",
-                          "cornerRadius": "$radius-pill",
+                          "fill": "#F7F6F3",
+                          "cornerRadius": 9999,
                           "padding": [
                             5,
                             12
@@ -2886,11 +2886,11 @@
                           "children": [
                             {
                               "type": "text",
-                              "id": "N97aWz",
-                              "name": "Easy Text",
-                              "fill": "$text-muted",
+                              "id": "jclzH",
+                              "name": "Pill Easy Text",
+                              "fill": "#6C6257",
                               "content": "简单",
-                              "fontFamily": "$font-body",
+                              "fontFamily": "Noto Sans SC",
                               "fontSize": 12,
                               "fontWeight": "normal"
                             }
@@ -2898,10 +2898,10 @@
                         },
                         {
                           "type": "frame",
-                          "id": "sWSvQ",
+                          "id": "sY4ut",
                           "name": "Pill Medium",
-                          "fill": "$accent-primary",
-                          "cornerRadius": "$radius-pill",
+                          "fill": "#9F5C38",
+                          "cornerRadius": 9999,
                           "padding": [
                             5,
                             12
@@ -2909,22 +2909,22 @@
                           "children": [
                             {
                               "type": "text",
-                              "id": "mOruk",
-                              "name": "Med Text",
-                              "fill": "#FFFFFF",
+                              "id": "iAupQ",
+                              "name": "Pill Medium Text",
+                              "fill": "#FFF8EF",
                               "content": "中等",
-                              "fontFamily": "$font-body",
+                              "fontFamily": "Noto Sans SC",
                               "fontSize": 12,
-                              "fontWeight": "normal"
+                              "fontWeight": "600"
                             }
                           ]
                         },
                         {
                           "type": "frame",
-                          "id": "J9gwel",
+                          "id": "eVYCH",
                           "name": "Pill Hard",
-                          "fill": "$bg-primary",
-                          "cornerRadius": "$radius-pill",
+                          "fill": "#F7F6F3",
+                          "cornerRadius": 9999,
                           "padding": [
                             5,
                             12
@@ -2932,11 +2932,11 @@
                           "children": [
                             {
                               "type": "text",
-                              "id": "bNh0V",
-                              "name": "Hard Text",
-                              "fill": "$text-muted",
+                              "id": "N4qaG",
+                              "name": "Pill Hard Text",
+                              "fill": "#6C6257",
                               "content": "困难",
-                              "fontFamily": "$font-body",
+                              "fontFamily": "Noto Sans SC",
                               "fontSize": 12,
                               "fontWeight": "normal"
                             }
@@ -2948,7 +2948,7 @@
                 },
                 {
                   "type": "frame",
-                  "id": "KjMFO",
+                  "id": "yvNPG",
                   "name": "Serve Row",
                   "width": "fill_container",
                   "justifyContent": "space_between",
@@ -2956,40 +2956,318 @@
                   "children": [
                     {
                       "type": "text",
-                      "id": "TU4Y2",
+                      "id": "ZzdjH",
                       "name": "Serve Row Label",
-                      "fill": "$text-body",
+                      "fill": "#2F3437",
                       "content": "份量",
-                      "fontFamily": "$font-body",
+                      "fontFamily": "Noto Sans SC",
                       "fontSize": 14,
                       "fontWeight": "normal"
                     },
                     {
                       "type": "frame",
-                      "id": "z7vuk",
+                      "id": "N2sduH",
                       "name": "Serve Right",
                       "gap": 6,
                       "alignItems": "center",
                       "children": [
                         {
                           "type": "text",
-                          "id": "kpEHG",
+                          "id": "rjhas",
                           "name": "Serve Row Value",
-                          "fill": "$text-primary",
+                          "fill": "#151515",
                           "content": "4 人份",
-                          "fontFamily": "$font-data",
+                          "fontFamily": "JetBrains Mono",
                           "fontSize": 14,
                           "fontWeight": "normal"
                         },
                         {
                           "type": "icon",
-                          "id": "V5yER",
+                          "id": "ho7AH",
                           "name": "Serve Chevron",
                           "width": 16,
                           "height": 16,
                           "icon": "caret-right",
                           "library": "phosphor",
-                          "fill": "$text-muted"
+                          "fill": "#787774"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "BZ2QI",
+                  "name": "Visibility Block",
+                  "width": "fill_container",
+                  "fill": "#F7F4EF",
+                  "cornerRadius": 14,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "xfIOJ",
+                      "name": "Visibility Block Title",
+                      "fill": "#151515",
+                      "content": "菜单权限",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "J6q4fY",
+                      "name": "Visibility Pills",
+                      "width": "fill_container",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "p9ZYsc",
+                          "name": "Visibility Pill Inherit",
+                          "fill": "#1B3A2D",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            8,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "l0IJKZ",
+                              "name": "Visibility Pill Inherit Text",
+                              "fill": "#FFFFFF",
+                              "content": "继承默认",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Z18QbJ",
+                          "name": "Visibility Pill Public",
+                          "fill": "#E9E2D8",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            8,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "X4DfUY",
+                              "name": "Visibility Pill Public Text",
+                              "fill": "#6C6257",
+                              "content": "圈内公开",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "s0wxeS",
+                          "name": "Visibility Pill Circle",
+                          "fill": "#E9E2D8",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            8,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "H1FENP",
+                              "name": "Visibility Pill Circle Text",
+                              "fill": "#6C6257",
+                              "content": "指定圈子",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "oI0Pc",
+                          "name": "Visibility Pill Private",
+                          "fill": "#E9E2D8",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            8,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "wafHz",
+                              "name": "Visibility Pill Private Text",
+                              "fill": "#6C6257",
+                              "content": "仅自己",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "R2HoD",
+                      "name": "Inherited Helper Card",
+                      "width": "fill_container",
+                      "fill": "#FFFDFC",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 6,
+                      "padding": 12,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "scv8K",
+                          "name": "Inherited Helper Title",
+                          "fill": "#9F5C38",
+                          "content": "继承默认",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "zg1v1",
+                          "name": "Inherited Helper Text",
+                          "fill": "#787774",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "继承默认：周末饭搭子 / 轻食研究所",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "IkYAA",
+                      "name": "Circle Selector",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "JSQoZ",
+                          "name": "Circle Selector Head",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "ezJe3",
+                              "name": "Circle Selector Title",
+                              "fill": "#151515",
+                              "content": "选择可见圈子",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "nwZgd",
+                              "name": "Circle Selector Meta",
+                              "fill": "#787774",
+                              "content": "2 个已选",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "GOEIF",
+                          "name": "Circle Selector Chips",
+                          "width": "fill_container",
+                          "gap": 8,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "uq0Zx",
+                              "name": "Selector Chip Weekend",
+                              "fill": "#9F5C38",
+                              "cornerRadius": 9999,
+                              "padding": [
+                                8,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "eS2HD",
+                                  "name": "Selector Chip Weekend Text",
+                                  "fill": "#FFFFFF",
+                                  "content": "周末饭搭子",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "araE6",
+                              "name": "Selector Chip Light",
+                              "fill": "#E9E2D8",
+                              "cornerRadius": 9999,
+                              "padding": [
+                                8,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "B7wbHT",
+                                  "name": "Selector Chip Light Text",
+                                  "fill": "#6C6257",
+                                  "content": "轻食研究所",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "uwK8C",
+                              "name": "Selector Chip Night",
+                              "fill": "#E9E2D8",
+                              "cornerRadius": 9999,
+                              "padding": [
+                                8,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "jCp5W",
+                                  "name": "Selector Chip Night Text",
+                                  "fill": "#6C6257",
+                                  "content": "深夜小灶",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
                         }
                       ]
                     }
@@ -3876,10 +4154,10 @@
                 },
                 {
                   "type": "frame",
-                  "id": "f2o",
+                  "id": "JYpM0",
                   "name": "Visibility Card",
-                  "width": "fill_container",
-                  "fill": "$bg-card",
+                  "width": 350,
+                  "fill": "#FFFFFF",
                   "cornerRadius": 12,
                   "layout": "vertical",
                   "gap": 14,
@@ -3887,17 +4165,20 @@
                   "children": [
                     {
                       "type": "text",
-                      "id": "t2b",
+                      "id": "CmUrZ",
                       "name": "Visibility Desc",
-                      "fill": "$text-body",
-                      "content": "你可以决定谁能看到自己的菜单，也能因此访问好友开放的菜单。",
-                      "fontFamily": "$font-body",
+                      "fill": "#2F3437",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "你可以决定哪些圈子能看到你的菜单。默认权限会作为新菜谱的初始权限。",
+                      "lineHeight": 1.5,
+                      "fontFamily": "Noto Sans SC",
                       "fontSize": 13,
                       "fontWeight": "normal"
                     },
                     {
                       "type": "frame",
-                      "id": "f2n",
+                      "id": "O8GLma",
                       "name": "Visibility List",
                       "width": "fill_container",
                       "layout": "vertical",
@@ -3905,63 +4186,7 @@
                       "children": [
                         {
                           "type": "frame",
-                          "id": "f2g",
-                          "name": "Visibility Row Active",
-                          "width": "fill_container",
-                          "justifyContent": "space_between",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "frame",
-                              "id": "f2e",
-                              "name": "Visibility Copy Active",
-                              "layout": "vertical",
-                              "gap": 3,
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "t2c",
-                                  "name": "Visibility Name Active",
-                                  "fill": "$text-primary",
-                                  "content": "好友可见",
-                                  "fontFamily": "$font-body",
-                                  "fontSize": 14,
-                                  "fontWeight": "600"
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "t2d",
-                                  "name": "Visibility Meta Active",
-                                  "fill": "$text-muted",
-                                  "content": "你的 12 份菜单会同步给好友和已加入的搭子圈。",
-                                  "fontFamily": "$font-body",
-                                  "fontSize": 12,
-                                  "fontWeight": "normal"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "frame",
-                              "id": "f2f",
-                              "name": "Visibility Dot Active",
-                              "width": 10,
-                              "height": 10,
-                              "fill": "$text-primary",
-                              "cornerRadius": 9999
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "f2h",
-                          "name": "Visibility Divider",
-                          "width": "fill_container",
-                          "height": 1,
-                          "fill": "#ECE5DC"
-                        },
-                        {
-                          "type": "frame",
-                          "id": "f2m",
+                          "id": "NwhZR",
                           "name": "Visibility Row Public",
                           "width": "fill_container",
                           "justifyContent": "space_between",
@@ -3969,28 +4194,92 @@
                           "children": [
                             {
                               "type": "frame",
-                              "id": "f2k",
+                              "id": "ZhEKb",
                               "name": "Visibility Copy Public",
+                              "width": "fill_container",
                               "layout": "vertical",
                               "gap": 3,
                               "children": [
                                 {
                                   "type": "text",
-                                  "id": "t2i",
+                                  "id": "g2oHg",
                                   "name": "Visibility Name Public",
-                                  "fill": "$text-primary",
-                                  "content": "公开",
-                                  "fontFamily": "$font-body",
+                                  "fill": "#151515",
+                                  "content": "圈内公开",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 14,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "OHA2V",
+                                  "name": "Visibility Meta Public",
+                                  "fill": "#787774",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "只要对方已经加入任意圈子，就能看到你的菜单。",
+                                  "lineHeight": 1.5,
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "XdAxB",
+                              "name": "Visibility Dot Public",
+                              "width": 10,
+                              "height": 10,
+                              "fill": "#151515",
+                              "cornerRadius": 9999
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "vXlWw",
+                          "name": "Visibility Divider 1",
+                          "width": "fill_container",
+                          "height": 1,
+                          "fill": "#ECE5DC"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "VYRiI",
+                          "name": "Visibility Row Circle",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "L1JEZ",
+                              "name": "Visibility Copy Circle",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 3,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "pk0RQ",
+                                  "name": "Visibility Name Circle",
+                                  "fill": "#151515",
+                                  "content": "指定圈子",
+                                  "fontFamily": "Noto Sans SC",
                                   "fontSize": 14,
                                   "fontWeight": "normal"
                                 },
                                 {
                                   "type": "text",
-                                  "id": "t2j",
-                                  "name": "Visibility Meta Public",
-                                  "fill": "$text-muted",
-                                  "content": "任何用户都可以从动态和菜单页进入。",
-                                  "fontFamily": "$font-body",
+                                  "id": "Fy1xk",
+                                  "name": "Visibility Meta Circle",
+                                  "fill": "#787774",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "仅对你选中的圈子成员开放，可随时调整。",
+                                  "lineHeight": 1.5,
+                                  "fontFamily": "Noto Sans SC",
                                   "fontSize": 12,
                                   "fontWeight": "normal"
                                 }
@@ -3998,12 +4287,217 @@
                             },
                             {
                               "type": "text",
-                              "id": "t2l",
-                              "name": "Visibility Tag Public",
-                              "fill": "$accent-primary",
+                              "id": "z1Qwr",
+                              "name": "Visibility State Circle",
+                              "fill": "#9F5C38",
                               "content": "可切换",
-                              "fontFamily": "$font-body",
+                              "fontFamily": "Noto Sans SC",
                               "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Fn1ml",
+                          "name": "Visibility Divider 2",
+                          "width": "fill_container",
+                          "height": 1,
+                          "fill": "#ECE5DC"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "LyICm",
+                          "name": "Visibility Row Private",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "dTYvd",
+                              "name": "Visibility Copy Private",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 3,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "nzoXO",
+                                  "name": "Visibility Name Private",
+                                  "fill": "#151515",
+                                  "content": "仅自己可见",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 14,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "zzirX",
+                                  "name": "Visibility Meta Private",
+                                  "fill": "#787774",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "只在你自己的菜单空间展示。",
+                                  "lineHeight": 1.5,
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "h6nyLo",
+                              "name": "Visibility State Private",
+                              "fill": "#9F5C38",
+                              "content": "可切换",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "MIAnr",
+                      "name": "Circle Picker Card",
+                      "width": "fill_container",
+                      "fill": "#F7F4EF",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": 14,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "W2nmtP",
+                          "name": "Circle Picker Head",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "hcNxH",
+                              "name": "Circle Picker Title",
+                              "fill": "#151515",
+                              "content": "默认开放圈子",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "OGQSv",
+                              "name": "Circle Picker Meta",
+                              "fill": "#787774",
+                              "content": "2 个已选",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "XTk4d",
+                          "name": "Circle Picker Chips",
+                          "width": "fill_container",
+                          "gap": 8,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "xAcGh",
+                              "name": "Circle Chip Weekend",
+                              "fill": "#9F5C38",
+                              "cornerRadius": 9999,
+                              "padding": [
+                                8,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "s2Syxk",
+                                  "name": "Circle Chip Weekend Text",
+                                  "fill": "#FFFFFF",
+                                  "content": "周末饭搭子",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "QoAEq",
+                              "name": "Circle Chip Light",
+                              "fill": "#E9E2D8",
+                              "cornerRadius": 9999,
+                              "padding": [
+                                8,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "PDnfq",
+                                  "name": "Circle Chip Light Text",
+                                  "fill": "#6C6257",
+                                  "content": "轻食研究所",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "dxDIw",
+                              "name": "Circle Chip Night",
+                              "fill": "#E9E2D8",
+                              "cornerRadius": 9999,
+                              "padding": [
+                                8,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "WmNjB",
+                                  "name": "Circle Chip Night Text",
+                                  "fill": "#6C6257",
+                                  "content": "深夜小灶",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "d3Tom",
+                          "name": "Save Visibility Button",
+                          "width": "fill_container",
+                          "height": 46,
+                          "fill": "#9F5C38",
+                          "cornerRadius": 14,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "s0Oke",
+                              "name": "Save Visibility Button Text",
+                              "fill": "#FFF8EF",
+                              "content": "保存默认权限",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 14,
                               "fontWeight": "600"
                             }
                           ]

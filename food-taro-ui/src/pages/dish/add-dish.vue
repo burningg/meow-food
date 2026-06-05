@@ -120,11 +120,29 @@
               v-for="option in visibilityOptions"
               :key="option.value"
               :class="['difficulty-pill', { active: form.visibility === option.value }]"
-              @tap="form.visibility = option.value"
+              @tap="setVisibility(option.value)"
             >
               {{ option.label }}
             </button>
           </view>
+        </view>
+
+        <view v-if="showCircleSelector" class="circle-selector">
+          <view class="circle-selector-head">
+            <text class="circle-selector-title">选择可见圈子</text>
+            <text class="group-tip">{{ form.visibilityCircleIds.length }} 个已选</text>
+          </view>
+          <view v-if="availableCircles.length" class="circle-chip-list">
+            <button
+              v-for="circle in availableCircles"
+              :key="circle.id"
+              :class="['circle-chip', { active: form.visibilityCircleIds.includes(circle.id) }]"
+              @tap="toggleVisibilityCircle(circle.id)"
+            >
+              {{ circle.name }}
+            </button>
+          </view>
+          <view v-else class="empty-helper">你还没有加入圈子，暂时不能使用指定圈子权限</view>
         </view>
       </section>
     </section>
@@ -150,7 +168,7 @@ import {
   type MenuVisibility,
   type StepItem,
 } from '@/services/food-service'
-import { SocialService, type VipInfo } from '@/services/social-service'
+import { SocialService, type BuddyCircleSummary, type ProfileResponse, type VipInfo } from '@/services/social-service'
 
 const foodService = new FoodService()
 const socialService = new SocialService()
@@ -163,10 +181,14 @@ const analyzingAi = ref(false)
 const formRenderKey = ref(0)
 const initializedRouteKey = ref('')
 const vipInfo = ref<VipInfo | null>(null)
+const profileDefaults = ref<ProfileResponse | null>(null)
+const availableCircles = ref<BuddyCircleSummary[]>([])
 
 type IngredientFormItem = IngredientItem & {
   clientId: string
 }
+
+type DishEditableVisibility = Exclude<MenuVisibility, 'inherit' | 'friends'>
 
 type DishFormState = Omit<DishUpsertRequest, 'ingredients' | 'steps'> & {
   ingredients: IngredientFormItem[]
@@ -197,7 +219,8 @@ function createDefaultFormState(): DishFormState {
     cookTimeMinutes: null,
     difficulty: 'medium',
     servings: 1,
-    visibility: 'inherit',
+    visibility: 'public',
+    visibilityCircleIds: [],
     ingredients: [],
     steps: [],
   }
@@ -211,10 +234,9 @@ const difficultyOptions: Array<{ label: string; value: Difficulty }> = [
   { label: '困难', value: 'hard' },
 ]
 
-const visibilityOptions: Array<{ label: string; value: MenuVisibility }> = [
-  { label: '继承默认', value: 'inherit' },
-  { label: '公开', value: 'public' },
-  { label: '好友可见', value: 'friends' },
+const visibilityOptions: Array<{ label: string; value: DishEditableVisibility }> = [
+  { label: '圈内公开', value: 'public' },
+  { label: '指定圈子', value: 'circle' },
   { label: '仅自己', value: 'private' },
 ]
 
@@ -227,6 +249,9 @@ const categoryNames = computed(() => categories.value.map((item) => item.name))
 const categoryIndex = computed(() => Math.max(0, categories.value.findIndex((item) => item.id === form.categoryId)))
 const selectedCategoryName = computed(() => categories.value.find((item) => item.id === form.categoryId)?.name || '')
 const isAiCardDisabled = computed(() => saving.value || analyzingAi.value || !form.image)
+const currentDefaultVisibility = computed(() => profileDefaults.value?.defaultMenuVisibility || authStore.user?.defaultMenuVisibility || 'public')
+const defaultCircleIds = computed(() => profileDefaults.value?.defaultMenuCircleIds || authStore.user?.defaultMenuCircleIds || [])
+const showCircleSelector = computed(() => form.visibility === 'circle')
 const aiCardText = computed(() => {
   if (analyzingAi.value) return 'AI识别中...'
   if (!vipInfo.value) return 'AI识别，VIP权益'
@@ -245,8 +270,10 @@ async function initializePage() {
   try {
     if (!(await requireAuth('add-dish'))) return
     resetForm()
-    await loadCategories()
-    await loadVipInfo()
+    await Promise.all([loadCategories(), loadVisibilityContext()])
+    if (!isEditMode.value) {
+      applyCreateVisibilityDefaults()
+    }
     if (isEditMode.value && dishId.value) {
       await loadDetail(dishId.value)
     }
@@ -261,14 +288,22 @@ async function loadCategories() {
   categories.value = data
 }
 
-async function loadVipInfo() {
-  vipInfo.value = null
-  if (isEditMode.value || !authStore.user?.vip) return
-  try {
-    const { data } = await socialService.getProfile()
-    vipInfo.value = data.vipInfo
-  } catch (error) {
+async function loadVisibilityContext() {
+  const [profileResult, circlesResult] = await Promise.allSettled([
+    socialService.getProfile(),
+    socialService.getCircles(),
+  ])
+  if (profileResult.status === 'fulfilled') {
+    profileDefaults.value = profileResult.value.data
+    vipInfo.value = !isEditMode.value && authStore.user?.vip ? profileResult.value.data.vipInfo : null
+  } else {
+    profileDefaults.value = null
     vipInfo.value = null
+  }
+  if (circlesResult.status === 'fulfilled') {
+    availableCircles.value = circlesResult.value.data
+  } else {
+    availableCircles.value = []
   }
 }
 
@@ -291,10 +326,16 @@ function resetForm() {
   form.difficulty = nextForm.difficulty
   form.servings = nextForm.servings
   form.visibility = nextForm.visibility
+  form.visibilityCircleIds = nextForm.visibilityCircleIds
   form.ingredients = nextForm.ingredients
   form.steps = nextForm.steps
   vipInfo.value = null
   formRenderKey.value += 1
+}
+
+function applyCreateVisibilityDefaults() {
+  form.visibility = currentDefaultVisibility.value as DishEditableVisibility
+  form.visibilityCircleIds = form.visibility === 'circle' ? [...defaultCircleIds.value] : []
 }
 
 function fillForm(detail: DishDetail) {
@@ -305,7 +346,8 @@ function fillForm(detail: DishDetail) {
   form.cookTimeMinutes = detail.cookTimeMinutes ?? null
   form.difficulty = (detail.difficulty as Difficulty) || 'medium'
   form.servings = detail.servings ?? 1
-  form.visibility = (detail.visibility as MenuVisibility) || 'inherit'
+  form.visibility = ((detail.visibility === 'inherit' ? currentDefaultVisibility.value : detail.visibility) as DishEditableVisibility) || 'public'
+  form.visibilityCircleIds = [...(detail.visibilityCircleIds || [])]
   form.ingredients = detail.ingredients.length
     ? detail.ingredients.map((item) => ({
         clientId: nextIngredientClientId(),
@@ -345,6 +387,26 @@ function addStep() {
 
 function removeStep(index: number) {
   form.steps.splice(index, 1)
+}
+
+function toggleVisibilityCircle(circleId: string) {
+  if (!circleId) return
+  if (form.visibilityCircleIds.includes(circleId)) {
+    form.visibilityCircleIds = form.visibilityCircleIds.filter((id) => id !== circleId)
+    return
+  }
+  form.visibilityCircleIds = [...form.visibilityCircleIds, circleId]
+}
+
+function setVisibility(value: DishEditableVisibility) {
+  form.visibility = value
+  if (value !== 'circle') {
+    form.visibilityCircleIds = []
+    return
+  }
+  if (!form.visibilityCircleIds.length && !isEditMode.value) {
+    form.visibilityCircleIds = [...defaultCircleIds.value]
+  }
 }
 
 function toIngredientFormItems(items: IngredientItem[]) {
@@ -413,6 +475,7 @@ function validateForm() {
   if (!form.categoryId) return '请选择分类'
   if (!form.description) return '请补充菜品描述'
   if (!form.servings) return '请填写份量'
+  if (form.visibility === 'circle' && !form.visibilityCircleIds.length) return '请选择至少一个可见圈子'
   return ''
 }
 
@@ -451,6 +514,8 @@ async function save() {
   const payload: DishUpsertRequest = {
     ...form,
     cookTimeMinutes: normalizedCookTimeMinutes(),
+    visibility: form.visibility,
+    visibilityCircleIds: form.visibility === 'circle' ? [...form.visibilityCircleIds] : [],
     ingredients: normalizedIngredients(),
     steps: normalizedSteps(),
   }
@@ -718,6 +783,54 @@ function cancel() {
 
 .difficulty-pill.active {
   background: #1b3a2d;
+  color: #fff;
+}
+
+.visibility-wrap {
+  align-items: flex-start;
+}
+
+.circle-selector {
+  margin-top: 12px;
+  border-radius: 16px;
+  background: #f7f4ef;
+  padding: 12px;
+}
+
+.circle-selector-title {
+  color: var(--text-main);
+  font-size: var(--text-sm);
+  font-weight: 800;
+}
+
+.circle-selector-head,
+.circle-chip-list {
+  display: flex;
+}
+
+.circle-selector-head {
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.circle-chip-list {
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.circle-chip {
+  border-radius: 999px;
+  background: #ebe4d8;
+  color: #6e6253;
+  padding: 8px 12px;
+  font-size: var(--text-xs);
+  font-weight: 800;
+}
+
+.circle-chip.active {
+  background: #9f5c38;
   color: #fff;
 }
 </style>

@@ -2,6 +2,9 @@ package com.panghu.food.dto;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 public class AuthUserResponse {
     private String id;
@@ -10,6 +13,7 @@ public class AuthUserResponse {
     private String avatar;
     private String bio;
     private String defaultMenuVisibility;
+    private List<String> defaultMenuCircleIds = new ArrayList<>();
     private Boolean vip;
     private String vipLevel;
 }

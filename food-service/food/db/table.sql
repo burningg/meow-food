@@ -24,7 +24,7 @@ CREATE TABLE `user` (
 
 CREATE TABLE `user_profile_settings` (
   `user_id` varchar(36) NOT NULL COMMENT '用户ID(UUID)',
-  `default_menu_visibility` varchar(20) NOT NULL DEFAULT 'friends' COMMENT '默认菜单可见范围',
+  `default_menu_visibility` varchar(20) NOT NULL DEFAULT 'public' COMMENT '默认菜单可见范围',
   `last_selected_circle_id` varchar(36) DEFAULT NULL COMMENT '上次选中的圈子ID',
   `allow_friend_feed` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否允许进入好友动态',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -61,7 +61,7 @@ CREATE TABLE `dish` (
   `cook_time_minutes` int DEFAULT NULL COMMENT '烹饪时间(分钟)',
   `difficulty` varchar(20) DEFAULT NULL COMMENT '难度：easy/medium/hard',
   `servings` int DEFAULT NULL COMMENT '份量',
-  `visibility` varchar(20) NOT NULL DEFAULT 'inherit' COMMENT '可见范围：inherit/public/friends/private',
+  `visibility` varchar(20) NOT NULL DEFAULT 'public' COMMENT '可见范围：public/private/circle，兼容旧值inherit/friends',
   `is_featured` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否推荐：0-否，1-是',
   `status` tinyint NOT NULL DEFAULT '1' COMMENT '状态：0-下架，1-上架',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -71,6 +71,26 @@ CREATE TABLE `dish` (
   KEY `idx_owner_user_id` (`owner_user_id`),
   CONSTRAINT `fk_dish_user` FOREIGN KEY (`owner_user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='菜品表';
+
+CREATE TABLE `dish_visibility_circle` (
+  `id` varchar(36) NOT NULL COMMENT '关联ID(UUID)',
+  `dish_id` varchar(36) NOT NULL COMMENT '菜品ID(UUID)',
+  `circle_id` varchar(36) NOT NULL COMMENT '圈子ID(UUID)',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_dish_visibility_circle` (`dish_id`,`circle_id`),
+  KEY `idx_dish_visibility_circle_circle` (`circle_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='菜品指定圈子可见关系';
+
+CREATE TABLE `user_default_visibility_circle` (
+  `id` varchar(36) NOT NULL COMMENT '关联ID(UUID)',
+  `user_id` varchar(36) NOT NULL COMMENT '用户ID(UUID)',
+  `circle_id` varchar(36) NOT NULL COMMENT '圈子ID(UUID)',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_user_default_visibility_circle` (`user_id`,`circle_id`),
+  KEY `idx_user_default_visibility_circle_circle` (`circle_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户默认指定圈子可见关系';
 
 CREATE TABLE `dish_ingredient` (
   `id` varchar(36) NOT NULL COMMENT '食材ID(UUID)',

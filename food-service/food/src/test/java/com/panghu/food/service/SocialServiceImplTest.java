@@ -1,6 +1,7 @@
 package com.panghu.food.service;
 
 import com.panghu.food.auth.AuthContext;
+import com.panghu.food.dto.BuddyCircleDetailResponse;
 import com.panghu.food.dto.DishSummaryResponse;
 import com.panghu.food.dto.FeedItemResponse;
 import com.panghu.food.dto.FriendInvitationResponse;
@@ -22,6 +23,7 @@ import com.panghu.food.mapper.DishMapper;
 import com.panghu.food.mapper.FriendRelationMapper;
 import com.panghu.food.mapper.FriendRequestMapper;
 import com.panghu.food.mapper.UserAccountMapper;
+import com.panghu.food.mapper.UserDefaultVisibilityCircleMapper;
 import com.panghu.food.mapper.UserProfileSettingsMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -49,8 +51,10 @@ class SocialServiceImplTest {
     private final BuddyCircleMapper buddyCircleMapper = mock(BuddyCircleMapper.class);
     private final BuddyCircleMemberMapper buddyCircleMemberMapper = mock(BuddyCircleMemberMapper.class);
     private final BuddyCircleInviteMapper buddyCircleInviteMapper = mock(BuddyCircleInviteMapper.class);
+    private final UserDefaultVisibilityCircleMapper userDefaultVisibilityCircleMapper = mock(UserDefaultVisibilityCircleMapper.class);
     private final AuthService authService = mock(AuthService.class);
     private final VipService vipService = mock(VipService.class);
+    private final MenuVisibilitySupport menuVisibilitySupport = mock(MenuVisibilitySupport.class);
 
     private final SocialServiceImpl socialService = new SocialServiceImpl(
             userAccountMapper,
@@ -64,7 +68,9 @@ class SocialServiceImplTest {
             buddyCircleMemberMapper,
             buddyCircleInviteMapper,
             authService,
-            vipService);
+            vipService,
+            userDefaultVisibilityCircleMapper,
+            menuVisibilitySupport);
 
     @AfterEach
     void tearDown() {
@@ -72,12 +78,12 @@ class SocialServiceImplTest {
     }
 
     @Test
-    void getFeedExcludesPublicFeedFromNonFriends() {
+    void getFeedExcludesPublicFeedFromUsersOutsideCircles() {
         AuthContext.setUserId("viewer");
         ActivityFeed feed = publicFeed("feed-1", "stranger", "dish-1");
 
         when(activityFeedMapper.selectList(any())).thenReturn(List.of(feed));
-        when(friendRelationMapper.selectCount(any())).thenReturn(0L);
+        when(menuVisibilitySupport.isUserInAnyCircle("viewer")).thenReturn(false);
 
         List<FeedItemResponse> result = socialService.getFeed("all");
 
@@ -85,15 +91,14 @@ class SocialServiceImplTest {
     }
 
     @Test
-    void getFeedIncludesPublicFeedFromFriends() {
+    void getFeedIncludesPublicFeedForCircleMembers() {
         AuthContext.setUserId("viewer");
         ActivityFeed feed = publicFeed("feed-1", "friend", "dish-1");
 
         when(activityFeedMapper.selectList(any())).thenReturn(List.of(feed));
-        when(friendRelationMapper.selectCount(any())).thenReturn(1L);
+        when(menuVisibilitySupport.isUserInAnyCircle("viewer")).thenReturn(true);
         when(userAccountMapper.selectById("friend")).thenReturn(user("friend"));
         when(dishMapper.selectAllActive()).thenReturn(List.of(dish("dish-1", "friend")));
-        when(userProfileSettingsMapper.selectById("friend")).thenReturn(settings("friend"));
 
         List<FeedItemResponse> result = socialService.getFeed("all");
 
@@ -108,7 +113,7 @@ class SocialServiceImplTest {
         when(userAccountMapper.selectById("inviter")).thenReturn(user("inviter"));
         when(userProfileSettingsMapper.selectById("inviter")).thenReturn(settings("inviter"));
         when(friendRequestMapper.selectOne(any())).thenReturn(null);
-        when(friendRelationMapper.selectCount(any())).thenReturn(0L);
+        when(menuVisibilitySupport.isFriend(any(), any())).thenReturn(false, false, false);
 
         FriendInvitationResponse result = socialService.acceptFriendInvitation("inviter");
 
@@ -125,7 +130,7 @@ class SocialServiceImplTest {
         when(userAccountMapper.selectById("inviter")).thenReturn(user("inviter"));
         when(userProfileSettingsMapper.selectById("inviter")).thenReturn(settings("inviter"));
         when(friendRequestMapper.selectOne(any())).thenReturn(null);
-        when(friendRelationMapper.selectCount(any())).thenReturn(0L);
+        when(menuVisibilitySupport.isFriend(any(), any())).thenReturn(false, false);
 
         FriendInvitationResponse result = socialService.rejectFriendInvitation("inviter");
 
@@ -141,7 +146,7 @@ class SocialServiceImplTest {
         when(userAccountMapper.selectById("inviter")).thenReturn(user("inviter"));
         when(userProfileSettingsMapper.selectById("inviter")).thenReturn(settings("inviter"));
         when(friendRequestMapper.selectOne(any())).thenReturn(null);
-        when(friendRelationMapper.selectCount(any())).thenReturn(1L);
+        when(menuVisibilitySupport.isFriend(any(), any())).thenReturn(true);
 
         FriendInvitationResponse result = socialService.acceptFriendInvitation("inviter");
 
@@ -177,7 +182,8 @@ class SocialServiceImplTest {
         when(buddyCircleMemberMapper.selectList(any())).thenReturn(List.of(circleMember("circle-1", "owner-1")));
         when(dishMapper.selectByOwnerUserId("owner-1")).thenReturn(List.of(
                 dish("dish-older", "owner-1", LocalDateTime.of(2024, 1, 1, 12, 0), "public"),
-                dish("dish-newer", "owner-1", LocalDateTime.of(2024, 1, 2, 12, 0), "public")));
+                circleDish("dish-newer", "owner-1", LocalDateTime.of(2024, 1, 2, 12, 0), "circle", "circle-1")));
+        mockHydrateSummaries();
         when(dishIngredientMapper.selectList(any())).thenReturn(List.of(
                 ingredient("dish-newer", "土豆"),
                 ingredient("dish-newer", "牛肉"),
@@ -198,15 +204,40 @@ class SocialServiceImplTest {
         when(buddyCircleMemberMapper.selectList(any())).thenReturn(List.of(circleMember("circle-1", "owner-1")));
         when(dishMapper.selectByOwnerUserId("owner-1")).thenReturn(List.of(
                 dish("dish-public", "owner-1", LocalDateTime.of(2024, 1, 2, 12, 0), "public"),
-                dish("dish-private", "owner-1", LocalDateTime.of(2024, 1, 3, 12, 0), "private")));
+                circleDish("dish-other-circle", "owner-1", LocalDateTime.of(2024, 1, 3, 12, 0), "circle", "circle-2")));
+        mockHydrateSummaries();
         when(dishIngredientMapper.selectList(any())).thenReturn(List.of(
                 ingredient("dish-public", "鸡蛋"),
-                ingredient("dish-private", "秘密配方")));
+                ingredient("dish-other-circle", "秘密配方")));
 
         List<DishSummaryResponse> result = socialService.getCircleMenus("circle-1");
 
         assertThat(result).extracting(DishSummaryResponse::getId).containsExactly("dish-public");
         assertThat(result.get(0).getIngredientNames()).containsExactly("鸡蛋");
+    }
+
+    @Test
+    void acceptCircleShareInvitationAddsMemberWithoutCreatingFriendship() {
+        AuthContext.setUserId("target");
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(userAccountMapper.selectById("inviter")).thenReturn(user("inviter"));
+        when(userAccountMapper.selectById("owner-1")).thenReturn(user("owner-1"));
+        when(userAccountMapper.selectById("target")).thenReturn(user("target"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(1L, 0L, 1L, 2L, 1L, 1L, 1L, 1L);
+        when(buddyCircleMemberMapper.selectList(any())).thenReturn(List.of(
+                circleMember("circle-1", "owner-1"),
+                circleMember("circle-1", "target")));
+        when(activityFeedMapper.selectCount(any())).thenReturn(0L);
+        when(dishMapper.selectByOwnerUserId(any())).thenReturn(List.of());
+        when(dishIngredientMapper.selectList(any())).thenReturn(List.of());
+
+        BuddyCircleDetailResponse result = socialService.acceptCircleShareInvitation("circle-1", "inviter");
+
+        assertThat(result.getCircle().getId()).isEqualTo("circle-1");
+        verify(buddyCircleMemberMapper).insert(any(BuddyCircleMember.class));
+        verify(friendRequestMapper, never()).insert(any(FriendRequest.class));
+        verify(friendRequestMapper, never()).updateById(any(FriendRequest.class));
+        verify(friendRelationMapper, never()).insert(any(FriendRelation.class));
     }
 
     private ActivityFeed publicFeed(String id, String actorUserId, String dishId) {
@@ -265,10 +296,29 @@ class SocialServiceImplTest {
         return dish;
     }
 
+    private DishSummaryResponse circleDish(String id, String ownerUserId, LocalDateTime createdAt, String visibility, String circleId) {
+        DishSummaryResponse dish = dish(id, ownerUserId, createdAt, visibility);
+        dish.setEffectiveCircleIds(List.of(circleId));
+        return dish;
+    }
+
     private UserProfileSettings settings(String userId) {
         UserProfileSettings settings = new UserProfileSettings();
         settings.setUserId(userId);
         settings.setDefaultMenuVisibility("friends");
         return settings;
+    }
+
+    private void mockHydrateSummaries() {
+        org.mockito.Mockito.doAnswer(invocation -> {
+            List<DishSummaryResponse> dishes = invocation.getArgument(0);
+            for (DishSummaryResponse dish : dishes) {
+                dish.setEffectiveVisibility(dish.getVisibility());
+                if (!"circle".equals(dish.getVisibility())) {
+                    dish.setEffectiveCircleIds(List.of());
+                }
+            }
+            return null;
+        }).when(menuVisibilitySupport).hydrateSummaries(any());
     }
 }

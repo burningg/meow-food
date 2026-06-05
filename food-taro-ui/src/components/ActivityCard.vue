@@ -26,9 +26,9 @@ defineEmits<{
 }>()
 
 const badgeText = computed(() => {
-  if (props.item.visibilityScope === 'circle') return '圈内共享'
-  if (props.item.visibilityScope === 'friends') return '好友可见'
-  return '公开'
+  if (props.item.visibilityScope === 'circle') return '指定圈子'
+  if (props.item.visibilityScope === 'friends') return '好友可见(旧数据)'
+  return '圈内公开'
 })
 </script>
 

@@ -23,6 +23,8 @@ public class DishDetailResponse {
     private Integer servings;
     private String visibility;
     private String effectiveVisibility;
+    private List<String> visibilityCircleIds = new ArrayList<>();
+    private List<String> effectiveCircleIds = new ArrayList<>();
     private Boolean isFeatured;
     private Integer status;
     private LocalDateTime createdAt;

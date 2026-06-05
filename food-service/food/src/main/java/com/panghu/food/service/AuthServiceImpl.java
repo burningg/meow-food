@@ -26,17 +26,20 @@ public class AuthServiceImpl implements AuthService {
     private final JwtTokenUtil jwtTokenUtil;
     private final WechatComponent wechatComponent;
     private final VipService vipService;
+    private final MenuVisibilitySupport menuVisibilitySupport;
 
     public AuthServiceImpl(UserAccountMapper userAccountMapper,
                            UserProfileSettingsMapper userProfileSettingsMapper,
                            JwtTokenUtil jwtTokenUtil,
                            WechatComponent wechatComponent,
-                           VipService vipService) {
+                           VipService vipService,
+                           MenuVisibilitySupport menuVisibilitySupport) {
         this.userAccountMapper = userAccountMapper;
         this.userProfileSettingsMapper = userProfileSettingsMapper;
         this.jwtTokenUtil = jwtTokenUtil;
         this.wechatComponent = wechatComponent;
         this.vipService = vipService;
+        this.menuVisibilitySupport = menuVisibilitySupport;
     }
 
     @Override
@@ -138,7 +141,7 @@ public class AuthServiceImpl implements AuthService {
         if (settings == null) {
             settings = new UserProfileSettings();
             settings.setUserId(userId);
-            settings.setDefaultMenuVisibility("friends");
+            settings.setDefaultMenuVisibility(VisibilityUtils.DEFAULT_PROFILE_VISIBILITY);
             settings.setAllowFriendFeed(true);
             userProfileSettingsMapper.insert(settings);
         }
@@ -154,6 +157,7 @@ public class AuthServiceImpl implements AuthService {
         response.setAvatar(user.getAvatar());
         response.setBio(user.getBio());
         response.setDefaultMenuVisibility(VisibilityUtils.normalizeProfileVisibility(settings.getDefaultMenuVisibility()));
+        response.setDefaultMenuCircleIds(menuVisibilitySupport.getDefaultMenuCircleIds(user.getId()));
         response.setVip(vipInfo.getVip());
         response.setVipLevel(vipInfo.getVipLevel());
         return response;

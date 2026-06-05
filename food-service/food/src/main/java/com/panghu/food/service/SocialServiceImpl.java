@@ -27,8 +27,10 @@ public class SocialServiceImpl implements SocialService {
     private final BuddyCircleMapper buddyCircleMapper;
     private final BuddyCircleMemberMapper buddyCircleMemberMapper;
     private final BuddyCircleInviteMapper buddyCircleInviteMapper;
+    private final UserDefaultVisibilityCircleMapper userDefaultVisibilityCircleMapper;
     private final AuthService authService;
     private final VipService vipService;
+    private final MenuVisibilitySupport menuVisibilitySupport;
 
     public SocialServiceImpl(UserAccountMapper userAccountMapper,
                              UserProfileSettingsMapper userProfileSettingsMapper,
@@ -41,7 +43,9 @@ public class SocialServiceImpl implements SocialService {
                              BuddyCircleMemberMapper buddyCircleMemberMapper,
                              BuddyCircleInviteMapper buddyCircleInviteMapper,
                              AuthService authService,
-                             VipService vipService) {
+                             VipService vipService,
+                             UserDefaultVisibilityCircleMapper userDefaultVisibilityCircleMapper,
+                             MenuVisibilitySupport menuVisibilitySupport) {
         this.userAccountMapper = userAccountMapper;
         this.userProfileSettingsMapper = userProfileSettingsMapper;
         this.friendRequestMapper = friendRequestMapper;
@@ -54,6 +58,8 @@ public class SocialServiceImpl implements SocialService {
         this.buddyCircleInviteMapper = buddyCircleInviteMapper;
         this.authService = authService;
         this.vipService = vipService;
+        this.userDefaultVisibilityCircleMapper = userDefaultVisibilityCircleMapper;
+        this.menuVisibilitySupport = menuVisibilitySupport;
     }
 
     @Override
@@ -64,7 +70,8 @@ public class SocialServiceImpl implements SocialService {
         response.setUser(authService.getCurrentUser());
         response.setStats(buildProfileStats(userId));
         response.setFriendPreview(getFriends().stream().limit(2).collect(Collectors.toList()));
-        response.setDefaultMenuVisibility(settings.getDefaultMenuVisibility());
+        response.setDefaultMenuVisibility(VisibilityUtils.normalizeProfileVisibility(settings.getDefaultMenuVisibility()));
+        response.setDefaultMenuCircleIds(menuVisibilitySupport.getDefaultMenuCircleIds(userId));
         response.setLastSelectedCircleId(settings.getLastSelectedCircleId());
         response.setVipInfo(vipService.getVipInfo(userId));
         return response;
@@ -107,8 +114,15 @@ public class SocialServiceImpl implements SocialService {
     public AuthUserResponse updateDefaultVisibility(ProfileVisibilityUpdateRequest request) {
         String userId = AuthContext.requireUserId();
         UserProfileSettings settings = getSettings(userId);
-        settings.setDefaultMenuVisibility(VisibilityUtils.normalizeProfileVisibility(request.getDefaultMenuVisibility()));
+        String visibility = VisibilityUtils.normalizeProfileVisibility(request.getDefaultMenuVisibility());
+        validateProfileVisibility(visibility);
+        List<String> circleIds = normalizeOwnedCircleIds(userId, request.getDefaultMenuCircleIds());
+        if (VisibilityUtils.VISIBILITY_CIRCLE.equals(visibility) && circleIds.isEmpty()) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "指定圈子权限至少选择一个圈子");
+        }
+        settings.setDefaultMenuVisibility(visibility);
         userProfileSettingsMapper.updateById(settings);
+        replaceDefaultVisibilityCircles(userId, VisibilityUtils.VISIBILITY_CIRCLE.equals(visibility) ? circleIds : Collections.emptyList());
         return authService.getCurrentUser();
     }
 
@@ -315,11 +329,11 @@ public class SocialServiceImpl implements SocialService {
         String currentUserId = AuthContext.requireUserId();
         FeedAccessibleMenusResponse response = new FeedAccessibleMenusResponse();
         List<DishSummaryResponse> all = dishMapper.selectAllActive();
+        menuVisibilitySupport.hydrateSummaries(all);
         response.setMenus(all.stream()
                 .filter(item -> !Objects.equals(item.getOwnerUserId(), currentUserId))
                 .filter(item -> canViewDish(item, currentUserId, false))
                 .limit(3)
-                .map(item -> withEffectiveVisibility(item, item.getOwnerUserId()))
                 .collect(Collectors.toList()));
         return response;
     }
@@ -333,9 +347,10 @@ public class SocialServiceImpl implements SocialService {
         }
         boolean friend = isFriend(currentUserId, targetUserId);
         boolean sameCircle = hasSharedCircle(currentUserId, targetUserId);
+        boolean viewerInAnyCircle = menuVisibilitySupport.isUserInAnyCircle(currentUserId);
         List<DishSummaryResponse> ownerMenus = dishMapper.selectByOwnerUserId(targetUserId);
+        menuVisibilitySupport.hydrateSummaries(ownerMenus);
         List<DishSummaryResponse> visible = ownerMenus.stream()
-                .map(item -> withEffectiveVisibility(item, targetUserId))
                 .filter(item -> canViewDish(item, currentUserId, false))
                 .collect(Collectors.toList());
         long privateCount = ownerMenus.size() - visible.size();
@@ -345,13 +360,11 @@ public class SocialServiceImpl implements SocialService {
         response.setFriend(friend);
         response.setSameCircle(sameCircle);
         response.setActionType(friend ? "invite-circle" : "friend-request");
-        response.setDescription(friend
-                ? "因为你们是好友，所以可以查看她开放的菜单。"
-                : "先成为好友，才能查看她对好友开放的菜单。");
+        response.setDescription(buildAccessDescription(viewerInAnyCircle, sameCircle, visible.size()));
         response.setAccessibleCount(visible.size());
         response.setPrivateCount(privateCount);
         response.setMenus(visible);
-        response.setAccessRules(buildAccessRules(friend));
+        response.setAccessRules(buildAccessRules(friend, sameCircle, viewerInAnyCircle));
         return response;
     }
 
@@ -461,10 +474,10 @@ public class SocialServiceImpl implements SocialService {
         List<DishSummaryResponse> result = new ArrayList<>();
         for (String memberId : memberIds) {
             List<DishSummaryResponse> dishes = dishMapper.selectByOwnerUserId(memberId);
+            menuVisibilitySupport.hydrateSummaries(dishes);
             for (DishSummaryResponse dish : dishes) {
-                DishSummaryResponse withVisibility = withEffectiveVisibility(dish, memberId);
-                if (canViewDish(withVisibility, currentUserId, true)) {
-                    result.add(withVisibility);
+                if (isVisibleInCircleContext(dish, currentUserId, circleId)) {
+                    result.add(dish);
                 }
             }
         }
@@ -497,17 +510,6 @@ public class SocialServiceImpl implements SocialService {
     public BuddyCircleDetailResponse acceptCircleShareInvitation(String circleId, String inviterUserId) {
         String currentUserId = AuthContext.requireUserId();
         requireCircleShareInviter(circleId, inviterUserId, currentUserId);
-        if (!isFriend(inviterUserId, currentUserId)) {
-            FriendRequest request = findLatestInvitationRequest(inviterUserId, currentUserId);
-            if (request == null || !"pending".equals(request.getStatus())) {
-                request = createInvitationRequest(inviterUserId, currentUserId);
-            }
-            request.setStatus("accepted");
-            request.setHandledAt(LocalDateTime.now());
-            friendRequestMapper.updateById(request);
-            createFriendRelation(inviterUserId, currentUserId);
-            createFriendRelation(currentUserId, inviterUserId);
-        }
         addCircleMember(circleId, inviterUserId, currentUserId);
         return getCircleDetail(circleId);
     }
@@ -522,29 +524,19 @@ public class SocialServiceImpl implements SocialService {
     }
 
     private long countVisibleMenusForViewer(String ownerUserId, String viewerUserId, boolean circleMode) {
-        return dishMapper.selectByOwnerUserId(ownerUserId).stream()
-                .map(item -> withEffectiveVisibility(item, ownerUserId))
+        List<DishSummaryResponse> dishes = dishMapper.selectByOwnerUserId(ownerUserId);
+        menuVisibilitySupport.hydrateSummaries(dishes);
+        return dishes.stream()
                 .filter(item -> canViewDish(item, viewerUserId, circleMode))
                 .count();
     }
 
     private boolean isFriend(String userId, String otherUserId) {
-        return friendRelationMapper.selectCount(new QueryWrapper<FriendRelation>()
-                .eq("user_id", userId)
-                .eq("friend_user_id", otherUserId)) > 0;
+        return menuVisibilitySupport.isFriend(userId, otherUserId);
     }
 
     private boolean hasSharedCircle(String userId, String otherUserId) {
-        List<String> myCircles = buddyCircleMemberMapper.selectList(new QueryWrapper<BuddyCircleMember>().eq("user_id", userId))
-                .stream()
-                .map(BuddyCircleMember::getCircleId)
-                .collect(Collectors.toList());
-        if (myCircles.isEmpty()) {
-            return false;
-        }
-        return buddyCircleMemberMapper.selectCount(new QueryWrapper<BuddyCircleMember>()
-                .eq("user_id", otherUserId)
-                .in("circle_id", myCircles)) > 0;
+        return menuVisibilitySupport.hasSharedCircle(userId, otherUserId);
     }
 
     private String resolveTargetUserId(String targetUserId, String targetAccount) {
@@ -638,10 +630,10 @@ public class SocialServiceImpl implements SocialService {
 
     private boolean matchesFilter(ActivityFeed feed, String filter) {
         if ("circle".equalsIgnoreCase(filter)) {
-            return "circle_shared".equals(feed.getActivityType());
+            return "circle".equals(feed.getVisibilityScope());
         }
         if ("new".equalsIgnoreCase(filter)) {
-            return !"circle_shared".equals(feed.getActivityType());
+            return !"circle".equals(feed.getVisibilityScope());
         }
         return true;
     }
@@ -651,7 +643,7 @@ public class SocialServiceImpl implements SocialService {
             return true;
         }
         if ("public".equals(feed.getVisibilityScope())) {
-            return isFriend(viewerUserId, feed.getActorUserId());
+            return menuVisibilitySupport.isUserInAnyCircle(viewerUserId);
         }
         if ("friends".equals(feed.getVisibilityScope())) {
             return isFriend(viewerUserId, feed.getActorUserId());
@@ -666,12 +658,13 @@ public class SocialServiceImpl implements SocialService {
 
     private FeedItemResponse toFeedItem(ActivityFeed feed) {
         UserAccount actor = userAccountMapper.selectById(feed.getActorUserId());
-        DishSummaryResponse dish = feed.getDishId() == null ? null : withEffectiveVisibility(
-                dishMapper.selectAllActive().stream()
-                        .filter(item -> item.getId().equals(feed.getDishId()))
-                        .findFirst()
-                        .orElse(null),
-                actor == null ? null : actor.getId());
+        DishSummaryResponse dish = feed.getDishId() == null ? null : dishMapper.selectAllActive().stream()
+                .filter(item -> item.getId().equals(feed.getDishId()))
+                .findFirst()
+                .orElse(null);
+        if (dish != null) {
+            menuVisibilitySupport.hydrateSummaries(List.of(dish));
+        }
         if (actor == null || dish == null) {
             return null;
         }
@@ -735,14 +728,25 @@ public class SocialServiceImpl implements SocialService {
         item.setNickname(user.getNickname());
         item.setAvatar(user.getAvatar());
         item.setBio(user.getBio());
-        item.setDefaultMenuVisibility(getSettings(user.getId()).getDefaultMenuVisibility());
+        item.setDefaultMenuVisibility(VisibilityUtils.normalizeProfileVisibility(getSettings(user.getId()).getDefaultMenuVisibility()));
+        item.setDefaultMenuCircleIds(menuVisibilitySupport.getDefaultMenuCircleIds(user.getId()));
         return item;
     }
 
-    private List<AccessRuleResponse> buildAccessRules(boolean friend) {
+    private List<AccessRuleResponse> buildAccessRules(boolean friend, boolean sameCircle, boolean viewerInAnyCircle) {
         List<AccessRuleResponse> rules = new ArrayList<>();
-        rules.add(rule("公开菜单", "任何人都能进入。", "可访问"));
-        rules.add(rule("好友可见菜单", friend ? "你可以直接收藏与查看详情。" : "需要先成为好友。", friend ? "已开放" : "待解锁"));
+        rules.add(rule(
+                "圈内公开菜单",
+                viewerInAnyCircle ? "只要你已加入任意圈子，就可以查看。" : "先加入任意圈子后才能查看。",
+                viewerInAnyCircle ? "已开放" : "待解锁"));
+        rules.add(rule(
+                "指定圈子菜单",
+                sameCircle ? "你们有共享圈子，命中的圈子菜单会开放。" : "只有被指定的圈子成员可见。",
+                sameCircle ? "按圈子开放" : "按圈子锁定"));
+        rules.add(rule(
+                "好友可见菜单(旧数据)",
+                friend ? "旧数据中的好友权限仍然对你开放。" : "仅历史好友权限数据继续兼容。",
+                friend ? "已开放" : "旧数据兼容"));
         rules.add(rule("私密菜单", "仅菜单主人本人可见。", "锁定"));
         return rules;
     }
@@ -871,9 +875,12 @@ public class SocialServiceImpl implements SocialService {
     private long countCircleActiveMenus(String circleId) {
         return buddyCircleMemberMapper.selectList(new QueryWrapper<BuddyCircleMember>().eq("circle_id", circleId))
                 .stream()
-                .mapToLong(member -> dishMapper.selectCount(new QueryWrapper<Dish>()
-                        .eq("owner_user_id", member.getUserId())
-                        .eq("status", 1)))
+                .map(BuddyCircleMember::getUserId)
+                .mapToLong(memberId -> {
+                    List<DishSummaryResponse> dishes = dishMapper.selectByOwnerUserId(memberId);
+                    menuVisibilitySupport.hydrateSummaries(dishes);
+                    return dishes.stream().filter(dish -> isSharedWithCircle(dish, circleId)).count();
+                })
                 .sum();
     }
 
@@ -904,7 +911,7 @@ public class SocialServiceImpl implements SocialService {
         if (settings == null) {
             settings = new UserProfileSettings();
             settings.setUserId(userId);
-            settings.setDefaultMenuVisibility("friends");
+            settings.setDefaultMenuVisibility(VisibilityUtils.DEFAULT_PROFILE_VISIBILITY);
             settings.setAllowFriendFeed(true);
             userProfileSettingsMapper.insert(settings);
         }
@@ -912,34 +919,94 @@ public class SocialServiceImpl implements SocialService {
     }
 
     private DishSummaryResponse withEffectiveVisibility(DishSummaryResponse item, String ownerUserId) {
-        if (item == null || ownerUserId == null) {
+        if (item == null) {
             return item;
         }
-        item.setEffectiveVisibility(VisibilityUtils.effectiveVisibility(item.getVisibility(), getSettings(ownerUserId).getDefaultMenuVisibility()));
+        menuVisibilitySupport.hydrateSummaries(List.of(item));
         return item;
     }
 
     private boolean canViewDish(DishSummaryResponse dish, String viewerUserId, boolean circleMode) {
+        return menuVisibilitySupport.canViewDish(dish, viewerUserId, circleMode);
+    }
+
+    private boolean isVisibleInCircleContext(DishSummaryResponse dish, String viewerUserId, String circleId) {
         if (dish == null) {
             return false;
         }
         if (Objects.equals(dish.getOwnerUserId(), viewerUserId)) {
             return true;
         }
-        String effectiveVisibility = dish.getEffectiveVisibility();
-        if (effectiveVisibility == null) {
-            effectiveVisibility = VisibilityUtils.effectiveVisibility(dish.getVisibility(), getSettings(dish.getOwnerUserId()).getDefaultMenuVisibility());
-            dish.setEffectiveVisibility(effectiveVisibility);
-        }
-        if ("public".equals(effectiveVisibility)) {
+        if (VisibilityUtils.VISIBILITY_PUBLIC.equals(dish.getEffectiveVisibility())) {
             return true;
         }
-        if ("private".equals(effectiveVisibility)) {
+        if (VisibilityUtils.VISIBILITY_CIRCLE.equals(dish.getEffectiveVisibility())) {
+            return dish.getEffectiveCircleIds().contains(circleId);
+        }
+        return canViewDish(dish, viewerUserId, true);
+    }
+
+    private boolean isSharedWithCircle(DishSummaryResponse dish, String circleId) {
+        if (dish == null) {
             return false;
         }
-        if ("friends".equals(effectiveVisibility)) {
-            return isFriend(viewerUserId, dish.getOwnerUserId()) || (circleMode && hasSharedCircle(viewerUserId, dish.getOwnerUserId()));
+        if (VisibilityUtils.VISIBILITY_PUBLIC.equals(dish.getEffectiveVisibility())) {
+            return true;
         }
-        return false;
+        if (VisibilityUtils.VISIBILITY_CIRCLE.equals(dish.getEffectiveVisibility())) {
+            return dish.getEffectiveCircleIds().contains(circleId);
+        }
+        return VisibilityUtils.VISIBILITY_FRIENDS.equals(dish.getEffectiveVisibility());
+    }
+
+    private String buildAccessDescription(boolean viewerInAnyCircle, boolean sameCircle, int accessibleCount) {
+        if (accessibleCount > 0) {
+            return "以下是你当前有权限访问的菜单。";
+        }
+        if (!viewerInAnyCircle) {
+            return "先加入任意圈子，才能查看圈内公开的菜单。";
+        }
+        if (sameCircle) {
+            return "你们虽然在共享圈子里，但她的指定圈子菜单未命中当前圈子。";
+        }
+        return "目前你只能查看圈内公开菜单，或被明确开放到你所在圈子的菜单。";
+    }
+
+    private void validateProfileVisibility(String visibility) {
+        if (!VisibilityUtils.isSupportedProfileVisibility(visibility) || VisibilityUtils.DISH_VISIBILITY_INHERIT.equals(visibility)) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "无效的默认菜单权限");
+        }
+    }
+
+    private List<String> normalizeOwnedCircleIds(String userId, List<String> circleIds) {
+        List<String> normalized = circleIds == null
+                ? Collections.emptyList()
+                : circleIds.stream()
+                .filter(Objects::nonNull)
+                .map(String::trim)
+                .filter(value -> !value.isEmpty())
+                .distinct()
+                .collect(Collectors.toList());
+        if (normalized.isEmpty()) {
+            return normalized;
+        }
+        long ownedCount = buddyCircleMemberMapper.selectCount(new QueryWrapper<BuddyCircleMember>()
+                .eq("user_id", userId)
+                .in("circle_id", normalized));
+        if (ownedCount != normalized.size()) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "指定圈子里包含你未加入的圈子");
+        }
+        return normalized;
+    }
+
+    private void replaceDefaultVisibilityCircles(String userId, List<String> circleIds) {
+        userDefaultVisibilityCircleMapper.delete(new QueryWrapper<UserDefaultVisibilityCircle>().eq("user_id", userId));
+        for (String circleId : circleIds) {
+            UserDefaultVisibilityCircle relation = new UserDefaultVisibilityCircle();
+            relation.setUserId(userId);
+            relation.setCircleId(circleId);
+            relation.setCreatedAt(LocalDateTime.now());
+            userDefaultVisibilityCircleMapper.insert(relation);
+        }
     }
 }

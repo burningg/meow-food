@@ -1,6 +1,6 @@
 import { http } from './http'
 
-export type MenuVisibility = 'inherit' | 'public' | 'friends' | 'private'
+export type MenuVisibility = 'inherit' | 'public' | 'private' | 'circle' | 'friends'
 
 export interface AuthUser {
   id: string
@@ -9,6 +9,7 @@ export interface AuthUser {
   avatar: string
   bio: string
   defaultMenuVisibility: Exclude<MenuVisibility, 'inherit'>
+  defaultMenuCircleIds: string[]
   vip: boolean
   vipLevel?: string
 }

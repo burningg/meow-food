@@ -203,7 +203,7 @@ function avatarToneClass(index: number) {
 function simpleFriendMeta(friend: FriendItem, index: number) {
   if (friend.bio?.trim()) return friend.bio.trim()
   const fallback = [
-    `好友可见 ${friend.visibleMenuCount} 份菜单`,
+    `你当前可见 ${friend.visibleMenuCount} 份菜单`,
     `共同收藏 ${Math.max(friend.sharedMenuCount, 1)} 道菜`,
     `一起吃过 ${Math.max(friend.sharedMenuCount, 1)} 次`,
   ]

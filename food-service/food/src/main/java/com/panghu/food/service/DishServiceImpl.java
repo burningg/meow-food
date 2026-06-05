@@ -10,20 +10,18 @@ import com.panghu.food.dto.DishUpsertRequest;
 import com.panghu.food.dto.IngredientItem;
 import com.panghu.food.dto.StepItem;
 import com.panghu.food.entity.ActivityFeed;
+import com.panghu.food.entity.BuddyCircleMember;
 import com.panghu.food.entity.Dish;
 import com.panghu.food.entity.DishIngredient;
 import com.panghu.food.entity.DishStep;
-import com.panghu.food.entity.BuddyCircleMember;
-import com.panghu.food.entity.FriendRelation;
-import com.panghu.food.entity.UserProfileSettings;
+import com.panghu.food.entity.DishVisibilityCircle;
 import com.panghu.food.exception.ApiException;
 import com.panghu.food.mapper.ActivityFeedMapper;
 import com.panghu.food.mapper.BuddyCircleMemberMapper;
 import com.panghu.food.mapper.DishMapper;
 import com.panghu.food.mapper.DishIngredientMapper;
+import com.panghu.food.mapper.DishVisibilityCircleMapper;
 import com.panghu.food.mapper.DishStepMapper;
-import com.panghu.food.mapper.FriendRelationMapper;
-import com.panghu.food.mapper.UserProfileSettingsMapper;
 import com.panghu.food.utils.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -62,22 +60,22 @@ public class DishServiceImpl implements DishService {
     private DishStepMapper dishStepMapper;
 
     @Autowired
-    private UserProfileSettingsMapper userProfileSettingsMapper;
-
-    @Autowired
-    private FriendRelationMapper friendRelationMapper;
-
-    @Autowired
     private ActivityFeedMapper activityFeedMapper;
 
     @Autowired
     private BuddyCircleMemberMapper buddyCircleMemberMapper;
 
     @Autowired
+    private DishVisibilityCircleMapper dishVisibilityCircleMapper;
+
+    @Autowired
     private VipService vipService;
 
     @Autowired
     private DishAiService dishAiService;
+
+    @Autowired
+    private MenuVisibilitySupport menuVisibilitySupport;
 
     @Override
     public List<DishSummaryResponse> getDishes(String categoryId, String ownerUserId, String scope, String circleId) {
@@ -93,8 +91,8 @@ public class DishServiceImpl implements DishService {
         } else {
             dishes = dishMapper.selectAllActive();
         }
+        menuVisibilitySupport.hydrateSummaries(dishes);
         List<DishSummaryResponse> visibleDishes = dishes.stream()
-                .map(this::applyEffectiveVisibility)
                 .filter(item -> categoryId == null || categoryId.equals(item.getCategoryId()))
                 .filter(item -> canViewDish(item, currentUserId, "circle".equals(scope)))
                 .collect(Collectors.toList());
@@ -108,6 +106,7 @@ public class DishServiceImpl implements DishService {
         List<DishSummaryResponse> source = categoryId == null || categoryId.trim().isEmpty()
                 ? dishMapper.selectAllActive()
                 : dishMapper.selectByCategoryId(categoryId, null);
+        menuVisibilitySupport.hydrateSummaries(source);
         return filterHomeDishes(source, currentUserId, item -> Boolean.TRUE.equals(item.getIsFeatured()));
     }
 
@@ -117,9 +116,8 @@ public class DishServiceImpl implements DishService {
         if (currentUserId == null) {
             return new ArrayList<>();
         }
-        List<DishSummaryResponse> recentDishes = dishMapper.selectByOwnerUserId(currentUserId).stream()
-                .map(this::applyEffectiveVisibility)
-                .collect(Collectors.toList());
+        List<DishSummaryResponse> recentDishes = dishMapper.selectByOwnerUserId(currentUserId);
+        menuVisibilitySupport.hydrateSummaries(recentDishes);
         hydrateIngredientNames(recentDishes);
         return recentDishes;
     }
@@ -130,7 +128,7 @@ public class DishServiceImpl implements DishService {
         if (detail == null) {
             throw new ApiException(HttpStatus.NOT_FOUND, "菜品不存在");
         }
-        applyEffectiveVisibility(detail);
+        menuVisibilitySupport.hydrateDetail(detail);
         if (!canViewDish(detail, AuthContext.getUserId(), false)) {
             throw new ApiException(HttpStatus.FORBIDDEN, "暂无访问权限");
         }
@@ -162,15 +160,17 @@ public class DishServiceImpl implements DishService {
     @Transactional
     public DishDetailResponse createDish(DishUpsertRequest dishCreateDTO) {
         String currentUserId = AuthContext.requireUserId();
+        validateDishRequest(currentUserId, dishCreateDTO);
         Dish dish = new Dish();
-        applyDishRequest(dish, dishCreateDTO);
+        applyDishRequest(currentUserId, dish, dishCreateDTO);
         LocalDateTime now = LocalDateTime.now();
         dish.setOwnerUserId(currentUserId);
         dish.setCreatedAt(now);
         dish.setUpdatedAt(now);
         dishMapper.insert(dish);
+        replaceVisibilityCircles(dish.getId(), dishCreateDTO);
         replaceChildren(dish.getId(), dishCreateDTO);
-        createActivity(currentUserId, dish.getId(), "dish_created", resolveActivityScope(dish.getVisibility(), currentUserId));
+        createActivities(currentUserId, dish.getId(), "dish_created");
         return getDishById(dish.getId());
     }
 
@@ -185,11 +185,13 @@ public class DishServiceImpl implements DishService {
         if (!Objects.equals(dish.getOwnerUserId(), currentUserId)) {
             throw new ApiException(HttpStatus.FORBIDDEN, "只能编辑自己的菜谱");
         }
-        applyDishRequest(dish, dishUpdateDTO);
+        validateDishRequest(currentUserId, dishUpdateDTO);
+        applyDishRequest(currentUserId, dish, dishUpdateDTO);
         dish.setUpdatedAt(LocalDateTime.now());
         dishMapper.updateById(dish);
+        replaceVisibilityCircles(id, dishUpdateDTO);
         replaceChildren(id, dishUpdateDTO);
-        createActivity(currentUserId, dish.getId(), "dish_updated", resolveActivityScope(dish.getVisibility(), currentUserId));
+        createActivities(currentUserId, dish.getId(), "dish_updated");
         return getDishById(id);
     }
 
@@ -216,12 +218,13 @@ public class DishServiceImpl implements DishService {
         if (!Objects.equals(dish.getOwnerUserId(), currentUserId)) {
             throw new ApiException(HttpStatus.FORBIDDEN, "只能删除自己的菜谱");
         }
+        dishVisibilityCircleMapper.delete(new QueryWrapper<DishVisibilityCircle>().eq("dish_id", id));
         dishIngredientMapper.deleteByDishId(id);
         dishStepMapper.deleteByDishId(id);
         dishMapper.deleteById(id);
     }
 
-    private void applyDishRequest(Dish dish, DishUpsertRequest request) {
+    private void applyDishRequest(String userId, Dish dish, DishUpsertRequest request) {
         dish.setName(request.getName());
         dish.setImage(request.getImage());
         dish.setDescription(request.getDescription());
@@ -229,7 +232,7 @@ public class DishServiceImpl implements DishService {
         dish.setCookTimeMinutes(request.getCookTimeMinutes());
         dish.setDifficulty(request.getDifficulty());
         dish.setServings(request.getServings());
-        dish.setVisibility(VisibilityUtils.normalizeDishVisibility(request.getVisibility()));
+        dish.setVisibility(resolveRequestedVisibility(userId, request));
         dish.setStatus(1);
     }
 
@@ -267,6 +270,22 @@ public class DishServiceImpl implements DishService {
         }
     }
 
+    private void replaceVisibilityCircles(String dishId, DishUpsertRequest request) {
+        dishVisibilityCircleMapper.delete(new QueryWrapper<DishVisibilityCircle>().eq("dish_id", dishId));
+        String userId = AuthContext.requireUserId();
+        String visibility = resolveRequestedVisibility(userId, request);
+        if (!VisibilityUtils.VISIBILITY_CIRCLE.equals(visibility)) {
+            return;
+        }
+        for (String circleId : resolveRequestedCircleIds(userId, request, visibility)) {
+            DishVisibilityCircle relation = new DishVisibilityCircle();
+            relation.setDishId(dishId);
+            relation.setCircleId(circleId);
+            relation.setCreatedAt(LocalDateTime.now());
+            dishVisibilityCircleMapper.insert(relation);
+        }
+    }
+
     private List<IngredientItem> toIngredientItems(List<DishIngredient> ingredients) {
         List<IngredientItem> result = new ArrayList<>();
         for (DishIngredient ingredient : ingredients) {
@@ -294,17 +313,11 @@ public class DishServiceImpl implements DishService {
         return value == null || value.trim().isEmpty();
     }
 
-    private String resolveDefaultVisibility(String ownerUserId) {
-        UserProfileSettings settings = userProfileSettingsMapper.selectById(ownerUserId);
-        return settings == null ? "friends" : VisibilityUtils.normalizeProfileVisibility(settings.getDefaultMenuVisibility());
-    }
-
     private List<DishSummaryResponse> filterHomeDishes(
             List<DishSummaryResponse> source,
             String currentUserId,
             Predicate<DishSummaryResponse> extraFilter) {
         List<DishSummaryResponse> dishes = source.stream()
-                .map(this::applyEffectiveVisibility)
                 .filter(extraFilter)
                 .filter(item -> canViewDish(item, currentUserId, false))
                 .limit(HOME_FEATURED_LIST_LIMIT)
@@ -337,109 +350,94 @@ public class DishServiceImpl implements DishService {
         }
     }
 
-    private DishSummaryResponse applyEffectiveVisibility(DishSummaryResponse item) {
-        if (item != null) {
-            item.setEffectiveVisibility(VisibilityUtils.effectiveVisibility(item.getVisibility(), resolveDefaultVisibility(item.getOwnerUserId())));
-        }
-        return item;
-    }
-
-    private DishDetailResponse applyEffectiveVisibility(DishDetailResponse item) {
-        if (item != null) {
-            item.setEffectiveVisibility(VisibilityUtils.effectiveVisibility(item.getVisibility(), resolveDefaultVisibility(item.getOwnerUserId())));
-        }
-        return item;
-    }
-
-    private boolean isFriend(String currentUserId, String ownerUserId) {
-        if (currentUserId == null) {
-            return false;
-        }
-        return friendRelationMapper.selectCount(new QueryWrapper<FriendRelation>()
-                .eq("user_id", currentUserId)
-                .eq("friend_user_id", ownerUserId)) > 0;
-    }
-
     private boolean canViewDish(DishSummaryResponse dish, String viewerUserId, boolean circleMode) {
-        if (dish == null) {
-            return false;
-        }
-        if (viewerUserId != null && Objects.equals(viewerUserId, dish.getOwnerUserId())) {
-            return true;
-        }
-        String visibility = dish.getEffectiveVisibility();
-        if ("public".equals(visibility)) {
-            return true;
-        }
-        if ("private".equals(visibility)) {
-            return false;
-        }
-        if ("friends".equals(visibility)) {
-            return viewerUserId != null
-                    && (isFriend(viewerUserId, dish.getOwnerUserId())
-                    || (circleMode && hasSharedCircle(viewerUserId, dish.getOwnerUserId())));
-        }
-        return false;
+        return menuVisibilitySupport.canViewDish(dish, viewerUserId, circleMode);
     }
 
     private boolean canViewDish(DishDetailResponse dish, String viewerUserId, boolean circleMode) {
-        if (dish == null) {
-            return false;
-        }
-        if (viewerUserId != null && Objects.equals(viewerUserId, dish.getOwnerUserId())) {
-            return true;
-        }
-        String visibility = dish.getEffectiveVisibility();
-        if ("public".equals(visibility)) {
-            return true;
-        }
-        if ("private".equals(visibility)) {
-            return false;
-        }
-        if ("friends".equals(visibility)) {
-            return viewerUserId != null
-                    && (isFriend(viewerUserId, dish.getOwnerUserId()) || hasSharedCircle(viewerUserId, dish.getOwnerUserId()));
-        }
-        return false;
+        return menuVisibilitySupport.canViewDish(dish, viewerUserId, circleMode);
     }
 
-    private boolean hasSharedCircle(String viewerUserId, String ownerUserId) {
-        List<String> viewerCircleIds = buddyCircleMemberMapper.selectList(new QueryWrapper<BuddyCircleMember>()
-                        .eq("user_id", viewerUserId))
-                .stream()
-                .map(BuddyCircleMember::getCircleId)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-        if (viewerCircleIds.isEmpty()) {
-            return false;
-        }
-        return buddyCircleMemberMapper.selectCount(new QueryWrapper<BuddyCircleMember>()
-                .eq("user_id", ownerUserId)
-                .in("circle_id", viewerCircleIds)) > 0;
-    }
-
-    private void createActivity(String userId, String dishId, String type, String visibilityScope) {
-        if ("private".equals(visibilityScope)) {
+    private void createActivities(String userId, String dishId, String type) {
+        MenuVisibilitySupport.ResolvedDishVisibility resolved = menuVisibilitySupport.resolveDish(
+                userId,
+                dishMapper.selectById(dishId).getVisibility(),
+                dishId);
+        if (VisibilityUtils.VISIBILITY_PRIVATE.equals(resolved.effectiveVisibility())) {
             return;
         }
+        if (VisibilityUtils.VISIBILITY_CIRCLE.equals(resolved.effectiveVisibility())) {
+            for (String circleId : resolved.effectiveCircleIds()) {
+                createActivity(userId, dishId, type, VisibilityUtils.VISIBILITY_CIRCLE, circleId);
+            }
+            return;
+        }
+        createActivity(userId, dishId, type, resolved.effectiveVisibility(), null);
+    }
+
+    private void createActivity(String userId, String dishId, String type, String visibilityScope, String circleId) {
         ActivityFeed feed = new ActivityFeed();
         feed.setActorUserId(userId);
         feed.setDishId(dishId);
         feed.setActivityType(type);
         feed.setVisibilityScope(visibilityScope);
+        feed.setCircleId(circleId);
         feed.setCreatedAt(LocalDateTime.now());
         activityFeedMapper.insert(feed);
     }
 
-    private String resolveActivityScope(String dishVisibility, String ownerUserId) {
-        String effectiveVisibility = VisibilityUtils.effectiveVisibility(dishVisibility, resolveDefaultVisibility(ownerUserId));
-        if ("private".equals(effectiveVisibility)) {
-            return "private";
+    private void validateDishRequest(String userId, DishUpsertRequest request) {
+        String visibility = resolveRequestedVisibility(userId, request);
+        if (!VisibilityUtils.isSupportedDishVisibility(visibility)) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "无效的菜单权限");
         }
-        if ("friends".equals(effectiveVisibility)) {
-            return "friends";
+        if (VisibilityUtils.DISH_VISIBILITY_INHERIT.equals(visibility)) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "菜单权限必须是具体值");
         }
-        return "public";
+        List<String> circleIds = resolveRequestedCircleIds(userId, request, visibility);
+        if (VisibilityUtils.VISIBILITY_CIRCLE.equals(visibility) && circleIds.isEmpty()) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "指定圈子权限至少选择一个圈子");
+        }
+    }
+
+    private String resolveRequestedVisibility(String userId, DishUpsertRequest request) {
+        String requestedVisibility = VisibilityUtils.normalizeDishVisibility(request == null ? null : request.getVisibility());
+        if (VisibilityUtils.DISH_VISIBILITY_INHERIT.equals(requestedVisibility)) {
+            return menuVisibilitySupport.resolveDefaultVisibility(userId);
+        }
+        return requestedVisibility;
+    }
+
+    private List<String> resolveRequestedCircleIds(String userId, DishUpsertRequest request, String resolvedVisibility) {
+        if (!VisibilityUtils.VISIBILITY_CIRCLE.equals(resolvedVisibility)) {
+            return Collections.emptyList();
+        }
+        String requestedVisibility = VisibilityUtils.normalizeDishVisibility(request == null ? null : request.getVisibility());
+        if (VisibilityUtils.DISH_VISIBILITY_INHERIT.equals(requestedVisibility)) {
+            return menuVisibilitySupport.getDefaultMenuCircleIds(userId);
+        }
+        return normalizedOwnedCircleIds(userId, request == null ? null : request.getVisibilityCircleIds());
+    }
+
+    private List<String> normalizedOwnedCircleIds(String userId, List<String> circleIds) {
+        List<String> normalized = circleIds == null
+                ? Collections.emptyList()
+                : circleIds.stream()
+                .filter(Objects::nonNull)
+                .map(String::trim)
+                .filter(value -> !value.isEmpty())
+                .distinct()
+                .collect(Collectors.toList());
+        if (normalized.isEmpty()) {
+            return normalized;
+        }
+        long count = buddyCircleMemberMapper.selectCount(new QueryWrapper<BuddyCircleMember>()
+                .eq("user_id", userId)
+                .in("circle_id", normalized));
+        if (count != normalized.size()) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "指定圈子里包含你未加入的圈子");
+        }
+        return normalized;
     }
 
 }
