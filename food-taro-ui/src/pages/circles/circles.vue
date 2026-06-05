@@ -140,52 +140,52 @@
             <text>新建圈子</text>
           </button>
         </section>
-
-        <view
-          v-if="switcherVisible"
-          class="circle-switch-overlay"
-          @tap="closeCircleSwitcher"
-        >
-          <section class="circle-switch-sheet" @tap.stop>
-            <view class="sheet-handle"></view>
-            <view class="sheet-head">
-              <view>
-                <text class="eyebrow">切换圈子</text>
-                <text class="sheet-title">选择搭子圈</text>
-              </view>
-              <button class="sheet-close" @tap="closeCircleSwitcher">×</button>
-            </view>
-            <view class="circle-option-list">
-              <button
-                v-for="circle in presentedCircles"
-                :key="circle.id"
-                :class="[
-                  'circle-option',
-                  { active: circle.id === activeCircleId },
-                ]"
-                @tap="selectCircle(circle.id)"
-              >
-                <text class="circle-option-mark">{{
-                  circle.name.slice(0, 1)
-                }}</text>
-                <view class="circle-option-copy">
-                  <text class="strong">{{ circle.name }}</text>
-                  <text class="muted"
-                    >{{ circle.memberCount }}人 ·
-                    {{ circle.sharedMenuCount }}菜谱</text
-                  >
-                </view>
-                <text class="circle-option-state">{{
-                  circle.id === activeCircleId ? "当前" : "切换"
-                }}</text>
-              </button>
-            </view>
-          </section>
-        </view>
       </view>
     </PullRefreshPage>
 
     <AppTabBar active="circles" />
+
+    <view
+      v-if="switcherVisible"
+      class="circle-switch-overlay"
+      @tap="closeCircleSwitcher"
+    >
+      <section class="circle-switch-sheet" @tap.stop>
+        <view class="sheet-handle"></view>
+        <view class="sheet-head">
+          <view>
+            <text class="eyebrow">切换圈子</text>
+            <text class="sheet-title">选择搭子圈</text>
+          </view>
+          <button class="sheet-close" @tap="closeCircleSwitcher">×</button>
+        </view>
+        <view class="circle-option-list">
+          <button
+            v-for="circle in presentedCircles"
+            :key="circle.id"
+            :class="[
+              'circle-option',
+              { active: circle.id === activeCircleId },
+            ]"
+            @tap="selectCircle(circle.id)"
+          >
+            <text class="circle-option-mark">{{
+              circle.name.slice(0, 1)
+            }}</text>
+            <view class="circle-option-copy">
+              <text class="strong">{{ circle.name }}</text>
+              <text class="muted"
+                >{{ circle.memberCount }}人 ·
+                {{ circle.sharedMenuCount }}菜谱</text
+              >
+            </view>
+            <text class="circle-option-state">{{
+              circle.id === activeCircleId ? "当前" : "切换"
+            }}</text>
+          </button>
+        </view>
+      </section>
+    </view>
   </view>
 </template>
 
@@ -743,7 +743,7 @@ function getInitial(member: BuddyCircleMember) {
 .circle-switch-overlay {
   position: fixed;
   inset: 0;
-  z-index: 30;
+  z-index: 60;
   display: flex;
   align-items: flex-end;
   background: rgba(0, 0, 0, 0.35);
@@ -751,6 +751,8 @@ function getInitial(member: BuddyCircleMember) {
 
 .circle-switch-sheet {
   width: 100%;
+  max-height: calc(100vh - 88px);
+  overflow-y: auto;
   border-radius: 24px 24px 0 0;
   background: #fff;
   padding: 12px 20px 24px;

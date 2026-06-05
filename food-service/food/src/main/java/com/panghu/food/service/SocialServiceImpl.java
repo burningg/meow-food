@@ -934,9 +934,6 @@ public class SocialServiceImpl implements SocialService {
         if (dish == null) {
             return false;
         }
-        if (Objects.equals(dish.getOwnerUserId(), viewerUserId)) {
-            return true;
-        }
         if (VisibilityUtils.VISIBILITY_PUBLIC.equals(dish.getEffectiveVisibility())) {
             return true;
         }

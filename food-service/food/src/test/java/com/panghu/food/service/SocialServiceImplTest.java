@@ -217,6 +217,23 @@ class SocialServiceImplTest {
     }
 
     @Test
+    void getCircleMenusHidesOwnersDishWhenCurrentCircleIsNotSelected() {
+        AuthContext.setUserId("owner-1");
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(1L);
+        when(buddyCircleMemberMapper.selectList(any())).thenReturn(List.of(circleMember("circle-1", "owner-1")));
+        when(dishMapper.selectByOwnerUserId("owner-1")).thenReturn(List.of(
+                circleDish("dish-current-circle", "owner-1", LocalDateTime.of(2024, 1, 2, 12, 0), "circle", "circle-1"),
+                circleDish("dish-other-circle", "owner-1", LocalDateTime.of(2024, 1, 3, 12, 0), "circle", "circle-2")));
+        mockHydrateSummaries();
+        when(dishIngredientMapper.selectList(any())).thenReturn(List.of());
+
+        List<DishSummaryResponse> result = socialService.getCircleMenus("circle-1");
+
+        assertThat(result).extracting(DishSummaryResponse::getId).containsExactly("dish-current-circle");
+    }
+
+    @Test
     void acceptCircleShareInvitationAddsMemberWithoutCreatingFriendship() {
         AuthContext.setUserId("target");
         when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
