@@ -3,7 +3,6 @@
     <section class="hero-shell">
       <SmartImage :src="dish.image" variant="hero" class-name="hero-image" />
       <view class="hero-overlay">
-        <button class="icon-button" @tap="goBack">‹</button>
         <button v-if="isOwner" class="icon-button text-button" @tap="goEdit">编辑</button>
       </view>
     </section>

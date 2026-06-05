@@ -2,7 +2,6 @@
   <view class="page-shell circle-members-page">
     <view class="circle-members-content">
       <section class="circle-members-top-card">
-        <button class="nav-shell" @tap="goBack({ name: 'circles', params: { id: circleId } })">‹</button>
         <view class="circle-members-title-stack">
           <text class="eyebrow">搭子圈成员</text>
           <text class="title">圈内成员</text>
