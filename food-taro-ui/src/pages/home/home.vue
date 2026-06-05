@@ -6,7 +6,12 @@
           <view>
             <text class="eyebrow">下午好，{{ displayName }}</text>
           </view>
-          <button v-if="authStore.isLoggedIn" class="avatar" @tap="goToProfile">{{ displayName.slice(0, 1) }}</button>
+          <view v-if="authStore.isLoggedIn" class="hero-right">
+            <view v-if="vipChipLabel" class="vip-chip">
+              <text class="vip-chip-label">{{ vipChipLabel }}</text>
+            </view>
+            <button class="avatar" @tap="goToProfile">{{ displayName.slice(0, 1) }}</button>
+          </view>
         </section>
 
         <section class="search-bar">
@@ -93,6 +98,7 @@ const selectedCategoryId = ref('')
 const categoryScrollLeft = ref(0)
 const searchKeyword = ref('')
 const displayName = computed(() => authStore.user?.nickname ?? 'meow')
+const vipChipLabel = computed(() => formatVipLabel(authStore.user?.vip ? authStore.user?.vipLevel : undefined))
 const showEmptyLoginButton = computed(() => !authStore.isLoggedIn && !searchKeyword.value.trim() && !homeData.value.recentDishes.length)
 const showEmptyAddButton = computed(() => authStore.isLoggedIn && !searchKeyword.value.trim() && !homeData.value.recentDishes.length)
 const filteredDishes = computed<VisibleDish[]>(() => {
@@ -193,6 +199,15 @@ async function centerSelectedCategory() {
 
   categoryScrollLeft.value = Math.min(Math.max(nextScrollLeft, 0), maxScrollLeft)
 }
+
+function formatVipLabel(level?: string) {
+  if (!level) return ''
+  const normalized = level.trim().replace(/\s+/g, ' ')
+  if (/^vip\b/i.test(normalized)) {
+    return normalized.replace(/\s+/g, '·')
+  }
+  return 'VIP'
+}
 </script>
 
 <style>
@@ -218,6 +233,12 @@ async function centerSelectedCategory() {
   margin-bottom: 18px;
 }
 
+.hero-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .eyebrow {
   color: #8b8b8b;
   font-size: var(--text-sm);
@@ -233,6 +254,33 @@ async function centerSelectedCategory() {
   background: #7a9e7e;
   color: #fff;
   font-weight: 800;
+}
+
+.vip-chip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #6e4317 0%, #b97a2a 100%);
+  box-shadow: 0 6px 14px rgba(164, 111, 31, 0.12);
+  padding: 5px 9px;
+}
+
+.vip-chip-icon,
+.vip-chip-label {
+  color: #fff3d6;
+}
+
+.vip-chip-icon {
+  font-size: 10px;
+  line-height: 1;
+}
+
+.vip-chip-label {
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .search-bar {
@@ -295,6 +343,7 @@ async function centerSelectedCategory() {
 
 .recent-row {
   display: grid;
+  margin-top: 18px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }

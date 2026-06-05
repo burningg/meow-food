@@ -13,7 +13,9 @@
                   <text class="hero-title-suffix"> 的美味空间</text>
                 </view>
                 <text class="bio">{{ displayBio }}</text>
-                <text v-if="vipChipLabel" class="vip-chip">{{ vipChipLabel }}</text>
+                <view v-if="vipChipLabel" class="vip-chip">
+                  <text class="vip-chip-label">{{ vipChipLabel }}</text>
+                </view>
               </view>
             </view>
             <button class="ghost-circle" @tap="openEditProfilePage">✎</button>
@@ -150,7 +152,12 @@ function logout() {
 
 function formatVipLabel(level?: string) {
   if (!level) return ''
-  return level.replace(/\s+/g, '·')
+  const normalized = level.trim().replace(/\s+/g, ' ')
+  if (/^vip\b/i.test(normalized)) {
+    return normalized.replace(/\s+/g, '·')
+  }
+  // return `VIP·${normalized}`
+  return `VIP`
 }
 </script>
 
@@ -276,16 +283,29 @@ function formatVipLabel(level?: string) {
 }
 
 .vip-chip {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  gap: 4px;
   flex-shrink: 0;
   border-radius: 999px;
   background: linear-gradient(135deg, #6e4317 0%, #b97a2a 100%);
   box-shadow: 0 6px 14px rgba(164, 111, 31, 0.12);
-  color: #fff3d6;
   padding: 5px 9px;
+}
+
+.vip-chip-icon,
+.vip-chip-label {
+  color: #fff3d6;
+}
+
+.vip-chip-icon {
   font-size: 10px;
+  line-height: 1;
+}
+
+.vip-chip-label {
   font-weight: 800;
+  font-size: 10px;
   line-height: 1;
 }
 

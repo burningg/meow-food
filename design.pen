@@ -567,25 +567,91 @@
                 },
                 {
                   "type": "frame",
-                  "id": "YilTd",
-                  "name": "Avatar",
-                  "width": 42,
-                  "height": 42,
-                  "fill": "#7A9E7E",
-                  "cornerRadius": 9999,
-                  "layout": "none",
+                  "id": "U4jNS",
+                  "name": "Hero Right",
+                  "gap": 8,
+                  "alignItems": "center",
                   "children": [
                     {
-                      "type": "text",
-                      "id": "K9tx3M",
-                      "x": 13,
+                      "id": "qhzFb",
+                      "type": "ref",
+                      "ref": "vipChip01",
+                      "name": "Hero VIP Chip",
+                      "gap": 5,
+                      "padding": [
+                        5,
+                        9
+                      ],
+                      "cornerRadius": 9999,
+                      "strokeWidth": 0,
+                      "fill": {
+                        "type": "gradient",
+                        "gradientType": "linear",
+                        "enabled": true,
+                        "rotation": 135,
+                        "size": {
+                          "height": 1
+                        },
+                        "colors": [
+                          {
+                            "color": "#6E4317",
+                            "position": 0
+                          },
+                          {
+                            "color": "#B97A2A",
+                            "position": 1
+                          }
+                        ]
+                      },
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#A46A1F1F",
+                        "offset": {
+                          "x": 0,
+                          "y": 6
+                        },
+                        "blur": 14
+                      },
+                      "x": 0,
                       "y": 9,
-                      "name": "Avatar Initial",
-                      "fill": "#FFFFFF",
-                      "content": "胖",
-                      "fontFamily": "Noto Sans SC",
-                      "fontSize": 16,
-                      "fontWeight": "700"
+                      "descendants": {
+                        "vipChipIcon01": {
+                          "width": 12,
+                          "height": 12,
+                          "fill": "#FFF3D6"
+                        },
+                        "vipChipText01": {
+                          "content": "VIP",
+                          "fontSize": 10,
+                          "fontWeight": "700",
+                          "fill": "#FFF3D6"
+                        }
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "YilTd",
+                      "name": "Avatar",
+                      "width": 42,
+                      "height": 42,
+                      "fill": "#7A9E7E",
+                      "cornerRadius": 9999,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "K9tx3M",
+                          "x": 13,
+                          "y": 9,
+                          "name": "Avatar Initial",
+                          "fill": "#FFFFFF",
+                          "content": "胖",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 16,
+                          "fontWeight": "700"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -2097,7 +2163,7 @@
               "type": "ref",
               "ref": "aiCard01",
               "name": "AI Action Card Active",
-              "width": "fit_content",
+              "width": 204.9641231760352,
               "gap": 8,
               "alignItems": "center",
               "justifyContent": "center",
@@ -2105,18 +2171,22 @@
                 8,
                 10
               ],
-              "height": 42,
+              "height": 31.09070310941115,
               "cornerRadius": 9999,
               "fill": "#FFF8EF",
               "stroke": "#EAD9C4",
               "strokeWidth": 1,
+              "flipX": false,
+              "flipY": false,
+              "x": 20,
+              "y": 188,
               "descendants": {
                 "aiCardFooterText01": {
                   "type": "text",
                   "id": "gES2r",
                   "name": "AI Remaining Count",
                   "fill": "#9F5C38",
-                  "content": "3次",
+                  "content": "AI识别，VIP权益，剩余3次",
                   "fontFamily": "Noto Sans SC",
                   "fontSize": 12,
                   "fontWeight": "600"
@@ -3545,61 +3615,6 @@
                                   "fontWeight": "normal"
                                 },
                                 {
-                                  "id": "heroVipRef01",
-                                  "type": "ref",
-                                  "ref": "vipChip01",
-                                  "name": "Hero VIP Chip",
-                                  "gap": 5,
-                                  "padding": [
-                                    5,
-                                    9
-                                  ],
-                                  "cornerRadius": 9999,
-                                  "strokeWidth": 0,
-                                  "fill": {
-                                    "type": "gradient",
-                                    "gradientType": "linear",
-                                    "enabled": true,
-                                    "rotation": 135,
-                                    "size": {
-                                      "height": 1
-                                    },
-                                    "colors": [
-                                      {
-                                        "color": "#6E4317",
-                                        "position": 0
-                                      },
-                                      {
-                                        "color": "#B97A2A",
-                                        "position": 1
-                                      }
-                                    ]
-                                  },
-                                  "effect": {
-                                    "type": "shadow",
-                                    "shadowType": "outer",
-                                    "color": "#A46A1F1F",
-                                    "offset": {
-                                      "x": 0,
-                                      "y": 6
-                                    },
-                                    "blur": 14
-                                  },
-                                  "descendants": {
-                                    "vipChipIcon01": {
-                                      "width": 12,
-                                      "height": 12,
-                                      "fill": "#FFF3D6"
-                                    },
-                                    "vipChipText01": {
-                                      "content": "VIP·3",
-                                      "fontSize": 10,
-                                      "fontWeight": "700",
-                                      "fill": "#FFF3D6"
-                                    }
-                                  }
-                                },
-                                {
                                   "type": "text",
                                   "id": "hlrTV",
                                   "name": "Hero Suffix",
@@ -3620,6 +3635,61 @@
                               "fontFamily": "$font-body",
                               "fontSize": 12,
                               "fontWeight": "normal"
+                            },
+                            {
+                              "id": "heroVipRef01",
+                              "type": "ref",
+                              "ref": "vipChip01",
+                              "name": "Hero VIP Chip",
+                              "gap": 5,
+                              "padding": [
+                                5,
+                                9
+                              ],
+                              "cornerRadius": 9999,
+                              "strokeWidth": 0,
+                              "fill": {
+                                "type": "gradient",
+                                "gradientType": "linear",
+                                "enabled": true,
+                                "rotation": 135,
+                                "size": {
+                                  "height": 1
+                                },
+                                "colors": [
+                                  {
+                                    "color": "#6E4317",
+                                    "position": 0
+                                  },
+                                  {
+                                    "color": "#B97A2A",
+                                    "position": 1
+                                  }
+                                ]
+                              },
+                              "effect": {
+                                "type": "shadow",
+                                "shadowType": "outer",
+                                "color": "#A46A1F1F",
+                                "offset": {
+                                  "x": 0,
+                                  "y": 6
+                                },
+                                "blur": 14
+                              },
+                              "descendants": {
+                                "vipChipIcon01": {
+                                  "width": 12,
+                                  "height": 12,
+                                  "fill": "#FFF3D6"
+                                },
+                                "vipChipText01": {
+                                  "content": "VIP·3",
+                                  "fontSize": 10,
+                                  "fontWeight": "700",
+                                  "fill": "#FFF3D6"
+                                }
+                              }
                             }
                           ]
                         }
@@ -3663,37 +3733,8 @@
                   "id": "f1h",
                   "name": "Hero Stats",
                   "width": "fill_container",
-                  "justifyContent": "space_between",
+                  "justifyContent": "space_around",
                   "children": [
-                    {
-                      "type": "frame",
-                      "id": "f1a",
-                      "name": "Friends Stat",
-                      "layout": "vertical",
-                      "gap": 4,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "t18",
-                          "name": "Friends Value",
-                          "fill": "$text-primary",
-                          "content": "18",
-                          "fontFamily": "$font-data",
-                          "fontSize": 22,
-                          "fontWeight": "600"
-                        },
-                        {
-                          "type": "text",
-                          "id": "t19",
-                          "name": "Friends Label",
-                          "fill": "$text-muted",
-                          "content": "好友",
-                          "fontFamily": "$font-body",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
                     {
                       "type": "frame",
                       "id": "f1d",
@@ -3775,85 +3816,6 @@
           "gap": 20,
           "padding": 20,
           "children": [
-            {
-              "type": "frame",
-              "id": "vipInfoBlock01",
-              "name": "VIP Info Block",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 12,
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "vipInfoCard01",
-                  "name": "VIP Info Card",
-                  "width": "fill_container",
-                  "fill": "$bg-card",
-                  "cornerRadius": 12,
-                  "layout": "vertical",
-                  "gap": 12,
-                  "padding": 16,
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "vipInfoHead01",
-                      "name": "VIP Info Head",
-                      "width": "fill_container",
-                      "justifyContent": "space_between",
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "vipInfoTitleStack01",
-                          "name": "VIP Info Title Stack",
-                          "layout": "vertical",
-                          "gap": 2,
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "vipInfoEyebrow01",
-                              "name": "VIP Info Eyebrow",
-                              "fill": "$text-muted",
-                              "content": "会员身份",
-                              "fontFamily": "$font-body",
-                              "fontSize": 11,
-                              "fontWeight": "500",
-                              "letterSpacing": 0.5
-                            },
-                            {
-                              "type": "text",
-                              "id": "vipInfoTitle01",
-                              "name": "VIP Info Title",
-                              "fill": "$text-primary",
-                              "content": "已开通专属识别能力",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 20,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "id": "vipInfoChipRef01",
-                          "type": "ref",
-                          "ref": "vipChip01",
-                          "name": "VIP Info Chip"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "text",
-                      "id": "vipInfoBody01",
-                      "name": "VIP Info Body",
-                      "fill": "$text-body",
-                      "content": "当前已开通 VIP 3，可使用 AI 菜谱识别",
-                      "fontFamily": "$font-body",
-                      "fontSize": 13,
-                      "fontWeight": "normal"
-                    }
-                  ]
-                }
-              ]
-            },
             {
               "type": "frame",
               "id": "f2p",

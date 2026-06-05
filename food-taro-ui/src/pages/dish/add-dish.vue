@@ -14,20 +14,15 @@
         <text>点击添加菜品照片</text>
       </view>
 
-      <section v-if="showAiCard" class="ai-card">
-        <view class="ai-card-main">
-          <view class="ai-card-copy">
-            <view class="ai-card-title-row">
-              <text class="ai-card-title">AI 识别菜谱</text>
-              <text v-if="authStore.user?.vipLevel" class="vip-chip">{{ authStore.user?.vipLevel }}</text>
-            </view>
-            <text class="ai-card-desc">分析图片和可选菜名，自动补全食材与步骤</text>
-            <text class="ai-card-meta">{{ aiUsageText }}</text>
-          </view>
-          <button class="ai-card-button" :disabled="saving || analyzingAi || !form.image" @tap="analyzeDish">
-            {{ analyzingAi ? '识别中' : 'AI 填充' }}
-          </button>
+      <section
+        v-if="showAiCard"
+        :class="['ai-card', { disabled: isAiCardDisabled }]"
+        @tap="handleAiCardTap"
+      >
+        <view class="ai-card-badge">
+          <text class="ai-card-badge-icon">✦</text>
         </view>
+        <text class="ai-card-text">{{ aiCardText }}</text>
       </section>
 
       <label class="field-block">
@@ -227,14 +222,15 @@ const isEditMode = computed(() => params.mode === 'edit' || Boolean(params.id))
 const dishId = computed(() => String(params.id || ''))
 const currentRouteKey = computed(() => `${isEditMode.value ? 'edit' : 'create'}:${dishId.value || 'new'}`)
 const pageTitle = computed(() => (isEditMode.value ? '编辑菜谱' : '添加菜谱'))
-const showAiCard = computed(() => !isEditMode.value && Boolean(authStore.user?.vip))
+const showAiCard = computed(() => Boolean(authStore.user?.vip))
 const categoryNames = computed(() => categories.value.map((item) => item.name))
 const categoryIndex = computed(() => Math.max(0, categories.value.findIndex((item) => item.id === form.categoryId)))
 const selectedCategoryName = computed(() => categories.value.find((item) => item.id === form.categoryId)?.name || '')
-const aiUsageText = computed(() => {
-  if (!form.image) return '请先上传菜品图片'
-  if (!vipInfo.value) return 'VIP 专属功能'
-  return `今日剩余 ${vipInfo.value.dailyRecipeAnalysisRemaining} 次`
+const isAiCardDisabled = computed(() => saving.value || analyzingAi.value || !form.image)
+const aiCardText = computed(() => {
+  if (analyzingAi.value) return 'AI识别中...'
+  if (!vipInfo.value) return 'AI识别，VIP权益'
+  return `AI识别，VIP权益，今日剩余${vipInfo.value.dailyRecipeAnalysisRemaining}次`
 })
 
 useDidShow(() => {
@@ -406,6 +402,11 @@ async function analyzeDish() {
   }
 }
 
+function handleAiCardTap() {
+  if (isAiCardDisabled.value) return
+  void analyzeDish()
+}
+
 function validateForm() {
   if (!form.image) return '请先上传菜品图片'
   if (!form.name) return '请输入菜品名称'
@@ -524,70 +525,44 @@ function cancel() {
 }
 
 .ai-card {
-  padding: 16px;
-  background:
-    radial-gradient(circle at top right, rgba(196, 112, 75, 0.12), transparent 28%),
-    linear-gradient(135deg, #fff8ef 0%, #fffefb 100%);
-  border: 1px solid #ead9c4;
-}
-
-.ai-card-main,
-.ai-card-copy,
-.ai-card-title-row {
   display: flex;
-}
-
-.ai-card-main {
   align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-}
-
-.ai-card-copy {
-  min-width: 0;
-  flex: 1;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.ai-card-title-row {
-  align-items: center;
+  align-self: flex-start;
   gap: 8px;
-}
-
-.ai-card-title {
-  color: var(--text-main);
-  font-size: var(--title-sm);
-  font-weight: 800;
-}
-
-.vip-chip {
+  padding: 8px 10px;
   border-radius: 999px;
-  background: #fff0cb;
-  color: #94611a;
-  padding: 4px 8px;
-  font-size: 11px;
-  font-weight: 800;
+  background: #fff8ef;
+  border: 1px solid #ead9c4;
+  box-shadow: none;
 }
 
-.ai-card-desc,
-.ai-card-meta {
-  color: #8b8b8b;
-  font-size: var(--text-sm);
-}
-
-.ai-card-button {
-  flex-shrink: 0;
-  border-radius: 999px;
-  background: var(--accent);
-  color: #fff;
-  padding: 10px 14px;
-  font-size: var(--text-sm);
-  font-weight: 800;
-}
-
-.ai-card-button[disabled] {
+.ai-card.disabled {
   opacity: 0.45;
+}
+
+.ai-card-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: #f7e5c8;
+  flex-shrink: 0;
+}
+
+.ai-card-badge-icon {
+  color: #9f5c38;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.ai-card-text {
+  color: #9f5c38;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
 }
 
 .field-block {
