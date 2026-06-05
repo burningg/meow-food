@@ -8,7 +8,7 @@
       </button>
     </header>
 
-    <section class="form-stack">
+    <section :key="formRenderKey" class="form-stack">
       <view class="upload-card">
         <AUploadComponent :file-data="form.image" @success="uploadSuccess" />
         <text>点击添加菜品照片</text>
@@ -39,8 +39,12 @@
           <button class="pill-button" @tap="addIngredient">＋ 添加</button>
         </view>
         <view v-if="!form.ingredients.length" class="empty-helper">暂未添加食材，想写时再补充即可</view>
-        <view v-for="(item, index) in form.ingredients" :key="`ingredient-${index}`" class="row-grid">
-          <input v-model.trim="item.name" class="line-input" placeholder="食材名称" />
+        <view
+          v-for="(item, index) in form.ingredients"
+          :key="item.clientId"
+          class="row-grid"
+        >
+          <input v-model.trim="item.name" class="line-input ingredient-name-input" placeholder="食材名称" />
           <input v-model.trim="item.amount" class="line-input amount-input" placeholder="用量" />
           <button class="delete-link" @tap="removeIngredient(index)">删除</button>
         </view>
@@ -112,7 +116,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from 'vue'
+import { useDidShow } from '@tarojs/taro'
+import { computed, reactive, ref } from 'vue'
 import AUploadComponent from '@/components/AUploadComponent.vue'
 import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
@@ -122,27 +127,60 @@ import {
   type Category,
   type Difficulty,
   type DishDetail,
+  type IngredientItem,
   type DishUpsertRequest,
   type MenuVisibility,
+  type StepItem,
 } from '@/services/food-service'
 
 const foodService = new FoodService()
 const params = getRouteParams() as { id?: string; mode?: string }
 const categories = ref<Category[]>([])
 const saving = ref(false)
+const initializing = ref(false)
+const formRenderKey = ref(0)
+const initializedRouteKey = ref('')
 
-const form = reactive<DishUpsertRequest>({
-  name: '',
-  image: '',
-  description: '',
-  categoryId: '',
-  cookTimeMinutes: 45,
-  difficulty: 'medium',
-  servings: 4,
-  visibility: 'inherit',
-  ingredients: [],
-  steps: [],
-})
+type IngredientFormItem = IngredientItem & {
+  clientId: string
+}
+
+type DishFormState = Omit<DishUpsertRequest, 'ingredients' | 'steps'> & {
+  ingredients: IngredientFormItem[]
+  steps: StepItem[]
+}
+
+let ingredientIdSeed = 0
+
+function nextIngredientClientId() {
+  ingredientIdSeed += 1
+  return `ingredient-${Date.now()}-${ingredientIdSeed}`
+}
+
+function createEmptyIngredient(): IngredientFormItem {
+  return {
+    clientId: nextIngredientClientId(),
+    name: '',
+    amount: '适量',
+  }
+}
+
+function createDefaultFormState(): DishFormState {
+  return {
+    name: '',
+    image: '',
+    description: '',
+    categoryId: '',
+    cookTimeMinutes: 25,
+    difficulty: 'medium',
+    servings: 1,
+    visibility: 'inherit',
+    ingredients: [],
+    steps: [],
+  }
+}
+
+const form = reactive<DishFormState>(createDefaultFormState())
 
 const difficultyOptions: Array<{ label: string; value: Difficulty }> = [
   { label: '简单', value: 'easy' },
@@ -159,18 +197,33 @@ const visibilityOptions: Array<{ label: string; value: MenuVisibility }> = [
 
 const isEditMode = computed(() => params.mode === 'edit' || Boolean(params.id))
 const dishId = computed(() => String(params.id || ''))
+const currentRouteKey = computed(() => `${isEditMode.value ? 'edit' : 'create'}:${dishId.value || 'new'}`)
 const pageTitle = computed(() => (isEditMode.value ? '编辑菜谱' : '添加菜谱'))
 const categoryNames = computed(() => categories.value.map((item) => item.name))
 const categoryIndex = computed(() => Math.max(0, categories.value.findIndex((item) => item.id === form.categoryId)))
 const selectedCategoryName = computed(() => categories.value.find((item) => item.id === form.categoryId)?.name || '')
 
-onMounted(async () => {
-  if (!(await requireAuth('add-dish'))) return
-  await loadCategories()
-  if (isEditMode.value && dishId.value) {
-    await loadDetail(dishId.value)
-  }
+useDidShow(() => {
+  if (initializedRouteKey.value === currentRouteKey.value) return
+  void initializePage()
 })
+
+async function initializePage() {
+  if (initializing.value) return
+  initializing.value = true
+
+  try {
+    if (!(await requireAuth('add-dish'))) return
+    resetForm()
+    await loadCategories()
+    if (isEditMode.value && dishId.value) {
+      await loadDetail(dishId.value)
+    }
+    initializedRouteKey.value = currentRouteKey.value
+  } finally {
+    initializing.value = false
+  }
+}
 
 async function loadCategories() {
   const { data } = await foodService.queryCategory()
@@ -186,17 +239,45 @@ async function loadDetail(id: string) {
   }
 }
 
+function resetForm() {
+  const nextForm = createDefaultFormState()
+  form.name = nextForm.name
+  form.image = nextForm.image
+  form.description = nextForm.description
+  form.categoryId = nextForm.categoryId
+  form.cookTimeMinutes = nextForm.cookTimeMinutes
+  form.difficulty = nextForm.difficulty
+  form.servings = nextForm.servings
+  form.visibility = nextForm.visibility
+  form.ingredients = nextForm.ingredients
+  form.steps = nextForm.steps
+  formRenderKey.value += 1
+}
+
 function fillForm(detail: DishDetail) {
-  form.name = detail.name
-  form.image = detail.image
-  form.description = detail.description
-  form.categoryId = detail.categoryId
-  form.cookTimeMinutes = detail.cookTimeMinutes
-  form.difficulty = detail.difficulty
-  form.servings = detail.servings
-  form.visibility = detail.visibility
-  form.ingredients = detail.ingredients.length ? detail.ingredients.map((item) => ({ ...item })) : []
-  form.steps = detail.steps.length ? detail.steps.map((item) => ({ ...item })) : []
+  form.name = detail.name || ''
+  form.image = detail.image || ''
+  form.description = detail.description || ''
+  form.categoryId = detail.categoryId || ''
+  form.cookTimeMinutes = detail.cookTimeMinutes ?? 25
+  form.difficulty = (detail.difficulty as Difficulty) || 'medium'
+  form.servings = detail.servings ?? 1
+  form.visibility = (detail.visibility as MenuVisibility) || 'inherit'
+  form.ingredients = detail.ingredients.length
+    ? detail.ingredients.map((item) => ({
+        clientId: nextIngredientClientId(),
+        name: item.name || '',
+        amount: item.amount?.trim() || '适量',
+        sort: item.sort,
+      }))
+    : []
+  form.steps = detail.steps.length
+    ? detail.steps.map((item) => ({
+        content: item.content || '',
+        stepNo: item.stepNo,
+      }))
+    : []
+  formRenderKey.value += 1
 }
 
 function selectCategory(event: { detail: { value: number } }) {
@@ -208,7 +289,7 @@ function uploadSuccess(url: string) {
 }
 
 function addIngredient() {
-  form.ingredients.push({ name: '', amount: '' })
+  form.ingredients.push(createEmptyIngredient())
 }
 
 function removeIngredient(index: number) {
@@ -235,10 +316,10 @@ function validateForm() {
 
 function normalizedIngredients() {
   return form.ingredients
-    .filter((item) => item.name.trim() && item.amount.trim())
+    .filter((item) => item.name.trim())
     .map((item, index) => ({
       name: item.name.trim(),
-      amount: item.amount.trim(),
+      amount: item.amount.trim() || '适量',
       sort: index + 1,
     }))
 }
@@ -414,9 +495,15 @@ function cancel() {
   align-items: center;
 }
 
+.ingredient-name-input {
+  flex: 1;
+  border-bottom: none;
+}
+
 .amount-input {
   max-width: 92px;
   text-align: right;
+  border-bottom: none;
 }
 
 .delete-link {

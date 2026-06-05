@@ -1,61 +1,67 @@
 <template>
-  <view class="page-shell home-page">
-    <section class="hero">
-      <view>
-        <text class="eyebrow">下午好，{{ displayName }}</text>
-      </view>
-      <button class="avatar" @tap="goToProfile">{{ displayName.slice(0, 1) }}</button>
-    </section>
-
-    <section class="search-bar">
-      <text class="search-icon">⌕</text>
-      <input v-model.trim="searchKeyword" class="search-input" maxlength="24" placeholder="搜索菜谱名或食材" />
-    </section>
-
-    <scroll-view class="category-strip" :scroll-x="true" :scroll-left="categoryScrollLeft" :scroll-with-animation="true">
-      <view class="category-strip-content">
-        <button :class="['category-pill', { active: !selectedCategoryId }]" @tap="selectCategory('')">
-          全部
-        </button>
-        <button
-          v-for="category in homeData.categories"
-          :key="category.id"
-          :class="['category-pill', { active: category.id === selectedCategoryId }]"
-          @tap="selectCategory(category.id)"
-        >
-          {{ category.name }}
-        </button>
-      </view>
-    </scroll-view>
-
-    <section class="section-block">
-      <view class="section-head">
-        <view>
-          <text class="section-title">我的菜谱</text>
-        </view>
-      </view>
-
-      <view v-if="filteredDishes.length" class="recent-row">
-        <button v-for="dish in filteredDishes" :key="dish.id" class="recent-card" @tap="goToDetail(dish.id)">
-          <SmartImage :src="dish.image" class-name="recent-image" />
-          <view class="recent-copy">
-            <text class="recent-name">{{ dish.name }}</text>
-            <text class="recent-category">{{ dish.categoryName }}</text>
-            <text v-if="dish.matchedIngredientNames.length" class="recent-hit">
-              命中食材：{{ dish.matchedIngredientNames.join(' / ') }}
-            </text>
+  <view class="home-page-root">
+    <PullRefreshPage @refresh="loadHome">
+      <view class="page-shell home-page">
+        <section class="hero">
+          <view>
+            <text class="eyebrow">下午好，{{ displayName }}</text>
           </view>
-        </button>
-      </view>
+          <button v-if="authStore.isLoggedIn" class="avatar" @tap="goToProfile">{{ displayName.slice(0, 1) }}</button>
+        </section>
 
-      <view v-else class="empty-state">
-        <text>{{ emptyStateText }}</text>
-        <button v-if="!searchKeyword.trim() && !homeData.recentDishes.length" class="primary-button small" @tap="goToAdd">添加菜谱</button>
-      </view>
-    </section>
+        <section class="search-bar">
+          <text class="search-icon">⌕</text>
+          <input v-model.trim="searchKeyword" class="search-input" maxlength="24" placeholder="搜索菜谱名或食材" />
+        </section>
 
-    <button class="floating-add" @tap="goToAdd">＋</button>
-    <AppTabBar active="home" />
+        <scroll-view class="category-strip" :scroll-x="true" :scroll-left="categoryScrollLeft" :scroll-with-animation="true">
+          <view class="category-strip-content">
+            <button :class="['category-pill', { active: !selectedCategoryId }]" @tap="selectCategory('')">
+              全部
+            </button>
+            <button
+              v-for="category in homeData.categories"
+              :key="category.id"
+              :class="['category-pill', { active: category.id === selectedCategoryId }]"
+              @tap="selectCategory(category.id)"
+            >
+              {{ category.name }}
+            </button>
+          </view>
+        </scroll-view>
+
+        <section class="section-block">
+          <view class="section-head">
+            <view>
+              <text class="section-title">我的菜谱</text>
+            </view>
+          </view>
+
+          <view v-if="filteredDishes.length" class="recent-row">
+            <button v-for="dish in filteredDishes" :key="dish.id" class="recent-card" @tap="goToDetail(dish.id)">
+              <SmartImage :src="dish.image" class-name="recent-image" />
+              <view class="recent-copy">
+                <text class="recent-name">{{ dish.name }}</text>
+                <text class="recent-category">{{ dish.categoryName }}</text>
+                <text v-if="dish.matchedIngredientNames.length" class="recent-hit">
+                  命中食材：{{ dish.matchedIngredientNames.join(' / ') }}
+                </text>
+              </view>
+            </button>
+          </view>
+
+          <view v-else class="empty-state">
+            <text>{{ emptyStateText }}</text>
+            <button v-if="showEmptyLoginButton" class="primary-button small" @tap="goToLogin">去登录</button>
+            <button v-else-if="showEmptyAddButton" class="primary-button small" @tap="goToAdd">添加菜谱</button>
+          </view>
+        </section>
+
+        <button v-if="authStore.isLoggedIn" class="floating-add" @tap="goToAdd">＋</button>
+      </view>
+    </PullRefreshPage>
+
+    <AppTabBar active="home" :show-add="authStore.isLoggedIn" />
   </view>
 </template>
 
@@ -63,10 +69,10 @@
 import Taro from '@tarojs/taro'
 import { computed, nextTick, onMounted, ref } from 'vue'
 import AppTabBar from '@/components/AppTabBar.vue'
+import PullRefreshPage from '@/components/PullRefreshPage.vue'
 import SmartImage from '@/components/SmartImage.vue'
 import { Message } from '@/lib/feedback'
-import { push } from '@/lib/navigation'
-import { requireAuth } from '@/lib/auth'
+import { push, resolveRoute } from '@/lib/navigation'
 import { FoodService, type DishSummary, type HomeResponse } from '@/services/food-service'
 import { useAuthStore } from '@/stores/auth-store'
 
@@ -87,6 +93,8 @@ const selectedCategoryId = ref('')
 const categoryScrollLeft = ref(0)
 const searchKeyword = ref('')
 const displayName = computed(() => authStore.user?.nickname ?? 'meow')
+const showEmptyLoginButton = computed(() => !authStore.isLoggedIn && !searchKeyword.value.trim() && !homeData.value.recentDishes.length)
+const showEmptyAddButton = computed(() => authStore.isLoggedIn && !searchKeyword.value.trim() && !homeData.value.recentDishes.length)
 const filteredDishes = computed<VisibleDish[]>(() => {
   const categoryDishes = !selectedCategoryId.value
     ? homeData.value.recentDishes
@@ -110,11 +118,11 @@ const filteredDishes = computed<VisibleDish[]>(() => {
 })
 const emptyStateText = computed(() => {
   if (searchKeyword.value.trim()) return '没有找到相关菜谱，换个名字或食材试试。'
+  if (!authStore.isLoggedIn) return '先登录，查看你的菜谱与更多内容。'
   return '你还没有添加自己的菜品，先从第一道开始吧。'
 })
 
 onMounted(async () => {
-  if (!(await requireAuth('home'))) return
   await loadHome()
 })
 
@@ -133,6 +141,15 @@ function goToDetail(id: string) {
 
 function goToAdd() {
   push('add-dish')
+}
+
+function goToLogin() {
+  push({
+    name: 'login',
+    query: {
+      redirect: resolveRoute('home'),
+    },
+  })
 }
 
 function goToProfile() {

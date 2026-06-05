@@ -1,15 +1,19 @@
 <template>
-  <view class="page-shell feed-page">
-    <header class="top-nav">
-      <view class="nav-placeholder"></view>
-      <text class="page-title">好友动态</text>
-      <button class="back" @tap="loadData">↻</button>
-    </header>
+  <view class="feed-page-root">
+    <PullRefreshPage @refresh="loadData">
+      <view class="page-shell feed-page">
+        <header class="top-nav">
+          <view class="nav-placeholder"></view>
+          <text class="page-title">好友动态</text>
+          <view class="nav-placeholder"></view>
+        </header>
 
-    <section class="list-section">
-      <ActivityCard v-for="item in feeds" :key="item.id" :item="item" @open="openDish(item.dishId)" />
-      <view v-if="!feeds.length" class="empty-card">暂时还没有好友动态</view>
-    </section>
+        <section class="list-section">
+          <ActivityCard v-for="item in feeds" :key="item.id" :item="item" @open="openDish(item.dishId)" />
+          <view v-if="!feeds.length" class="empty-card">暂时还没有好友动态</view>
+        </section>
+      </view>
+    </PullRefreshPage>
 
     <AppTabBar active="feed" />
   </view>
@@ -19,6 +23,7 @@
 import { onMounted, ref } from 'vue'
 import AppTabBar from '@/components/AppTabBar.vue'
 import ActivityCard from '@/components/ActivityCard.vue'
+import PullRefreshPage from '@/components/PullRefreshPage.vue'
 import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
 import { push } from '@/lib/navigation'

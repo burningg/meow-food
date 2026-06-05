@@ -1,7 +1,7 @@
 <template>
   <view class="tab-bar">
     <button
-      v-for="item in items"
+      v-for="item in visibleItems"
       :key="item.name"
       :class="['tab-item', `tab-item-${item.name}`, { active: item.name === active, add: item.add }]"
       hover-class="pressable"
@@ -42,11 +42,15 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { openPrimaryRoute, push, type RouteName } from '@/lib/navigation'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   active: 'home' | 'feed' | 'profile' | 'circles'
-}>()
+  showAdd?: boolean
+}>(), {
+  showAdd: true,
+})
 
 type TabItem = {
   name: string
@@ -64,6 +68,8 @@ const items: TabItem[] = [
   { name: 'profile', label: '我的', icon: 'profile', route: 'profile' },
 ]
 
+const visibleItems = computed(() => items.filter((item) => props.showAdd || !item.add))
+
 function navigate(item: TabItem) {
   if (item.name === props.active) return
   if (item.add) {
@@ -78,7 +84,7 @@ function navigate(item: TabItem) {
 .tab-bar {
   position: fixed;
   left: 50%;
-  bottom: calc(16px + env(safe-area-inset-bottom));
+  bottom: 18px;
   z-index: 20;
   display: flex;
   align-items: center;
@@ -88,13 +94,66 @@ function navigate(item: TabItem) {
   padding: 8px 12px;
   transform: translateX(-50%);
   border-radius: 999px;
-  background: #fff;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  overflow: visible;
+  isolation: isolate;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background:
+    linear-gradient(180deg, rgba(255, 250, 242, 0.92) 0%, rgba(255, 245, 232, 0.78) 56%, rgba(255, 255, 255, 0.34) 100%);
+  box-shadow:
+    0 10px 28px rgba(129, 98, 68, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
   box-sizing: border-box;
+}
+
+.tab-bar::before,
+.tab-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.tab-bar::before {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.08) 44%, rgba(255, 255, 255, 0) 100%);
+}
+
+.tab-bar::after {
+  top: calc(100% - 6px);
+  left: 4px;
+  right: 4px;
+  bottom: auto;
+  height: calc(40px + env(safe-area-inset-bottom));
+  border-radius: 0 0 28px 28px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 248, 240, 0.08) 0%,
+      rgba(255, 249, 243, 0.18) 20%,
+      rgba(255, 251, 247, 0.36) 45%,
+      rgba(255, 253, 251, 0.62) 72%,
+      rgba(255, 255, 255, 0.88) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.16) 52%,
+      rgba(255, 255, 255, 0.34) 100%
+    );
+  backdrop-filter: blur(30px) saturate(150%);
+  -webkit-backdrop-filter: blur(30px) saturate(150%);
+  box-shadow:
+    inset 0 -12px 18px rgba(255, 255, 255, 0.18),
+    0 14px 28px rgba(255, 252, 248, 0.38);
+  opacity: 1;
 }
 
 .tab-item {
   position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -112,8 +171,11 @@ function navigate(item: TabItem) {
 }
 
 .tab-item.active {
-  background: #edf3ec;
+  background: rgba(207, 197, 186, 0.45);
   color: #151515;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    0 4px 10px rgba(120, 100, 83, 0.08);
 }
 
 .tab-item.active .tab-icon {

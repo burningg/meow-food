@@ -1,70 +1,74 @@
 <template>
-  <view class="page-shell profile-page">
-    <section class="hero-card">
-      <view class="hero-top">
-        <view class="user-row">
-          <image v-if="displayAvatar" class="avatar" :src="displayAvatar" mode="aspectFill" />
-          <view v-else class="avatar avatar-fallback">{{ displayName.slice(0, 1) }}</view>
-          <view class="user-copy">
-            <view class="hero-title">
-              <text class="hero-title-name">{{ displayName }}</text>
-              <text class="hero-title-suffix"> 的美味空间</text>
+  <view class="profile-page-root">
+    <PullRefreshPage @refresh="refreshProfile">
+      <view class="page-shell profile-page">
+        <section class="hero-card">
+          <view class="hero-top">
+            <view class="user-row">
+              <image v-if="displayAvatar" class="avatar" :src="displayAvatar" mode="aspectFill" />
+              <view v-else class="avatar avatar-fallback">{{ displayName.slice(0, 1) }}</view>
+              <view class="user-copy">
+                <view class="hero-title">
+                  <text class="hero-title-name">{{ displayName }}</text>
+                  <text class="hero-title-suffix"> 的美味空间</text>
+                </view>
+              </view>
+            </view>
+            <button class="ghost-circle" @tap="openEditProfilePage">✎</button>
+          </view>
+
+          <view class="stats-row">
+            <button class="stat-button" @tap="openFriendsPage">
+              <text class="stat-number">{{ profile?.stats.friendCount ?? 0 }}</text>
+              <text>好友</text>
+            </button>
+            <view class="stat-item">
+              <text class="stat-number">{{ profile?.stats.menuCount ?? 0 }}</text>
+              <text>菜单</text>
+            </view>
+            <view class="stat-item">
+              <text class="stat-number">{{ profile?.stats.circleCount ?? 0 }}</text>
+              <text>搭子圈</text>
             </view>
           </view>
-        </view>
-        <button class="ghost-circle" @tap="openEditProfilePage">✎</button>
-      </view>
+        </section>
 
-      <view class="stats-row">
-        <button class="stat-button" @tap="openFriendsPage">
-          <text class="stat-number">{{ profile?.stats.friendCount ?? 0 }}</text>
-          <text>好友</text>
-        </button>
-        <view class="stat-item">
-          <text class="stat-number">{{ profile?.stats.menuCount ?? 0 }}</text>
-          <text>菜单</text>
-        </view>
-        <view class="stat-item">
-          <text class="stat-number">{{ profile?.stats.circleCount ?? 0 }}</text>
-          <text>搭子圈</text>
-        </view>
-      </view>
-    </section>
-
-    <section class="section-card">
-      <view class="section-head">
-        <text class="eyebrow">权限</text>
-      </view>
-      <article class="visibility-card">
-        <button
-          v-for="option in visibilityOptions"
-          :key="option.value"
-          :class="['visibility-row', { active: profile?.defaultMenuVisibility === option.value }]"
-          @tap="updateVisibility(option.value)"
-        >
-          <view>
-            <text class="visibility-title">{{ option.label }}</text>
-            <text class="visibility-desc">{{ option.desc }}</text>
+        <section class="section-card">
+          <view class="section-head">
+            <text class="eyebrow">权限</text>
           </view>
-          <text class="visibility-dot"></text>
-        </button>
-      </article>
-    </section>
+          <article class="visibility-card">
+            <button
+              v-for="option in visibilityOptions"
+              :key="option.value"
+              :class="['visibility-row', { active: profile?.defaultMenuVisibility === option.value }]"
+              @tap="updateVisibility(option.value)"
+            >
+              <view>
+                <text class="visibility-title">{{ option.label }}</text>
+                <text class="visibility-desc">{{ option.desc }}</text>
+              </view>
+              <text class="visibility-dot"></text>
+            </button>
+          </article>
+        </section>
 
-    <section class="invite-section">
-      <button class="invite-card pressable" open-type="share">
-        <view class="invite-mark">邀</view>
-        <view class="invite-copy">
-          <text class="invite-title">邀请好友加入 meow食堂</text>
-          <text class="invite-desc">发送一张小程序卡片，对方接受后会自动成为好友。</text>
-        </view>
-        <text class="invite-action">分享好友</text>
-      </button>
-    </section>
+        <section class="invite-section">
+          <button class="invite-card pressable" open-type="share">
+            <view class="invite-mark">邀</view>
+            <view class="invite-copy">
+              <text class="invite-title">邀请好友加入 meow食堂</text>
+              <text class="invite-desc">发送一张小程序卡片，对方接受后会自动成为好友。</text>
+            </view>
+            <text class="invite-action">分享好友</text>
+          </button>
+        </section>
 
-    <section class="logout-section">
-      <button class="primary-button logout-button" @tap="logout">退出登录</button>
-    </section>
+        <section class="logout-section">
+          <button class="primary-button logout-button" @tap="logout">退出登录</button>
+        </section>
+      </view>
+    </PullRefreshPage>
 
     <AppTabBar active="profile" />
   </view>
@@ -74,6 +78,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { useShareAppMessage } from '@tarojs/taro'
 import AppTabBar from '@/components/AppTabBar.vue'
+import PullRefreshPage from '@/components/PullRefreshPage.vue'
 import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
 import { push, replace, resolveSharePath } from '@/lib/navigation'
@@ -106,8 +111,17 @@ useShareAppMessage(() => ({
 }))
 
 async function loadProfile() {
-  const { data } = await socialService.getProfile()
-  profile.value = data
+  try {
+    const { data } = await socialService.getProfile()
+    profile.value = data
+  } catch (error: any) {
+    Message.error(error?.response?.data?.message || '个人资料加载失败')
+  }
+}
+
+async function refreshProfile() {
+  await loadProfile()
+  await authStore.restore()
 }
 
 async function updateVisibility(value: Exclude<MenuVisibility, 'inherit'>) {

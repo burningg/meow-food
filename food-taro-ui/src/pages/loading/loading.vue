@@ -15,20 +15,16 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { push, replace } from '@/lib/navigation'
+import { replace } from '@/lib/navigation'
 import { useAuthStore } from '@/stores/auth-store'
 
 const authStore = useAuthStore()
 const logoSrc = ''
 
 onMounted(async () => {
-  const user = await authStore.restore()
+  await authStore.restore()
   setTimeout(() => {
-    if (user || authStore.isLoggedIn) {
-      replace('home')
-      return
-    }
-    push('login')
+    replace('home')
   }, 900)
 })
 </script>

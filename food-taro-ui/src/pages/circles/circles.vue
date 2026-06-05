@@ -1,145 +1,150 @@
 <template>
-  <view class="page-shell circles-page">
-    <header class="top-nav circle-nav">
-      <view class="nav-placeholder"></view>
-      <text class="page-title">美食搭子</text>
-      <button class="nav-button" @tap="createCircle">＋</button>
-    </header>
+  <view class="circles-page-root">
+    <PullRefreshPage @refresh="refreshCircles">
+      <view class="page-shell circles-page">
+        <header class="top-nav circle-nav">
+          <view class="nav-placeholder"></view>
+          <text class="page-title">美食搭子</text>
+          <button class="nav-button" @tap="createCircle">＋</button>
+        </header>
 
-    <template v-if="activeDetail">
-      <main class="circle-content">
-        <section class="circle-switch-panel">
-          <view class="switch-panel-header">
-            <text class="strong">圈子</text>
-            <text class="muted">当前 · {{ activeDetail.circle.name }}</text>
-          </view>
-          <view class="current-circle-summary">
-            <view class="current-circle-copy">
-              <text class="circle-name">{{ activeDetail.circle.name }}</text>
-              <text class="muted">{{ activeDetail.stats.memberCount }}人 · {{ activeDetail.stats.sharedMenuCount }}菜谱 · 正在使用</text>
+      <template v-if="activeDetail">
+        <main class="circle-content">
+          <section class="circle-switch-panel">
+            <view class="switch-panel-header">
+              <text class="strong">圈子</text>
+              <text class="muted">当前 · {{ activeDetail.circle.name }}</text>
             </view>
-            <button class="circle-switch-button" :disabled="presentedCircles.length <= 1" @tap="openCircleSwitcher">
-              <text>切换</text>
-            </button>
-          </view>
-        </section>
-
-        <section class="section-block">
-          <view class="section-head">
-            <text class="section-title">搭子圈成员</text>
-            <text class="section-link">共 {{ activeDetail.stats.memberCount }} 人</text>
-          </view>
-          <button class="member-entry" @tap="openMembers">
-            <view class="member-avatars">
-              <view
-                v-for="member in previewMembers"
-                :key="member.id"
-                class="avatar-badge"
-                :style="{ background: avatarPalette[member.avatarTone].bg, color: avatarPalette[member.avatarTone].fg }"
-              >
-                {{ member.initial }}
+            <view class="current-circle-summary">
+              <view class="current-circle-copy">
+                <text class="circle-name">{{ activeDetail.circle.name }}</text>
+                <text class="muted">{{ activeDetail.stats.memberCount }}人 · {{ activeDetail.stats.sharedMenuCount }}菜谱 · 正在使用</text>
               </view>
+              <button class="circle-switch-button" :disabled="presentedCircles.length <= 1" @tap="openCircleSwitcher">
+                <text>切换</text>
+              </button>
             </view>
-            <text class="member-entry-arrow">›</text>
-          </button>
-        </section>
+          </section>
 
-        <section class="section-block recipes-section">
-          <view class="section-head">
-            <view>
-              <text class="section-title">圈内菜谱</text>
+          <section class="section-block">
+            <view class="section-head">
+              <text class="section-title">搭子圈成员</text>
+              <text class="section-link">共 {{ activeDetail.stats.memberCount }} 人</text>
             </view>
-          </view>
-
-          <view class="recipe-search">
-            <text class="recipe-search-icon">⌕</text>
-            <input
-              v-model.trim="searchKeyword"
-              class="recipe-search-input"
-              maxlength="24"
-              placeholder="搜索菜谱名或食材"
-            />
-          </view>
-
-          <scroll-view
-            class="category-group"
-            :scroll-x="true"
-            :scroll-left="categoryScrollLeft"
-            :scroll-with-animation="true"
-          >
-            <button
-              v-for="category in categories"
-              :key="category"
-              :class="['category-chip', { active: category === activeCategory }]"
-              @tap="selectCategory(category)"
-            >
-              <text>{{ category }}</text>
-            </button>
-          </scroll-view>
-
-          <view v-if="visibleMenus.length" class="recipe-grid">
-            <button v-for="menu in visibleMenus" :key="menu.id" class="recipe-card" @tap="openDish(menu.id)">
-              <SmartImage :src="menu.image" class-name="recipe-image" />
-              <view class="recipe-copy">
-                <text class="recipe-name">{{ menu.name }}</text>
-                <view class="recipe-meta">
-                  <text class="muted">{{ menu.categoryName }}</text>
-                  <view
-                    class="recipe-owner-avatar"
-                    :style="{
-                      background: avatarPalette[getMenuOwnerTone(menu)].bg,
-                      color: avatarPalette[getMenuOwnerTone(menu)].fg,
-                    }"
-                  >
-                    {{ getMenuOwnerInitial(menu) }}
-                  </view>
+            <button class="member-entry" @tap="openMembers">
+              <view class="member-avatars">
+                <view
+                  v-for="member in previewMembers"
+                  :key="member.id"
+                  class="avatar-badge"
+                  :style="{ background: avatarPalette[member.avatarTone].bg, color: avatarPalette[member.avatarTone].fg }"
+                >
+                  {{ member.initial }}
                 </view>
-                <text v-if="menu.matchedIngredientNames.length" class="recipe-hit">
-                  食材：{{ menu.matchedIngredientNames.join(' / ') }}
-                </text>
               </view>
+              <text class="member-entry-arrow">›</text>
+            </button>
+          </section>
+
+          <section class="section-block recipes-section">
+            <view class="section-head">
+              <view>
+                <text class="section-title">圈内菜谱</text>
+              </view>
+            </view>
+
+            <view class="recipe-search">
+              <text class="recipe-search-icon">⌕</text>
+              <input
+                v-model.trim="searchKeyword"
+                class="recipe-search-input"
+                maxlength="24"
+                placeholder="搜索菜谱名或食材"
+              />
+            </view>
+
+            <scroll-view
+              class="category-group"
+              :scroll-x="true"
+              :scroll-left="categoryScrollLeft"
+              :scroll-with-animation="true"
+            >
+              <button
+                v-for="category in categories"
+                :key="category"
+                :class="['category-chip', { active: category === activeCategory }]"
+                @tap="selectCategory(category)"
+              >
+                <text>{{ category }}</text>
+              </button>
+            </scroll-view>
+
+            <view v-if="visibleMenus.length" class="recipe-grid">
+              <button v-for="menu in visibleMenus" :key="menu.id" class="recipe-card" @tap="openDish(menu.id)">
+                <SmartImage :src="menu.image" class-name="recipe-image" />
+                <view class="recipe-copy">
+                  <text class="recipe-name">{{ menu.name }}</text>
+                  <view class="recipe-meta">
+                    <text class="muted">{{ menu.categoryName }}</text>
+                    <view
+                      class="recipe-owner-avatar"
+                      :style="{
+                        background: avatarPalette[getMenuOwnerTone(menu)].bg,
+                        color: avatarPalette[getMenuOwnerTone(menu)].fg,
+                      }"
+                    >
+                      {{ getMenuOwnerInitial(menu) }}
+                    </view>
+                  </view>
+                  <text v-if="menu.matchedIngredientNames.length" class="recipe-hit">
+                    食材：{{ menu.matchedIngredientNames.join(' / ') }}
+                  </text>
+                </view>
+              </button>
+            </view>
+
+            <view v-else class="empty-card">{{ emptyRecipeText }}</view>
+          </section>
+        </main>
+      </template>
+
+      <section v-else class="status-card">
+        <text>{{ statusText }}</text>
+        <button v-if="!isLoading" class="create-button" @tap="createCircle">
+          <text>新建圈子</text>
+        </button>
+      </section>
+
+      <view v-if="switcherVisible" class="circle-switch-overlay" @tap="closeCircleSwitcher">
+        <section class="circle-switch-sheet" @tap.stop>
+          <view class="sheet-handle"></view>
+          <view class="sheet-head">
+            <view>
+              <text class="eyebrow">切换圈子</text>
+              <text class="sheet-title">选择搭子圈</text>
+            </view>
+            <button class="sheet-close" @tap="closeCircleSwitcher">×</button>
+          </view>
+          <view class="circle-option-list">
+            <button
+              v-for="circle in presentedCircles"
+              :key="circle.id"
+              :class="['circle-option', { active: circle.id === activeCircleId }]"
+              @tap="selectCircle(circle.id)"
+            >
+              <text class="circle-option-mark">{{ circle.name.slice(0, 1) }}</text>
+              <view class="circle-option-copy">
+                <text class="strong">{{ circle.name }}</text>
+                <text class="muted">{{ circle.memberCount }}人 · {{ circle.sharedMenuCount }}菜谱</text>
+              </view>
+              <text class="circle-option-state">{{ circle.id === activeCircleId ? '当前' : '切换' }}</text>
             </button>
           </view>
-
-          <view v-else class="empty-card">{{ emptyRecipeText }}</view>
         </section>
-      </main>
-    </template>
+      </view>
 
-    <section v-else class="status-card">
-      <text>{{ statusText }}</text>
-      <button v-if="!isLoading" class="create-button" @tap="createCircle">
-        <text>新建圈子</text>
-      </button>
-    </section>
-
-    <view v-if="switcherVisible" class="circle-switch-overlay" @tap="closeCircleSwitcher">
-      <section class="circle-switch-sheet" @tap.stop>
-        <view class="sheet-handle"></view>
-        <view class="sheet-head">
-          <view>
-            <text class="eyebrow">切换圈子</text>
-            <text class="sheet-title">选择搭子圈</text>
-          </view>
-          <button class="sheet-close" @tap="closeCircleSwitcher">×</button>
-        </view>
-        <view class="circle-option-list">
-          <button
-            v-for="circle in presentedCircles"
-            :key="circle.id"
-            :class="['circle-option', { active: circle.id === activeCircleId }]"
-            @tap="selectCircle(circle.id)"
-          >
-            <text class="circle-option-mark">{{ circle.name.slice(0, 1) }}</text>
-            <view class="circle-option-copy">
-              <text class="strong">{{ circle.name }}</text>
-              <text class="muted">{{ circle.memberCount }}人 · {{ circle.sharedMenuCount }}菜谱</text>
-            </view>
-            <text class="circle-option-state">{{ circle.id === activeCircleId ? '当前' : '切换' }}</text>
-          </button>
-        </view>
-      </section>
-    </view>
+      </view>
+    </PullRefreshPage>
 
     <AppTabBar active="circles" />
   </view>
@@ -149,6 +154,7 @@
 import Taro from '@tarojs/taro'
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import AppTabBar from '@/components/AppTabBar.vue'
+import PullRefreshPage from '@/components/PullRefreshPage.vue'
 import SmartImage from '@/components/SmartImage.vue'
 import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
@@ -236,11 +242,7 @@ watch(categories, (nextCategories) => {
   void centerSelectedCategory()
 })
 
-watch(activeCircleId, (circleId) => {
-  if (circleId) void loadCircleDetail(circleId)
-})
-
-async function loadData() {
+async function loadData(preferredCircleId = '') {
   isLoading.value = true
   try {
     const [{ data: profile }, { data }] = await Promise.all([socialService.getProfile(), socialService.getCircles()])
@@ -248,16 +250,28 @@ async function loadData() {
     persistedCircleId = profile.lastSelectedCircleId || ''
     const routeCircleId = params.id || ''
     const savedCircleId = persistedCircleId && data.some((circle) => circle.id === persistedCircleId) ? persistedCircleId : ''
-    activeCircleId.value = routeCircleId || savedCircleId || presentedCircles.value[0]?.id || ''
-    if (!activeCircleId.value) activeDetail.value = null
-    if (activeCircleId.value && activeCircleId.value !== persistedCircleId) {
-      void persistLastSelectedCircle(activeCircleId.value)
+    const retainedCircleId = preferredCircleId && data.some((circle) => circle.id === preferredCircleId) ? preferredCircleId : ''
+    const nextCircleId = retainedCircleId || routeCircleId || savedCircleId || presentedCircles.value[0]?.id || ''
+
+    activeCircleId.value = nextCircleId
+    if (!nextCircleId) {
+      activeDetail.value = null
+      return
     }
+
+    if (nextCircleId !== persistedCircleId) {
+      void persistLastSelectedCircle(nextCircleId)
+    }
+    await loadCircleDetail(nextCircleId)
   } catch (error: any) {
     Message.error(error?.response?.data?.message || '搭子圈加载失败')
   } finally {
     if (!activeCircleId.value) isLoading.value = false
   }
+}
+
+async function refreshCircles() {
+  await loadData(activeCircleId.value)
 }
 
 async function loadCircleDetail(circleId: string) {
@@ -290,6 +304,7 @@ function selectCircle(circleId: string) {
   categoryScrollLeft.value = 0
   searchKeyword.value = ''
   activeCircleId.value = circleId
+  void loadCircleDetail(circleId)
   void persistLastSelectedCircle(circleId)
 }
 
