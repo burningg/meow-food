@@ -83,7 +83,6 @@ export interface UserMenuAccessResponse {
   friend: boolean
   sameCircle: boolean
   actionType: 'friend-request' | 'invite-circle'
-  description: string
   accessibleCount: number
   privateCount: number
   accessRules: AccessRule[]
@@ -204,8 +203,10 @@ export class SocialService {
     return http.get<{ menus: DishSummary[] }>('/api/feed/accessible-menus')
   }
 
-  getUserMenuAccess(userId: string) {
-    return http.get<UserMenuAccessResponse>(`/api/users/${userId}/menu-access`)
+  getUserMenuAccess(userId: string, circleId?: string) {
+    return http.get<UserMenuAccessResponse>(`/api/users/${userId}/menu-access`, {
+      params: circleId ? { circleId } : undefined,
+    })
   }
 
   getUserMenus(userId: string) {

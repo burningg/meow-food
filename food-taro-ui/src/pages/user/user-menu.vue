@@ -10,26 +10,25 @@
       <image v-if="access?.user.avatar" class="avatar" :src="access.user.avatar" mode="aspectFill" />
       <view v-else class="avatar avatar-fallback">{{ access?.user.nickname?.slice(0, 1) || '?' }}</view>
       <view class="hero-copy">
-        <text class="hero-title">{{ access?.user.nickname }} 的私房菜单</text>
-        <text class="muted">{{ access?.description }}</text>
+        <text class="hero-title">{{ access?.user.nickname }} 的{{ heroTitleSuffix }}</text>
       </view>
     </section>
 
     <section class="menus">
       <view class="section-head">
-      <view>
-        <text class="section-title">可访问菜单</text>
+        <view>
+          <text class="section-title">{{ menuSectionTitle }}</text>
+        </view>
+        <text class="muted">{{ access?.accessibleCount ?? 0 }} 份</text>
       </view>
-      <text class="muted">{{ access?.accessibleCount ?? 0 }} 份</text>
-    </view>
-    <button v-for="menu in access?.menus || []" :key="menu.id" class="menu-row" @tap="openDish(menu.id)">
+      <button v-for="menu in access?.menus || []" :key="menu.id" class="menu-row" @tap="openDish(menu.id)">
         <SmartImage :src="menu.image" class-name="menu-image" />
         <view>
           <text class="menu-name">{{ menu.name }}</text>
           <text class="muted">{{ menu.description }}</text>
         </view>
       </button>
-      <view v-if="access && !access.menus.length" class="empty-card">暂无可访问菜单</view>
+      <view v-if="access && !access.menus.length" class="empty-card">{{ emptyStateText }}</view>
     </section>
 
     <button class="primary-button action" @tap="handleAction">
@@ -48,7 +47,11 @@ import { SocialService, type UserMenuAccessResponse } from '@/services/social-se
 
 const socialService = new SocialService()
 const access = ref<UserMenuAccessResponse | null>(null)
-const params = getRouteParams() as { id?: string }
+const params = getRouteParams() as { id?: string; circleId?: string }
+const circleId = String(params.circleId || '')
+const heroTitleSuffix = circleId ? '当前圈子可见菜单' : '私房菜单'
+const menuSectionTitle = circleId ? '当前圈子可见菜单' : '可访问菜单'
+const emptyStateText = circleId ? '当前圈子里暂无对你开放的菜单' : '暂无可访问菜单'
 
 onMounted(async () => {
   if (!(await requireAuth('user-menu'))) return
@@ -57,7 +60,7 @@ onMounted(async () => {
 
 async function loadData() {
   try {
-    const { data } = await socialService.getUserMenuAccess(String(params.id || ''))
+    const { data } = await socialService.getUserMenuAccess(String(params.id || ''), circleId || undefined)
     access.value = data
   } catch (error: any) {
     Message.error(error?.response?.data?.message || '菜单访问加载失败')

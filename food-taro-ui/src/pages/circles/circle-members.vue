@@ -181,7 +181,7 @@ async function loadCircleDetail() {
 }
 
 function openMember(userId: string) {
-  push({ name: 'user-menu', params: { id: userId } })
+  push({ name: 'user-menu', params: { id: userId }, query: { circleId: circleId.value } })
 }
 
 function openInvitePicker() {

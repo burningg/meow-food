@@ -5,6 +5,7 @@ import com.panghu.food.dto.BuddyCircleDetailResponse;
 import com.panghu.food.dto.DishSummaryResponse;
 import com.panghu.food.dto.FeedItemResponse;
 import com.panghu.food.dto.FriendInvitationResponse;
+import com.panghu.food.dto.UserMenuAccessResponse;
 import com.panghu.food.entity.ActivityFeed;
 import com.panghu.food.entity.BuddyCircle;
 import com.panghu.food.entity.BuddyCircleMember;
@@ -153,6 +154,66 @@ class SocialServiceImplTest {
         assertThat(result.getStatus()).isEqualTo("already_friend");
         verify(friendRequestMapper, never()).insert(any(FriendRequest.class));
         verify(friendRelationMapper, never()).insert(any(FriendRelation.class));
+    }
+
+    @Test
+    void getUserMenuAccessWithoutCircleKeepsExistingVisibilityRules() {
+        AuthContext.setUserId("viewer");
+        when(userAccountMapper.selectById("owner-1")).thenReturn(user("owner-1"));
+        when(menuVisibilitySupport.isFriend("viewer", "owner-1")).thenReturn(false);
+        when(menuVisibilitySupport.hasSharedCircle("viewer", "owner-1")).thenReturn(true);
+        when(menuVisibilitySupport.isUserInAnyCircle("viewer")).thenReturn(true);
+        when(dishMapper.selectByOwnerUserId("owner-1")).thenReturn(List.of(
+                dish("dish-public", "owner-1", LocalDateTime.of(2024, 1, 1, 12, 0), "public"),
+                circleDish("dish-other-circle", "owner-1", LocalDateTime.of(2024, 1, 2, 12, 0), "circle", "circle-2")));
+        mockHydrateSummaries();
+        when(menuVisibilitySupport.canViewDish(any(DishSummaryResponse.class), org.mockito.Mockito.eq("viewer"), org.mockito.Mockito.eq(false)))
+                .thenReturn(true, true);
+
+        UserMenuAccessResponse result = socialService.getUserMenuAccess("owner-1", null);
+
+        assertThat(result.getAccessibleCount()).isEqualTo(2);
+        assertThat(result.getPrivateCount()).isEqualTo(0);
+        assertThat(result.getMenus()).extracting(DishSummaryResponse::getId)
+                .containsExactly("dish-public", "dish-other-circle");
+    }
+
+    @Test
+    void getUserMenuAccessWithCircleOnlyReturnsMenusVisibleInCurrentCircle() {
+        AuthContext.setUserId("viewer");
+        when(userAccountMapper.selectById("owner-1")).thenReturn(user("owner-1"));
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(1L);
+        when(menuVisibilitySupport.isFriend("viewer", "owner-1")).thenReturn(false);
+        when(menuVisibilitySupport.hasSharedCircle("viewer", "owner-1")).thenReturn(true);
+        when(menuVisibilitySupport.isUserInAnyCircle("viewer")).thenReturn(true);
+        when(dishMapper.selectByOwnerUserId("owner-1")).thenReturn(List.of(
+                dish("dish-public", "owner-1", LocalDateTime.of(2024, 1, 1, 12, 0), "public"),
+                circleDish("dish-current-circle", "owner-1", LocalDateTime.of(2024, 1, 2, 12, 0), "circle", "circle-1"),
+                circleDish("dish-other-circle", "owner-1", LocalDateTime.of(2024, 1, 3, 12, 0), "circle", "circle-2")));
+        mockHydrateSummaries();
+
+        UserMenuAccessResponse result = socialService.getUserMenuAccess("owner-1", "circle-1");
+
+        assertThat(result.getAccessibleCount()).isEqualTo(2);
+        assertThat(result.getPrivateCount()).isEqualTo(1);
+        assertThat(result.getMenus()).extracting(DishSummaryResponse::getId)
+                .containsExactly("dish-public", "dish-current-circle");
+    }
+
+    @Test
+    void getUserMenuAccessWithCircleRejectsViewerOutsideCircle() {
+        AuthContext.setUserId("viewer");
+        when(userAccountMapper.selectById("owner-1")).thenReturn(user("owner-1"));
+        when(menuVisibilitySupport.isFriend("viewer", "owner-1")).thenReturn(false);
+        when(menuVisibilitySupport.hasSharedCircle("viewer", "owner-1")).thenReturn(false);
+        when(menuVisibilitySupport.isUserInAnyCircle("viewer")).thenReturn(true);
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(0L);
+
+        assertThatThrownBy(() -> socialService.getUserMenuAccess("owner-1", "circle-1"))
+                .isInstanceOf(ApiException.class)
+                .hasMessageContaining("你还不在这个搭子圈里");
     }
 
     @Test

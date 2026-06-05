@@ -339,7 +339,7 @@ public class SocialServiceImpl implements SocialService {
     }
 
     @Override
-    public UserMenuAccessResponse getUserMenuAccess(String targetUserId) {
+    public UserMenuAccessResponse getUserMenuAccess(String targetUserId, String circleId) {
         String currentUserId = AuthContext.requireUserId();
         UserAccount targetUser = userAccountMapper.selectById(targetUserId);
         if (targetUser == null) {
@@ -348,10 +348,16 @@ public class SocialServiceImpl implements SocialService {
         boolean friend = isFriend(currentUserId, targetUserId);
         boolean sameCircle = hasSharedCircle(currentUserId, targetUserId);
         boolean viewerInAnyCircle = menuVisibilitySupport.isUserInAnyCircle(currentUserId);
+        String scopedCircleId = circleId == null ? "" : circleId.trim();
+        if (!scopedCircleId.isEmpty()) {
+            requireCircleMember(scopedCircleId, currentUserId);
+        }
         List<DishSummaryResponse> ownerMenus = dishMapper.selectByOwnerUserId(targetUserId);
         menuVisibilitySupport.hydrateSummaries(ownerMenus);
         List<DishSummaryResponse> visible = ownerMenus.stream()
-                .filter(item -> canViewDish(item, currentUserId, false))
+                .filter(item -> scopedCircleId.isEmpty()
+                        ? canViewDish(item, currentUserId, false)
+                        : isVisibleInCircleContext(item, currentUserId, scopedCircleId))
                 .collect(Collectors.toList());
         long privateCount = ownerMenus.size() - visible.size();
 
@@ -360,7 +366,6 @@ public class SocialServiceImpl implements SocialService {
         response.setFriend(friend);
         response.setSameCircle(sameCircle);
         response.setActionType(friend ? "invite-circle" : "friend-request");
-        response.setDescription(buildAccessDescription(viewerInAnyCircle, sameCircle, visible.size()));
         response.setAccessibleCount(visible.size());
         response.setPrivateCount(privateCount);
         response.setMenus(visible);
@@ -370,7 +375,7 @@ public class SocialServiceImpl implements SocialService {
 
     @Override
     public List<DishSummaryResponse> getVisibleMenusByUser(String targetUserId) {
-        return getUserMenuAccess(targetUserId).getMenus();
+        return getUserMenuAccess(targetUserId, null).getMenus();
     }
 
     @Override
@@ -954,19 +959,6 @@ public class SocialServiceImpl implements SocialService {
             return dish.getEffectiveCircleIds().contains(circleId);
         }
         return VisibilityUtils.VISIBILITY_FRIENDS.equals(dish.getEffectiveVisibility());
-    }
-
-    private String buildAccessDescription(boolean viewerInAnyCircle, boolean sameCircle, int accessibleCount) {
-        if (accessibleCount > 0) {
-            return "以下是你当前有权限访问的菜单。";
-        }
-        if (!viewerInAnyCircle) {
-            return "先加入任意圈子，才能查看圈内公开的菜单。";
-        }
-        if (sameCircle) {
-            return "你们虽然在共享圈子里，但她的指定圈子菜单未命中当前圈子。";
-        }
-        return "目前你只能查看圈内公开菜单，或被明确开放到你所在圈子的菜单。";
     }
 
     private void validateProfileVisibility(String visibility) {

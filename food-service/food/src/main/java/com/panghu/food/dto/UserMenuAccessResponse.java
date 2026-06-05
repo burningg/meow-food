@@ -11,7 +11,6 @@ public class UserMenuAccessResponse {
     private boolean friend;
     private boolean sameCircle;
     private String actionType;
-    private String description;
     private long accessibleCount;
     private long privateCount;
     private List<AccessRuleResponse> accessRules = new ArrayList<>();

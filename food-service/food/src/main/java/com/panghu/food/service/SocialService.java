@@ -33,7 +33,7 @@ public interface SocialService {
 
     FeedAccessibleMenusResponse getAccessibleMenus();
 
-    UserMenuAccessResponse getUserMenuAccess(String targetUserId);
+    UserMenuAccessResponse getUserMenuAccess(String targetUserId, String circleId);
 
     List<DishSummaryResponse> getVisibleMenusByUser(String targetUserId);
 

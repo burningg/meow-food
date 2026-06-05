@@ -15,15 +15,21 @@
             <text class="circle-initial">{{ circleInitial }}</text>
           </view>
           <view class="inviter-chip">
-            <image v-if="invitation.inviter.avatar" class="inviter-avatar" :src="invitation.inviter.avatar" mode="aspectFill" />
+            <image
+              v-if="invitation.inviter.avatar"
+              class="inviter-avatar"
+              :src="invitation.inviter.avatar"
+              mode="aspectFill"
+            />
             <text v-else class="inviter-initial">{{ inviterInitial }}</text>
           </view>
         </view>
 
         <view class="invite-copy">
-          <text class="invite-kicker">{{ invitation.inviter.nickname || '好友' }}邀请你加入</text>
+          <text class="invite-kicker"
+            >{{ invitation.inviter.nickname || "好友" }}邀请你加入</text
+          >
           <text class="invite-title">{{ invitation.circle.name }}</text>
-          <text class="invite-desc">{{ descriptionText }}</text>
         </view>
 
         <view class="status-strip">
@@ -31,8 +37,18 @@
         </view>
 
         <view class="action-row">
-          <button class="secondary-button action-button" :disabled="submitting" @tap="skipInvite">稍后再说</button>
-          <button class="primary-button action-button" :disabled="submitting" @tap="acceptInvite">
+          <button
+            class="secondary-button action-button"
+            :disabled="submitting"
+            @tap="skipInvite"
+          >
+            稍后再说
+          </button>
+          <button
+            class="primary-button action-button"
+            :disabled="submitting"
+            @tap="acceptInvite"
+          >
             {{ acceptButtonText }}
           </button>
         </view>
@@ -50,77 +66,89 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
-import { requireAuth } from '@/lib/auth'
-import { Message } from '@/lib/feedback'
-import { getRouteParams, replace } from '@/lib/navigation'
-import { SocialService, type BuddyCircleShareInvitation } from '@/services/social-service'
+import { computed, onMounted, ref } from "vue";
+import { requireAuth } from "@/lib/auth";
+import { Message } from "@/lib/feedback";
+import { getRouteParams, replace } from "@/lib/navigation";
+import {
+  SocialService,
+  type BuddyCircleShareInvitation,
+} from "@/services/social-service";
 
-const params = getRouteParams() as { circleId?: string; inviterId?: string }
-const socialService = new SocialService()
-const invitation = ref<BuddyCircleShareInvitation | null>(null)
-const submitting = ref(false)
+const params = getRouteParams() as { circleId?: string; inviterId?: string };
+const socialService = new SocialService();
+const invitation = ref<BuddyCircleShareInvitation | null>(null);
+const submitting = ref(false);
 
-const inviterInitial = computed(() => (invitation.value?.inviter.nickname || '?').trim().slice(0, 1).toUpperCase())
-const circleInitial = computed(() => (invitation.value?.circle.name || '圈').trim().slice(0, 1).toUpperCase())
-const descriptionText = computed(() => {
-  const circleName = invitation.value?.circle.name || '这个搭子圈'
-  return `点击接受后，会直接加入「${circleName}」，一起共享菜单和约饭灵感。`
-})
+const inviterInitial = computed(() =>
+  (invitation.value?.inviter.nickname || "?").trim().slice(0, 1).toUpperCase(),
+);
+const circleInitial = computed(() =>
+  (invitation.value?.circle.name || "圈").trim().slice(0, 1).toUpperCase(),
+);
+
 const acceptButtonText = computed(() => {
-  if (submitting.value) return '处理中...'
-  if (invitation.value?.member) return '进入搭子圈'
-  return '接受并加入'
-})
+  if (submitting.value) return "处理中...";
+  if (invitation.value?.member) return "进入搭子圈";
+  return "接受并加入";
+});
 const statusText = computed(() => {
-  if (!invitation.value) return '邀请确认中'
-  if (invitation.value.member) return '你已经在这个搭子圈里，可以直接进入。'
-  return '确认后会加入这个搭子圈，不会自动添加好友。'
-})
+  if (!invitation.value) return "邀请确认中";
+  if (invitation.value.member) return "你已经在这个搭子圈里，可以直接进入。";
+
+  const circleName = invitation.value?.circle.name || "这个搭子圈";
+  return `点击接受后，会直接加入「${circleName}」，一起共享菜单和约饭灵感。`;
+});
 
 onMounted(async () => {
-  if (!(await requireAuth('circle-share-invite'))) return
+  if (!(await requireAuth("circle-share-invite"))) return;
   if (!params.circleId || !params.inviterId) {
-    Message.error('邀请卡片缺少搭子圈信息')
-    replace('circles')
-    return
+    Message.error("邀请卡片缺少搭子圈信息");
+    replace("circles");
+    return;
   }
-  await loadInvitation()
-})
+  await loadInvitation();
+});
 
 async function loadInvitation() {
   try {
-    const { data } = await socialService.getCircleShareInvitation(params.circleId!, params.inviterId!)
-    invitation.value = data
+    const { data } = await socialService.getCircleShareInvitation(
+      params.circleId!,
+      params.inviterId!,
+    );
+    invitation.value = data;
   } catch (error: any) {
-    Message.error(error?.response?.data?.message || '邀请不存在或已失效')
-    replace('circles')
+    Message.error(error?.response?.data?.message || "邀请不存在或已失效");
+    replace("circles");
   }
 }
 
 async function acceptInvite() {
   if (!params.circleId || !params.inviterId) {
-    replace('circles')
-    return
+    replace("circles");
+    return;
   }
   if (invitation.value?.member) {
-    replace({ name: 'circles', params: { id: params.circleId } })
-    return
+    replace({ name: "circles", params: { id: params.circleId } });
+    return;
   }
-  submitting.value = true
+  submitting.value = true;
   try {
-    const { data } = await socialService.acceptCircleShareInvitation(params.circleId, params.inviterId)
-    Message.success('已加入搭子圈')
-    replace({ name: 'circles', params: { id: data.circle.id } })
+    const { data } = await socialService.acceptCircleShareInvitation(
+      params.circleId,
+      params.inviterId,
+    );
+    Message.success("已加入搭子圈");
+    replace({ name: "circles", params: { id: data.circle.id } });
   } catch (error: any) {
-    Message.error(error?.response?.data?.message || '加入搭子圈失败')
+    Message.error(error?.response?.data?.message || "加入搭子圈失败");
   } finally {
-    submitting.value = false
+    submitting.value = false;
   }
 }
 
 function skipInvite() {
-  replace('circles')
+  replace("circles");
 }
 </script>
 
@@ -189,7 +217,11 @@ function skipInvite() {
   margin-top: 20px;
   border-radius: 30px;
   background:
-    radial-gradient(circle at 50% -10%, rgba(255, 248, 242, 0.95), transparent 44%),
+    radial-gradient(
+      circle at 50% -10%,
+      rgba(255, 248, 242, 0.95),
+      transparent 44%
+    ),
     #fff;
   padding: 24px 18px 18px;
   box-shadow: 0 22px 54px rgba(27, 58, 45, 0.1);
@@ -210,7 +242,9 @@ function skipInvite() {
   border: 10px solid #edf3ec;
   border-radius: 999px;
   background: linear-gradient(135deg, #1b3a2d, #7a9e7e);
-  box-shadow: inset 0 0 0 1px #dce8d9, 0 18px 30px rgba(27, 58, 45, 0.16);
+  box-shadow:
+    inset 0 0 0 1px #dce8d9,
+    0 18px 30px rgba(27, 58, 45, 0.16);
 }
 
 .circle-initial {
@@ -266,7 +300,7 @@ function skipInvite() {
 
 .invite-title {
   color: var(--text-main);
-  font-family: 'Noto Serif SC';
+  font-family: "Noto Serif SC";
   font-size: 27px;
   line-height: 1.14;
   font-weight: 900;

@@ -18,8 +18,9 @@ public class UserSocialController {
     }
 
     @GetMapping("/{userId}/menu-access")
-    public ResponseEntity<UserMenuAccessResponse> getMenuAccess(@PathVariable String userId) {
-        return ResponseEntity.ok(socialService.getUserMenuAccess(userId));
+    public ResponseEntity<UserMenuAccessResponse> getMenuAccess(@PathVariable String userId,
+                                                                @RequestParam(required = false) String circleId) {
+        return ResponseEntity.ok(socialService.getUserMenuAccess(userId, circleId));
     }
 
     @GetMapping("/{userId}/menus")
