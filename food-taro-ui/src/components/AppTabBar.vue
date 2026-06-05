@@ -107,7 +107,7 @@ function navigate(item: TabItem) {
 .tab-bar {
   position: fixed;
   left: 50%;
-  bottom: calc(env(safe-area-inset-bottom) - 6px);
+  bottom: 25px;
   z-index: 20;
   display: flex;
   align-items: center;
