@@ -9,5 +9,6 @@ public class BuddyCircleMemberResponse {
     private String nickname;
     private String avatar;
     private String role;
+    private boolean vip;
     private long sharedMenuCount;
 }

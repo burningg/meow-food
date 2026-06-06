@@ -28,6 +28,7 @@ public class SocialServiceImpl implements SocialService {
     private final BuddyCircleMemberMapper buddyCircleMemberMapper;
     private final BuddyCircleInviteMapper buddyCircleInviteMapper;
     private final UserDefaultVisibilityCircleMapper userDefaultVisibilityCircleMapper;
+    private final UserVipMapper userVipMapper;
     private final AuthService authService;
     private final VipService vipService;
     private final MenuVisibilitySupport menuVisibilitySupport;
@@ -44,6 +45,7 @@ public class SocialServiceImpl implements SocialService {
                              BuddyCircleInviteMapper buddyCircleInviteMapper,
                              AuthService authService,
                              VipService vipService,
+                             UserVipMapper userVipMapper,
                              UserDefaultVisibilityCircleMapper userDefaultVisibilityCircleMapper,
                              MenuVisibilitySupport menuVisibilitySupport) {
         this.userAccountMapper = userAccountMapper;
@@ -58,6 +60,7 @@ public class SocialServiceImpl implements SocialService {
         this.buddyCircleInviteMapper = buddyCircleInviteMapper;
         this.authService = authService;
         this.vipService = vipService;
+        this.userVipMapper = userVipMapper;
         this.userDefaultVisibilityCircleMapper = userDefaultVisibilityCircleMapper;
         this.menuVisibilitySupport = menuVisibilitySupport;
     }
@@ -447,6 +450,20 @@ public class SocialServiceImpl implements SocialService {
         requireCircleMember(circleId, currentUserId);
         List<BuddyCircleMember> members = buddyCircleMemberMapper.selectList(new QueryWrapper<BuddyCircleMember>()
                 .eq("circle_id", circleId).orderByAsc("joined_at"));
+        List<String> memberUserIds = members.stream()
+                .map(BuddyCircleMember::getUserId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        // 批量查询圈内成员 VIP 状态，避免为每个头像单独访问会员表。
+        Set<String> activeVipUserIds = memberUserIds.isEmpty()
+                ? Collections.emptySet()
+                : userVipMapper.selectList(new QueryWrapper<UserVip>()
+                        .in("user_id", memberUserIds)
+                        .eq("is_vip", true))
+                .stream()
+                .filter(vipService::isVipActive)
+                .map(UserVip::getUserId)
+                .collect(Collectors.toSet());
         List<BuddyCircleMemberResponse> result = new ArrayList<>();
         for (BuddyCircleMember member : members) {
             UserAccount user = userAccountMapper.selectById(member.getUserId());
@@ -459,6 +476,7 @@ public class SocialServiceImpl implements SocialService {
             item.setNickname(user.getNickname());
             item.setAvatar(user.getAvatar());
             item.setRole(member.getRole());
+            item.setVip(activeVipUserIds.contains(user.getId()));
             item.setSharedMenuCount(countVisibleMenusForViewer(circleId,user.getId(), currentUserId, true));
             result.add(item);
         }

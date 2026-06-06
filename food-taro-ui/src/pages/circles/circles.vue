@@ -43,7 +43,7 @@
                   <view
                     v-for="member in previewMembers"
                     :key="member.id"
-                    class="avatar-badge"
+                    :class="['avatar-badge', { 'vip-avatar-frame': member.vip }]"
                     :style="{
                       background: avatarPalette[member.avatarTone].bg,
                       color: avatarPalette[member.avatarTone].fg,
@@ -105,7 +105,10 @@
                     <view class="recipe-meta">
                       <text class="muted">{{ menu.categoryName }}</text>
                       <view
-                        class="recipe-owner-avatar"
+                        :class="[
+                          'recipe-owner-avatar',
+                          { 'vip-avatar-frame': getMenuOwnerVip(menu) },
+                        ]"
                         :style="{
                           background: avatarPalette[getMenuOwnerTone(menu)].bg,
                           color: avatarPalette[getMenuOwnerTone(menu)].fg,
@@ -199,6 +202,7 @@ type PreviewMember = {
   id: string;
   initial: string;
   avatarTone: number;
+  vip: boolean;
 };
 
 type VisibleCircleMenu = DishSummary & {
@@ -275,7 +279,16 @@ const previewMembers = computed<PreviewMember[]>(() =>
     id: member.id,
     initial: getInitial(member),
     avatarTone: index % avatarPalette.length,
+    vip: member.vip,
   })),
+);
+const memberVipUserIds = computed(
+  () =>
+    new Set(
+      (activeDetail.value?.members || [])
+        .filter((member) => member.vip)
+        .map((member) => member.id),
+    ),
 );
 const statusText = computed(() =>
   isLoading.value ? "正在加载搭子圈..." : "还没有搭子圈",
@@ -467,6 +480,10 @@ function getMenuOwnerTone(menu: DishSummary) {
   );
 }
 
+function getMenuOwnerVip(menu: DishSummary) {
+  return memberVipUserIds.value.has(menu.ownerUserId);
+}
+
 function getInitial(member: BuddyCircleMember) {
   return (member.nickname || member.account || "?")
     .trim()
@@ -628,6 +645,7 @@ function retainCircleDetails(nextCircles: BuddyCircleSummary[]) {
 
 .avatar-badge {
   display: flex;
+  box-sizing: border-box;
   align-items: center;
   justify-content: center;
   width: 34px;
@@ -726,6 +744,7 @@ function retainCircleDetails(nextCircles: BuddyCircleSummary[]) {
 
 .recipe-owner-avatar {
   display: flex;
+  box-sizing: border-box;
   align-items: center;
   justify-content: center;
   width: 28px;
@@ -737,6 +756,13 @@ function retainCircleDetails(nextCircles: BuddyCircleSummary[]) {
   font-weight: 800;
   line-height: 1;
   box-shadow: 0 6px 14px rgba(21, 21, 21, 0.08);
+}
+
+.vip-avatar-frame {
+  border: 2px solid #b97825;
+  box-shadow:
+    0 0 0 2px #fff4db,
+    0 6px 14px rgba(164, 106, 31, 0.2);
 }
 
 .status-card {

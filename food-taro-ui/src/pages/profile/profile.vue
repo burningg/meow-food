@@ -11,11 +11,11 @@
                 <view class="hero-title">
                   <text class="hero-title-name">{{ displayName }}</text>
                   <text class="hero-title-suffix"> 的美味空间</text>
+                  <view v-if="vipChipLabel" class="vip-chip" @tap="openVipPage">
+                    <text class="vip-chip-label">{{ vipChipLabel }}</text>
+                  </view>
                 </view>
                 <text class="bio">{{ displayBio }}</text>
-                <view v-if="vipChipLabel" class="vip-chip" @tap="openVipPage">
-                  <text class="vip-chip-label">{{ vipChipLabel }}</text>
-                </view>
               </view>
             </view>
             <view class="hero-actions">
@@ -314,8 +314,8 @@ function formatVipLabel(level?: string) {
 .hero-title {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
-  gap: 2px;
+  align-items: center;
+  gap: 2px 6px;
 }
 
 .hero-title-name {

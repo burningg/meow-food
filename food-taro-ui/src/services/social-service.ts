@@ -125,6 +125,7 @@ export interface BuddyCircleMember {
   nickname: string
   avatar: string
   role: 'owner' | 'member'
+  vip: boolean
   sharedMenuCount: number
 }
 

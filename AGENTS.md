@@ -4,7 +4,7 @@ Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-s
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
-**注意：** 当需要修改design.pen设计图时，使用pencil mcp修改，不要直接修改.pen的源文件，如果mcp异常请告诉我；taro项目才是前端跨平台项目；关键逻辑补充中文注释；尽量降低数据库查询，减少循环操作数据库的情况
+**注意：** 当需要修改design.pen设计图时，使用pencil mcp修改，不要直接修改.pen的源文件，如果mcp异常请告诉我；taro项目才是前端跨平台项目；关键逻辑补充中文注释；尽量降低数据库查询，减少循环操作数据库的情况;请合理复用方法，不要强行复用
 
 ## 1. Think Before Coding
 

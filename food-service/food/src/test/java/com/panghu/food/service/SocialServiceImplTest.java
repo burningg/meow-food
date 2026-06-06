@@ -3,6 +3,7 @@ package com.panghu.food.service;
 import com.panghu.food.auth.AuthContext;
 import com.panghu.food.dto.BuddyCircleDetailResponse;
 import com.panghu.food.dto.BuddyCircleCreateRequest;
+import com.panghu.food.dto.BuddyCircleMemberResponse;
 import com.panghu.food.dto.DishSummaryResponse;
 import com.panghu.food.dto.FeedItemResponse;
 import com.panghu.food.dto.FriendInvitationResponse;
@@ -15,6 +16,7 @@ import com.panghu.food.entity.FriendRequest;
 import com.panghu.food.entity.FriendRelation;
 import com.panghu.food.entity.UserAccount;
 import com.panghu.food.entity.UserProfileSettings;
+import com.panghu.food.entity.UserVip;
 import com.panghu.food.exception.ApiException;
 import com.panghu.food.mapper.ActivityFeedMapper;
 import com.panghu.food.mapper.BuddyCircleInviteMapper;
@@ -27,6 +29,7 @@ import com.panghu.food.mapper.FriendRequestMapper;
 import com.panghu.food.mapper.UserAccountMapper;
 import com.panghu.food.mapper.UserDefaultVisibilityCircleMapper;
 import com.panghu.food.mapper.UserProfileSettingsMapper;
+import com.panghu.food.mapper.UserVipMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -54,6 +57,7 @@ class SocialServiceImplTest {
     private final BuddyCircleMemberMapper buddyCircleMemberMapper = mock(BuddyCircleMemberMapper.class);
     private final BuddyCircleInviteMapper buddyCircleInviteMapper = mock(BuddyCircleInviteMapper.class);
     private final UserDefaultVisibilityCircleMapper userDefaultVisibilityCircleMapper = mock(UserDefaultVisibilityCircleMapper.class);
+    private final UserVipMapper userVipMapper = mock(UserVipMapper.class);
     private final AuthService authService = mock(AuthService.class);
     private final VipService vipService = mock(VipService.class);
     private final MenuVisibilitySupport menuVisibilitySupport = mock(MenuVisibilitySupport.class);
@@ -71,11 +75,13 @@ class SocialServiceImplTest {
             buddyCircleInviteMapper,
             authService,
             vipService,
+            userVipMapper,
             userDefaultVisibilityCircleMapper,
             menuVisibilitySupport);
 
     SocialServiceImplTest() {
         when(vipService.getCircleLimit(any())).thenReturn(3);
+        when(userVipMapper.selectList(any())).thenReturn(List.of());
     }
 
     @AfterEach
@@ -300,6 +306,29 @@ class SocialServiceImplTest {
     }
 
     @Test
+    void getCircleMembersMarksActiveVipMembers() {
+        AuthContext.setUserId("viewer");
+        UserVip vip = activeVip("vip-user");
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(1L);
+        when(buddyCircleMemberMapper.selectList(any())).thenReturn(List.of(
+                circleMember("circle-1", "vip-user"),
+                circleMember("circle-1", "normal-user")));
+        when(userAccountMapper.selectById("vip-user")).thenReturn(user("vip-user"));
+        when(userAccountMapper.selectById("normal-user")).thenReturn(user("normal-user"));
+        when(userVipMapper.selectList(any())).thenReturn(List.of(vip));
+        when(vipService.isVipActive(vip)).thenReturn(true);
+        when(dishMapper.selectVisibleByOwnerUserIdAndCircleId(any(), any())).thenReturn(List.of());
+
+        List<BuddyCircleMemberResponse> result = socialService.getCircleMembers("circle-1");
+
+        assertThat(result).extracting(BuddyCircleMemberResponse::getId)
+                .containsExactly("vip-user", "normal-user");
+        assertThat(result.get(0).isVip()).isTrue();
+        assertThat(result.get(1).isVip()).isFalse();
+    }
+
+    @Test
     void acceptCircleShareInvitationAddsMemberWithoutCreatingFriendship() {
         AuthContext.setUserId("target");
         when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
@@ -404,6 +433,14 @@ class SocialServiceImplTest {
         settings.setUserId(userId);
         settings.setDefaultMenuVisibility("friends");
         return settings;
+    }
+
+    private UserVip activeVip(String userId) {
+        UserVip vip = new UserVip();
+        vip.setUserId(userId);
+        vip.setIsVip(true);
+        vip.setExpiresAt(LocalDateTime.now().plusDays(1));
+        return vip;
     }
 
     private void mockHydrateSummaries() {

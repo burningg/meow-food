@@ -26,7 +26,7 @@
         <view v-if="detail?.members.length" class="circle-members-list-card">
           <article v-for="(member, index) in orderedMembers" :key="member.id" class="circle-member-row">
             <button class="circle-member-main" @tap="openMember(member.id)">
-              <view :class="['member-avatar-box', avatarToneClass(index)]">
+              <view :class="['member-avatar-box', avatarToneClass(index), { 'vip-avatar-frame': member.vip }]">
                 <text>{{ avatarInitial(member.nickname || member.account) }}</text>
               </view>
               <view class="circle-member-copy">
@@ -379,12 +379,20 @@ function inviteFriendMeta(friend: FriendItem, index: number) {
 
 .member-avatar-box {
   display: flex;
+  box-sizing: border-box;
   align-items: center;
   justify-content: center;
   width: 44px;
   height: 44px;
   border-radius: 14px;
   font-weight: 800;
+}
+
+.vip-avatar-frame {
+  border: 2px solid #b97825;
+  box-shadow:
+    0 0 0 2px #fff4db,
+    0 6px 14px rgba(164, 106, 31, 0.2);
 }
 
 .tone-sage {
