@@ -33,6 +33,11 @@ export interface DishAiAnalysisRequest {
   name?: string
 }
 
+export interface DishAiImportRequest {
+  text?: string
+  images: string[]
+}
+
 export interface DishAiAnalysisResponse {
   name?: string
   ingredients: IngredientItem[]
@@ -160,5 +165,9 @@ export class FoodService {
 
   analyzeDishByAi(data: DishAiAnalysisRequest) {
     return http.post<DishAiAnalysisResponse>('/api/dishes/ai-analysis', data)
+  }
+
+  importDishByAi(data: DishAiImportRequest) {
+    return http.post<DishAiAnalysisResponse>('/api/dishes/ai-import', data)
   }
 }

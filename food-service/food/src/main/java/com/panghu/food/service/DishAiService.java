@@ -49,7 +49,10 @@ public class DishAiService {
         }
         try {
             String imageDataUrl = toImageDataUrl(imageUrl);
-            String responseText = requestOpenAi(imageDataUrl, dishName);
+            List<Object> userContent = new ArrayList<>();
+            userContent.add(inputText(buildPrompt(dishName)));
+            userContent.add(inputImage(imageDataUrl));
+            String responseText = requestOpenAi(userContent);
             return parseAiResponse(responseText);
         } catch (ApiException exception) {
             throw exception;
@@ -58,14 +61,34 @@ public class DishAiService {
         }
     }
 
-    private String requestOpenAi(String imageDataUrl, String dishName) {
+    public DishAiAnalysisResponse importDish(String text, List<String> imageUrls) {
+        if (isBlank(openaiApiKey)) {
+            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, AI_FAILURE_MESSAGE);
+        }
+        try {
+            List<Object> userContent = new ArrayList<>();
+            userContent.add(inputText(buildImportPrompt(text)));
+            for (String imageUrl : imageUrls) {
+                userContent.add(inputImage(toImageDataUrl(imageUrl)));
+            }
+            String responseText = requestOpenAi(userContent);
+            DishAiAnalysisResponse response = parseAiResponse(responseText);
+            response.setName(null);
+            if (response.getIngredients().isEmpty() && response.getSteps().isEmpty()) {
+                throw new ApiException(HttpStatus.BAD_GATEWAY, AI_FAILURE_MESSAGE);
+            }
+            return response;
+        } catch (ApiException exception) {
+            throw exception;
+        } catch (Exception exception) {
+            throw new ApiException(HttpStatus.BAD_GATEWAY, AI_FAILURE_MESSAGE);
+        }
+    }
+
+    private String requestOpenAi(List<Object> userContent) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(openaiApiKey);
-
-        List<Object> userContent = new ArrayList<>();
-        userContent.add(inputText(buildPrompt(dishName)));
-        userContent.add(inputImage(imageDataUrl));
 
         List<Object> input = new ArrayList<>();
         input.add(Map.of("role", "user", "content", userContent));
@@ -182,6 +205,21 @@ public class DishAiService {
             builder.append(" 用户提供的菜名是：").append(dishName.trim()).append("。");
         } else {
             builder.append(" 用户没有提供菜名，请你自行判断。");
+        }
+        return builder.toString();
+    }
+
+    private String buildImportPrompt(String text) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("你是菜谱导入助手。请从用户粘贴的文字和上传截图中整理食材和步骤，输出严格 JSON，不要输出 Markdown，不要输出解释。");
+        builder.append(" JSON 格式必须是：");
+        builder.append("{\"ingredients\":[{\"name\":\"食材名\",\"amount\":\"用量\"}],\"steps\":[\"步骤1\",\"步骤2\"]}");
+        builder.append(" 如果原内容缺少用量，请用“适量”；如果步骤散落在文字或截图中，请按合理烹饪顺序整理。");
+        builder.append(" 不要补充原内容完全没有依据的菜名或描述，导入结果只用于填充食材和步骤。");
+        if (!isBlank(text)) {
+            builder.append(" 用户粘贴的原文如下：").append(text.trim());
+        } else {
+            builder.append(" 用户未粘贴文字，请只根据截图内容整理。");
         }
         return builder.toString();
     }

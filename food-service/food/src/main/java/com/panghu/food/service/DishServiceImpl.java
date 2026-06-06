@@ -5,6 +5,7 @@ import com.panghu.food.auth.AuthContext;
 import com.panghu.food.dto.DishDetailResponse;
 import com.panghu.food.dto.DishAiAnalysisRequest;
 import com.panghu.food.dto.DishAiAnalysisResponse;
+import com.panghu.food.dto.DishAiImportRequest;
 import com.panghu.food.dto.DishSummaryResponse;
 import com.panghu.food.dto.DishUpsertRequest;
 import com.panghu.food.dto.IngredientItem;
@@ -41,6 +42,7 @@ import java.util.stream.Collectors;
 @Service
 public class DishServiceImpl implements DishService {
     private static final int HOME_FEATURED_LIST_LIMIT = 3;
+    private static final int MAX_AI_IMPORT_IMAGE_COUNT = 3;
 
     @Value("${upload.base-path:./uploads}")
     private String basePath;
@@ -202,6 +204,23 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
+    public DishAiAnalysisResponse importDishByAi(DishAiImportRequest request) {
+        String currentUserId = AuthContext.requireUserId();
+        String text = request == null ? "" : trimToEmpty(request.getText());
+        List<String> images = request == null ? new ArrayList<>() : normalizeAiImportImages(request.getImages());
+        if (isBlank(text) && images.isEmpty()) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "请先粘贴菜谱文字或上传截图");
+        }
+        if (images.size() > MAX_AI_IMPORT_IMAGE_COUNT) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "最多上传3张图片");
+        }
+        vipService.assertCanUseAi(currentUserId);
+        DishAiAnalysisResponse response = dishAiService.importDish(text, images);
+        response.setUsage(vipService.consumeAiUsage(currentUserId));
+        return response;
+    }
+
+    @Override
     @Transactional
     public void deleteDish(String id) {
         String currentUserId = AuthContext.requireUserId();
@@ -305,6 +324,20 @@ public class DishServiceImpl implements DishService {
 
     private boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();
+    }
+
+    private String trimToEmpty(String value) {
+        return value == null ? "" : value.trim();
+    }
+
+    private List<String> normalizeAiImportImages(List<String> images) {
+        if (images == null) {
+            return new ArrayList<>();
+        }
+        return images.stream()
+                .map(this::trimToEmpty)
+                .filter(item -> !item.isEmpty())
+                .collect(Collectors.toList());
     }
 
     private List<DishSummaryResponse> filterHomeDishes(

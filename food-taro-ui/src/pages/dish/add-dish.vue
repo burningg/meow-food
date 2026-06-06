@@ -14,15 +14,30 @@
         <text>点击添加菜品照片</text>
       </view>
 
-      <section
-        v-if="showAiCard"
-        :class="['ai-card', { disabled: isAiCardDisabled }]"
-        @tap="handleAiCardTap"
-      >
-        <view class="ai-card-badge">
-          <text class="ai-card-badge-icon">✦</text>
+      <section v-if="showAiCard" class="ai-tools-row">
+        <view class="ai-button-group">
+          <button
+            :class="['ai-action-button', { disabled: isAiRecognizeDisabled }]"
+            :disabled="isAiRecognizeDisabled"
+            @tap="handleAiRecognizeTap"
+          >
+            <view class="ai-action-badge">
+              <text class="ai-action-badge-icon">✦</text>
+            </view>
+            <text class="ai-action-text">{{ analyzingAi ? '识别中' : 'AI识别' }}</text>
+          </button>
+          <button
+            :class="['ai-action-button', { disabled: isAiImportOpenDisabled }]"
+            :disabled="isAiImportOpenDisabled"
+            @tap="openAiImportModal"
+          >
+            <view class="ai-action-badge">
+              <text class="ai-action-badge-icon">⇧</text>
+            </view>
+            <text class="ai-action-text">AI导入</text>
+          </button>
         </view>
-        <text class="ai-card-text">{{ aiCardText }}</text>
+        <text class="ai-usage-text">{{ aiUsageText }}</text>
       </section>
 
       <label class="field-block">
@@ -163,6 +178,13 @@
         </view>
       </section>
     </section>
+
+    <DishAiImportModal
+      :visible="showAiImportModal"
+      :loading="importingAi"
+      @close="closeAiImportModal"
+      @import="importDishByAi"
+    />
   </view>
 </template>
 
@@ -170,6 +192,7 @@
 import { useDidShow } from '@tarojs/taro'
 import { computed, reactive, ref } from 'vue'
 import AUploadComponent from '@/components/AUploadComponent.vue'
+import DishAiImportModal from '@/components/DishAiImportModal.vue'
 import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
 import { getRouteParams, push, replace } from '@/lib/navigation'
@@ -179,6 +202,7 @@ import {
   type Category,
   type Difficulty,
   type DishDetail,
+  type DishAiImportRequest,
   type DishAiAnalysisResponse,
   type IngredientItem,
   type DishUpsertRequest,
@@ -195,6 +219,8 @@ const categories = ref<Category[]>([])
 const saving = ref(false)
 const initializing = ref(false)
 const analyzingAi = ref(false)
+const importingAi = ref(false)
+const showAiImportModal = ref(false)
 const formRenderKey = ref(0)
 const initializedRouteKey = ref('')
 const focusedIngredientInput = ref<{ clientId: string; field: 'name' | 'amount' } | null>(null)
@@ -266,14 +292,14 @@ const showAiCard = computed(() => Boolean(authStore.user?.vip))
 const categoryNames = computed(() => categories.value.map((item) => item.name))
 const categoryIndex = computed(() => Math.max(0, categories.value.findIndex((item) => item.id === form.categoryId)))
 const selectedCategoryName = computed(() => categories.value.find((item) => item.id === form.categoryId)?.name || '')
-const isAiCardDisabled = computed(() => saving.value || analyzingAi.value || !form.image)
+const isAiRecognizeDisabled = computed(() => saving.value || analyzingAi.value || importingAi.value || !form.image)
+const isAiImportOpenDisabled = computed(() => saving.value || analyzingAi.value || importingAi.value)
 const currentDefaultVisibility = computed(() => profileDefaults.value?.defaultMenuVisibility || authStore.user?.defaultMenuVisibility || 'public')
 const defaultCircleIds = computed(() => profileDefaults.value?.defaultMenuCircleIds || authStore.user?.defaultMenuCircleIds || [])
 const showCircleSelector = computed(() => form.visibility === 'circle')
-const aiCardText = computed(() => {
-  if (analyzingAi.value) return 'AI识别中...'
-  if (!vipInfo.value) return 'AI识别，VIP权益'
-  return `AI识别，VIP权益，今日剩余${vipInfo.value.dailyRecipeAnalysisRemaining}次`
+const aiUsageText = computed(() => {
+  if (!vipInfo.value) return 'VIP权益'
+  return `VIP权益，今日剩余${vipInfo.value.dailyRecipeAnalysisRemaining}次`
 })
 
 useDidShow(() => {
@@ -482,20 +508,30 @@ function toStepItems(items: StepItem[]) {
   }))
 }
 
-function applyAiResult(data: DishAiAnalysisResponse) {
+function updateVipUsage(data: DishAiAnalysisResponse) {
+  if (!vipInfo.value || !data.usage) return
+  vipInfo.value = {
+    ...vipInfo.value,
+    dailyRecipeAnalysisLimit: data.usage.dailyLimit,
+    dailyRecipeAnalysisUsed: data.usage.usedToday,
+    dailyRecipeAnalysisRemaining: data.usage.remainingToday,
+  }
+}
+
+function applyAiAnalysisResult(data: DishAiAnalysisResponse) {
   if (data.name?.trim()) {
     form.name = data.name.trim()
   }
   form.ingredients = toIngredientFormItems(data.ingredients || [])
   form.steps = toStepItems(data.steps || [])
-  if (vipInfo.value) {
-    vipInfo.value = {
-      ...vipInfo.value,
-      dailyRecipeAnalysisLimit: data.usage.dailyLimit,
-      dailyRecipeAnalysisUsed: data.usage.usedToday,
-      dailyRecipeAnalysisRemaining: data.usage.remainingToday,
-    }
-  }
+  updateVipUsage(data)
+  formRenderKey.value += 1
+}
+
+function applyAiImportResult(data: DishAiAnalysisResponse) {
+  form.ingredients = toIngredientFormItems(data.ingredients || [])
+  form.steps = toStepItems(data.steps || [])
+  updateVipUsage(data)
   formRenderKey.value += 1
 }
 
@@ -512,7 +548,7 @@ async function analyzeDish() {
       image: form.image,
       name: form.name || undefined,
     })
-    applyAiResult(data)
+    applyAiAnalysisResult(data)
     Message.success('AI 已填充菜谱')
   } catch (error: any) {
     Message.error(error?.response?.data?.message || 'AI 识别失败，请稍后再试')
@@ -521,9 +557,35 @@ async function analyzeDish() {
   }
 }
 
-function handleAiCardTap() {
-  if (isAiCardDisabled.value) return
+function handleAiRecognizeTap() {
+  if (isAiRecognizeDisabled.value) return
   void analyzeDish()
+}
+
+function openAiImportModal() {
+  if (isAiImportOpenDisabled.value) return
+  showAiImportModal.value = true
+}
+
+function closeAiImportModal() {
+  if (importingAi.value) return
+  showAiImportModal.value = false
+}
+
+async function importDishByAi(payload: DishAiImportRequest) {
+  if (importingAi.value) return
+
+  importingAi.value = true
+  try {
+    const { data } = await foodService.importDishByAi(payload)
+    applyAiImportResult(data)
+    showAiImportModal.value = false
+    Message.success('AI 已填充，请检查后再保存')
+  } catch (error: any) {
+    Message.error(error?.response?.data?.message || 'AI 导入失败，请稍后再试')
+  } finally {
+    importingAi.value = false
+  }
 }
 
 function validateForm() {
@@ -628,7 +690,6 @@ function cancel() {
 }
 
 .upload-card,
-.ai-card,
 .group-section,
 .field-block {
   border-radius: 18px;
@@ -646,45 +707,65 @@ function cancel() {
   font-size: var(--text-sm);
 }
 
-.ai-card {
+.ai-tools-row {
   display: flex;
   align-items: center;
-  align-self: flex-start;
-  gap: 8px;
-  padding: 8px 10px;
-  border-radius: 999px;
-  background: #fff8ef;
-  border: 1px solid #ead9c4;
-  box-shadow: none;
+  justify-content: space-between;
+  gap: 12px;
 }
 
-.ai-card.disabled {
+.ai-button-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ai-action-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid #ead9c4;
+  border-radius: 999px;
+  background: #fff8ef;
+  color: #9f5c38;
+}
+
+.ai-action-button.disabled {
   opacity: 0.45;
 }
 
-.ai-card-badge {
+.ai-action-badge {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
+  width: 22px;
+  height: 22px;
   border-radius: 999px;
   background: #f7e5c8;
   flex-shrink: 0;
 }
 
-.ai-card-badge-icon {
+.ai-action-badge-icon {
   color: #9f5c38;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
   line-height: 1;
 }
 
-.ai-card-text {
+.ai-action-text,
+.ai-usage-text {
   color: #9f5c38;
   font-size: 12px;
   font-weight: 600;
   line-height: 1.4;
+}
+
+.ai-usage-text {
+  margin-left: auto;
+  text-align: right;
+  white-space: nowrap;
 }
 
 .field-block {
