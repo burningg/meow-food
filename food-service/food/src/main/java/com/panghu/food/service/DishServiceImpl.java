@@ -155,6 +155,7 @@ public class DishServiceImpl implements DishService {
     @Transactional
     public DishDetailResponse createDish(DishUpsertRequest dishCreateDTO) {
         String currentUserId = AuthContext.requireUserId();
+        assertMenuLimit(currentUserId);
         validateDishRequest(currentUserId, dishCreateDTO);
         Dish dish = new Dish();
         applyDishRequest(currentUserId, dish, dishCreateDTO);
@@ -362,6 +363,19 @@ public class DishServiceImpl implements DishService {
         List<String> circleIds = resolveRequestedCircleIds(userId, request, visibility);
         if (VisibilityUtils.VISIBILITY_CIRCLE.equals(visibility) && circleIds.isEmpty()) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "指定圈子权限至少选择一个圈子");
+        }
+    }
+
+    private void assertMenuLimit(String userId) {
+        int limit = vipService.getMenuLimit(userId);
+        Long count = dishMapper.selectCount(new QueryWrapper<Dish>()
+                .eq("owner_user_id", userId)
+                .eq("status", 1));
+        if (count != null && count >= limit) {
+            String message = limit <= 50
+                    ? "普通用户最多创建 50 道菜谱，开通 VIP 可提升至 500 道"
+                    : "VIP 用户最多创建 500 道菜谱";
+            throw new ApiException(HttpStatus.FORBIDDEN, message);
         }
     }
 

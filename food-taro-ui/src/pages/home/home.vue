@@ -10,7 +10,7 @@
             <view v-if="vipChipLabel" class="vip-chip">
               <text class="vip-chip-label">{{ vipChipLabel }}</text>
             </view>
-            <button class="avatar" @tap="goToProfile">{{ displayName.slice(0, 1) }}</button>
+            <button :class="['avatar', { 'vip-avatar-frame': isVipActive }]" @tap="goToProfile">{{ displayName.slice(0, 1) }}</button>
           </view>
         </section>
 
@@ -110,6 +110,7 @@ const importantNotification = ref<NotificationItem | null>(null)
 const shownImportantNotificationId = ref('')
 const displayName = computed(() => authStore.user?.nickname ?? 'meow')
 const vipChipLabel = computed(() => formatVipLabel(authStore.user?.vip ? authStore.user?.vipLevel : undefined))
+const isVipActive = computed(() => Boolean(authStore.user?.vip))
 const showEmptyLoginButton = computed(() => !authStore.isLoggedIn && !searchKeyword.value.trim() && !homeData.value.recentDishes.length)
 const showEmptyAddButton = computed(() => authStore.isLoggedIn && !searchKeyword.value.trim() && !homeData.value.recentDishes.length)
 const filteredDishes = computed<VisibleDish[]>(() => {
@@ -285,6 +286,7 @@ function formatVipLabel(level?: string) {
 
 .avatar {
   display: flex;
+  box-sizing: border-box;
   align-items: center;
   justify-content: center;
   width: 42px;
@@ -293,6 +295,13 @@ function formatVipLabel(level?: string) {
   background: #7a9e7e;
   color: #fff;
   font-weight: 800;
+}
+
+.vip-avatar-frame {
+  border: 3px solid #b97825;
+  box-shadow:
+    0 0 0 3px #fff4db,
+    0 8px 18px rgba(164, 106, 31, 0.22);
 }
 
 .vip-chip {

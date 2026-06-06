@@ -527,8 +527,8 @@ async function save() {
       : await foodService.createDish(payload)
     Message.success('保存成功')
     replace({ name: 'dish-detail', params: { id: response.data.id } })
-  } catch (error) {
-    Message.error('保存失败，请稍后再试')
+  } catch (error: any) {
+    Message.error(error?.response?.data?.message || '保存失败，请稍后再试')
   } finally {
     saving.value = false
   }

@@ -32,6 +32,7 @@ class DishServiceImplTest {
     private final BuddyCircleMemberMapper buddyCircleMemberMapper = mock(BuddyCircleMemberMapper.class);
     private final DishVisibilityCircleMapper dishVisibilityCircleMapper = mock(DishVisibilityCircleMapper.class);
     private final MenuVisibilitySupport menuVisibilitySupport = mock(MenuVisibilitySupport.class);
+    private final VipService vipService = mock(VipService.class);
 
     private final DishServiceImpl dishService = new DishServiceImpl();
 
@@ -42,6 +43,8 @@ class DishServiceImplTest {
         ReflectionTestUtils.setField(dishService, "buddyCircleMemberMapper", buddyCircleMemberMapper);
         ReflectionTestUtils.setField(dishService, "dishVisibilityCircleMapper", dishVisibilityCircleMapper);
         ReflectionTestUtils.setField(dishService, "menuVisibilitySupport", menuVisibilitySupport);
+        ReflectionTestUtils.setField(dishService, "vipService", vipService);
+        when(vipService.getMenuLimit(any())).thenReturn(50);
     }
 
     @AfterEach
@@ -88,6 +91,18 @@ class DishServiceImplTest {
         assertThatThrownBy(() -> dishService.createDish(request))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessageContaining("指定圈子权限至少选择一个圈子");
+    }
+
+    @Test
+    void createDishRejectsNormalUserAtMenuLimit() {
+        AuthContext.setUserId("owner");
+        DishUpsertRequest request = new DishUpsertRequest();
+        request.setVisibility("public");
+        when(dishMapper.selectCount(any())).thenReturn(50L);
+
+        assertThatThrownBy(() -> dishService.createDish(request))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("普通用户最多创建 50 道菜谱");
     }
 
     @Test

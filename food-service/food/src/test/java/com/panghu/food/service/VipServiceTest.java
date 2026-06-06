@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -58,6 +59,64 @@ class VipServiceTest {
         assertThat(usage.getUsedToday()).isEqualTo(2);
         assertThat(usage.getRemainingToday()).isEqualTo(3);
         verify(userVipMapper).updateById(vip);
+    }
+
+    @Test
+    void claimFreeTrialActivatesInactiveVipForOneMonth() {
+        UserVip vip = activeVip();
+        vip.setIsVip(false);
+        vip.setVipLevel(null);
+        vip.setOpenedAt(null);
+        vip.setExpiresAt(null);
+        vip.setOpenAmount(BigDecimal.ZERO);
+        vip.setDailyRecipeAnalysisLimit(0);
+        vip.setDailyRecipeAnalysisUsed(2);
+        when(userVipMapper.selectOne(any(QueryWrapper.class))).thenReturn(vip);
+
+        VipInfoResponse info = vipService.claimFreeTrial("user-1");
+
+        assertThat(info.getVip()).isTrue();
+        assertThat(info.getVipLevel()).isEqualTo("VIP");
+        assertThat(info.getOpenAmount()).isEqualByComparingTo(BigDecimal.ZERO);
+        assertThat(info.getDailyRecipeAnalysisLimit()).isEqualTo(3);
+        assertThat(info.getDailyRecipeAnalysisUsed()).isZero();
+        assertThat(info.getDailyRecipeAnalysisRemaining()).isEqualTo(3);
+        assertThat(info.getOpenedAt()).isNotNull();
+        assertThat(info.getExpiresAt()).isAfter(LocalDateTime.now().plusDays(29));
+        verify(userVipMapper).updateById(vip);
+    }
+
+    @Test
+    void claimFreeTrialDoesNotResetActiveVip() {
+        UserVip vip = activeVip();
+        LocalDateTime originalExpiresAt = vip.getExpiresAt();
+        when(userVipMapper.selectOne(any(QueryWrapper.class))).thenReturn(vip);
+
+        VipInfoResponse info = vipService.claimFreeTrial("user-1");
+
+        assertThat(info.getVip()).isTrue();
+        assertThat(info.getVipLevel()).isEqualTo("VIP 3");
+        assertThat(info.getExpiresAt()).isEqualTo(originalExpiresAt);
+        verify(userVipMapper, never()).updateById(vip);
+    }
+
+    @Test
+    void normalUserLimitsAreLowerThanVipLimits() {
+        UserVip vip = activeVip();
+        vip.setIsVip(false);
+        vip.setExpiresAt(null);
+        when(userVipMapper.selectOne(any(QueryWrapper.class))).thenReturn(vip);
+
+        assertThat(vipService.getCircleLimit("user-1")).isEqualTo(3);
+        assertThat(vipService.getMenuLimit("user-1")).isEqualTo(50);
+    }
+
+    @Test
+    void activeVipGetsExpandedLimits() {
+        when(userVipMapper.selectOne(any(QueryWrapper.class))).thenReturn(activeVip());
+
+        assertThat(vipService.getCircleLimit("user-1")).isEqualTo(10);
+        assertThat(vipService.getMenuLimit("user-1")).isEqualTo(500);
     }
 
     private UserVip activeVip() {

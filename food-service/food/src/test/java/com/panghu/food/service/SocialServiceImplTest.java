@@ -2,6 +2,7 @@ package com.panghu.food.service;
 
 import com.panghu.food.auth.AuthContext;
 import com.panghu.food.dto.BuddyCircleDetailResponse;
+import com.panghu.food.dto.BuddyCircleCreateRequest;
 import com.panghu.food.dto.DishSummaryResponse;
 import com.panghu.food.dto.FeedItemResponse;
 import com.panghu.food.dto.FriendInvitationResponse;
@@ -72,6 +73,10 @@ class SocialServiceImplTest {
             vipService,
             userDefaultVisibilityCircleMapper,
             menuVisibilitySupport);
+
+    SocialServiceImplTest() {
+        when(vipService.getCircleLimit(any())).thenReturn(3);
+    }
 
     @AfterEach
     void tearDown() {
@@ -316,6 +321,20 @@ class SocialServiceImplTest {
         verify(friendRequestMapper, never()).insert(any(FriendRequest.class));
         verify(friendRequestMapper, never()).updateById(any(FriendRequest.class));
         verify(friendRelationMapper, never()).insert(any(FriendRelation.class));
+    }
+
+    @Test
+    void createCircleRejectsNormalUserAtCircleLimit() {
+        AuthContext.setUserId("owner-1");
+        BuddyCircleCreateRequest request = new BuddyCircleCreateRequest();
+        request.setName("新圈子");
+        request.setDescription("一起做饭");
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(3L);
+
+        assertThatThrownBy(() -> socialService.createCircle(request))
+                .isInstanceOf(ApiException.class)
+                .hasMessageContaining("普通用户最多加入 3 个搭子圈");
+        verify(buddyCircleMapper, never()).insert(any(BuddyCircle.class));
     }
 
     private ActivityFeed publicFeed(String id, String actorUserId, String dishId) {

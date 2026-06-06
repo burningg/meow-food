@@ -5,15 +5,15 @@
         <section class="hero-card">
           <view class="hero-top">
             <view class="user-row">
-              <image v-if="displayAvatar" class="avatar" :src="displayAvatar" mode="aspectFill" />
-              <view v-else class="avatar avatar-fallback">{{ displayName.slice(0, 1) }}</view>
+              <image v-if="displayAvatar" :class="['avatar', { 'vip-avatar-frame': isVipActive }]" :src="displayAvatar" mode="aspectFill" />
+              <view v-else :class="['avatar', 'avatar-fallback', { 'vip-avatar-frame': isVipActive }]">{{ displayName.slice(0, 1) }}</view>
               <view class="user-copy">
                 <view class="hero-title">
                   <text class="hero-title-name">{{ displayName }}</text>
                   <text class="hero-title-suffix"> 的美味空间</text>
                 </view>
                 <text class="bio">{{ displayBio }}</text>
-                <view v-if="vipChipLabel" class="vip-chip">
+                <view v-if="vipChipLabel" class="vip-chip" @tap="openVipPage">
                   <text class="vip-chip-label">{{ vipChipLabel }}</text>
                 </view>
               </view>
@@ -129,6 +129,7 @@ const displayAvatar = computed(() => profile.value?.user.avatar || authStore.use
 const displayBio = computed(() => profile.value?.user.bio?.trim() || authStore.user?.bio?.trim() || '还没有留下简介')
 const inviterId = computed(() => profile.value?.user.id || authStore.user?.id || '')
 const vipChipLabel = computed(() => formatVipLabel(profile.value?.vipInfo?.vip ? profile.value?.vipInfo?.vipLevel : undefined))
+const isVipActive = computed(() => Boolean(profile.value?.vipInfo?.vip || authStore.user?.vip))
 
 const visibilityOptions: Array<{ value: Exclude<MenuVisibility, 'inherit'>; label: string; desc: string }> = [
   { value: 'public', label: '圈内公开', desc: '对你所在全部圈子的成员开放' },
@@ -225,6 +226,10 @@ function openNotificationsPage() {
   push('notifications')
 }
 
+function openVipPage() {
+  push('vip')
+}
+
 function logout() {
   authStore.logout()
   hasUnreadNotification.value = false
@@ -279,6 +284,7 @@ function formatVipLabel(level?: string) {
 
 .avatar {
   display: flex;
+  box-sizing: border-box;
   align-items: center;
   justify-content: center;
   width: 58px;
@@ -290,6 +296,13 @@ function formatVipLabel(level?: string) {
   background: linear-gradient(135deg, #7a9e7e, #a7be8f);
   color: #fff;
   font-weight: 800;
+}
+
+.vip-avatar-frame {
+  border: 3px solid #b97825;
+  box-shadow:
+    0 0 0 3px #fff4db,
+    0 8px 18px rgba(164, 106, 31, 0.22);
 }
 
 .hero-title {

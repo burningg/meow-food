@@ -16,6 +16,13 @@ import java.time.LocalDateTime;
 
 @Service
 public class VipService {
+    private static final String DEFAULT_VIP_LEVEL = "VIP";
+    private static final int FREE_TRIAL_DAILY_RECIPE_ANALYSIS_LIMIT = 3;
+    private static final int NORMAL_CIRCLE_LIMIT = 3;
+    private static final int VIP_CIRCLE_LIMIT = 10;
+    private static final int NORMAL_MENU_LIMIT = 50;
+    private static final int VIP_MENU_LIMIT = 500;
+
     private final UserVipMapper userVipMapper;
 
     public VipService(UserVipMapper userVipMapper) {
@@ -47,6 +54,37 @@ public class VipService {
     @Transactional
     public VipInfoResponse getVipInfo(String userId) {
         return toVipInfo(getOrCreateByUserId(userId));
+    }
+
+    @Transactional
+    public int getCircleLimit(String userId) {
+        return isVipActive(getOrCreateByUserId(userId)) ? VIP_CIRCLE_LIMIT : NORMAL_CIRCLE_LIMIT;
+    }
+
+    @Transactional
+    public int getMenuLimit(String userId) {
+        return isVipActive(getOrCreateByUserId(userId)) ? VIP_MENU_LIMIT : NORMAL_MENU_LIMIT;
+    }
+
+    @Transactional
+    public VipInfoResponse claimFreeTrial(String userId) {
+        UserVip vip = getOrCreateByUserId(userId);
+        if (isVipActive(vip)) {
+            return toVipInfo(vip);
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        vip.setVipLevel(DEFAULT_VIP_LEVEL);
+        vip.setIsVip(true);
+        vip.setOpenedAt(now);
+        vip.setExpiresAt(now.plusMonths(1));
+        vip.setOpenAmount(BigDecimal.ZERO);
+        vip.setDailyRecipeAnalysisLimit(FREE_TRIAL_DAILY_RECIPE_ANALYSIS_LIMIT);
+        vip.setDailyRecipeAnalysisUsed(0);
+        vip.setDailyRecipeAnalysisDate(LocalDate.now());
+        vip.setUpdatedAt(now);
+        userVipMapper.updateById(vip);
+        return toVipInfo(vip);
     }
 
     public boolean isVipActive(UserVip vip) {

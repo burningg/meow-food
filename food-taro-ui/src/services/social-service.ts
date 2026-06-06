@@ -163,6 +163,10 @@ export class SocialService {
     return http.put<void>('/api/profile/last-selected-circle', { lastSelectedCircleId: lastSelectedCircleId || null })
   }
 
+  claimVipFreeTrial() {
+    return http.post<VipInfo>('/api/vip/free-trial')
+  }
+
   getFriends() {
     return http.get<FriendItem[]>('/api/friends')
   }

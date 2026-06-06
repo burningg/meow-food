@@ -397,6 +397,7 @@ public class SocialServiceImpl implements SocialService {
     @Transactional
     public BuddyCircleDetailResponse createCircle(BuddyCircleCreateRequest request) {
         String currentUserId = AuthContext.requireUserId();
+        assertCircleLimit(currentUserId);
         BuddyCircle circle = new BuddyCircle();
         circle.setName(request.getName());
         circle.setDescription(request.getDescription());
@@ -895,6 +896,7 @@ public class SocialServiceImpl implements SocialService {
         if (exists > 0) {
             return;
         }
+        assertCircleLimit(inviteeUserId);
         BuddyCircleMember member = new BuddyCircleMember();
         member.setCircleId(circleId);
         member.setUserId(inviteeUserId);
@@ -909,6 +911,17 @@ public class SocialServiceImpl implements SocialService {
         invite.setStatus("joined");
         invite.setCreatedAt(LocalDateTime.now());
         buddyCircleInviteMapper.insert(invite);
+    }
+
+    private void assertCircleLimit(String userId) {
+        int limit = vipService.getCircleLimit(userId);
+        Long count = buddyCircleMemberMapper.selectCount(new QueryWrapper<BuddyCircleMember>().eq("user_id", userId));
+        if (count != null && count >= limit) {
+            String message = limit <= 3
+                    ? "普通用户最多加入 3 个搭子圈，开通 VIP 可提升至 10 个"
+                    : "VIP 用户最多加入 10 个搭子圈";
+            throw new ApiException(HttpStatus.FORBIDDEN, message);
+        }
     }
 
     private UserProfileSettings getSettings(String userId) {
