@@ -4,6 +4,7 @@ CREATE TABLE `circle_plan` (
   `plan_date` date NOT NULL COMMENT '计划日期',
   `title` varchar(100) NOT NULL COMMENT '计划标题',
   `creator_user_id` varchar(36) NOT NULL COMMENT '创建人用户ID(UUID)',
+  `shopping_status` varchar(32) NOT NULL DEFAULT 'NOT_STARTED' COMMENT '采购状态: NOT_STARTED/NOT_PURCHASED/PARTIALLY_PURCHASED/PURCHASED',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),

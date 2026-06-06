@@ -14,6 +14,7 @@ public class PlanSummaryResponse {
     private String creatorUserId;
     private String creatorNickname;
     private int recipeCount;
+    private String shoppingStatus;
     private boolean shoppingStarted;
     private int shoppingTotalItemCount;
     private int shoppingPurchasedItemCount;

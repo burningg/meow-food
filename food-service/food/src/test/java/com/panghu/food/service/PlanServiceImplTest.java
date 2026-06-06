@@ -104,6 +104,7 @@ class PlanServiceImplTest {
         PlanDetailResponse second = planService.createPlan(request);
 
         assertThat(first.getId()).isEqualTo("plan-1");
+        assertThat(first.getShoppingStatus()).isEqualTo(CirclePlan.SHOPPING_STATUS_NOT_STARTED);
         assertThat(second.getId()).isEqualTo("plan-2");
         verify(circlePlanMapper, times(2)).insert(any(CirclePlan.class));
     }
@@ -203,6 +204,7 @@ class PlanServiceImplTest {
         assertThat(response.getItems().get(0).getIngredientName()).isEqualTo("蒜");
         assertThat(response.getItems().get(0).getSources()).extracting("dishName")
                 .containsExactly("红烧肉", "炒土豆丝");
+        assertThat(plan.getShoppingStatus()).isEqualTo(CirclePlan.SHOPPING_STATUS_NOT_PURCHASED);
     }
 
     @Test
@@ -236,6 +238,7 @@ class PlanServiceImplTest {
         assertThat(response.getItems()).hasSize(1);
         assertThat(response.getItems().get(0).isPurchased()).isTrue();
         assertThat(response.getItems().get(0).getPurchasedByNickname()).isEqualTo("胖虎");
+        assertThat(plan.getShoppingStatus()).isEqualTo(CirclePlan.SHOPPING_STATUS_PURCHASED);
     }
 
     @Test
@@ -259,6 +262,7 @@ class PlanServiceImplTest {
         plan.setCreatorUserId(creatorUserId);
         plan.setPlanDate(LocalDate.of(2026, 6, 5));
         plan.setTitle("周五下班拼饭局");
+        plan.setShoppingStatus(CirclePlan.SHOPPING_STATUS_NOT_STARTED);
         return plan;
     }
 

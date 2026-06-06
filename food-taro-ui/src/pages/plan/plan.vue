@@ -43,15 +43,15 @@
             <view
               v-for="plan in selectedPlans"
               :key="plan.id"
-              :class="['plan-card', { expanded: expandedPlanId === plan.id, shopping: plan.shoppingStarted }]"
+              :class="['plan-card', { expanded: expandedPlanId === plan.id, shopping: hasShoppingStarted(plan) }]"
             >
               <button class="plan-card-head" @tap="toggleExpandedPlan(plan.id)">
                 <view class="plan-card-copy">
                   <text class="plan-card-title">{{ plan.title }}</text>
                   <text class="plan-card-meta">{{ plan.circleName }} · {{ plan.creatorNickname }}创建</text>
                 </view>
-                <view :class="['plan-card-badge', { shopping: plan.shoppingStarted }]">
-                  <text class="plan-card-badge-text">{{ plan.shoppingStarted ? '采购中' : '待加采购单' }}</text>
+                <view :class="['plan-card-badge', { shopping: hasShoppingStarted(plan) }]">
+                  <text class="plan-card-badge-text">{{ getShoppingStatusLabel(plan.shoppingStatus) }}</text>
                 </view>
               </button>
 
@@ -103,7 +103,7 @@
 
                 <button class="plan-secondary-button" @tap="goAddRecipes(plan)">添加菜谱</button>
                 <button class="plan-primary-button" @tap="openShopping(plan)">
-                  {{ plan.shoppingStarted ? '查看采购' : '开始采购' }}
+                  {{ hasShoppingStarted(plan) ? '查看采购' : '开始采购' }}
                 </button>
               </view>
             </view>
@@ -172,7 +172,13 @@ import SmartImage from '@/components/SmartImage.vue'
 import { requireAuth } from '@/lib/auth'
 import { confirmDialog, Message } from '@/lib/feedback'
 import { getRouteParams, push } from '@/lib/navigation'
-import { PlanService, type PlanDayPlans, type PlanDetail, type PlanSummary } from '@/services/plan-service'
+import {
+  PlanService,
+  type PlanDayPlans,
+  type PlanDetail,
+  type PlanShoppingStatus,
+  type PlanSummary,
+} from '@/services/plan-service'
 import { SocialService, type BuddyCircleSummary } from '@/services/social-service'
 
 type WeekDateItem = {
@@ -390,9 +396,10 @@ function goAddRecipes(plan: PlanSummary) {
 
 async function openShopping(plan: PlanSummary) {
   try {
-    if (!plan.shoppingStarted) {
+    if (!hasShoppingStarted(plan)) {
       const { data } = await planService.startShoppingList(plan.id)
       syncPlanState(plan.id, {
+        shoppingStatus: 'NOT_PURCHASED',
         shoppingStarted: data.shoppingStarted,
         shoppingPurchasedItemCount: data.purchasedItemCount,
         shoppingTotalItemCount: data.totalItemCount,
@@ -402,6 +409,7 @@ async function openShopping(plan: PlanSummary) {
           ...detailCache.value,
           [plan.id]: {
             ...detailCache.value[plan.id],
+            shoppingStatus: 'NOT_PURCHASED',
             shoppingStarted: data.shoppingStarted,
             shoppingPurchasedItemCount: data.purchasedItemCount,
             shoppingTotalItemCount: data.totalItemCount,
@@ -434,6 +442,7 @@ async function removeRecipeFromPlan(planId: string, dishId: string, dishName: st
     }
     syncPlanState(planId, {
       recipeCount: data.recipes.length,
+      shoppingStatus: data.shoppingStatus,
       shoppingStarted: data.shoppingStarted,
       shoppingPurchasedItemCount: data.shoppingPurchasedItemCount,
       shoppingTotalItemCount: data.shoppingTotalItemCount,
@@ -460,6 +469,24 @@ function syncPlanState(planId: string, patch: Partial<PlanSummary>) {
 
 function buildRecipeKey(planId: string, dishId: string) {
   return `${planId}:${dishId}`
+}
+
+function hasShoppingStarted(plan: Pick<PlanSummary, 'shoppingStatus'>) {
+  return plan.shoppingStatus !== 'NOT_STARTED'
+}
+
+function getShoppingStatusLabel(status: PlanShoppingStatus) {
+  switch (status) {
+    case 'NOT_PURCHASED':
+      return '未采购'
+    case 'PARTIALLY_PURCHASED':
+      return '部分采购'
+    case 'PURCHASED':
+      return '采购完成'
+    case 'NOT_STARTED':
+    default:
+      return '待加采购单'
+  }
 }
 
 function handleRecipeTap(planId: string, dishId: string) {

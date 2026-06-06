@@ -6,6 +6,12 @@ export interface PlanRecipe extends DishSummary {
   addedByNickname?: string
 }
 
+export type PlanShoppingStatus =
+  | 'NOT_STARTED'
+  | 'NOT_PURCHASED'
+  | 'PARTIALLY_PURCHASED'
+  | 'PURCHASED'
+
 export interface PlanSummary {
   id: string
   title: string
@@ -15,6 +21,7 @@ export interface PlanSummary {
   creatorUserId: string
   creatorNickname: string
   recipeCount: number
+  shoppingStatus: PlanShoppingStatus
   shoppingStarted: boolean
   shoppingTotalItemCount: number
   shoppingPurchasedItemCount: number
@@ -38,6 +45,7 @@ export interface PlanDetail {
   circleName: string
   creatorUserId: string
   creatorNickname: string
+  shoppingStatus: PlanShoppingStatus
   shoppingStarted: boolean
   shoppingRestartCount: number
   shoppingTotalItemCount: number

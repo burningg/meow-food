@@ -15,6 +15,7 @@ public class PlanDetailResponse {
     private String circleName;
     private String creatorUserId;
     private String creatorNickname;
+    private String shoppingStatus;
     private boolean shoppingStarted;
     private int shoppingRestartCount;
     private int shoppingTotalItemCount;

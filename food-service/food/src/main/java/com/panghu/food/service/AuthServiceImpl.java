@@ -10,14 +10,21 @@ import com.panghu.food.dto.AuthLoginResponse;
 import com.panghu.food.dto.AuthRegisterRequest;
 import com.panghu.food.dto.AuthUserResponse;
 import com.panghu.food.dto.WechatLoginRequest;
+import com.panghu.food.entity.BuddyCircle;
+import com.panghu.food.entity.BuddyCircleMember;
 import com.panghu.food.entity.UserAccount;
 import com.panghu.food.entity.UserProfileSettings;
 import com.panghu.food.entity.WechatAuthVO;
 import com.panghu.food.exception.ApiException;
+import com.panghu.food.mapper.BuddyCircleMapper;
+import com.panghu.food.mapper.BuddyCircleMemberMapper;
 import com.panghu.food.mapper.UserAccountMapper;
 import com.panghu.food.mapper.UserProfileSettingsMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -27,19 +34,25 @@ public class AuthServiceImpl implements AuthService {
     private final WechatComponent wechatComponent;
     private final VipService vipService;
     private final MenuVisibilitySupport menuVisibilitySupport;
+    private final BuddyCircleMapper buddyCircleMapper;
+    private final BuddyCircleMemberMapper buddyCircleMemberMapper;
 
     public AuthServiceImpl(UserAccountMapper userAccountMapper,
                            UserProfileSettingsMapper userProfileSettingsMapper,
                            JwtTokenUtil jwtTokenUtil,
                            WechatComponent wechatComponent,
                            VipService vipService,
-                           MenuVisibilitySupport menuVisibilitySupport) {
+                           MenuVisibilitySupport menuVisibilitySupport,
+                           BuddyCircleMapper buddyCircleMapper,
+                           BuddyCircleMemberMapper buddyCircleMemberMapper) {
         this.userAccountMapper = userAccountMapper;
         this.userProfileSettingsMapper = userProfileSettingsMapper;
         this.jwtTokenUtil = jwtTokenUtil;
         this.wechatComponent = wechatComponent;
         this.vipService = vipService;
         this.menuVisibilitySupport = menuVisibilitySupport;
+        this.buddyCircleMapper = buddyCircleMapper;
+        this.buddyCircleMemberMapper = buddyCircleMemberMapper;
     }
 
     @Override
@@ -56,6 +69,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public AuthLoginResponse register(AuthRegisterRequest request) {
         if (request == null || isBlank(request.getAccount()) || isBlank(request.getPassword())) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "账号和密码不能为空");
@@ -80,11 +94,13 @@ public class AuthServiceImpl implements AuthService {
         user.setUsername(account);
         user.setNickname(account);
         userAccountMapper.insert(user);
+        createDefaultCircle(user);
 
         return issueSession(user);
     }
 
     @Override
+    @Transactional
     public AuthLoginResponse wechatLogin(WechatLoginRequest request) {
         if (request == null || isBlank(request.getCode())) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "微信登录凭证不能为空");
@@ -114,6 +130,7 @@ public class AuthServiceImpl implements AuthService {
             user.setNickname(normalizeNickname(request.getNickname()));
             user.setAvatar(normalizeOptional(request.getAvatar()));
             userAccountMapper.insert(user);
+            createDefaultCircle(user);
         }
 
         return issueSession(user);
@@ -174,5 +191,32 @@ public class AuthServiceImpl implements AuthService {
 
     private String normalizeOptional(String value) {
         return isBlank(value) ? null : value.trim();
+    }
+
+    private void createDefaultCircle(UserAccount user) {
+        BuddyCircle circle = new BuddyCircle();
+        LocalDateTime now = LocalDateTime.now();
+        circle.setName(resolveCircleOwnerName(user) + "的美食圈");
+        circle.setOwnerUserId(user.getId());
+        circle.setCreatedAt(now);
+        circle.setUpdatedAt(now);
+        buddyCircleMapper.insert(circle);
+
+        BuddyCircleMember ownerMember = new BuddyCircleMember();
+        ownerMember.setCircleId(circle.getId());
+        ownerMember.setUserId(user.getId());
+        ownerMember.setRole("owner");
+        ownerMember.setJoinedAt(now);
+        buddyCircleMemberMapper.insert(ownerMember);
+    }
+
+    private String resolveCircleOwnerName(UserAccount user) {
+        if (!isBlank(user.getNickname())) {
+            return user.getNickname().trim();
+        }
+        if (!isBlank(user.getUsername())) {
+            return user.getUsername().trim();
+        }
+        return user.getAccount().trim();
     }
 }

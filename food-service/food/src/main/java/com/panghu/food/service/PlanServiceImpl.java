@@ -139,6 +139,7 @@ public class PlanServiceImpl implements PlanService {
         plan.setPlanDate(planDate);
         plan.setTitle(normalizeTitle(request.getTitle()));
         plan.setCreatorUserId(currentUserId);
+        plan.setShoppingStatus(CirclePlan.SHOPPING_STATUS_NOT_STARTED);
         plan.setCreatedAt(LocalDateTime.now());
         plan.setUpdatedAt(LocalDateTime.now());
         circlePlanMapper.insert(plan);
@@ -254,6 +255,7 @@ public class PlanServiceImpl implements PlanService {
         item.setPurchasedByUserId(nextPurchased ? currentUserId : null);
         item.setPurchasedAt(nextPurchased ? LocalDateTime.now() : null);
         circlePlanShoppingItemMapper.updateById(item);
+        updatePlanShoppingStatus(context.plan(), summarizeShopping(context.plan().getId()));
         return buildShoppingListResponse(context.plan(), context.circle());
     }
 
@@ -280,6 +282,7 @@ public class PlanServiceImpl implements PlanService {
         response.setRecipes(recipes);
 
         ShoppingSummary shoppingSummary = summarizeShopping(plan.getId());
+        response.setShoppingStatus(resolveShoppingStatus(shoppingSummary));
         response.setShoppingStarted(shoppingSummary.started());
         response.setShoppingRestartCount(shoppingSummary.restartCount());
         response.setShoppingTotalItemCount(shoppingSummary.totalCount());
@@ -302,6 +305,7 @@ public class PlanServiceImpl implements PlanService {
                 .eq("plan_id", plan.getId())).intValue());
 
         ShoppingSummary shoppingSummary = summarizeShopping(plan.getId());
+        response.setShoppingStatus(resolveShoppingStatus(shoppingSummary));
         response.setShoppingStarted(shoppingSummary.started());
         response.setShoppingTotalItemCount(shoppingSummary.totalCount());
         response.setShoppingPurchasedItemCount(shoppingSummary.purchasedCount());
@@ -433,6 +437,7 @@ public class PlanServiceImpl implements PlanService {
                 circlePlanShoppingItemSourceMapper.insert(itemSource);
             }
         }
+        updatePlanShoppingStatus(plan, grouped.size(), 0);
     }
 
     private void synchronizeShoppingListIfExists(CirclePlan plan, String operatorUserId) {
@@ -457,6 +462,10 @@ public class PlanServiceImpl implements PlanService {
         }
         deleteShoppingItems(shoppingList.getId());
         circlePlanShoppingListMapper.deleteById(shoppingList.getId());
+        CirclePlan plan = circlePlanMapper.selectById(planId);
+        if (plan != null) {
+            updatePlanShoppingStatus(plan, CirclePlan.SHOPPING_STATUS_NOT_STARTED);
+        }
     }
 
     private void deleteShoppingItems(String shoppingListId) {
@@ -604,6 +613,43 @@ public class PlanServiceImpl implements PlanService {
                 .eq("shopping_list_id", shoppingList.getId()));
         int purchasedCount = (int) items.stream().filter(item -> Boolean.TRUE.equals(item.getPurchased())).count();
         return new ShoppingSummary(true, shoppingList.getRestartCount() == null ? 0 : shoppingList.getRestartCount(), items.size(), purchasedCount);
+    }
+
+    private void updatePlanShoppingStatus(CirclePlan plan, ShoppingSummary shoppingSummary) {
+        updatePlanShoppingStatus(plan, resolveShoppingStatus(shoppingSummary));
+    }
+
+    private void updatePlanShoppingStatus(CirclePlan plan, int totalCount, int purchasedCount) {
+        updatePlanShoppingStatus(plan, resolveShoppingStatus(totalCount, purchasedCount));
+    }
+
+    private void updatePlanShoppingStatus(CirclePlan plan, String nextStatus) {
+        if (Objects.equals(plan.getShoppingStatus(), nextStatus)) {
+            return;
+        }
+        plan.setShoppingStatus(nextStatus);
+        plan.setUpdatedAt(LocalDateTime.now());
+        circlePlanMapper.updateById(plan);
+    }
+
+    private String resolveShoppingStatus(ShoppingSummary shoppingSummary) {
+        if (!shoppingSummary.started()) {
+            return CirclePlan.SHOPPING_STATUS_NOT_STARTED;
+        }
+        return resolveShoppingStatus(shoppingSummary.totalCount(), shoppingSummary.purchasedCount());
+    }
+
+    private String resolveShoppingStatus(int totalCount, int purchasedCount) {
+        if (totalCount <= 0) {
+            return CirclePlan.SHOPPING_STATUS_NOT_PURCHASED;
+        }
+        if (purchasedCount <= 0) {
+            return CirclePlan.SHOPPING_STATUS_NOT_PURCHASED;
+        }
+        if (purchasedCount >= totalCount) {
+            return CirclePlan.SHOPPING_STATUS_PURCHASED;
+        }
+        return CirclePlan.SHOPPING_STATUS_PARTIALLY_PURCHASED;
     }
 
     private PlanContext requirePlanContext(String planId, String userId) {
