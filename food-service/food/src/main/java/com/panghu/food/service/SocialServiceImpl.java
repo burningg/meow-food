@@ -526,13 +526,6 @@ public class SocialServiceImpl implements SocialService {
         return stats;
     }
 
-    private long countVisibleMenusForViewer(String ownerUserId, String viewerUserId, boolean circleMode) {
-        List<DishSummaryResponse> dishes = dishMapper.selectByOwnerUserId(ownerUserId);
-        menuVisibilitySupport.hydrateSummaries(dishes);
-        return dishes.stream()
-                .filter(item -> canViewDish(item, viewerUserId, circleMode))
-                .count();
-    }
 
 
     private long countVisibleMenusForViewer(String circleId, String ownerUserId, String viewerUserId, boolean circleMode) {
