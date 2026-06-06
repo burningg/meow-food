@@ -101,6 +101,28 @@ class VipServiceTest {
     }
 
     @Test
+    void activatePaidYearActivatesVipForOneYear() {
+        UserVip vip = activeVip();
+        vip.setIsVip(false);
+        vip.setVipLevel(null);
+        vip.setExpiresAt(null);
+        vip.setOpenAmount(BigDecimal.ZERO);
+        vip.setDailyRecipeAnalysisLimit(0);
+        vip.setDailyRecipeAnalysisUsed(2);
+        when(userVipMapper.selectOne(any(QueryWrapper.class))).thenReturn(vip);
+
+        VipInfoResponse info = vipService.activatePaidYear("user-1", BigDecimal.valueOf(2.90));
+
+        assertThat(info.getVip()).isTrue();
+        assertThat(info.getVipLevel()).isEqualTo("VIP");
+        assertThat(info.getOpenAmount()).isEqualByComparingTo(BigDecimal.valueOf(2.90));
+        assertThat(info.getDailyRecipeAnalysisLimit()).isEqualTo(3);
+        assertThat(info.getDailyRecipeAnalysisUsed()).isZero();
+        assertThat(info.getExpiresAt()).isAfter(LocalDateTime.now().plusDays(364));
+        verify(userVipMapper).updateById(vip);
+    }
+
+    @Test
     void normalUserLimitsAreLowerThanVipLimits() {
         UserVip vip = activeVip();
         vip.setIsVip(false);

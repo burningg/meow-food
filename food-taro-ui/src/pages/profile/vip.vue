@@ -22,7 +22,7 @@
         </view>
 
         <view class="poster-copy">
-          <text class="poster-eyebrow">{{ isVipActive ? 'BENEFITS UNLOCKED' : 'FIRST MONTH FREE' }}</text>
+          <text class="poster-eyebrow">{{ isVipActive ? 'BENEFITS UNLOCKED' : 'FIRST YEAR SPECIAL' }}</text>
           <text class="poster-title">{{ isVipActive ? '权益已点亮\n欢迎回到食堂' : '把食堂开成\n你的专属社区' }}</text>
           <text class="poster-desc">
             {{ isVipActive ? '你的圈子、菜谱容量、AI 整理和专属标识已经生效，继续把喜欢的饭菜留下来。' : '更大的圈子、更多菜谱、AI 协助整理步骤食材，还有属于你的会员标识。' }}
@@ -69,16 +69,16 @@
         <view class="ticket-top">
           <view class="ticket-copy">
             <text class="vip-eyebrow">{{ isVipActive ? '会员状态' : '限时礼遇' }}</text>
-            <text class="ticket-title">{{ isVipActive ? '已开通 VIP' : '首月免费领取' }}</text>
+            <text class="ticket-title">{{ isVipActive ? '已开通 VIP' : '2.9 元开通首年会员' }}</text>
           </view>
           <view class="ticket-price">
-            <text class="ticket-price-main">{{ isVipActive ? '生效中' : '¥0' }}</text>
-            <text class="ticket-price-sub">{{ isVipActive ? expiresText : '原价 9.9' }}</text>
+            <text class="ticket-price-main">{{ isVipActive ? '生效中' : '¥2.9' }}</text>
+            <text class="ticket-price-sub">{{ isVipActive ? expiresText : '首年特惠' }}</text>
           </view>
         </view>
         <view class="ticket-divider"></view>
         <text class="ticket-desc">
-          {{ isVipActive ? '权益已生效，到期后自动取消，不会自动续费。感谢你支持 meow 食堂继续运营。' : '无需自动续费订阅，到期自动取消。首月免费后，第一年 2.9 元。' }}
+          {{ isVipActive ? '权益已生效，到期后自动取消，不会自动续费。感谢你支持 meow 食堂继续运营。' : '无需自动续费订阅，到期自动取消。首年会员限时 2.9 元。' }}
         </text>
       </section>
 
@@ -101,11 +101,11 @@
       </section>
 
       <section v-else class="vip-action-card">
-        <button class="claim-button" :disabled="loading || claiming" @tap="claimVip">
-          <text>{{ claiming ? '领取中...' : '首月免费领取' }}</text>
+        <button class="claim-button" :disabled="loading || paying" @tap="payVip">
+          <text>{{ paying ? '支付中...' : '2.9 元开通首年会员' }}</text>
           <text>→</text>
         </button>
-        <text class="claim-note">领取后不会自动续费，会员到期自动取消。</text>
+        <text class="claim-note">支付完成后以微信回调为准开通，到期自动取消。</text>
       </section>
     </main>
   </view>
@@ -113,7 +113,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { useDidShow } from '@tarojs/taro'
+import Taro, { useDidShow } from '@tarojs/taro'
 import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
 import { goBack } from '@/lib/navigation'
@@ -124,7 +124,7 @@ const socialService = new SocialService()
 const authStore = useAuthStore()
 const profile = ref<ProfileResponse | null>(null)
 const loading = ref(false)
-const claiming = ref(false)
+const paying = ref(false)
 
 const benefits = [
   { icon: '圈', title: '圈子上限', desc: '和更多朋友共享菜单', before: '3', after: '10' },
@@ -163,23 +163,41 @@ async function loadVipPage() {
   }
 }
 
-async function claimVip() {
-  if (claiming.value || isVipActive.value) return
-  claiming.value = true
+async function payVip() {
+  if (paying.value || isVipActive.value) return
+  paying.value = true
   try {
-    const { data } = await socialService.claimVipFreeTrial()
-    if (profile.value) {
+    const { data: order } = await socialService.createVipOrder()
+    await Taro.requestPayment({
+      timeStamp: order.timeStamp,
+      nonceStr: order.nonceStr,
+      package: order.payPackage,
+      signType: order.signType,
+      paySign: order.paySign,
+    })
+
+    const { data: latestOrder } = await socialService.getVipOrder(order.outTradeNo)
+    if (latestOrder.vipInfo?.vip && profile.value) {
       profile.value = {
         ...profile.value,
-        vipInfo: data,
+        vipInfo: latestOrder.vipInfo,
       }
+      await authStore.restore()
+      Message.success('VIP 已开通')
+    } else {
+      await loadVipPage()
+      await authStore.restore()
+      Message.info('支付处理中，请稍后刷新')
     }
-    await authStore.restore()
-    Message.success('VIP 已开通')
   } catch (error: any) {
-    Message.error(error?.response?.data?.message || '领取失败，请稍后重试')
+    const errMsg = error?.errMsg || error?.message || ''
+    if (errMsg.includes('cancel')) {
+      Message.info('已取消支付')
+      return
+    }
+    Message.error(error?.response?.data?.message || '支付失败，请稍后再试')
   } finally {
-    claiming.value = false
+    paying.value = false
   }
 }
 

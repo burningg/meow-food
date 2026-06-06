@@ -19,6 +19,26 @@ export interface VipInfo {
   dailyRecipeAnalysisRemaining: number
 }
 
+export interface VipPaymentOrderResponse {
+  outTradeNo: string
+  amountFen: number
+  planName: string
+  timeStamp: string
+  nonceStr: string
+  payPackage: string
+  signType: 'RSA'
+  paySign: string
+}
+
+export interface VipPaymentOrderStatus {
+  outTradeNo: string
+  amountFen: number
+  planName: string
+  status: 'PENDING' | 'PAID' | 'FAILED' | 'CLOSED'
+  paidAt?: string
+  vipInfo: VipInfo
+}
+
 export interface FriendItem {
   id: string
   account: string
@@ -165,6 +185,14 @@ export class SocialService {
 
   claimVipFreeTrial() {
     return http.post<VipInfo>('/api/vip/free-trial')
+  }
+
+  createVipOrder() {
+    return http.post<VipPaymentOrderResponse>('/api/vip/orders')
+  }
+
+  getVipOrder(outTradeNo: string) {
+    return http.get<VipPaymentOrderStatus>(`/api/vip/orders/${outTradeNo}`)
   }
 
   getFriends() {

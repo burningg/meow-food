@@ -87,6 +87,23 @@ public class VipService {
         return toVipInfo(vip);
     }
 
+    @Transactional
+    public VipInfoResponse activatePaidYear(String userId, BigDecimal amount) {
+        UserVip vip = getOrCreateByUserId(userId);
+        LocalDateTime now = LocalDateTime.now();
+        vip.setVipLevel(DEFAULT_VIP_LEVEL);
+        vip.setIsVip(true);
+        vip.setOpenedAt(now);
+        vip.setExpiresAt(now.plusYears(1));
+        vip.setOpenAmount(amount);
+        vip.setDailyRecipeAnalysisLimit(FREE_TRIAL_DAILY_RECIPE_ANALYSIS_LIMIT);
+        vip.setDailyRecipeAnalysisUsed(0);
+        vip.setDailyRecipeAnalysisDate(LocalDate.now());
+        vip.setUpdatedAt(now);
+        userVipMapper.updateById(vip);
+        return toVipInfo(vip);
+    }
+
     public boolean isVipActive(UserVip vip) {
         return vip != null
                 && Boolean.TRUE.equals(vip.getIsVip())
