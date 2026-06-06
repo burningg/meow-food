@@ -4,7 +4,6 @@
       <view class="page-shell circles-page">
         <header class="top-nav circle-nav">
           <view class="nav-placeholder"></view>
-          <text class="page-title">美食搭子</text>
           <button class="nav-button" @tap="createCircle">＋</button>
         </header>
 

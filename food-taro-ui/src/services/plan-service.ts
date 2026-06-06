@@ -1,6 +1,11 @@
 import type { DishSummary } from './food-service'
 import { http } from './http'
 
+export interface PlanRecipe extends DishSummary {
+  addedByUserId?: string
+  addedByNickname?: string
+}
+
 export interface PlanSummary {
   id: string
   title: string
@@ -37,7 +42,7 @@ export interface PlanDetail {
   shoppingRestartCount: number
   shoppingTotalItemCount: number
   shoppingPurchasedItemCount: number
-  recipes: DishSummary[]
+  recipes: PlanRecipe[]
 }
 
 export interface PlanShoppingItemSource {

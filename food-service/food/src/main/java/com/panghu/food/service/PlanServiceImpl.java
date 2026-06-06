@@ -519,17 +519,27 @@ public class PlanServiceImpl implements PlanService {
         }
 
         List<String> dishIds = planRecipes.stream().map(CirclePlanRecipe::getDishId).collect(Collectors.toList());
-        List<DishSummaryResponse> ownerOrdered = dishMapper.selectAllActive();
+        List<DishSummaryResponse> ownerOrdered = dishMapper.selectByIds(dishIds);
         menuVisibilitySupport.hydrateSummaries(ownerOrdered);
         hydrateIngredientNames(ownerOrdered);
         Map<String, DishSummaryResponse> byId = ownerOrdered.stream()
-                .filter(item -> dishIds.contains(item.getId()))
                 .collect(Collectors.toMap(DishSummaryResponse::getId, item -> item, (left, right) -> left));
+        Map<String, UserAccount> addedByUserMap = userAccountMapper.selectBatchIds(planRecipes.stream()
+                        .map(CirclePlanRecipe::getAddedByUserId)
+                        .filter(Objects::nonNull)
+                        .filter(userId -> !userId.isBlank())
+                        .distinct()
+                        .collect(Collectors.toList()))
+                .stream()
+                .collect(Collectors.toMap(UserAccount::getId, item -> item, (left, right) -> left));
 
         List<DishSummaryResponse> ordered = new ArrayList<>();
         for (CirclePlanRecipe planRecipe : planRecipes) {
             DishSummaryResponse dish = byId.get(planRecipe.getDishId());
             if (dish != null) {
+                dish.setAddedByUserId(planRecipe.getAddedByUserId());
+                UserAccount addedBy = addedByUserMap.get(planRecipe.getAddedByUserId());
+                dish.setAddedByNickname(addedBy == null ? "" : addedBy.getNickname());
                 ordered.add(dish);
             }
         }

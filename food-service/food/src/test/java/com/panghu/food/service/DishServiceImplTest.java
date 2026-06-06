@@ -5,7 +5,6 @@ import com.panghu.food.dto.IngredientItem;
 import com.panghu.food.auth.AuthContext;
 import com.panghu.food.dto.DishDetailResponse;
 import com.panghu.food.entity.DishIngredient;
-import com.panghu.food.mapper.ActivityFeedMapper;
 import com.panghu.food.mapper.BuddyCircleMemberMapper;
 import com.panghu.food.mapper.DishIngredientMapper;
 import com.panghu.food.mapper.DishMapper;
@@ -30,7 +29,6 @@ class DishServiceImplTest {
     private final DishMapper dishMapper = mock(DishMapper.class);
     private final DishIngredientMapper dishIngredientMapper = mock(DishIngredientMapper.class);
     private final DishStepMapper dishStepMapper = mock(DishStepMapper.class);
-    private final ActivityFeedMapper activityFeedMapper = mock(ActivityFeedMapper.class);
     private final BuddyCircleMemberMapper buddyCircleMemberMapper = mock(BuddyCircleMemberMapper.class);
     private final DishVisibilityCircleMapper dishVisibilityCircleMapper = mock(DishVisibilityCircleMapper.class);
     private final MenuVisibilitySupport menuVisibilitySupport = mock(MenuVisibilitySupport.class);
@@ -41,7 +39,6 @@ class DishServiceImplTest {
         ReflectionTestUtils.setField(dishService, "dishMapper", dishMapper);
         ReflectionTestUtils.setField(dishService, "dishIngredientMapper", dishIngredientMapper);
         ReflectionTestUtils.setField(dishService, "dishStepMapper", dishStepMapper);
-        ReflectionTestUtils.setField(dishService, "activityFeedMapper", activityFeedMapper);
         ReflectionTestUtils.setField(dishService, "buddyCircleMemberMapper", buddyCircleMemberMapper);
         ReflectionTestUtils.setField(dishService, "dishVisibilityCircleMapper", dishVisibilityCircleMapper);
         ReflectionTestUtils.setField(dishService, "menuVisibilitySupport", menuVisibilitySupport);
@@ -130,7 +127,7 @@ class DishServiceImplTest {
     }
 
     @Test
-    void createDishCreatesActivityPerEffectiveCircle() {
+    void createDishStoresEffectiveCircleVisibilityWithoutCreatingFeedData() {
         AuthContext.setUserId("owner");
         DishUpsertRequest request = new DishUpsertRequest();
         request.setName("红烧肉");
@@ -148,18 +145,7 @@ class DishServiceImplTest {
             dish.setId("dish-1");
             return 1;
         });
-        com.panghu.food.entity.Dish storedDish = new com.panghu.food.entity.Dish();
-        storedDish.setId("dish-1");
-        storedDish.setOwnerUserId("owner");
-        storedDish.setVisibility("circle");
-        when(dishMapper.selectById("dish-1")).thenReturn(storedDish);
         when(dishMapper.selectDishDetailById("dish-1")).thenReturn(dish("dish-1", "owner"));
-        when(menuVisibilitySupport.resolveDish("owner", "circle", "dish-1"))
-                .thenReturn(new MenuVisibilitySupport.ResolvedDishVisibility(
-                        "circle",
-                        List.of("circle-1", "circle-2"),
-                        "circle",
-                        List.of("circle-1", "circle-2")));
         when(menuVisibilitySupport.canViewDish(any(DishDetailResponse.class), any(), any(Boolean.class))).thenReturn(true);
         when(dishIngredientMapper.selectByDishId("dish-1")).thenReturn(List.of());
         when(dishStepMapper.selectByDishId("dish-1")).thenReturn(List.of());
@@ -168,7 +154,6 @@ class DishServiceImplTest {
 
         assertThat(response.getId()).isEqualTo("dish-1");
         verify(dishVisibilityCircleMapper, times(2)).insert(any());
-        verify(activityFeedMapper, times(2)).insert(any());
     }
 
     private DishDetailResponse dish(String id, String ownerUserId) {

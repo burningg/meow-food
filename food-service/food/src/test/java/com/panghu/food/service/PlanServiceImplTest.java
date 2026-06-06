@@ -125,16 +125,18 @@ class PlanServiceImplTest {
         AuthContext.setUserId("viewer");
         CirclePlan plan = plan("plan-1", "circle-1", "viewer");
         CirclePlanRecipe existing = recipe("plan-1", "dish-1");
+        existing.setAddedByUserId("viewer");
         DishSummaryResponse dish = dishSummary("dish-1", "viewer", LocalDateTime.of(2026, 6, 1, 10, 0));
 
         when(circlePlanMapper.selectById("plan-1")).thenReturn(plan);
         when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
         when(buddyCircleMemberMapper.selectCount(any())).thenReturn(1L);
         when(circlePlanRecipeMapper.selectList(any())).thenReturn(List.of(existing));
-        when(dishMapper.selectAllActive()).thenReturn(List.of(dish));
+        when(dishMapper.selectByIds(any())).thenReturn(List.of(dish));
         when(dishIngredientMapper.selectList(any())).thenReturn(List.of());
         when(circlePlanShoppingListMapper.selectOne(any())).thenReturn(null);
         when(userAccountMapper.selectById("viewer")).thenReturn(user("viewer", "胖虎"));
+        when(userAccountMapper.selectBatchIds(any())).thenReturn(List.of(user("viewer", "胖虎")));
         doNothing().when(menuVisibilitySupport).hydrateSummaries(anyList());
         when(menuVisibilitySupport.canViewDish(any(DishSummaryResponse.class), anyString(), anyBoolean())).thenReturn(true);
 
@@ -144,6 +146,7 @@ class PlanServiceImplTest {
         PlanDetailResponse response = planService.addRecipes("plan-1", request);
 
         assertThat(response.getRecipes()).hasSize(1);
+        assertThat(response.getRecipes().get(0).getAddedByNickname()).isEqualTo("胖虎");
         verify(circlePlanRecipeMapper, never()).insert(any(CirclePlanRecipe.class));
     }
 

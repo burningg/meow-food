@@ -11,6 +11,8 @@ public class DishSummaryResponse {
     private String id;
     private String ownerUserId;
     private String ownerNickname;
+    private String addedByUserId;
+    private String addedByNickname;
     private String name;
     private String image;
     private String description;

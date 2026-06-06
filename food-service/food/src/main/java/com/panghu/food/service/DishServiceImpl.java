@@ -9,14 +9,12 @@ import com.panghu.food.dto.DishSummaryResponse;
 import com.panghu.food.dto.DishUpsertRequest;
 import com.panghu.food.dto.IngredientItem;
 import com.panghu.food.dto.StepItem;
-import com.panghu.food.entity.ActivityFeed;
 import com.panghu.food.entity.BuddyCircleMember;
 import com.panghu.food.entity.Dish;
 import com.panghu.food.entity.DishIngredient;
 import com.panghu.food.entity.DishStep;
 import com.panghu.food.entity.DishVisibilityCircle;
 import com.panghu.food.exception.ApiException;
-import com.panghu.food.mapper.ActivityFeedMapper;
 import com.panghu.food.mapper.BuddyCircleMemberMapper;
 import com.panghu.food.mapper.DishMapper;
 import com.panghu.food.mapper.DishIngredientMapper;
@@ -58,9 +56,6 @@ public class DishServiceImpl implements DishService {
 
     @Autowired
     private DishStepMapper dishStepMapper;
-
-    @Autowired
-    private ActivityFeedMapper activityFeedMapper;
 
     @Autowired
     private BuddyCircleMemberMapper buddyCircleMemberMapper;
@@ -170,7 +165,6 @@ public class DishServiceImpl implements DishService {
         dishMapper.insert(dish);
         replaceVisibilityCircles(dish.getId(), dishCreateDTO);
         replaceChildren(dish.getId(), dishCreateDTO);
-        createActivities(currentUserId, dish.getId(), "dish_created");
         return getDishById(dish.getId());
     }
 
@@ -191,7 +185,6 @@ public class DishServiceImpl implements DishService {
         dishMapper.updateById(dish);
         replaceVisibilityCircles(id, dishUpdateDTO);
         replaceChildren(id, dishUpdateDTO);
-        createActivities(currentUserId, dish.getId(), "dish_updated");
         return getDishById(id);
     }
 
@@ -356,34 +349,6 @@ public class DishServiceImpl implements DishService {
 
     private boolean canViewDish(DishDetailResponse dish, String viewerUserId, boolean circleMode) {
         return menuVisibilitySupport.canViewDish(dish, viewerUserId, circleMode);
-    }
-
-    private void createActivities(String userId, String dishId, String type) {
-        MenuVisibilitySupport.ResolvedDishVisibility resolved = menuVisibilitySupport.resolveDish(
-                userId,
-                dishMapper.selectById(dishId).getVisibility(),
-                dishId);
-        if (VisibilityUtils.VISIBILITY_PRIVATE.equals(resolved.effectiveVisibility())) {
-            return;
-        }
-        if (VisibilityUtils.VISIBILITY_CIRCLE.equals(resolved.effectiveVisibility())) {
-            for (String circleId : resolved.effectiveCircleIds()) {
-                createActivity(userId, dishId, type, VisibilityUtils.VISIBILITY_CIRCLE, circleId);
-            }
-            return;
-        }
-        createActivity(userId, dishId, type, resolved.effectiveVisibility(), null);
-    }
-
-    private void createActivity(String userId, String dishId, String type, String visibilityScope, String circleId) {
-        ActivityFeed feed = new ActivityFeed();
-        feed.setActorUserId(userId);
-        feed.setDishId(dishId);
-        feed.setActivityType(type);
-        feed.setVisibilityScope(visibilityScope);
-        feed.setCircleId(circleId);
-        feed.setCreatedAt(LocalDateTime.now());
-        activityFeedMapper.insert(feed);
     }
 
     private void validateDishRequest(String userId, DishUpsertRequest request) {

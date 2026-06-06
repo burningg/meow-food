@@ -23,4 +23,6 @@ public interface DishMapper extends BaseMapper<Dish> {
     List<DishSummaryResponse> selectByOwnerUserId(@Param("ownerUserId") String ownerUserId);
 
     List<DishSummaryResponse> selectAllActive();
+
+    List<DishSummaryResponse> selectByIds(@Param("ids") List<String> ids);
 }

@@ -141,4 +141,16 @@
         WHERE d.status = 1
         ORDER BY d.updated_at DESC, d.created_at DESC
     </select>
+
+    <select id="selectByIds" resultMap="DishSummaryMap">
+        SELECT
+        <include refid="DishSummaryColumns" />
+        FROM dish d
+        LEFT JOIN category c ON d.category_id = c.id
+        LEFT JOIN user u ON d.owner_user_id = u.id
+        WHERE d.id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
 </mapper>

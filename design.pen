@@ -15288,7 +15288,7 @@
                   "id": "N3Xff",
                   "name": "Picker Save Button Text",
                   "fill": "#FFFFFF",
-                  "content": "保存",
+                  "content": "保存3道",
                   "fontFamily": "Noto Sans SC",
                   "fontSize": 13,
                   "fontWeight": "600"
@@ -16260,16 +16260,6 @@
               "name": "Plan Left Spacer",
               "width": 36,
               "height": 36
-            },
-            {
-              "type": "text",
-              "id": "JaN0I",
-              "name": "Page Title",
-              "fill": "$text-primary",
-              "content": "计划",
-              "fontFamily": "$font-body",
-              "fontSize": 16,
-              "fontWeight": "600"
             },
             {
               "type": "frame",

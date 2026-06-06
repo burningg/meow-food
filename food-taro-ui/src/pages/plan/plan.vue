@@ -4,7 +4,6 @@
       <view class="page-shell plan-page">
         <header class="plan-nav">
           <view class="plan-nav-side"></view>
-          <text class="page-title">计划</text>
           <button class="plan-nav-action" @tap="openCreateSheet">＋</button>
         </header>
 
@@ -60,19 +59,34 @@
 
               <view v-if="expandedPlanId === plan.id" class="plan-card-body">
                 <view v-if="expandedRecipes(plan.id).length" class="checked-recipe-row">
-                  <button
+                  <view
                     v-for="recipe in expandedRecipes(plan.id)"
                     :key="recipe.id"
                     class="checked-recipe-card"
-                    @tap="openDish(recipe.id)"
                   >
-                    <SmartImage :src="recipe.image" class-name="checked-recipe-image" />
-                    <view class="checked-recipe-copy">
-                      <text class="checked-recipe-title">{{ recipe.name }}</text>
-                      <text class="checked-recipe-meta">{{ recipe.categoryName || '共享菜谱' }}</text>
+                    <button class="checked-recipe-main" @tap="openDish(recipe.id)">
+                      <SmartImage :src="recipe.image" class-name="checked-recipe-image" />
+                      <view class="checked-recipe-copy">
+                        <text class="checked-recipe-title">{{ recipe.name }}</text>
+                        <text class="checked-recipe-meta">
+                          {{ recipe.categoryName || '共享菜谱' }}{{ recipe.addedByNickname ? ` · ${recipe.addedByNickname}加入` : '' }}
+                        </text>
+                      </view>
+                    </button>
+                    <view class="checked-recipe-side">
+                      <button
+                        class="checked-recipe-remove"
+                        :disabled="removingRecipeKey === `${plan.id}:${recipe.id}`"
+                        @tap.stop="removeRecipeFromPlan(plan.id, recipe.id, recipe.name)"
+                      >
+                        <view v-if="removingRecipeKey === `${plan.id}:${recipe.id}`" class="checked-recipe-remove-loading"></view>
+                        <view v-else class="checked-recipe-trash-icon">
+                          <view class="checked-recipe-trash-lid"></view>
+                          <view class="checked-recipe-trash-body"></view>
+                        </view>
+                      </button>
                     </view>
-                    <view class="checked-recipe-state">已加</view>
-                  </button>
+                  </view>
                 </view>
                 <view v-else class="checked-empty-card">
                   <text class="checked-empty-title">这条计划还没加菜谱</text>
@@ -148,7 +162,7 @@ import AppTabBar from '@/components/AppTabBar.vue'
 import PullRefreshPage from '@/components/PullRefreshPage.vue'
 import SmartImage from '@/components/SmartImage.vue'
 import { requireAuth } from '@/lib/auth'
-import { Message } from '@/lib/feedback'
+import { confirmDialog, Message } from '@/lib/feedback'
 import { getRouteParams, push } from '@/lib/navigation'
 import { PlanService, type PlanDayPlans, type PlanDetail, type PlanSummary } from '@/services/plan-service'
 import { SocialService, type BuddyCircleSummary } from '@/services/social-service'
@@ -176,6 +190,7 @@ const selectedCircleId = ref('')
 const draftTitle = ref(buildDefaultPlanTitle(formatDateKey(initialDate)))
 const creating = ref(false)
 const createSheetVisible = ref(false)
+const removingRecipeKey = ref('')
 
 const weekDates = computed<WeekDateItem[]>(() => {
   return Array.from({ length: 7 }, (_, index) => {
@@ -312,7 +327,7 @@ async function toggleExpandedPlan(planId: string) {
 }
 
 function expandedRecipes(planId: string) {
-  return detailCache.value[planId]?.recipes.slice(0, 2) || []
+  return detailCache.value[planId]?.recipes || []
 }
 
 function handleCircleChange(event: { detail: { value: string } }) {
@@ -385,6 +400,35 @@ async function openShopping(plan: PlanSummary) {
     push({ name: 'plan-shopping', params: { id: plan.id } })
   } catch (error: any) {
     Message.error(error?.response?.data?.message || '采购清单启动失败')
+  }
+}
+
+async function removeRecipeFromPlan(planId: string, dishId: string, dishName: string) {
+  const recipeKey = `${planId}:${dishId}`
+  if (removingRecipeKey.value) return
+  try {
+    await confirmDialog({
+      title: '移除菜谱',
+      message: `确认把“${dishName}”从这条计划里移除吗？如果已开始采购，采购单会按剩余菜谱重新计算。`,
+    })
+    removingRecipeKey.value = recipeKey
+    const { data } = await planService.removeRecipe(planId, dishId)
+    detailCache.value = {
+      ...detailCache.value,
+      [planId]: data,
+    }
+    syncPlanState(planId, {
+      recipeCount: data.recipes.length,
+      shoppingStarted: data.shoppingStarted,
+      shoppingPurchasedItemCount: data.shoppingPurchasedItemCount,
+      shoppingTotalItemCount: data.shoppingTotalItemCount,
+    })
+    Message.success('菜谱已移出计划')
+  } catch (error: any) {
+    if (error?.message === 'cancelled') return
+    Message.error(error?.response?.data?.message || '移除菜谱失败')
+  } finally {
+    removingRecipeKey.value = ''
   }
 }
 
@@ -702,13 +746,24 @@ function formatDisplayDate(value: string, withSpace: boolean) {
 .checked-recipe-card {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
   min-height: 76px;
   padding: 10px;
   border-radius: 18px;
   background: #ffffff;
   box-shadow: 0 10px 22px rgba(27, 58, 45, 0.07);
+  text-align: left;
+}
+
+.checked-recipe-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  background: transparent;
   text-align: left;
 }
 
@@ -738,14 +793,98 @@ function formatDisplayDate(value: string, withSpace: boolean) {
   font-size: 12px;
 }
 
-.checked-recipe-state {
+.checked-recipe-side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
-  padding: 6px 10px;
+}
+
+.checked-recipe-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
   border-radius: 999px;
-  background: #edf3ec;
-  color: #346538;
-  font-size: 11px;
-  font-weight: 600;
+  background: transparent;
+}
+
+.checked-recipe-trash-icon {
+  position: relative;
+  width: 14px;
+  height: 16px;
+}
+
+.checked-recipe-trash-lid {
+  position: absolute;
+  top: 1px;
+  left: 2px;
+  width: 10px;
+  height: 2px;
+  border-radius: 999px;
+  background: #9a9894;
+}
+
+.checked-recipe-trash-lid::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 3px;
+  width: 4px;
+  height: 2px;
+  border-radius: 999px;
+  background: #9a9894;
+}
+
+.checked-recipe-trash-body {
+  position: absolute;
+  top: 4px;
+  left: 2px;
+  width: 10px;
+  height: 10px;
+  border: 2px solid #9a9894;
+  border-top-width: 1px;
+  border-radius: 2px 2px 3px 3px;
+  box-sizing: border-box;
+}
+
+.checked-recipe-trash-body::before,
+.checked-recipe-trash-body::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  width: 1px;
+  height: 4px;
+  border-radius: 999px;
+  background: #9a9894;
+}
+
+.checked-recipe-trash-body::before {
+  left: 2px;
+}
+
+.checked-recipe-trash-body::after {
+  right: 2px;
+}
+
+.checked-recipe-remove-loading {
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(154, 152, 148, 0.2);
+  border-top-color: #9a9894;
+  border-radius: 999px;
+  animation: checked-recipe-spin 0.8s linear infinite;
+}
+
+@keyframes checked-recipe-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .checked-empty-card {
