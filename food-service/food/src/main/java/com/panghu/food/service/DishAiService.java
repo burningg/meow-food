@@ -215,7 +215,7 @@ public class DishAiService {
         builder.append(" JSON 格式必须是：");
         builder.append("{\"ingredients\":[{\"name\":\"食材名\",\"amount\":\"用量\"}],\"steps\":[\"步骤1\",\"步骤2\"]}");
         builder.append(" 如果原内容缺少用量，请用“适量”；如果步骤散落在文字或截图中，请按合理烹饪顺序整理。");
-        builder.append(" 不要补充原内容完全没有依据的菜名或描述，导入结果只用于填充食材和步骤。");
+        builder.append(" 不要补充原内容完全没有依据的食材和步骤，导入结果只用于填充食材和步骤。");
         if (!isBlank(text)) {
             builder.append(" 用户粘贴的原文如下：").append(text.trim());
         } else {

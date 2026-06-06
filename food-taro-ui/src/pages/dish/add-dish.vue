@@ -518,10 +518,16 @@ function updateVipUsage(data: DishAiAnalysisResponse) {
   }
 }
 
-function applyAiAnalysisResult(data: DishAiAnalysisResponse) {
-  if (data.name?.trim()) {
-    form.name = data.name.trim()
+function applyAiNameIfEmpty(data: DishAiAnalysisResponse) {
+  const aiName = data.name?.trim()
+  // 仅当用户没有填写名称时，才使用 AI 识别/导入返回的菜品名称，避免覆盖用户输入。
+  if (!form.name.trim() && aiName) {
+    form.name = aiName
   }
+}
+
+function applyAiAnalysisResult(data: DishAiAnalysisResponse) {
+  applyAiNameIfEmpty(data)
   form.ingredients = toIngredientFormItems(data.ingredients || [])
   form.steps = toStepItems(data.steps || [])
   updateVipUsage(data)
@@ -529,6 +535,7 @@ function applyAiAnalysisResult(data: DishAiAnalysisResponse) {
 }
 
 function applyAiImportResult(data: DishAiAnalysisResponse) {
+  applyAiNameIfEmpty(data)
   form.ingredients = toIngredientFormItems(data.ingredients || [])
   form.steps = toStepItems(data.steps || [])
   updateVipUsage(data)
