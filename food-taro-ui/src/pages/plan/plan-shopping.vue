@@ -393,6 +393,8 @@ function openDish(dishId: string) {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  align-items: flex-start;
+  text-align: left;
 }
 
 .shopping-item-title {

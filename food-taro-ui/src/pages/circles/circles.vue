@@ -2,17 +2,13 @@
   <view class="circles-page-root">
     <PullRefreshPage @refresh="refreshCircles">
       <view class="page-shell circles-page">
-        <header class="top-nav circle-nav">
-          <view class="nav-placeholder"></view>
-          <button class="nav-button" @tap="createCircle">＋</button>
-        </header>
-
         <template v-if="activeDetail">
           <main class="circle-content">
             <section class="circle-switch-panel">
               <view class="switch-panel-header">
                 <text class="strong">圈子</text>
-                <text class="muted">当前 · {{ activeDetail.circle.name }}</text>
+                <button class="nav-button" @tap="createCircle">＋</button>
+
               </view>
               <view class="current-circle-summary">
                 <view class="current-circle-copy">
@@ -162,10 +158,7 @@
           <button
             v-for="circle in presentedCircles"
             :key="circle.id"
-            :class="[
-              'circle-option',
-              { active: circle.id === activeCircleId },
-            ]"
+            :class="['circle-option', { active: circle.id === activeCircleId }]"
             @tap="selectCircle(circle.id)"
           >
             <text class="circle-option-mark">{{

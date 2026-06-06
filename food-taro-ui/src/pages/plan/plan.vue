@@ -2,19 +2,17 @@
   <view class="plan-page-root">
     <PullRefreshPage @refresh="refreshWeek">
       <view class="page-shell plan-page">
-        <header class="plan-nav">
-          <view class="plan-nav-side"></view>
-          <button class="plan-nav-action" @tap="openCreateSheet">＋</button>
-        </header>
-
         <section class="week-header-card">
           <view class="week-header-copy">
             <text class="week-eyebrow">本周计划</text>
             <text class="week-title">{{ weekLabel }}</text>
           </view>
           <view class="week-switch">
-            <button class="week-switch-button" @tap="changeWeek(-1)">‹</button>
-            <button class="week-switch-button" @tap="changeWeek(1)">›</button>
+            <button class="plan-nav-action week-add-button" @tap="openCreateSheet">＋</button>
+            <view class="week-switch-controls">
+              <button class="week-switch-button" @tap="changeWeek(-1)">‹</button>
+              <button class="week-switch-button" @tap="changeWeek(1)">›</button>
+            </view>
           </view>
         </section>
 
@@ -62,27 +60,37 @@
                   <view
                     v-for="recipe in expandedRecipes(plan.id)"
                     :key="recipe.id"
-                    class="checked-recipe-card"
+                    class="checked-recipe-swipe"
+                    @touchstart="handleRecipeTouchStart(plan.id, recipe.id, $event)"
+                    @touchend="handleRecipeTouchEnd(plan.id, recipe.id, $event)"
+                    @touchcancel="resetRecipeSwipeTracking"
                   >
-                    <button class="checked-recipe-main" @tap="openDish(recipe.id)">
-                      <SmartImage :src="recipe.image" class-name="checked-recipe-image" />
-                      <view class="checked-recipe-copy">
-                        <text class="checked-recipe-title">{{ recipe.name }}</text>
-                        <text class="checked-recipe-meta">
-                          {{ recipe.categoryName || '共享菜谱' }}{{ recipe.addedByNickname ? ` · ${recipe.addedByNickname}加入` : '' }}
-                        </text>
-                      </view>
-                    </button>
-                    <view class="checked-recipe-side">
+                    <view class="checked-recipe-action">
                       <button
                         class="checked-recipe-remove"
-                        :disabled="removingRecipeKey === `${plan.id}:${recipe.id}`"
+                        :disabled="removingRecipeKey === buildRecipeKey(plan.id, recipe.id)"
                         @tap.stop="removeRecipeFromPlan(plan.id, recipe.id, recipe.name)"
                       >
-                        <view v-if="removingRecipeKey === `${plan.id}:${recipe.id}`" class="checked-recipe-remove-loading"></view>
-                        <view v-else class="checked-recipe-trash-icon">
-                          <view class="checked-recipe-trash-lid"></view>
-                          <view class="checked-recipe-trash-body"></view>
+                        <view
+                          v-if="removingRecipeKey === buildRecipeKey(plan.id, recipe.id)"
+                          class="checked-recipe-remove-loading"
+                        ></view>
+                        <text v-else class="checked-recipe-remove-text">删除</text>
+                      </button>
+                    </view>
+                    <view
+                      :class="[
+                        'checked-recipe-card',
+                        { revealed: revealedRecipeKey === buildRecipeKey(plan.id, recipe.id) },
+                      ]"
+                    >
+                      <button class="checked-recipe-main" @tap="handleRecipeTap(plan.id, recipe.id)">
+                        <SmartImage :src="recipe.image" class-name="checked-recipe-image" />
+                        <view class="checked-recipe-copy">
+                          <text class="checked-recipe-title">{{ recipe.name }}</text>
+                          <text class="checked-recipe-meta">
+                            {{ recipe.categoryName || '共享菜谱' }}{{ recipe.addedByNickname ? ` · ${recipe.addedByNickname}加入` : '' }}
+                          </text>
                         </view>
                       </button>
                     </view>
@@ -191,6 +199,8 @@ const draftTitle = ref(buildDefaultPlanTitle(formatDateKey(initialDate)))
 const creating = ref(false)
 const createSheetVisible = ref(false)
 const removingRecipeKey = ref('')
+const revealedRecipeKey = ref('')
+const recipeSwipeStart = ref<{ key: string; x: number; y: number } | null>(null)
 
 const weekDates = computed<WeekDateItem[]>(() => {
   return Array.from({ length: 7 }, (_, index) => {
@@ -241,6 +251,7 @@ onMounted(async () => {
 watch(
   selectedPlans,
   async (plans) => {
+    revealedRecipeKey.value = ''
     if (!plans.length) {
       expandedPlanId.value = ''
       return
@@ -322,6 +333,7 @@ function selectDate(key: string) {
 }
 
 async function toggleExpandedPlan(planId: string) {
+  revealedRecipeKey.value = ''
   expandedPlanId.value = planId
   await ensurePlanDetail(planId)
 }
@@ -404,7 +416,7 @@ async function openShopping(plan: PlanSummary) {
 }
 
 async function removeRecipeFromPlan(planId: string, dishId: string, dishName: string) {
-  const recipeKey = `${planId}:${dishId}`
+  const recipeKey = buildRecipeKey(planId, dishId)
   if (removingRecipeKey.value) return
   try {
     await confirmDialog({
@@ -416,6 +428,9 @@ async function removeRecipeFromPlan(planId: string, dishId: string, dishName: st
     detailCache.value = {
       ...detailCache.value,
       [planId]: data,
+    }
+    if (revealedRecipeKey.value === recipeKey) {
+      revealedRecipeKey.value = ''
     }
     syncPlanState(planId, {
       recipeCount: data.recipes.length,
@@ -441,6 +456,65 @@ function syncPlanState(planId: string, patch: Partial<PlanSummary>) {
     }))
   })
   monthCache.value = nextCache
+}
+
+function buildRecipeKey(planId: string, dishId: string) {
+  return `${planId}:${dishId}`
+}
+
+function handleRecipeTap(planId: string, dishId: string) {
+  const recipeKey = buildRecipeKey(planId, dishId)
+  if (revealedRecipeKey.value === recipeKey) {
+    revealedRecipeKey.value = ''
+    return
+  }
+  openDish(dishId)
+}
+
+function handleRecipeTouchStart(planId: string, dishId: string, event: any) {
+  const point = getTouchPoint(event)
+  if (!point) return
+  recipeSwipeStart.value = {
+    key: buildRecipeKey(planId, dishId),
+    x: point.x,
+    y: point.y,
+  }
+}
+
+function handleRecipeTouchEnd(planId: string, dishId: string, event: any) {
+  const start = recipeSwipeStart.value
+  const recipeKey = buildRecipeKey(planId, dishId)
+  recipeSwipeStart.value = null
+  if (!start || start.key !== recipeKey) return
+
+  const point = getTouchPoint(event)
+  if (!point) return
+
+  const deltaX = point.x - start.x
+  const deltaY = point.y - start.y
+  if (Math.abs(deltaX) <= Math.abs(deltaY) || Math.abs(deltaX) < 36) return
+
+  if (deltaX < 0) {
+    revealedRecipeKey.value = recipeKey
+    return
+  }
+
+  if (revealedRecipeKey.value === recipeKey) {
+    revealedRecipeKey.value = ''
+  }
+}
+
+function resetRecipeSwipeTracking() {
+  recipeSwipeStart.value = null
+}
+
+function getTouchPoint(event: any) {
+  const touch = event?.changedTouches?.[0] || event?.touches?.[0]
+  if (!touch) return null
+  return {
+    x: touch.pageX ?? touch.clientX ?? 0,
+    y: touch.pageY ?? touch.clientY ?? 0,
+  }
 }
 
 function openDish(dishId: string) {
@@ -502,8 +576,8 @@ function formatDisplayDate(value: string, withSpace: boolean) {
   padding: 14px 20px 120px;
 }
 
-.plan-nav,
 .week-switch,
+.week-switch-controls,
 .weekday-row,
 .week-date-row,
 .plan-card-head,
@@ -512,7 +586,6 @@ function formatDisplayDate(value: string, withSpace: boolean) {
   display: flex;
 }
 
-.plan-nav,
 .plan-card-head,
 .create-sheet-head,
 .create-sheet-actions {
@@ -520,11 +593,6 @@ function formatDisplayDate(value: string, withSpace: boolean) {
   justify-content: space-between;
 }
 
-.plan-nav {
-  margin-bottom: 12px;
-}
-
-.plan-nav-side,
 .plan-nav-action {
   width: 36px;
   height: 36px;
@@ -582,7 +650,19 @@ function formatDisplayDate(value: string, withSpace: boolean) {
 }
 
 .week-switch {
+  flex-direction: column;
+  align-items: flex-end;
   gap: 8px;
+}
+
+.week-switch-controls {
+  gap: 8px;
+}
+
+.week-add-button {
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
 }
 
 .week-switch-button {
@@ -689,10 +769,44 @@ function formatDisplayDate(value: string, withSpace: boolean) {
 .plan-card {
   padding: 16px;
   background: #ffffff;
+  border: 1px solid transparent;
+  box-shadow: 0 8px 18px rgba(27, 58, 45, 0.05);
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
 }
 
 .plan-card.expanded {
   background: #fbf8f4;
+  border-color: #e1c1ab;
+  box-shadow: 0 16px 30px rgba(159, 92, 56, 0.14);
+  transform: translateY(-1px);
+}
+
+.plan-card.expanded .plan-card-title {
+  color: #8d4b2d;
+}
+
+.plan-card.expanded .plan-card-meta {
+  color: #6f6258;
+}
+
+.plan-card.expanded .plan-card-badge {
+  background: #9f5c38;
+}
+
+.plan-card.expanded .plan-card-badge .plan-card-badge-text {
+  color: #ffffff;
+}
+
+.plan-card.expanded .plan-card-badge.shopping {
+  background: #346538;
+}
+
+.plan-card.expanded .plan-card-badge.shopping .plan-card-badge-text {
+  color: #ffffff;
 }
 
 .plan-card-title {
@@ -743,6 +857,21 @@ function formatDisplayDate(value: string, withSpace: boolean) {
   gap: 12px;
 }
 
+.checked-recipe-swipe {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+.checked-recipe-action {
+  position: absolute;
+  inset: 0 0 0 auto;
+  display: flex;
+  width: 76px;
+  align-items: stretch;
+  justify-content: flex-end;
+}
+
 .checked-recipe-card {
   display: flex;
   align-items: center;
@@ -754,6 +883,13 @@ function formatDisplayDate(value: string, withSpace: boolean) {
   background: #ffffff;
   box-shadow: 0 10px 22px rgba(27, 58, 45, 0.07);
   text-align: left;
+  transition: transform 0.18s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.checked-recipe-card.revealed {
+  transform: translateX(-76px);
 }
 
 .checked-recipe-main {
@@ -793,87 +929,28 @@ function formatDisplayDate(value: string, withSpace: boolean) {
   font-size: 12px;
 }
 
-.checked-recipe-side {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
 .checked-recipe-remove {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 76px;
+  height: 100%;
   padding: 0;
-  border-radius: 999px;
-  background: transparent;
+  border-radius: 0 18px 18px 0;
+  background: #cf5f52;
 }
 
-.checked-recipe-trash-icon {
-  position: relative;
-  width: 14px;
-  height: 16px;
-}
-
-.checked-recipe-trash-lid {
-  position: absolute;
-  top: 1px;
-  left: 2px;
-  width: 10px;
-  height: 2px;
-  border-radius: 999px;
-  background: #9a9894;
-}
-
-.checked-recipe-trash-lid::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: 3px;
-  width: 4px;
-  height: 2px;
-  border-radius: 999px;
-  background: #9a9894;
-}
-
-.checked-recipe-trash-body {
-  position: absolute;
-  top: 4px;
-  left: 2px;
-  width: 10px;
-  height: 10px;
-  border: 2px solid #9a9894;
-  border-top-width: 1px;
-  border-radius: 2px 2px 3px 3px;
-  box-sizing: border-box;
-}
-
-.checked-recipe-trash-body::before,
-.checked-recipe-trash-body::after {
-  content: '';
-  position: absolute;
-  top: 2px;
-  width: 1px;
-  height: 4px;
-  border-radius: 999px;
-  background: #9a9894;
-}
-
-.checked-recipe-trash-body::before {
-  left: 2px;
-}
-
-.checked-recipe-trash-body::after {
-  right: 2px;
+.checked-recipe-remove-text {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .checked-recipe-remove-loading {
   width: 12px;
   height: 12px;
-  border: 2px solid rgba(154, 152, 148, 0.2);
-  border-top-color: #9a9894;
+  border: 2px solid rgba(255, 255, 255, 0.28);
+  border-top-color: #ffffff;
   border-radius: 999px;
   animation: checked-recipe-spin 0.8s linear infinite;
 }

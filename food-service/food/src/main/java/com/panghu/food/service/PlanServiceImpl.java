@@ -381,7 +381,7 @@ public class PlanServiceImpl implements PlanService {
     private void rebuildShoppingList(CirclePlan plan, String operatorUserId, boolean countAsRestart) {
         List<PlanRecipeIngredientSource> sources = loadPlanRecipeIngredientSources(plan.getId());
         if (sources.isEmpty()) {
-            throw new ApiException(HttpStatus.BAD_REQUEST, "请先添加菜谱再开始采购");
+            throw new ApiException(HttpStatus.BAD_REQUEST, "暂无可采购的食材");
         }
 
         CirclePlanShoppingList shoppingList = circlePlanShoppingListMapper.selectOne(new QueryWrapper<CirclePlanShoppingList>()
