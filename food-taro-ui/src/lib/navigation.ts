@@ -15,6 +15,8 @@ export type RouteName =
   | 'friend-requests'
   | 'friend-invite'
   | 'feed'
+  | 'plan-detail'
+  | 'plan-shopping'
   | 'user-menu'
   | 'circles'
   | 'create-circle'
@@ -44,6 +46,8 @@ const routePathMap: Record<RouteName, string> = {
   'friend-requests': '/pages/profile/friend-requests',
   'friend-invite': '/pages/profile/friend-invite',
   feed: '/pages/feed/feed',
+  'plan-detail': '/pages/feed/plan-detail',
+  'plan-shopping': '/pages/feed/plan-shopping',
   'user-menu': '/pages/user/user-menu',
   circles: '/pages/circles/circles',
   'create-circle': '/pages/circles/create-circle',
@@ -63,7 +67,14 @@ export function resolveRoute(location: RouteLocation | RouteName) {
   const params = target.params || {}
   const query = { ...(target.query || {}) }
 
-  if (target.name === 'dish-detail' || target.name === 'user-menu' || target.name === 'circles' || target.name === 'circle-members') {
+  if (
+    target.name === 'dish-detail' ||
+    target.name === 'plan-detail' ||
+    target.name === 'plan-shopping' ||
+    target.name === 'user-menu' ||
+    target.name === 'circles' ||
+    target.name === 'circle-members'
+  ) {
     query.id = params.id
   }
 

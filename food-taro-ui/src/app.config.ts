@@ -14,7 +14,7 @@ export default defineAppConfig({
     },
     {
       root: 'pages/feed',
-      pages: ['feed'],
+      pages: ['feed', 'plan-detail', 'plan-shopping'],
     },
     {
       root: 'pages/user',

@@ -60,7 +60,7 @@ const items: TabItem[] = [
   },
   {
     name: "feed",
-    label: "动态",
+    label: "计划",
     icon: "feed",
     iconSrc: feedIcon,
     route: "feed",

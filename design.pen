@@ -4570,9 +4570,9 @@
     {
       "type": "frame",
       "id": "p2t",
-      "x": 3107,
-      "y": 0,
-      "name": "Friends Feed",
+      "x": 2938.244276369518,
+      "y": 2137.47998871045,
+      "name": "Circle Plans",
       "clip": true,
       "width": 390,
       "fill": "$bg-primary",
@@ -4621,31 +4621,31 @@
               "id": "t2y",
               "name": "Page Title",
               "fill": "$text-primary",
-              "content": "好友动态",
+              "content": "计划",
               "fontFamily": "$font-body",
               "fontSize": 16,
               "fontWeight": "600"
             },
             {
               "type": "frame",
-              "id": "f2v",
-              "name": "Feed Right",
+              "id": "Ce0Q0",
+              "name": "Plan Right",
               "width": 36,
               "height": 36,
-              "fill": "$bg-card",
-              "cornerRadius": "$radius-pill",
+              "fill": "#FFFFFF",
+              "cornerRadius": 9999,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
                 {
                   "type": "icon",
-                  "id": "i2u",
-                  "name": "Bell Icon",
+                  "id": "WI9IJ",
+                  "name": "Calendar Icon",
                   "width": 18,
                   "height": 18,
-                  "icon": "bell-simple",
+                  "icon": "calendar-dots",
                   "library": "phosphor",
-                  "fill": "$text-primary"
+                  "fill": "#151515"
                 }
               ]
             }
@@ -4653,8 +4653,8 @@
         },
         {
           "type": "frame",
-          "id": "f3r",
-          "name": "Feed Content",
+          "id": "Rw6VT",
+          "name": "Plan Content",
           "width": "fill_container",
           "layout": "vertical",
           "gap": 18,
@@ -4667,136 +4667,105 @@
           "children": [
             {
               "type": "frame",
-              "id": "f3c",
-              "name": "Feed Intro Card",
+              "id": "aQjLT",
+              "name": "Week Header Card",
               "width": "fill_container",
-              "fill": "$bg-card",
-              "cornerRadius": 12,
+              "fill": "#FFFFFF",
+              "cornerRadius": 14,
               "layout": "vertical",
-              "gap": 16,
-              "padding": 18,
+              "gap": 8,
+              "padding": 16,
               "children": [
                 {
                   "type": "frame",
-                  "id": "f33",
-                  "name": "Feed Intro Copy",
-                  "layout": "vertical",
-                  "gap": 6,
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "t30",
-                      "name": "Feed Intro Eyebrow",
-                      "fill": "$text-muted",
-                      "content": "好友动态",
-                      "fontFamily": "$font-body",
-                      "fontSize": 11,
-                      "fontWeight": "500",
-                      "letterSpacing": 0.5
-                    },
-                    {
-                      "type": "text",
-                      "id": "t31",
-                      "name": "Feed Intro Title",
-                      "fill": "$text-primary",
-                      "content": "好友发了新菜，你会先在这里看到。",
-                      "fontFamily": "$font-heading",
-                      "fontSize": 22,
-                      "fontWeight": "normal"
-                    },
-                    {
-                      "type": "text",
-                      "id": "t32",
-                      "name": "Feed Intro Desc",
-                      "fill": "$text-body",
-                      "content": "只有公开菜单和对你可见的菜单，会进入动态与访问入口。",
-                      "fontFamily": "$font-body",
-                      "fontSize": 12,
-                      "fontWeight": "normal"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "f34",
-                  "name": "Feed Intro Divider",
+                  "id": "rDJL8",
+                  "name": "Week Top Row",
                   "width": "fill_container",
-                  "height": 1,
-                  "fill": "#ECE5DC"
-                },
-                {
-                  "type": "frame",
-                  "id": "f3b",
-                  "name": "Feed Filters",
-                  "width": "fill_container",
-                  "gap": 10,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
                   "children": [
                     {
                       "type": "frame",
-                      "id": "f36",
-                      "name": "Filter Active",
-                      "fill": "$text-primary",
-                      "cornerRadius": "$radius-pill",
-                      "padding": [
-                        12,
-                        16
-                      ],
+                      "id": "vxiHR",
+                      "name": "Week Copy",
+                      "layout": "vertical",
+                      "gap": 4,
                       "children": [
                         {
                           "type": "text",
-                          "id": "t35",
-                          "name": "Filter Active Text",
-                          "fill": "#FFFFFF",
-                          "content": "全部",
-                          "fontFamily": "$font-body",
-                          "fontSize": 12,
+                          "id": "L9jHrE",
+                          "name": "Week Eyebrow",
+                          "fill": "#787774",
+                          "content": "本周计划",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600",
+                          "letterSpacing": 0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "oiec5",
+                          "name": "Week Title",
+                          "fill": "#151515",
+                          "content": "6 月 1 日 - 6 月 7 日",
+                          "fontFamily": "Noto Serif SC",
+                          "fontSize": 20,
                           "fontWeight": "600"
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "f38",
-                      "name": "Filter Passive 1",
-                      "fill": "$bg-card",
-                      "cornerRadius": "$radius-pill",
-                      "padding": [
-                        12,
-                        16
-                      ],
+                      "id": "yhPID",
+                      "name": "Week Switch",
+                      "gap": 8,
+                      "alignItems": "center",
                       "children": [
                         {
-                          "type": "text",
-                          "id": "t37",
-                          "name": "Filter Passive 1 Text",
-                          "fill": "$text-body",
-                          "content": "上新",
-                          "fontFamily": "$font-body",
-                          "fontSize": 12,
-                          "fontWeight": "600"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "f3a",
-                      "name": "Filter Passive 2",
-                      "fill": "$bg-card",
-                      "cornerRadius": "$radius-pill",
-                      "padding": [
-                        12,
-                        16
-                      ],
-                      "children": [
+                          "type": "frame",
+                          "id": "ujxSr",
+                          "name": "Prev Week",
+                          "width": 34,
+                          "height": 34,
+                          "fill": "#F4EEE7",
+                          "cornerRadius": 9999,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "nlkjO",
+                              "name": "Prev Week Icon",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "caret-left",
+                              "library": "phosphor",
+                              "fill": "#5A4333"
+                            }
+                          ]
+                        },
                         {
-                          "type": "text",
-                          "id": "t39",
-                          "name": "Filter Passive 2 Text",
-                          "fill": "$text-body",
-                          "content": "圈内分享",
-                          "fontFamily": "$font-body",
-                          "fontSize": 12,
-                          "fontWeight": "600"
+                          "type": "frame",
+                          "id": "UBLsr",
+                          "name": "Next Week",
+                          "width": 34,
+                          "height": 34,
+                          "fill": "#F4EEE7",
+                          "cornerRadius": 9999,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "wUnA9",
+                              "name": "Next Week Icon",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "caret-right",
+                              "library": "phosphor",
+                              "fill": "#5A4333"
+                            }
+                          ]
                         }
                       ]
                     }
@@ -4806,80 +4775,1292 @@
             },
             {
               "type": "frame",
-              "id": "f3g",
-              "name": "Activity List",
+              "id": "TbZzj",
+              "name": "Week Calendar Card",
+              "width": "fill_container",
+              "fill": "#FBF8F4",
+              "cornerRadius": 14,
+              "layout": "vertical",
+              "gap": 10,
+              "padding": 14,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "DExTa",
+                  "name": "Weekday Row",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "LhXrH",
+                      "name": "Weekday 一",
+                      "width": 40,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "S01x1l",
+                          "name": "Weekday Label 一",
+                          "fill": "#9A887A",
+                          "content": "一",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "q123M",
+                      "name": "Weekday 二",
+                      "width": 40,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "FFOeY",
+                          "name": "Weekday Label 二",
+                          "fill": "#9A887A",
+                          "content": "二",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ZSIgY",
+                      "name": "Weekday 三",
+                      "width": 40,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "RyGSV",
+                          "name": "Weekday Label 三",
+                          "fill": "#9A887A",
+                          "content": "三",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "okAyT",
+                      "name": "Weekday 四",
+                      "width": 40,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "oZiYX",
+                          "name": "Weekday Label 四",
+                          "fill": "#9A887A",
+                          "content": "四",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "uzqmT",
+                      "name": "Weekday 五",
+                      "width": 40,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "SPb5i",
+                          "name": "Weekday Label 五",
+                          "fill": "#9A887A",
+                          "content": "五",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "MIdnr",
+                      "name": "Weekday 六",
+                      "width": 40,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "BMFZM",
+                          "name": "Weekday Label 六",
+                          "fill": "#9A887A",
+                          "content": "六",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "avWhd",
+                      "name": "Weekday 日",
+                      "width": 40,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "kivOS",
+                          "name": "Weekday Label 日",
+                          "fill": "#9A887A",
+                          "content": "日",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "EPqMO",
+                  "name": "Current Week",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "SnT8E",
+                      "name": "Week Date 1",
+                      "width": 40,
+                      "height": 52,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "UqgpM",
+                          "name": "Week Date Label 1",
+                          "fill": "#151515",
+                          "content": "1",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "uwaJX",
+                          "x": 20,
+                          "y": 40,
+                          "name": "Week Date Dots 1",
+                          "enabled": false,
+                          "width": 4,
+                          "height": 4,
+                          "gap": 4,
+                          "alignItems": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "LKsMk",
+                      "name": "Week Date 2",
+                      "width": 40,
+                      "height": 52,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "F3EZf",
+                          "name": "Week Date Label 2",
+                          "fill": "#151515",
+                          "content": "2",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "kic8q",
+                          "x": 20,
+                          "y": 40,
+                          "name": "Week Date Dots 2",
+                          "enabled": false,
+                          "width": 4,
+                          "height": 4,
+                          "gap": 4,
+                          "alignItems": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ClC4K",
+                      "name": "Week Date 3",
+                      "width": 40,
+                      "height": 52,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "VaYxz",
+                          "name": "Week Date Label 3",
+                          "fill": "#151515",
+                          "content": "3",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "MH6v3",
+                          "x": 20,
+                          "y": 40,
+                          "name": "Week Date Dots 3",
+                          "enabled": false,
+                          "width": 4,
+                          "height": 4,
+                          "gap": 4,
+                          "alignItems": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "TN0Ox",
+                      "name": "Week Date 4",
+                      "width": 40,
+                      "height": 52,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "YQEVk",
+                          "name": "Week Date Label 4",
+                          "fill": "#151515",
+                          "content": "4",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "j48S3p",
+                          "x": 20,
+                          "y": 40,
+                          "name": "Week Date Dots 4",
+                          "enabled": false,
+                          "width": 4,
+                          "height": 4,
+                          "gap": 4,
+                          "alignItems": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "lftza",
+                      "name": "Week Date 5",
+                      "width": 40,
+                      "height": 52,
+                      "fill": "#1B3A2D",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "fBnuO",
+                          "name": "Week Date Label 5",
+                          "fill": "#FFFFFF",
+                          "content": "5",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "r6F4hj",
+                          "name": "Week Date Dots 5",
+                          "gap": 4,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "tW61f",
+                              "name": "Week Date Dot 5-1",
+                              "fill": "#F6D7C2",
+                              "width": 4,
+                              "height": 4
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "zM5Gh",
+                              "name": "Week Date Dot 5-2",
+                              "fill": "#F6D7C2",
+                              "width": 4,
+                              "height": 4
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Nr1D9",
+                      "name": "Week Date 6",
+                      "width": 40,
+                      "height": 52,
+                      "fill": "#F3EEE7",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "o0O7Sv",
+                          "name": "Week Date Label 6",
+                          "fill": "#5A4333",
+                          "content": "6",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "TUrx8",
+                          "x": 20,
+                          "y": 40,
+                          "name": "Week Date Dots 6",
+                          "enabled": false,
+                          "width": 4,
+                          "height": 4,
+                          "gap": 4,
+                          "alignItems": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "kxmQw",
+                      "name": "Week Date 7",
+                      "width": 40,
+                      "height": 52,
+                      "fill": "#F3EEE7",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Mknfw",
+                          "name": "Week Date Label 7",
+                          "fill": "#5A4333",
+                          "content": "7",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "NmXuq",
+                          "x": 20,
+                          "y": 40,
+                          "name": "Week Date Dots 7",
+                          "enabled": false,
+                          "width": 4,
+                          "height": 4,
+                          "gap": 4,
+                          "alignItems": "center"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "oi6JZ",
+              "name": "Create Plan Entry Card",
+              "width": 350,
+              "fill": "#FFFFFF",
+              "cornerRadius": 14,
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "N7jUN",
+                  "name": "Create Entry Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "CU7br",
+                      "name": "Create Entry Copy",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "M25Bx7",
+                          "name": "Create Entry Title",
+                          "fill": "#151515",
+                          "content": "新建计划",
+                          "fontFamily": "Noto Serif SC",
+                          "fontSize": 20,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "ZMB5f",
+                          "name": "Create Entry Desc",
+                          "fill": "#787774",
+                          "content": "点击按钮后以弹框创建。",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Rjpri",
+                      "name": "Create Entry Date Chip",
+                      "fill": "#EDF3EC",
+                      "cornerRadius": 9999,
+                      "padding": [
+                        6,
+                        10
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "USiWn",
+                          "name": "Create Entry Date Chip Text",
+                          "fill": "#346538",
+                          "content": "6月5日",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ZRs0v",
+                  "name": "Open Modal Button",
+                  "width": "fill_container",
+                  "fill": "#9F5C38",
+                  "cornerRadius": 9999,
+                  "padding": [
+                    13,
+                    16
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ElCXf",
+                      "name": "Open Modal Button Text",
+                      "fill": "#FFFFFF",
+                      "content": "新建计划",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "iU4Ix",
+              "name": "Plan List Section",
               "width": "fill_container",
               "layout": "vertical",
               "gap": 12,
               "children": [
                 {
-                  "id": "r3d",
-                  "type": "ref",
-                  "ref": "activityCardRoot",
-                  "name": "Feed Activity 1",
-                  "descendants": {
-                    "activityUserText": {
-                      "content": "阿梨"
+                  "type": "frame",
+                  "id": "nUaWQ",
+                  "name": "Plan List Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "r5xvO",
+                      "name": "Plan List Copy",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "h7Y8uH",
+                          "name": "Plan List Title",
+                          "fill": "#151515",
+                          "content": "6 月 5 日的计划",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 15,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "J2x5Ym",
+                          "name": "Plan List Desc",
+                          "fill": "#787774",
+                          "content": "今天已经排了 2 个局，点进计划继续加菜谱或开始采购。",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
                     },
-                    "activityActionText": {
-                      "content": "刚刚发布了新菜"
-                    },
-                    "activityBadgeText": {
-                      "content": "好友可见"
-                    },
-                    "activityDishText": {
-                      "content": "椒麻手撕鸡"
-                    },
-                    "activityMetaText": {
-                      "content": "好友可见，适合夏天的凉拌菜"
+                    {
+                      "type": "text",
+                      "id": "sUKR5",
+                      "name": "Plan Count",
+                      "fill": "#9F5C38",
+                      "content": "2 条",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 12,
+                      "fontWeight": "600"
                     }
-                  }
+                  ]
                 },
                 {
-                  "id": "r3e",
-                  "type": "ref",
-                  "ref": "activityCardRoot",
-                  "name": "Feed Activity 2",
-                  "descendants": {
-                    "activityUserText": {
-                      "content": "周周"
+                  "type": "frame",
+                  "id": "AIL9r",
+                  "name": "Plan Card 周五下班拼饭局",
+                  "width": "fill_container",
+                  "fill": "#FBF8F4",
+                  "cornerRadius": 14,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "o6p7sJ",
+                      "name": "Plan Card Head 周五下班拼饭局",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Z4iEB7",
+                          "name": "Plan Card Copy 周五下班拼饭局",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "r9Aq4",
+                              "name": "Plan Card Title 周五下班拼饭局",
+                              "fill": "#151515",
+                              "content": "周五下班拼饭局",
+                              "fontFamily": "Noto Serif SC",
+                              "fontSize": 20,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "ZjbTS",
+                              "name": "Plan Card Meta 周五下班拼饭局",
+                              "fill": "#787774",
+                              "content": "周末探店局 · 阿梨创建",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Ck2Fr",
+                          "name": "Plan Card Badge 周五下班拼饭局",
+                          "fill": "#F7ECEA",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            6,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "sBafU",
+                              "name": "Plan Card Badge Text 周五下班拼饭局",
+                              "fill": "#9F5C38",
+                              "content": "待加采购单",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
                     },
-                    "activityActionText": {
-                      "content": "1 小时前更新菜单"
+                    {
+                      "type": "text",
+                      "id": "VzZaw",
+                      "name": "Plan Card Dishes 周五下班拼饭局",
+                      "fill": "#2F3437",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "已加 3 道菜谱：椒麻手撕鸡 / 凉拌木耳 / 冰粉",
+                      "lineHeight": 1.5,
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     },
-                    "activityBadgeText": {
-                      "content": "公开"
-                    },
-                    "activityDishText": {
-                      "content": "一周轻食合集"
-                    },
-                    "activityMetaText": {
-                      "content": "公开访问，含 7 道可收藏菜品"
+                    {
+                      "type": "frame",
+                      "id": "uGNze",
+                      "name": "Plan Card Footer 周五下班拼饭局",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "M39XA",
+                          "name": "Plan Card Hint 周五下班拼饭局",
+                          "fill": "#787774",
+                          "content": "点进计划后可以先挑菜，再开始采购",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "o7wwfS",
+                          "name": "Plan Card CTA 周五下班拼饭局",
+                          "fill": "#F3EEE7",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            8,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "QAVoD",
+                              "name": "Plan Card CTA Text 周五下班拼饭局",
+                              "fill": "#5A4333",
+                              "content": "进入计划",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
                     }
-                  }
+                  ]
                 },
                 {
-                  "id": "r3f",
-                  "type": "ref",
-                  "ref": "activityCardRoot",
-                  "name": "Feed Activity 3",
-                  "descendants": {
-                    "activityUserText": {
-                      "content": "阿豪"
+                  "type": "frame",
+                  "id": "p2ISQ",
+                  "name": "Plan Card 夜宵加班补给",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 14,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "H3rff",
+                      "name": "Plan Card Head 夜宵加班补给",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "HUPS4",
+                          "name": "Plan Card Copy 夜宵加班补给",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "xJ6en",
+                              "name": "Plan Card Title 夜宵加班补给",
+                              "fill": "#151515",
+                              "content": "夜宵加班补给",
+                              "fontFamily": "Noto Serif SC",
+                              "fontSize": 20,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "THb8G",
+                              "name": "Plan Card Meta 夜宵加班补给",
+                              "fill": "#787774",
+                              "content": "办公室拼饭群 · 胖虎创建",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "EsiXa",
+                          "name": "Plan Card Badge 夜宵加班补给",
+                          "fill": "#EDF3EC",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            6,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "D6t1W",
+                              "name": "Plan Card Badge Text 夜宵加班补给",
+                              "fill": "#346538",
+                              "content": "采购中",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
                     },
-                    "activityActionText": {
-                      "content": "在搭子圈里共享菜单"
+                    {
+                      "type": "text",
+                      "id": "h21JT",
+                      "name": "Plan Card Dishes 夜宵加班补给",
+                      "fill": "#2F3437",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "已加 2 道菜谱：蒜蓉扇贝 / 酸辣土豆丝",
+                      "lineHeight": 1.5,
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     },
-                    "activityBadgeText": {
-                      "content": "圈内共享"
-                    },
-                    "activityDishText": {
-                      "content": "周末烧烤采购清单"
-                    },
-                    "activityMetaText": {
-                      "content": "仅圈内可见，3 位搭子已加入讨论"
+                    {
+                      "type": "frame",
+                      "id": "Z34Iu7",
+                      "name": "Plan Card Footer 夜宵加班补给",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "g8QnhB",
+                          "name": "Plan Card Hint 夜宵加班补给",
+                          "fill": "#787774",
+                          "content": "成员都能继续勾选采购项",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Xaqy9",
+                          "name": "Plan Card CTA 夜宵加班补给",
+                          "fill": "#EDF3EC",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            8,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "UDwDr",
+                              "name": "Plan Card CTA Text 夜宵加班补给",
+                              "fill": "#346538",
+                              "content": "查看采购",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
                     }
-                  }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "o0iXa",
+                  "name": "Future Empty Card",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 14,
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "pwSPu",
+                      "name": "Empty Title",
+                      "fill": "#151515",
+                      "content": "6 月 6 日暂时还没有安排",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "hhW5s",
+                      "name": "Empty Body",
+                      "fill": "#787774",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "切到其他日期时，这里会显示对应计划；如果当天为空，就展示这个空态。",
+                      "lineHeight": 1.5,
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "v2ZG1",
+          "name": "Plan Tab Wrapper",
+          "width": "fill_container",
+          "padding": [
+            12,
+            16,
+            16,
+            16
+          ],
+          "justifyContent": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "nrIbK",
+              "name": "Plan Tab Bar",
+              "width": 358,
+              "height": 56,
+              "fill": "#FFFFFF",
+              "cornerRadius": 9999,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#0000001A",
+                "offset": {
+                  "x": 0,
+                  "y": 4
+                },
+                "blur": 16
+              },
+              "padding": [
+                8,
+                12
+              ],
+              "justifyContent": "space_around",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "lAfeu",
+                  "name": "首页 Tab",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 9999,
+                  "gap": 4,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "Kcoab",
+                      "name": "首页 Icon",
+                      "width": 20,
+                      "height": 20,
+                      "icon": "house-simple",
+                      "library": "phosphor",
+                      "fill": "#787774"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "RbE57",
+                  "name": "计划 Tab",
+                  "fill": "#EDF3EC",
+                  "cornerRadius": 9999,
+                  "gap": 6,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "RXVCW",
+                      "name": "计划 Icon",
+                      "width": 20,
+                      "height": 20,
+                      "icon": "calendar-blank",
+                      "library": "phosphor",
+                      "fill": "#346538"
+                    },
+                    {
+                      "type": "text",
+                      "id": "yb0FA",
+                      "name": "Plan Tab Label",
+                      "fill": "#151515",
+                      "content": "计划",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "c35Na",
+                  "name": "Add Tab",
+                  "fill": "#9F5C38",
+                  "cornerRadius": 9999,
+                  "gap": 4,
+                  "padding": [
+                    8,
+                    16
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "m3Vmz",
+                      "name": "Add Icon",
+                      "width": 22,
+                      "height": 22,
+                      "icon": "plus",
+                      "library": "phosphor",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "e6CUeX",
+                  "name": "搭子 Tab",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 9999,
+                  "gap": 4,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "v1GEyO",
+                      "name": "搭子 Icon",
+                      "width": 20,
+                      "height": 20,
+                      "icon": "users-three",
+                      "library": "phosphor",
+                      "fill": "#787774"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "B650C",
+                  "name": "我的 Tab",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 9999,
+                  "gap": 4,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "mErhE",
+                      "name": "我的 Icon",
+                      "width": 20,
+                      "height": 20,
+                      "icon": "user",
+                      "library": "phosphor",
+                      "fill": "#787774"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "XirPN",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 54,
+          "name": "Create Plan Modal Overlay",
+          "width": 390,
+          "height": 990,
+          "fill": "#F6EFE7B8",
+          "layout": "vertical",
+          "padding": [
+            0,
+            20
+          ],
+          "justifyContent": "end",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Ayz3w",
+              "name": "Create Plan Bottom Sheet",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": [
+                24,
+                24,
+                0,
+                0
+              ],
+              "layout": "vertical",
+              "gap": 14,
+              "padding": [
+                12,
+                16,
+                24,
+                16
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 9999,
+                  "id": "P0RaO",
+                  "name": "Bottom Sheet Handle",
+                  "fill": "#E6DBCF",
+                  "width": 42,
+                  "height": 4
+                },
+                {
+                  "type": "frame",
+                  "id": "nfxU5",
+                  "name": "Bottom Sheet Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "o0kwJQ",
+                      "name": "Bottom Sheet Title",
+                      "fill": "#151515",
+                      "content": "新建计划",
+                      "fontFamily": "Noto Serif SC",
+                      "fontSize": 18,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "duGmh",
+                      "name": "Bottom Sheet Date Chip",
+                      "fill": "#EDF3EC",
+                      "cornerRadius": 9999,
+                      "padding": [
+                        6,
+                        10
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Vg9BY",
+                          "name": "Bottom Sheet Date Chip Text",
+                          "fill": "#346538",
+                          "content": "6月5日",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "maknE",
+                  "name": "Bottom Sheet Fields",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "iWNEU",
+                      "name": "Bottom Sheet Title Field",
+                      "width": "fill_container",
+                      "fill": "#F7F3EE",
+                      "cornerRadius": 12,
+                      "padding": 14,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Og4EB",
+                          "name": "Bottom Sheet Title Field Text",
+                          "fill": "#9A887A",
+                          "content": "计划标题",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "okPjc",
+                      "name": "Bottom Sheet Circle Field",
+                      "width": "fill_container",
+                      "fill": "#F7F3EE",
+                      "cornerRadius": 12,
+                      "padding": 14,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "arAfp",
+                          "name": "Bottom Sheet Circle Field Text",
+                          "fill": "#9A887A",
+                          "content": "选择圈子",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "TjgIo",
+                  "name": "Bottom Sheet Actions",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "J65WFM",
+                      "name": "Bottom Sheet Cancel Button",
+                      "width": "fill_container",
+                      "fill": "#F4EEE7",
+                      "cornerRadius": 9999,
+                      "padding": [
+                        11,
+                        0
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "PiMrN",
+                          "name": "Bottom Sheet Cancel Text",
+                          "fill": "#7B6A5D",
+                          "content": "取消",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "vd3hF",
+                      "name": "Bottom Sheet Submit Button",
+                      "width": "fill_container",
+                      "fill": "#9F5C38",
+                      "cornerRadius": 9999,
+                      "padding": [
+                        11,
+                        0
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "vFA4S",
+                          "name": "Bottom Sheet Submit Text",
+                          "fill": "#FFFFFF",
+                          "content": "创建计划",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -14506,6 +15687,2157 @@
                       ]
                     }
                   ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "gzn4C",
+      "x": 3547,
+      "y": 2137.47998871045,
+      "name": "Plan Detail",
+      "clip": true,
+      "width": 390,
+      "fill": "#F7F6F3",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "ZXN6W",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24,
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "M3fm2",
+              "name": "Time",
+              "fill": "#151515",
+              "content": "9:41",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "GgT44",
+              "name": "Status Right",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Boy25",
+                  "name": "Status Dot 16",
+                  "width": 16,
+                  "height": 10,
+                  "fill": "#151515",
+                  "cornerRadius": 9999
+                },
+                {
+                  "type": "frame",
+                  "id": "mi9FN",
+                  "name": "Status Dot 16",
+                  "width": 16,
+                  "height": 10,
+                  "fill": "#151515",
+                  "cornerRadius": 9999
+                },
+                {
+                  "type": "frame",
+                  "id": "pKXbv",
+                  "name": "Status Dot 24",
+                  "width": 24,
+                  "height": 10,
+                  "fill": "#151515",
+                  "cornerRadius": 9999
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "p9fKqu",
+          "name": "Plan Detail Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            10,
+            20,
+            24,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "jVVGa",
+              "name": "Top Nav Card",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 12,
+              "padding": 16,
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "wSPFa",
+                  "name": "Back Shell",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "#F4EEE7",
+                  "cornerRadius": 9999,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "NsP9W",
+                      "name": "Back Icon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "caret-left",
+                      "library": "phosphor",
+                      "fill": "#151515"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "PnYZC",
+                  "name": "Page Title",
+                  "fill": "#151515",
+                  "content": "计划详情",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "NWlgQ",
+                  "name": "More Shell",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "#F4EEE7",
+                  "cornerRadius": 9999,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "Zpcfk",
+                      "name": "More Icon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "dots-three",
+                      "library": "phosphor",
+                      "fill": "#151515"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "LFlTi",
+              "name": "Plan Hero Card",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 16,
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "JxwiT",
+                  "name": "Hero Top",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Q3bF68",
+                      "name": "Hero Copy",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "K254XS",
+                          "name": "Hero Eyebrow",
+                          "fill": "#787774",
+                          "content": "周末探店局 · 2026/06/05",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600",
+                          "letterSpacing": 0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "BixCA",
+                          "name": "Hero Title",
+                          "fill": "#151515",
+                          "content": "周五下班拼饭局",
+                          "fontFamily": "Noto Serif SC",
+                          "fontSize": 24,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "S1Ctud",
+                      "name": "Creator Chip",
+                      "fill": "#EDF3EC",
+                      "cornerRadius": 9999,
+                      "padding": [
+                        6,
+                        10
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Li7Ao",
+                          "name": "Creator Chip Text",
+                          "fill": "#346538",
+                          "content": "阿梨创建",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "QNBbJ",
+                  "name": "Hero Description",
+                  "fill": "#2F3437",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "圈内成员都能看到这份计划，也都能继续往里加菜谱、发起采购。",
+                  "lineHeight": 1.5,
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "E9jQXB",
+                  "name": "Hero Meta Row",
+                  "width": "fill_container",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "X5gpc4",
+                      "name": "Meta 已加菜谱",
+                      "width": "fill_container",
+                      "fill": "#FBF8F4",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 12,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "PhzN8",
+                          "name": "Meta Label 已加菜谱",
+                          "fill": "#9A887A",
+                          "content": "已加菜谱",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Qg5Ri",
+                          "name": "Meta Value 已加菜谱",
+                          "fill": "#151515",
+                          "content": "3 道",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 16,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tFoKm",
+                      "name": "Meta 采购状态",
+                      "width": "fill_container",
+                      "fill": "#FBF8F4",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 12,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "oTvtR",
+                          "name": "Meta Label 采购状态",
+                          "fill": "#9A887A",
+                          "content": "采购状态",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "NPUHD",
+                          "name": "Meta Value 采购状态",
+                          "fill": "#151515",
+                          "content": "未开始",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 16,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "c63yAI",
+                      "name": "Meta 可协作成员",
+                      "width": "fill_container",
+                      "fill": "#FBF8F4",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 12,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "hfxDj",
+                          "name": "Meta Label 可协作成员",
+                          "fill": "#9A887A",
+                          "content": "可协作成员",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "H1FrfT",
+                          "name": "Meta Value 可协作成员",
+                          "fill": "#151515",
+                          "content": "4 人",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 16,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "z39Ec",
+              "name": "Recipe Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "B7paj",
+                  "name": "Recipe Section Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "clJMA",
+                      "name": "Recipe Head Copy",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Sv1hX",
+                          "name": "Recipe Section Title",
+                          "fill": "#151515",
+                          "content": "计划里的菜谱",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 15,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "uRReg",
+                          "name": "Recipe Section Desc",
+                          "fill": "#787774",
+                          "content": "点击卡片可以看来源菜谱，成员都能继续增减。",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "mwnND",
+                      "name": "Add Drawer Trigger",
+                      "fill": "#F3EEE7",
+                      "cornerRadius": 9999,
+                      "padding": [
+                        8,
+                        12
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "n4TmGY",
+                          "name": "Add Drawer Trigger Text",
+                          "fill": "#5A4333",
+                          "content": "添加菜谱",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "TL46u",
+                  "name": "Recipe Card 椒麻手撕鸡",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 14,
+                  "layout": "vertical",
+                  "gap": 10,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "P7gQX",
+                      "name": "Recipe Card Head 椒麻手撕鸡",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "h167Ev",
+                          "name": "Recipe Card Copy 椒麻手撕鸡",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "mkGFe",
+                              "name": "Recipe Card Title 椒麻手撕鸡",
+                              "fill": "#151515",
+                              "content": "椒麻手撕鸡",
+                              "fontFamily": "Noto Serif SC",
+                              "fontSize": 20,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "qujTp",
+                              "name": "Recipe Card Meta 椒麻手撕鸡",
+                              "fill": "#787774",
+                              "content": "阿梨 · 凉菜 · 预计 25 分钟",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "nuoqu",
+                          "name": "Recipe Card Tag 椒麻手撕鸡",
+                          "fill": "#FBF0E8",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            6,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Y2Mo2",
+                              "name": "Recipe Card Tag Text 椒麻手撕鸡",
+                              "fill": "#9F5C38",
+                              "content": "已加入",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "G70nm",
+                      "name": "Recipe Card Body 椒麻手撕鸡",
+                      "fill": "#2F3437",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "鸡腿、香菜、蒜、辣椒、芝麻油",
+                      "lineHeight": 1.5,
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "IIG30",
+                      "name": "Recipe Card Footer 椒麻手撕鸡",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "dQTiq",
+                          "name": "Recipe Card Footnote 椒麻手撕鸡",
+                          "fill": "#787774",
+                          "content": "计划详情页支持删除这道菜谱",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "mcnw9",
+                          "name": "Recipe Card Action 椒麻手撕鸡",
+                          "fill": "#F3EEE7",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            8,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "AyPYK",
+                              "name": "Recipe Card Action Text 椒麻手撕鸡",
+                              "fill": "#5A4333",
+                              "content": "移出计划",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Vop8b",
+                  "name": "Recipe Card 凉拌木耳",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 14,
+                  "layout": "vertical",
+                  "gap": 10,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "pKuYO",
+                      "name": "Recipe Card Head 凉拌木耳",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "EmvRx",
+                          "name": "Recipe Card Copy 凉拌木耳",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "dFoYD",
+                              "name": "Recipe Card Title 凉拌木耳",
+                              "fill": "#151515",
+                              "content": "凉拌木耳",
+                              "fontFamily": "Noto Serif SC",
+                              "fontSize": 20,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "RsBtZ",
+                              "name": "Recipe Card Meta 凉拌木耳",
+                              "fill": "#787774",
+                              "content": "周周 · 凉菜 · 预计 10 分钟",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "TG7pe",
+                          "name": "Recipe Card Tag 凉拌木耳",
+                          "fill": "#FBF0E8",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            6,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "dxUmA",
+                              "name": "Recipe Card Tag Text 凉拌木耳",
+                              "fill": "#9F5C38",
+                              "content": "成员可删",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "x4hS9",
+                      "name": "Recipe Card Body 凉拌木耳",
+                      "fill": "#2F3437",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "木耳、香醋、蒜末、小米椒",
+                      "lineHeight": 1.5,
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fECx6",
+                      "name": "Recipe Card Footer 凉拌木耳",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Vv6Q9",
+                          "name": "Recipe Card Footnote 凉拌木耳",
+                          "fill": "#787774",
+                          "content": "计划详情页支持删除这道菜谱",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "plQg6",
+                          "name": "Recipe Card Action 凉拌木耳",
+                          "fill": "#F3EEE7",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            8,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "BVOf2",
+                              "name": "Recipe Card Action Text 凉拌木耳",
+                              "fill": "#5A4333",
+                              "content": "移出计划",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "WO2t6",
+                  "name": "Recipe Card 冰粉",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 14,
+                  "layout": "vertical",
+                  "gap": 10,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "nhHuU",
+                      "name": "Recipe Card Head 冰粉",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "ybddZ",
+                          "name": "Recipe Card Copy 冰粉",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "FVcaY",
+                              "name": "Recipe Card Title 冰粉",
+                              "fill": "#151515",
+                              "content": "冰粉",
+                              "fontFamily": "Noto Serif SC",
+                              "fontSize": 20,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "h7ELV",
+                              "name": "Recipe Card Meta 冰粉",
+                              "fill": "#787774",
+                              "content": "胖虎 · 甜品 · 预计 8 分钟",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "pCib0",
+                          "name": "Recipe Card Tag 冰粉",
+                          "fill": "#FBF0E8",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            6,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "T5oEGL",
+                              "name": "Recipe Card Tag Text 冰粉",
+                              "fill": "#9F5C38",
+                              "content": "成员可删",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "cbaFg",
+                      "name": "Recipe Card Body 冰粉",
+                      "fill": "#2F3437",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "冰粉籽、红糖、山楂、葡萄干",
+                      "lineHeight": 1.5,
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "rA3cv",
+                      "name": "Recipe Card Footer 冰粉",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "C34qm",
+                          "name": "Recipe Card Footnote 冰粉",
+                          "fill": "#787774",
+                          "content": "计划详情页支持删除这道菜谱",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "lYs9V",
+                          "name": "Recipe Card Action 冰粉",
+                          "fill": "#F3EEE7",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            8,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "v9nGj2",
+                              "name": "Recipe Card Action Text 冰粉",
+                              "fill": "#5A4333",
+                              "content": "移出计划",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "jsbxY",
+              "name": "Drawer Preview",
+              "width": "fill_container",
+              "fill": "#FFFDFC",
+              "cornerRadius": 20,
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "VlUEt",
+                  "name": "Drawer Handle",
+                  "width": 44,
+                  "height": 5,
+                  "fill": "#D9CEC3",
+                  "cornerRadius": 9999,
+                  "justifyContent": "center",
+                  "alignItems": "center"
+                },
+                {
+                  "type": "frame",
+                  "id": "qrlsY",
+                  "name": "Drawer Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "tbqhB",
+                      "name": "Drawer Title",
+                      "fill": "#151515",
+                      "content": "底部抽屉：添加圈内菜谱",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "P0yUvO",
+                      "name": "Drawer Count",
+                      "fill": "#9F5C38",
+                      "content": "可多选",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "dp1h4",
+                  "name": "Drawer Row 蒜蓉扇贝  ·  胖虎",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "gQHZq",
+                      "name": "Drawer Row Left 蒜蓉扇贝  ·  胖虎",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "VD9QS",
+                          "name": "Drawer Checkbox 蒜蓉扇贝  ·  胖虎",
+                          "width": 22,
+                          "height": 22,
+                          "fill": "#EDF3EC",
+                          "cornerRadius": 6,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "sxEhL",
+                              "name": "Drawer Check 蒜蓉扇贝  ·  胖虎",
+                              "width": 14,
+                              "height": 14,
+                              "icon": "check",
+                              "library": "phosphor",
+                              "fill": "#346538"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "c10Us",
+                          "name": "Drawer Row Text 蒜蓉扇贝  ·  胖虎",
+                          "fill": "#151515",
+                          "content": "蒜蓉扇贝  ·  胖虎",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "fIx2u",
+                  "name": "Drawer Row 酸辣土豆丝  ·  阿豪",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "R1jz0T",
+                      "name": "Drawer Row Left 酸辣土豆丝  ·  阿豪",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "B24STI",
+                          "name": "Drawer Checkbox 酸辣土豆丝  ·  阿豪",
+                          "width": 22,
+                          "height": 22,
+                          "fill": "#EDF3EC",
+                          "cornerRadius": 6,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "ojAnv",
+                              "name": "Drawer Check 酸辣土豆丝  ·  阿豪",
+                              "width": 14,
+                              "height": 14,
+                              "icon": "check",
+                              "library": "phosphor",
+                              "fill": "#346538"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "lpX0p",
+                          "name": "Drawer Row Text 酸辣土豆丝  ·  阿豪",
+                          "fill": "#151515",
+                          "content": "酸辣土豆丝  ·  阿豪",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "SePA9",
+              "name": "Detail Footer Button",
+              "width": "fill_container",
+              "fill": "#9F5C38",
+              "cornerRadius": 16,
+              "padding": [
+                14,
+                18
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "OSULr",
+                  "name": "Detail Footer Text",
+                  "fill": "#FFFFFF",
+                  "content": "开始采购",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 15,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "zVYuC",
+      "x": 4069.026547360503,
+      "y": 2152.6746579162045,
+      "name": "Plan Shopping List",
+      "clip": true,
+      "width": 390,
+      "fill": "#F7F6F3",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "Z4Ta7",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24,
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "maTUe",
+              "name": "Time",
+              "fill": "#151515",
+              "content": "9:41",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "PJCk8",
+              "name": "Status Right",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "zkHUF",
+                  "name": "Status Dot 16",
+                  "width": 16,
+                  "height": 10,
+                  "fill": "#151515",
+                  "cornerRadius": 9999
+                },
+                {
+                  "type": "frame",
+                  "id": "jM9aj",
+                  "name": "Status Dot 16",
+                  "width": 16,
+                  "height": 10,
+                  "fill": "#151515",
+                  "cornerRadius": 9999
+                },
+                {
+                  "type": "frame",
+                  "id": "K1cNNt",
+                  "name": "Status Dot 24",
+                  "width": 24,
+                  "height": 10,
+                  "fill": "#151515",
+                  "cornerRadius": 9999
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "T84Z9r",
+          "name": "Shopping Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            10,
+            20,
+            24,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "D9S3sn",
+              "name": "Top Nav Card",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 12,
+              "padding": 16,
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "iyBqt",
+                  "name": "Back Shell",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "#F4EEE7",
+                  "cornerRadius": 9999,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "tdlAo",
+                      "name": "Back Icon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "caret-left",
+                      "library": "phosphor",
+                      "fill": "#151515"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "nV3lo",
+                  "name": "Page Title",
+                  "fill": "#151515",
+                  "content": "采购清单",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "sh5NV",
+                  "name": "Reset Shell",
+                  "fill": "#F7ECEA",
+                  "cornerRadius": 9999,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "YCZ5j",
+                      "name": "Reset Text",
+                      "fill": "#9F5C38",
+                      "content": "重新开始",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Gx312",
+              "name": "Shopping Hero",
+              "width": "fill_container",
+              "fill": "#1B3A2D",
+              "cornerRadius": 16,
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "CDnQl",
+                  "name": "Shopping Hero Top",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "ZjdHM",
+                      "name": "Shopping Hero Copy",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "B45r9V",
+                          "name": "Shopping Hero Eyebrow",
+                          "fill": "#DDEADF",
+                          "content": "周五下班拼饭局 · 共享采购",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600",
+                          "letterSpacing": 0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "sf9Xh",
+                          "name": "Shopping Hero Title",
+                          "fill": "#FFFFFF",
+                          "content": "大家一起采买这顿饭",
+                          "fontFamily": "Noto Serif SC",
+                          "fontSize": 24,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "SE9t6",
+                      "name": "Shopping Status Chip",
+                      "fill": "#335B47",
+                      "cornerRadius": 9999,
+                      "padding": [
+                        6,
+                        10
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "vTwXC",
+                          "name": "Shopping Status Chip Text",
+                          "fill": "#FFFFFF",
+                          "content": "进行中",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "q9eaH",
+                  "name": "Shopping Hero Desc",
+                  "fill": "#E7EFE8",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "勾选代表这个食材已经买到；清单会显示是谁采购的，也支持重置后重来。",
+                  "lineHeight": 1.5,
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "M1rt7c",
+                  "name": "Shopping Summary Row",
+                  "width": "fill_container",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "I8qjn5",
+                      "name": "Summary 食材总数",
+                      "width": "fill_container",
+                      "fill": "#335B47",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 12,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "MDhVz",
+                          "name": "Summary Label 食材总数",
+                          "fill": "#DDEADF",
+                          "content": "食材总数",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "xmb8V",
+                          "name": "Summary Value 食材总数",
+                          "fill": "#FFFFFF",
+                          "content": "7 项",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 16,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "AcZ6k",
+                      "name": "Summary 已买",
+                      "width": "fill_container",
+                      "fill": "#335B47",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 12,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "p5r62n",
+                          "name": "Summary Label 已买",
+                          "fill": "#DDEADF",
+                          "content": "已买",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "oVpIH",
+                          "name": "Summary Value 已买",
+                          "fill": "#FFFFFF",
+                          "content": "3 项",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 16,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "m0EMxl",
+                      "name": "Summary 待买",
+                      "width": "fill_container",
+                      "fill": "#335B47",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 4,
+                      "padding": 12,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "cgYGZ",
+                          "name": "Summary Label 待买",
+                          "fill": "#DDEADF",
+                          "content": "待买",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "ihQWL",
+                          "name": "Summary Value 待买",
+                          "fill": "#FFFFFF",
+                          "content": "4 项",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 16,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "CbNmm",
+              "name": "Shopping Items Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "EzdyO",
+                  "name": "Shopping Section Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "O3hZY",
+                      "name": "Shopping Section Copy",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "s7urQO",
+                          "name": "Shopping Section Title",
+                          "fill": "#151515",
+                          "content": "按食材合并的采购项",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 15,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "naw4Y",
+                          "name": "Shopping Section Desc",
+                          "fill": "#787774",
+                          "content": "同名食材合成一条，但会展开列出分别来自哪道菜、各自用量。",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "EQvIa",
+                      "name": "Shopping Section Count",
+                      "fill": "#9F5C38",
+                      "content": "7 项",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ygCEU",
+                  "name": "Shopping Card 蒜",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 14,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "r55m65",
+                      "name": "Shopping Card Head 蒜",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "hUTrx",
+                          "name": "Shopping Card Left 蒜",
+                          "gap": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "W7j420",
+                              "name": "Shopping Checkbox 蒜",
+                              "width": 24,
+                              "height": 24,
+                              "fill": "#EDF3EC",
+                              "cornerRadius": 7,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "oOJpD",
+                                  "name": "Shopping Check 蒜",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "check",
+                                  "library": "phosphor",
+                                  "fill": "#346538"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "P0TkfW",
+                              "name": "Shopping Card Copy 蒜",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "q8hwqP",
+                                  "name": "Shopping Card Title 蒜",
+                                  "fill": "#151515",
+                                  "content": "蒜",
+                                  "fontFamily": "Noto Serif SC",
+                                  "fontSize": 20,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "h9Xep",
+                                  "name": "Shopping Card Buyer 蒜",
+                                  "fill": "#346538",
+                                  "content": "阿豪已采买",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "uqRH5",
+                          "name": "Shopping State 蒜",
+                          "fill": "#EDF3EC",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            6,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "A8hD2",
+                              "name": "Shopping State Text 蒜",
+                              "fill": "#346538",
+                              "content": "已完成",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "k2g6R6",
+                      "name": "Shopping Sources 蒜",
+                      "width": "fill_container",
+                      "fill": "#FBF8F4",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 12,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "F8Gf7R",
+                          "name": "Shopping Sources Title 蒜",
+                          "fill": "#9A887A",
+                          "content": "来源菜谱与用量",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "c0dz6q",
+                          "name": "Shopping Source Row 蒜 红烧肉",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "bnSoP",
+                              "name": "Shopping Source Dish 蒜 红烧肉",
+                              "fill": "#151515",
+                              "content": "红烧肉",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "Gwbsx",
+                              "name": "Shopping Source Amount 蒜 红烧肉",
+                              "fill": "#787774",
+                              "content": "1 头",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "q7uc9",
+                          "name": "Shopping Source Row 蒜 炒土豆丝",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "R2YDDX",
+                              "name": "Shopping Source Dish 蒜 炒土豆丝",
+                              "fill": "#151515",
+                              "content": "炒土豆丝",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "V68X0R",
+                              "name": "Shopping Source Amount 蒜 炒土豆丝",
+                              "fill": "#787774",
+                              "content": "适量",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "txGQE",
+                          "name": "Shopping Source Row 蒜 凉拌木耳",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "PV6F4",
+                              "name": "Shopping Source Dish 蒜 凉拌木耳",
+                              "fill": "#151515",
+                              "content": "凉拌木耳",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "BXd0U",
+                              "name": "Shopping Source Amount 蒜 凉拌木耳",
+                              "fill": "#787774",
+                              "content": "蒜末",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "O9rdSC",
+                  "name": "Shopping Card 鸡腿",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 14,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "nGokg",
+                      "name": "Shopping Card Head 鸡腿",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "vCG6w",
+                          "name": "Shopping Card Left 鸡腿",
+                          "gap": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "p09XK",
+                              "name": "Shopping Checkbox 鸡腿",
+                              "width": 24,
+                              "height": 24,
+                              "fill": "#F3EEE7",
+                              "cornerRadius": 7,
+                              "justifyContent": "center",
+                              "alignItems": "center"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "n0ZB6",
+                              "name": "Shopping Card Copy 鸡腿",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "OZBXN",
+                                  "name": "Shopping Card Title 鸡腿",
+                                  "fill": "#151515",
+                                  "content": "鸡腿",
+                                  "fontFamily": "Noto Serif SC",
+                                  "fontSize": 20,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "QYXJf",
+                                  "name": "Shopping Card Buyer 鸡腿",
+                                  "fill": "#9F5C38",
+                                  "content": "待采买",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ayrf6",
+                          "name": "Shopping State 鸡腿",
+                          "fill": "#F7ECEA",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            6,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "eaeL6",
+                              "name": "Shopping State Text 鸡腿",
+                              "fill": "#9F5C38",
+                              "content": "待购买",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "p5u2Il",
+                      "name": "Shopping Sources 鸡腿",
+                      "width": "fill_container",
+                      "fill": "#FBF8F4",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 12,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "lf899",
+                          "name": "Shopping Sources Title 鸡腿",
+                          "fill": "#9A887A",
+                          "content": "来源菜谱与用量",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "kSq5e",
+                          "name": "Shopping Source Row 鸡腿 椒麻手撕鸡",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "f2yXN",
+                              "name": "Shopping Source Dish 鸡腿 椒麻手撕鸡",
+                              "fill": "#151515",
+                              "content": "椒麻手撕鸡",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "fUuO7",
+                              "name": "Shopping Source Amount 鸡腿 椒麻手撕鸡",
+                              "fill": "#787774",
+                              "content": "2 只",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "me8eB",
+                  "name": "Shopping Card 红糖",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 14,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "sOAme",
+                      "name": "Shopping Card Head 红糖",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "f3RLCP",
+                          "name": "Shopping Card Left 红糖",
+                          "gap": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "UnDgy",
+                              "name": "Shopping Checkbox 红糖",
+                              "width": 24,
+                              "height": 24,
+                              "fill": "#EDF3EC",
+                              "cornerRadius": 7,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "l2iFFH",
+                                  "name": "Shopping Check 红糖",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "check",
+                                  "library": "phosphor",
+                                  "fill": "#346538"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "zaxGI",
+                              "name": "Shopping Card Copy 红糖",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "buGNJ",
+                                  "name": "Shopping Card Title 红糖",
+                                  "fill": "#151515",
+                                  "content": "红糖",
+                                  "fontFamily": "Noto Serif SC",
+                                  "fontSize": 20,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "DASg5",
+                                  "name": "Shopping Card Buyer 红糖",
+                                  "fill": "#346538",
+                                  "content": "阿梨已采买",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "z8afn",
+                          "name": "Shopping State 红糖",
+                          "fill": "#EDF3EC",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            6,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "y9tcd",
+                              "name": "Shopping State Text 红糖",
+                              "fill": "#346538",
+                              "content": "已完成",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "e4CHZ",
+                      "name": "Shopping Sources 红糖",
+                      "width": "fill_container",
+                      "fill": "#FBF8F4",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 12,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "oYRpQ",
+                          "name": "Shopping Sources Title 红糖",
+                          "fill": "#9A887A",
+                          "content": "来源菜谱与用量",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "tOULG",
+                          "name": "Shopping Source Row 红糖 冰粉",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "pZ9aD",
+                              "name": "Shopping Source Dish 红糖 冰粉",
+                              "fill": "#151515",
+                              "content": "冰粉",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "DsdQL",
+                              "name": "Shopping Source Amount 红糖 冰粉",
+                              "fill": "#787774",
+                              "content": "150g",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "iNo4u",
+                  "name": "Shopping Card 木耳",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 14,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "N9c1v",
+                      "name": "Shopping Card Head 木耳",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "cH7dB",
+                          "name": "Shopping Card Left 木耳",
+                          "gap": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "XPFhY",
+                              "name": "Shopping Checkbox 木耳",
+                              "width": 24,
+                              "height": 24,
+                              "fill": "#F3EEE7",
+                              "cornerRadius": 7,
+                              "justifyContent": "center",
+                              "alignItems": "center"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "W2uTpo",
+                              "name": "Shopping Card Copy 木耳",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "LrH9L",
+                                  "name": "Shopping Card Title 木耳",
+                                  "fill": "#151515",
+                                  "content": "木耳",
+                                  "fontFamily": "Noto Serif SC",
+                                  "fontSize": 20,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "z41ajq",
+                                  "name": "Shopping Card Buyer 木耳",
+                                  "fill": "#9F5C38",
+                                  "content": "待采买",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "dkklb",
+                          "name": "Shopping State 木耳",
+                          "fill": "#F7ECEA",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            6,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "ICfY9",
+                              "name": "Shopping State Text 木耳",
+                              "fill": "#9F5C38",
+                              "content": "待购买",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "CKD7V",
+                      "name": "Shopping Sources 木耳",
+                      "width": "fill_container",
+                      "fill": "#FBF8F4",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 12,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "T2wb5",
+                          "name": "Shopping Sources Title 木耳",
+                          "fill": "#9A887A",
+                          "content": "来源菜谱与用量",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "PnYYo",
+                          "name": "Shopping Source Row 木耳 凉拌木耳",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "uRaOG",
+                              "name": "Shopping Source Dish 木耳 凉拌木耳",
+                              "fill": "#151515",
+                              "content": "凉拌木耳",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "xEmHV",
+                              "name": "Shopping Source Amount 木耳 凉拌木耳",
+                              "fill": "#787774",
+                              "content": "1 盒",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "U5QaI",
+              "name": "Shopping Footer",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "qO8K3",
+                  "name": "Shopping Footer Button",
+                  "width": "fill_container",
+                  "fill": "#9F5C38",
+                  "cornerRadius": 16,
+                  "padding": [
+                    14,
+                    18
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "MAIQD",
+                      "name": "Shopping Footer Button Text",
+                      "fill": "#FFFFFF",
+                      "content": "成员继续协作采买",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "lss8U",
+                  "name": "Shopping Footer Hint",
+                  "fill": "#787774",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "点击右上角“重新开始”后，会按当前计划里的菜谱重新生成整份采购单。",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
                 }
               ]
             }
