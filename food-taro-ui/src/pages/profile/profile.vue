@@ -18,7 +18,13 @@
                 </view>
               </view>
             </view>
-            <button class="ghost-circle" @tap="openEditProfilePage">✎</button>
+            <view class="hero-actions">
+              <button class="ghost-circle notification-button" @tap="openNotificationsPage">
+                <image class="ghost-circle-image" :src="bellIcon" mode="aspectFit" />
+                <view v-if="hasUnreadNotification" class="notification-dot"></view>
+              </button>
+              <button class="ghost-circle" @tap="openEditProfilePage">✎</button>
+            </view>
           </view>
 
           <view class="stats-row">
@@ -96,23 +102,27 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { useShareAppMessage } from '@tarojs/taro'
+import { useDidShow, useShareAppMessage } from '@tarojs/taro'
+import bellIcon from '@/assets/action-icons/bell.svg'
 import AppTabBar from '@/components/AppTabBar.vue'
 import PullRefreshPage from '@/components/PullRefreshPage.vue'
 import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
 import { push, replace, resolveSharePath } from '@/lib/navigation'
+import { NotificationService } from '@/services/notification-service'
 import { SocialService, type BuddyCircleSummary, type ProfileResponse } from '@/services/social-service'
 import { useAuthStore } from '@/stores/auth-store'
 import type { MenuVisibility } from '@/services/auth-service'
 
 const authStore = useAuthStore()
 const socialService = new SocialService()
+const notificationService = new NotificationService()
 const profile = ref<ProfileResponse | null>(null)
 const circles = ref<BuddyCircleSummary[]>([])
 const draftVisibility = ref<Exclude<MenuVisibility, 'inherit'>>('public')
 const draftCircleIds = ref<string[]>([])
 const savingVisibility = ref(false)
+const hasUnreadNotification = ref(false)
 
 const displayName = computed(() => profile.value?.user.nickname || authStore.user?.nickname || 'meow')
 const displayAvatar = computed(() => profile.value?.user.avatar || authStore.user?.avatar || '')
@@ -128,7 +138,12 @@ const visibilityOptions: Array<{ value: Exclude<MenuVisibility, 'inherit'>; labe
 
 onMounted(async () => {
   if (!(await requireAuth('profile'))) return
-  await loadProfile()
+  await loadProfilePageData()
+})
+
+useDidShow(async () => {
+  if (!(await requireAuth('profile'))) return
+  await loadProfilePageData()
 })
 
 useShareAppMessage(() => ({
@@ -136,11 +151,12 @@ useShareAppMessage(() => ({
   path: resolveSharePath({ name: 'friend-invite', params: { inviterId: inviterId.value } }),
 }))
 
-async function loadProfile() {
+async function loadProfilePageData() {
   try {
-    const [profileResult, circlesResult] = await Promise.allSettled([
+    const [profileResult, circlesResult, notificationResult] = await Promise.allSettled([
       socialService.getProfile(),
       socialService.getCircles(),
+      notificationService.getBootstrap(),
     ])
     if (profileResult.status === 'fulfilled') {
       profile.value = profileResult.value.data
@@ -154,13 +170,18 @@ async function loadProfile() {
     } else {
       circles.value = []
     }
+    if (notificationResult.status === 'fulfilled') {
+      hasUnreadNotification.value = notificationResult.value.data.hasUnread
+    } else {
+      hasUnreadNotification.value = false
+    }
   } catch (error: any) {
     Message.error(error?.response?.data?.message || '个人资料加载失败')
   }
 }
 
 async function refreshProfile() {
-  await loadProfile()
+  await loadProfilePageData()
   await authStore.restore()
 }
 
@@ -189,7 +210,7 @@ async function saveVisibility() {
       draftVisibility.value === 'circle' ? draftCircleIds.value : [],
     )
     Message.success('菜单默认可见范围已更新')
-    await loadProfile()
+    await loadProfilePageData()
     await authStore.restore()
   } finally {
     savingVisibility.value = false
@@ -200,8 +221,13 @@ function openEditProfilePage() {
   push('edit-profile')
 }
 
+function openNotificationsPage() {
+  push('notifications')
+}
+
 function logout() {
   authStore.logout()
+  hasUnreadNotification.value = false
   replace('login')
 }
 
@@ -236,6 +262,7 @@ function formatVipLabel(level?: string) {
 .hero-top,
 .user-row,
 .stats-row,
+.hero-actions,
 .visibility-row {
   display: flex;
 }
@@ -301,6 +328,7 @@ function formatVipLabel(level?: string) {
 }
 
 .ghost-circle {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -309,6 +337,26 @@ function formatVipLabel(level?: string) {
   border-radius: 999px;
   background: #f5f2ed;
   line-height: 1;
+}
+
+.hero-actions {
+  gap: 10px;
+}
+
+.ghost-circle-image {
+  width: 18px;
+  height: 18px;
+}
+
+.notification-dot {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 8px;
+  height: 8px;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  background: #d84f3c;
 }
 
 .stats-row {

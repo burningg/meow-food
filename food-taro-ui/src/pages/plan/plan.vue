@@ -793,6 +793,10 @@ function formatDisplayDate(value: string, withSpace: boolean) {
   color: #6f6258;
 }
 
+.plan-card-copy {
+  text-align: left;
+}
+
 .plan-card.expanded .plan-card-badge {
   background: #9f5c38;
 }

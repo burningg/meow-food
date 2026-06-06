@@ -67,18 +67,26 @@
     </PullRefreshPage>
 
     <AppTabBar active="home" :show-add="authStore.isLoggedIn" />
+    <NotificationModalCard
+      :visible="Boolean(importantNotification)"
+      :title="importantNotification?.title || ''"
+      :body="importantNotification?.body || ''"
+      @confirm="closeImportantNotification"
+    />
   </view>
 </template>
 
 <script setup lang="ts">
-import Taro from '@tarojs/taro'
+import Taro, { useDidShow } from '@tarojs/taro'
 import { computed, nextTick, onMounted, ref } from 'vue'
 import AppTabBar from '@/components/AppTabBar.vue'
+import NotificationModalCard from '@/components/NotificationModalCard.vue'
 import PullRefreshPage from '@/components/PullRefreshPage.vue'
 import SmartImage from '@/components/SmartImage.vue'
 import { Message } from '@/lib/feedback'
 import { push, resolveRoute } from '@/lib/navigation'
 import { FoodService, type DishSummary, type HomeResponse } from '@/services/food-service'
+import { NotificationService, type NotificationItem } from '@/services/notification-service'
 import { useAuthStore } from '@/stores/auth-store'
 
 type VisibleDish = DishSummary & {
@@ -86,6 +94,7 @@ type VisibleDish = DishSummary & {
 }
 
 const foodService = new FoodService()
+const notificationService = new NotificationService()
 const authStore = useAuthStore()
 
 const homeData = ref<HomeResponse>({
@@ -97,6 +106,8 @@ const homeData = ref<HomeResponse>({
 const selectedCategoryId = ref('')
 const categoryScrollLeft = ref(0)
 const searchKeyword = ref('')
+const importantNotification = ref<NotificationItem | null>(null)
+const shownImportantNotificationId = ref('')
 const displayName = computed(() => authStore.user?.nickname ?? 'meow')
 const vipChipLabel = computed(() => formatVipLabel(authStore.user?.vip ? authStore.user?.vipLevel : undefined))
 const showEmptyLoginButton = computed(() => !authStore.isLoggedIn && !searchKeyword.value.trim() && !homeData.value.recentDishes.length)
@@ -130,6 +141,11 @@ const emptyStateText = computed(() => {
 
 onMounted(async () => {
   await loadHome()
+  await syncImportantNotification()
+})
+
+useDidShow(async () => {
+  await syncImportantNotification()
 })
 
 async function loadHome() {
@@ -139,6 +155,29 @@ async function loadHome() {
   } catch (error) {
     Message.error('首页数据加载失败')
   }
+}
+
+async function syncImportantNotification() {
+  if (!authStore.isLoggedIn) {
+    importantNotification.value = null
+    shownImportantNotificationId.value = ''
+    return
+  }
+
+  try {
+    const { data } = await notificationService.getBootstrap()
+    if (!data.importantNotification) return
+    if (shownImportantNotificationId.value === data.importantNotification.id) return
+    importantNotification.value = data.importantNotification
+    shownImportantNotificationId.value = data.importantNotification.id
+    void notificationService.markRead(data.importantNotification.id).catch(() => {})
+  } catch {
+    // Keep home usable even if notification bootstrap fails.
+  }
+}
+
+function closeImportantNotification() {
+  importantNotification.value = null
 }
 
 function goToDetail(id: string) {

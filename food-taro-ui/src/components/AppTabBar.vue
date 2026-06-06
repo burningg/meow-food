@@ -111,12 +111,34 @@ function navigate(item: TabItem) {
   padding: 8px 12px;
   transform: translateX(-50%);
   border-radius: 999px;
-  background: #ffffff;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 250, 244, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
   box-sizing: border-box;
+  overflow: visible;
+  isolation: isolate;
+}
+
+.tab-bar::after {
+  content: "";
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  bottom: -18px;
+  height: 26px;
+  border-radius: 999px;
+  background: rgba(255, 248, 242, 0.9);
+  filter: blur(18px);
+  opacity: 0.95;
+  pointer-events: none;
+  z-index: -1;
 }
 
 .tab-item {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;

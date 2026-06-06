@@ -17644,6 +17644,4312 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "iQpdt",
+      "x": 3537,
+      "y": 1217,
+      "name": "Notification Modal Card",
+      "reusable": true,
+      "width": 350,
+      "fill": "#FFFFFF",
+      "cornerRadius": 22,
+      "stroke": "#EFE5DB",
+      "strokeWidth": 1,
+      "strokeAlignment": "inner",
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#00000014",
+        "offset": {
+          "x": 0,
+          "y": 20
+        },
+        "blur": 44
+      },
+      "layout": "vertical",
+      "gap": 18,
+      "padding": 20,
+      "children": [
+        {
+          "type": "frame",
+          "id": "Uv7Il",
+          "x": 20,
+          "y": 20,
+          "name": "Notification Modal Chip Row",
+          "enabled": false,
+          "width": "fill_container(310)",
+          "fill": "#FBF6F0",
+          "cornerRadius": 16,
+          "stroke": "#F0E6DA",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
+          "gap": 10,
+          "padding": [
+            12,
+            14
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "hUASU",
+              "name": "Audience Chip",
+              "width": 32,
+              "height": 32,
+              "fill": "#F4E7DB",
+              "cornerRadius": 9999,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "ki3lT",
+                  "name": "Notification Modal Bell Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "bell-simple-ringing",
+                  "library": "phosphor",
+                  "fill": "#9F5C38"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "dJQnM",
+              "name": "Priority Chip",
+              "width": "fill_container",
+              "fill": "#FBF6F0",
+              "layout": "vertical",
+              "gap": 2,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "BhKLE",
+                  "name": "Priority Chip Text",
+                  "fill": "#9F5C38",
+                  "content": "消息提醒",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "I5ekm",
+                  "name": "Notification Modal Header Note",
+                  "fill": "#7D7368",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "请及时查看本次更新",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "poFcm",
+          "name": "Notification Modal Title",
+          "fill": "#151515",
+          "textGrowth": "fixed-width",
+          "width": "fill_container",
+          "content": "本周末圈内聚餐时间调整",
+          "lineHeight": 1.14,
+          "fontFamily": "Noto Serif SC",
+          "fontSize": 27,
+          "fontWeight": "600"
+        },
+        {
+          "type": "frame",
+          "id": "cAmt3",
+          "name": "Notification Modal Body Panel",
+          "width": "fill_container",
+          "fill": "#FBF8F4",
+          "cornerRadius": 16,
+          "stroke": "#F0E7DC",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
+          "layout": "vertical",
+          "padding": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "NKdHZ",
+              "name": "Notification Modal Body",
+              "fill": "#544D45",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "原定周六晚上的圈内聚餐改为周日中午，地点仍在南门小馆。已经报名的朋友不用重复确认，临时不能参加也可以稍后在群里说明。",
+              "lineHeight": 1.65,
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "jcN41",
+          "x": 20,
+          "y": 182,
+          "name": "Notification Modal Meta Row",
+          "enabled": false,
+          "fill": "#F6EFE7",
+          "cornerRadius": 9999,
+          "padding": [
+            8,
+            12
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "tHWkU",
+              "x": 10,
+              "y": 9,
+              "name": "Notification Modal Meta Icon",
+              "enabled": false,
+              "width": 14,
+              "height": 14,
+              "icon": "clock",
+              "library": "phosphor",
+              "fill": "#9F8D7C"
+            },
+            {
+              "type": "text",
+              "id": "AhoQR",
+              "name": "Notification Modal Meta",
+              "fill": "#8B857D",
+              "content": "发布时间 · 今天 18:30",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 11,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "X0rXCp",
+          "name": "Notification Modal Action",
+          "width": "fill_container",
+          "height": 48,
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": 135,
+            "size": {
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "#A15F38",
+                "position": 0
+              },
+              {
+                "color": "#BF764A",
+                "position": 1
+              }
+            ]
+          },
+          "cornerRadius": 9999,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#A46A1F1A",
+            "offset": {
+              "x": 0,
+              "y": 8
+            },
+            "blur": 18
+          },
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "Qayh4",
+              "name": "Notification Modal Action Text",
+              "fill": "#FFFFFF",
+              "content": "我知道了",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 13,
+              "fontWeight": "600"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "teKi7",
+      "x": 8988.373812941696,
+      "y": 0,
+      "name": "User Profile Notifications Unread",
+      "clip": true,
+      "width": 390,
+      "height": 961,
+      "fill": "$bg-primary",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "ycN9X",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24,
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "o8VGX",
+              "name": "Time",
+              "fill": "$text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "S5Ozy",
+              "name": "Status Right",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "NubYq",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "cell-signal-full",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "A7wk7x",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi-high",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "IdyB2",
+                  "name": "Battery",
+                  "width": 22,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "bF5r4",
+          "name": "Hero Section",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": [
+            10,
+            20,
+            0,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "UpwtL",
+              "name": "Hero Card",
+              "width": "fill_container",
+              "fill": "$bg-card",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 18,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "OsG6k",
+                  "name": "Hero Top",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "x46d3A",
+                      "name": "Hero User",
+                      "gap": 14,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "vdfnq",
+                          "name": "Hero Avatar",
+                          "width": 58,
+                          "height": 58,
+                          "fill": "#EDF3EC",
+                          "cornerRadius": 12,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "j1w64",
+                              "name": "Hero Avatar Text",
+                              "fill": "#346538",
+                              "content": "胖",
+                              "fontFamily": "$font-body",
+                              "fontSize": 22,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Bap7u",
+                          "name": "Hero Copy",
+                          "layout": "vertical",
+                          "gap": 5,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "utBkC",
+                              "name": "Hero Name",
+                              "gap": 2,
+                              "alignItems": "end",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "tELzt",
+                                  "name": "Hero Username",
+                                  "fill": "#151515",
+                                  "content": "胖虎",
+                                  "fontFamily": "Noto Serif SC",
+                                  "fontSize": 24,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "Yr1VX",
+                                  "name": "Hero Suffix",
+                                  "fill": "#8D8D8D",
+                                  "content": "的美味空间",
+                                  "fontFamily": "Noto Serif SC",
+                                  "fontSize": 16,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "FZ7SD",
+                              "name": "Hero Intro",
+                              "fill": "$text-muted",
+                              "content": "好友能看见你的新菜动态，搭子圈能共享可见菜单。",
+                              "fontFamily": "$font-body",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "id": "b4Ldh",
+                              "type": "ref",
+                              "ref": "vipChip01",
+                              "name": "Hero VIP Chip",
+                              "gap": 5,
+                              "padding": [
+                                5,
+                                9
+                              ],
+                              "cornerRadius": 9999,
+                              "strokeWidth": 0,
+                              "fill": {
+                                "type": "gradient",
+                                "gradientType": "linear",
+                                "enabled": true,
+                                "rotation": 135,
+                                "size": {
+                                  "height": 1
+                                },
+                                "colors": [
+                                  {
+                                    "color": "#6E4317",
+                                    "position": 0
+                                  },
+                                  {
+                                    "color": "#B97A2A",
+                                    "position": 1
+                                  }
+                                ]
+                              },
+                              "effect": {
+                                "type": "shadow",
+                                "shadowType": "outer",
+                                "color": "#A46A1F1F",
+                                "offset": {
+                                  "x": 0,
+                                  "y": 6
+                                },
+                                "blur": 14
+                              },
+                              "descendants": {
+                                "vipChipIcon01": {
+                                  "width": 12,
+                                  "height": 12,
+                                  "fill": "#FFF3D6"
+                                },
+                                "vipChipText01": {
+                                  "content": "VIP·3",
+                                  "fontSize": 10,
+                                  "fontWeight": "700",
+                                  "fill": "#FFF3D6"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "KXpUY",
+                      "name": "Hero Actions",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "w77nsb",
+                          "name": "Bell Action Shell",
+                          "width": 36,
+                          "height": 36,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 9999,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "UitYZ",
+                              "x": 9,
+                              "y": 9,
+                              "name": "Bell Action Icon",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "bell-simple",
+                              "library": "phosphor",
+                              "fill": "#151515"
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "DoEQe",
+                              "x": 24,
+                              "y": 4,
+                              "name": "Unread Dot",
+                              "fill": "#D84F3C",
+                              "width": 8,
+                              "height": 8
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "fJn7K",
+                          "name": "Edit Action Shell",
+                          "width": 36,
+                          "height": 36,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 9999,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "dx9Fw",
+                              "name": "Edit Action Icon",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "pencil-simple",
+                              "library": "phosphor",
+                              "fill": "#151515"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "BCIDg",
+                  "name": "Hero Divider",
+                  "width": "fill_container",
+                  "height": 1,
+                  "fill": "#ECE5DC"
+                },
+                {
+                  "type": "frame",
+                  "id": "k2fYw",
+                  "name": "Hero Stats",
+                  "width": "fill_container",
+                  "justifyContent": "space_around",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "bf4WC",
+                      "name": "Menus Stat",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "j4XLo7",
+                          "name": "Menus Value",
+                          "fill": "$text-primary",
+                          "content": "32",
+                          "fontFamily": "$font-data",
+                          "fontSize": 22,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "jHbW6",
+                          "name": "Menus Label",
+                          "fill": "$text-muted",
+                          "content": "菜单",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "g4rXx",
+                      "name": "Circle Stat",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "DZIbF",
+                          "name": "Circle Value",
+                          "fill": "$text-primary",
+                          "content": "3",
+                          "fontFamily": "$font-data",
+                          "fontSize": 22,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "ssVx3",
+                          "name": "Circle Label",
+                          "fill": "$text-muted",
+                          "content": "搭子圈",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "RnSD7",
+                  "name": "Hero Divider 2",
+                  "width": "fill_container",
+                  "height": 1,
+                  "fill": "#ECE5DC"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "NGs9t",
+          "name": "Content Stack",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 20,
+          "padding": 20,
+          "children": [
+            {
+              "type": "frame",
+              "id": "Y8Hi7F",
+              "name": "Visibility Block",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Pok7I",
+                  "name": "Section Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Q2Zw7Z",
+                      "name": "Section Title Stack",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "JSfCd",
+                          "name": "Section Eyebrow",
+                          "fill": "$text-muted",
+                          "content": "菜单权限",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "letterSpacing": 0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "dY0D9",
+                          "name": "Section Title",
+                          "fill": "$text-primary",
+                          "content": "菜单可见范围",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 20,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "Ed6p0",
+                      "name": "Section Link",
+                      "fill": "$accent-primary",
+                      "content": "编辑",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "tlcoV",
+                  "name": "Visibility Card",
+                  "width": 350,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "layout": "vertical",
+                  "gap": 14,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "jnYUT",
+                      "name": "Visibility Desc",
+                      "fill": "#2F3437",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "你可以决定哪些圈子能看到你的菜单。默认权限会作为新菜谱的初始权限。",
+                      "lineHeight": 1.5,
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "PKb0J",
+                      "name": "Visibility List",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 12,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "V3qsc",
+                          "name": "Visibility Row Public",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "ToNXi",
+                              "name": "Visibility Copy Public",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 3,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "VcwnM",
+                                  "name": "Visibility Name Public",
+                                  "fill": "#151515",
+                                  "content": "圈内公开",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 14,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "dU5QF",
+                                  "name": "Visibility Meta Public",
+                                  "fill": "#787774",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "只要对方已经加入任意圈子，就能看到你的菜单。",
+                                  "lineHeight": 1.5,
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Z6gzQ",
+                              "name": "Visibility Dot Public",
+                              "width": 10,
+                              "height": 10,
+                              "fill": "#151515",
+                              "cornerRadius": 9999
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "I3Br1N",
+                          "name": "Visibility Divider 1",
+                          "width": "fill_container",
+                          "height": 1,
+                          "fill": "#ECE5DC"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ZGGsp",
+                          "name": "Visibility Row Circle",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "bD5cB",
+                              "name": "Visibility Copy Circle",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 3,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "V0GfR5",
+                                  "name": "Visibility Name Circle",
+                                  "fill": "#151515",
+                                  "content": "指定圈子",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 14,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "ycRW5",
+                                  "name": "Visibility Meta Circle",
+                                  "fill": "#787774",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "仅对你选中的圈子成员开放，可随时调整。",
+                                  "lineHeight": 1.5,
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "tA2Cu",
+                              "name": "Visibility State Circle",
+                              "fill": "#9F5C38",
+                              "content": "可切换",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Ju2AZ",
+                          "name": "Visibility Divider 2",
+                          "width": "fill_container",
+                          "height": 1,
+                          "fill": "#ECE5DC"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "g6Ic3Q",
+                          "name": "Visibility Row Private",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "h9SxQs",
+                              "name": "Visibility Copy Private",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 3,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "uasQQ",
+                                  "name": "Visibility Name Private",
+                                  "fill": "#151515",
+                                  "content": "仅自己可见",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 14,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "M97NNL",
+                                  "name": "Visibility Meta Private",
+                                  "fill": "#787774",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "只在你自己的菜单空间展示。",
+                                  "lineHeight": 1.5,
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "z4kP8",
+                              "name": "Visibility State Private",
+                              "fill": "#9F5C38",
+                              "content": "可切换",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "TNOwd",
+                      "name": "Circle Picker Card",
+                      "width": "fill_container",
+                      "fill": "#F7F4EF",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": 14,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Y8aFT",
+                          "name": "Circle Picker Head",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "YdBLY",
+                              "name": "Circle Picker Title",
+                              "fill": "#151515",
+                              "content": "默认开放圈子",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "ggqxc",
+                              "name": "Circle Picker Meta",
+                              "fill": "#787774",
+                              "content": "2 个已选",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "aET5r",
+                          "name": "Circle Picker Chips",
+                          "width": "fill_container",
+                          "gap": 8,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "F4LAR",
+                              "name": "Circle Chip Weekend",
+                              "fill": "#9F5C38",
+                              "cornerRadius": 9999,
+                              "padding": [
+                                8,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "zrcdK",
+                                  "name": "Circle Chip Weekend Text",
+                                  "fill": "#FFFFFF",
+                                  "content": "周末饭搭子",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "dMfga",
+                              "name": "Circle Chip Light",
+                              "fill": "#E9E2D8",
+                              "cornerRadius": 9999,
+                              "padding": [
+                                8,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "g8ez0",
+                                  "name": "Circle Chip Light Text",
+                                  "fill": "#6C6257",
+                                  "content": "轻食研究所",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "cNK2s",
+                              "name": "Circle Chip Night",
+                              "fill": "#E9E2D8",
+                              "cornerRadius": 9999,
+                              "padding": [
+                                8,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "a1zQbV",
+                                  "name": "Circle Chip Night Text",
+                                  "fill": "#6C6257",
+                                  "content": "深夜小灶",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "gMcQe",
+                          "name": "Save Visibility Button",
+                          "width": "fill_container",
+                          "height": 46,
+                          "fill": "#9F5C38",
+                          "cornerRadius": 14,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Y2f9hl",
+                              "name": "Save Visibility Button Text",
+                              "fill": "#FFF8EF",
+                              "content": "保存默认权限",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "DWyOL",
+              "name": "Logout Block",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "XYB7w",
+                  "name": "Logout Card",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "padding": 16,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "vKYyw",
+                      "name": "Logout Text",
+                      "fill": "#B14D3A",
+                      "content": "退出登录",
+                      "textAlign": "center",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 16,
+                      "fontWeight": "medium"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "znisS",
+          "name": "Tab Bar Wrapper",
+          "width": "fill_container",
+          "padding": [
+            0,
+            16,
+            16,
+            16
+          ],
+          "justifyContent": "center",
+          "children": [
+            {
+              "id": "xozSP",
+              "type": "ref",
+              "ref": "resnP",
+              "name": "Profile Tab Bar"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "J74p2",
+      "x": 9428.373812941696,
+      "y": 0,
+      "name": "User Profile Notifications Quiet",
+      "clip": true,
+      "width": 390,
+      "height": 961,
+      "fill": "$bg-primary",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "oT9q0",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24,
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "GPnPO",
+              "name": "Time",
+              "fill": "$text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "MzYER",
+              "name": "Status Right",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "b8EQd",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "cell-signal-full",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "pRbrc",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi-high",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "WRTOq",
+                  "name": "Battery",
+                  "width": 22,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "e8rGw",
+          "name": "Hero Section",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": [
+            10,
+            20,
+            0,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "aM1yj",
+              "name": "Hero Card",
+              "width": "fill_container",
+              "fill": "$bg-card",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 18,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "zA2XH",
+                  "name": "Hero Top",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "nHOb0",
+                      "name": "Hero User",
+                      "gap": 14,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "z6oVK",
+                          "name": "Hero Avatar",
+                          "width": 58,
+                          "height": 58,
+                          "fill": "#EDF3EC",
+                          "cornerRadius": 12,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "HieSt",
+                              "name": "Hero Avatar Text",
+                              "fill": "#346538",
+                              "content": "胖",
+                              "fontFamily": "$font-body",
+                              "fontSize": 22,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "i2bjE",
+                          "name": "Hero Copy",
+                          "layout": "vertical",
+                          "gap": 5,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "T3y6j",
+                              "name": "Hero Name",
+                              "gap": 2,
+                              "alignItems": "end",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "QjLJU",
+                                  "name": "Hero Username",
+                                  "fill": "#151515",
+                                  "content": "胖虎",
+                                  "fontFamily": "Noto Serif SC",
+                                  "fontSize": 24,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "IqdZV",
+                                  "name": "Hero Suffix",
+                                  "fill": "#8D8D8D",
+                                  "content": "的美味空间",
+                                  "fontFamily": "Noto Serif SC",
+                                  "fontSize": 16,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "i9v8WK",
+                              "name": "Hero Intro",
+                              "fill": "$text-muted",
+                              "content": "好友能看见你的新菜动态，搭子圈能共享可见菜单。",
+                              "fontFamily": "$font-body",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "id": "F8OeS3",
+                              "type": "ref",
+                              "ref": "vipChip01",
+                              "name": "Hero VIP Chip",
+                              "gap": 5,
+                              "padding": [
+                                5,
+                                9
+                              ],
+                              "cornerRadius": 9999,
+                              "strokeWidth": 0,
+                              "fill": {
+                                "type": "gradient",
+                                "gradientType": "linear",
+                                "enabled": true,
+                                "rotation": 135,
+                                "size": {
+                                  "height": 1
+                                },
+                                "colors": [
+                                  {
+                                    "color": "#6E4317",
+                                    "position": 0
+                                  },
+                                  {
+                                    "color": "#B97A2A",
+                                    "position": 1
+                                  }
+                                ]
+                              },
+                              "effect": {
+                                "type": "shadow",
+                                "shadowType": "outer",
+                                "color": "#A46A1F1F",
+                                "offset": {
+                                  "x": 0,
+                                  "y": 6
+                                },
+                                "blur": 14
+                              },
+                              "descendants": {
+                                "vipChipIcon01": {
+                                  "width": 12,
+                                  "height": 12,
+                                  "fill": "#FFF3D6"
+                                },
+                                "vipChipText01": {
+                                  "content": "VIP·3",
+                                  "fontSize": 10,
+                                  "fontWeight": "700",
+                                  "fill": "#FFF3D6"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "QodwD",
+                      "name": "Hero Actions",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "E1AIg",
+                          "name": "Bell Action Shell",
+                          "width": 36,
+                          "height": 36,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 9999,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "v3IBzP",
+                              "name": "Bell Action Icon",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "bell-simple",
+                              "library": "phosphor",
+                              "fill": "#151515"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "e7iLh",
+                          "name": "Edit Action Shell",
+                          "width": 36,
+                          "height": 36,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 9999,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "rCeCL",
+                              "name": "Edit Action Icon",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "pencil-simple",
+                              "library": "phosphor",
+                              "fill": "#151515"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "l3uyj",
+                  "name": "Hero Divider",
+                  "width": "fill_container",
+                  "height": 1,
+                  "fill": "#ECE5DC"
+                },
+                {
+                  "type": "frame",
+                  "id": "fYOww",
+                  "name": "Hero Stats",
+                  "width": "fill_container",
+                  "justifyContent": "space_around",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "rb0go",
+                      "name": "Menus Stat",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "HaLb7",
+                          "name": "Menus Value",
+                          "fill": "$text-primary",
+                          "content": "32",
+                          "fontFamily": "$font-data",
+                          "fontSize": 22,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "N47cQ",
+                          "name": "Menus Label",
+                          "fill": "$text-muted",
+                          "content": "菜单",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Rp0nC",
+                      "name": "Circle Stat",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Ar1AO",
+                          "name": "Circle Value",
+                          "fill": "$text-primary",
+                          "content": "3",
+                          "fontFamily": "$font-data",
+                          "fontSize": 22,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "yMU3z",
+                          "name": "Circle Label",
+                          "fill": "$text-muted",
+                          "content": "搭子圈",
+                          "fontFamily": "$font-body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ylyhc",
+                  "name": "Hero Divider 2",
+                  "width": "fill_container",
+                  "height": 1,
+                  "fill": "#ECE5DC"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "QsOLH",
+          "name": "Content Stack",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 20,
+          "padding": 20,
+          "children": [
+            {
+              "type": "frame",
+              "id": "im7yY",
+              "name": "Visibility Block",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "EHLZW",
+                  "name": "Section Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "GnHDr",
+                      "name": "Section Title Stack",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "G5ofN",
+                          "name": "Section Eyebrow",
+                          "fill": "$text-muted",
+                          "content": "菜单权限",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "500",
+                          "letterSpacing": 0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "Gc6ve",
+                          "name": "Section Title",
+                          "fill": "$text-primary",
+                          "content": "菜单可见范围",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 20,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "uSzry",
+                      "name": "Section Link",
+                      "fill": "$accent-primary",
+                      "content": "编辑",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "x66zf",
+                  "name": "Visibility Card",
+                  "width": 350,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "layout": "vertical",
+                  "gap": 14,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "x7Q1yI",
+                      "name": "Visibility Desc",
+                      "fill": "#2F3437",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "你可以决定哪些圈子能看到你的菜单。默认权限会作为新菜谱的初始权限。",
+                      "lineHeight": 1.5,
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "KpPQL",
+                      "name": "Visibility List",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 12,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "M6tBK0",
+                          "name": "Visibility Row Public",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "H8LtUI",
+                              "name": "Visibility Copy Public",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 3,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "FMCbt",
+                                  "name": "Visibility Name Public",
+                                  "fill": "#151515",
+                                  "content": "圈内公开",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 14,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "CZqfj",
+                                  "name": "Visibility Meta Public",
+                                  "fill": "#787774",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "只要对方已经加入任意圈子，就能看到你的菜单。",
+                                  "lineHeight": 1.5,
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "F4bgEX",
+                              "name": "Visibility Dot Public",
+                              "width": 10,
+                              "height": 10,
+                              "fill": "#151515",
+                              "cornerRadius": 9999
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "GZ9n9",
+                          "name": "Visibility Divider 1",
+                          "width": "fill_container",
+                          "height": 1,
+                          "fill": "#ECE5DC"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "bHBk3",
+                          "name": "Visibility Row Circle",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "unJPm",
+                              "name": "Visibility Copy Circle",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 3,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "sr8Ep",
+                                  "name": "Visibility Name Circle",
+                                  "fill": "#151515",
+                                  "content": "指定圈子",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 14,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "fvAL7",
+                                  "name": "Visibility Meta Circle",
+                                  "fill": "#787774",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "仅对你选中的圈子成员开放，可随时调整。",
+                                  "lineHeight": 1.5,
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "slQM4",
+                              "name": "Visibility State Circle",
+                              "fill": "#9F5C38",
+                              "content": "可切换",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "l9mhCA",
+                          "name": "Visibility Divider 2",
+                          "width": "fill_container",
+                          "height": 1,
+                          "fill": "#ECE5DC"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "QstG2",
+                          "name": "Visibility Row Private",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "FHevJ",
+                              "name": "Visibility Copy Private",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 3,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "T9wFS5",
+                                  "name": "Visibility Name Private",
+                                  "fill": "#151515",
+                                  "content": "仅自己可见",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 14,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "ETqdR",
+                                  "name": "Visibility Meta Private",
+                                  "fill": "#787774",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "只在你自己的菜单空间展示。",
+                                  "lineHeight": 1.5,
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "Hi2rq",
+                              "name": "Visibility State Private",
+                              "fill": "#9F5C38",
+                              "content": "可切换",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "OG6pm",
+                      "name": "Circle Picker Card",
+                      "width": "fill_container",
+                      "fill": "#F7F4EF",
+                      "cornerRadius": 12,
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": 14,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "NSOvh",
+                          "name": "Circle Picker Head",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "uPJok",
+                              "name": "Circle Picker Title",
+                              "fill": "#151515",
+                              "content": "默认开放圈子",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "B6ndlY",
+                              "name": "Circle Picker Meta",
+                              "fill": "#787774",
+                              "content": "2 个已选",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "EMLEj",
+                          "name": "Circle Picker Chips",
+                          "width": "fill_container",
+                          "gap": 8,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "AElUv",
+                              "name": "Circle Chip Weekend",
+                              "fill": "#9F5C38",
+                              "cornerRadius": 9999,
+                              "padding": [
+                                8,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "uHx72",
+                                  "name": "Circle Chip Weekend Text",
+                                  "fill": "#FFFFFF",
+                                  "content": "周末饭搭子",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "bjC0G",
+                              "name": "Circle Chip Light",
+                              "fill": "#E9E2D8",
+                              "cornerRadius": 9999,
+                              "padding": [
+                                8,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "XTTua",
+                                  "name": "Circle Chip Light Text",
+                                  "fill": "#6C6257",
+                                  "content": "轻食研究所",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "k33xHM",
+                              "name": "Circle Chip Night",
+                              "fill": "#E9E2D8",
+                              "cornerRadius": 9999,
+                              "padding": [
+                                8,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "LyeWP",
+                                  "name": "Circle Chip Night Text",
+                                  "fill": "#6C6257",
+                                  "content": "深夜小灶",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "G54zYI",
+                          "name": "Save Visibility Button",
+                          "width": "fill_container",
+                          "height": 46,
+                          "fill": "#9F5C38",
+                          "cornerRadius": 14,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "VvQqi",
+                              "name": "Save Visibility Button Text",
+                              "fill": "#FFF8EF",
+                              "content": "保存默认权限",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "vI6Bz",
+              "name": "Logout Block",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "c6oval",
+                  "name": "Logout Card",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "padding": 16,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "W6UCtQ",
+                      "name": "Logout Text",
+                      "fill": "#B14D3A",
+                      "content": "退出登录",
+                      "textAlign": "center",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 16,
+                      "fontWeight": "medium"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "V8T95",
+          "name": "Tab Bar Wrapper",
+          "width": "fill_container",
+          "padding": [
+            0,
+            16,
+            16,
+            16
+          ],
+          "justifyContent": "center",
+          "children": [
+            {
+              "id": "s9EfG",
+              "type": "ref",
+              "ref": "resnP",
+              "name": "Profile Tab Bar"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "vLeq3",
+      "x": 9898.373812941696,
+      "y": 0,
+      "name": "User Notifications",
+      "clip": true,
+      "width": 390,
+      "height": 1044,
+      "fill": "#F7F6F3",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "abNbC",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24,
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "ZXqtm",
+              "name": "Time",
+              "fill": "$text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "AvdRy",
+              "name": "Status Right",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "K0ZP3",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "cell-signal-full",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "xBUei",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi-high",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "K8gp3",
+                  "name": "Battery",
+                  "width": 22,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "rqA2c",
+          "name": "Top Nav",
+          "width": "fill_container",
+          "height": 60,
+          "padding": [
+            14,
+            20,
+            6,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Mggu5",
+              "name": "Back Shell",
+              "width": 36,
+              "height": 36,
+              "fill": "#FFFFFF",
+              "cornerRadius": 9999,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "AsMQS",
+                  "name": "Back Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "caret-left",
+                  "library": "phosphor",
+                  "fill": "#151515"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "zfrLn",
+              "name": "Title Wrap",
+              "layout": "vertical",
+              "gap": 3,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "x0Xto",
+                  "name": "Page Label",
+                  "fill": "#9F5C38",
+                  "content": "消息中心",
+                  "fontFamily": "$font-body",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "cJfMm",
+                  "name": "Page Title",
+                  "fill": "#151515",
+                  "content": "用户通知",
+                  "fontFamily": "$font-body",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "bh4wS",
+              "name": "Top Action",
+              "width": 36,
+              "height": 36,
+              "fill": "#FFFFFF",
+              "cornerRadius": 9999,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "LepwT",
+                  "name": "Bell Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "bell-ringing",
+                  "library": "phosphor",
+                  "fill": "#9F5C38"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "W98Q2",
+          "name": "Request Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": [
+            12,
+            20,
+            24,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "X1qxIm",
+              "name": "Notification Guidance Card",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 10,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "xgK0F",
+                  "name": "Guidance Title",
+                  "fill": "#151515",
+                  "content": "有 2 条未读通知",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "L9KE3a",
+                  "name": "Guidance Body",
+                  "fill": "#787774",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "未读通知会显示在前面，需要你尽快确认的消息会在登录首页时直接弹出。",
+                  "lineHeight": 1.5,
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "l4zOHM",
+              "name": "All Notifications Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "caAvD",
+                  "name": "All Notifications Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "CdsZ0",
+                      "name": "All Notifications Title",
+                      "fill": "#151515",
+                      "content": "全部通知",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "eP5pk",
+                      "name": "All Notifications Note",
+                      "fill": "#8B857D",
+                      "content": "未读在前，已读在后",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 11,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Sb9Uq",
+                  "name": "Specified Important Unread Card",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "W8hWV6",
+                      "name": "Specified Important Unread Head Simple",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "G4vfYI",
+                          "name": "Specified Important Unread Head Simple Dot",
+                          "fill": "#C4704B",
+                          "width": 8,
+                          "height": 8
+                        },
+                        {
+                          "type": "frame",
+                          "id": "s5Bn3m",
+                          "name": "Specified Important Unread Head Simple Time Shell",
+                          "fill": "#FBF8F4",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            4,
+                            9
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "vV46p",
+                              "name": "Specified Important Unread Head Simple Time",
+                              "fill": "#8B857D",
+                              "content": "今天 18:30",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "jZvoT",
+                      "name": "Specified Important Unread Card Copy",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ILJ3Y",
+                          "name": "Specified Important Unread Card Title",
+                          "fill": "#151515",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "本周末圈内聚餐时间调整",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "mze8Q",
+                          "name": "Specified Important Unread Card Summary",
+                          "fill": "#6A635B",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "你已被加入本周末的圈内聚餐名单，时间改为周日中午，地点仍在南门小馆。",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "aTYsl",
+                      "name": "Specified Important Unread Card Footer",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "wG3kq",
+                          "name": "Specified Important Unread Card Prompt",
+                          "fill": "#8B857D",
+                          "content": "点击查看完整消息",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "naDdz",
+                          "name": "Specified Important Unread Card State Chip",
+                          "fill": "#F4E6DE",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            5,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "q9r03",
+                              "name": "Specified Important Unread Card State Text",
+                              "fill": "#9F5C38",
+                              "content": "未读",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "FHfKD",
+                  "name": "Broadcast Normal Unread Card",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "UDA2S",
+                      "name": "Broadcast Normal Unread Head Simple",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "cdisO",
+                          "name": "Broadcast Normal Unread Head Simple Dot",
+                          "fill": "#D19A63",
+                          "width": 8,
+                          "height": 8
+                        },
+                        {
+                          "type": "frame",
+                          "id": "z8tAj6",
+                          "name": "Broadcast Normal Unread Head Simple Time Shell",
+                          "fill": "#FBF8F4",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            4,
+                            9
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "YlUiY",
+                              "name": "Broadcast Normal Unread Head Simple Time",
+                              "fill": "#8B857D",
+                              "content": "今天 14:20",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "YQLwz",
+                      "name": "Broadcast Normal Unread Card Copy",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Uy8Oi",
+                          "name": "Broadcast Normal Unread Card Title",
+                          "fill": "#151515",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "六月厨房清洁日提醒",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Z92l7Q",
+                          "name": "Broadcast Normal Unread Card Summary",
+                          "fill": "#6A635B",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "本周五晚 8 点会统一做公共厨房清洁，记得把暂存食材贴好名字。",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ViCVU",
+                      "name": "Broadcast Normal Unread Card Footer",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "PO7fd",
+                          "name": "Broadcast Normal Unread Card Prompt",
+                          "fill": "#8B857D",
+                          "content": "点击查看完整消息",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "cEBnW",
+                          "name": "Broadcast Normal Unread Card State Chip",
+                          "fill": "#F4E6DE",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            5,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Om9KB",
+                              "name": "Broadcast Normal Unread Card State Text",
+                              "fill": "#9F5C38",
+                              "content": "未读",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "pUQRV",
+                  "name": "Broadcast Normal Read Card",
+                  "width": "fill_container",
+                  "fill": "#F8F5F0",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "EbBOr",
+                      "name": "Broadcast Normal Read Head Simple",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "r12aMF",
+                          "name": "Broadcast Normal Read Head Simple Dot",
+                          "fill": "#D8D0C5",
+                          "width": 8,
+                          "height": 8
+                        },
+                        {
+                          "type": "frame",
+                          "id": "glB1K",
+                          "name": "Broadcast Normal Read Head Simple Time Shell",
+                          "fill": "#FBF8F4",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            4,
+                            9
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "xaUBb",
+                              "name": "Broadcast Normal Read Head Simple Time",
+                              "fill": "#8B857D",
+                              "content": "昨天 19:40",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "v05r2i",
+                      "name": "Broadcast Normal Read Card Copy",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "XzLzo",
+                          "name": "Broadcast Normal Read Card Title",
+                          "fill": "#151515",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "端午假期配送时段说明",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "msSSI",
+                          "name": "Broadcast Normal Read Card Summary",
+                          "fill": "#6A635B",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "假期期间生鲜配送会顺延半天，急用食材建议提前一天完成下单。",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "u1jLK6",
+                      "name": "Broadcast Normal Read Card Footer",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "yfMkS",
+                          "name": "Broadcast Normal Read Card Prompt",
+                          "fill": "#8B857D",
+                          "content": "点击查看完整消息",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Ryb8u",
+                          "name": "Broadcast Normal Read Card State Chip",
+                          "fill": "#EFE8DF",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            5,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "scZEC",
+                              "name": "Broadcast Normal Read Card State Text",
+                              "fill": "#8B857D",
+                              "content": "已读",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "TUKdJ",
+                  "name": "Specified Normal Read Card",
+                  "width": "fill_container",
+                  "fill": "#F8F5F0",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Bx9Bg",
+                      "name": "Specified Normal Read Head Simple",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "Ndxm7",
+                          "name": "Specified Normal Read Head Simple Dot",
+                          "fill": "#D8D0C5",
+                          "width": 8,
+                          "height": 8
+                        },
+                        {
+                          "type": "frame",
+                          "id": "XzkaT",
+                          "name": "Specified Normal Read Head Simple Time Shell",
+                          "fill": "#FBF8F4",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            4,
+                            9
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "D0Kzin",
+                              "name": "Specified Normal Read Head Simple Time",
+                              "fill": "#8B857D",
+                              "content": "周二 11:05",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Zus43",
+                      "name": "Specified Normal Read Card Copy",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "rLqNg",
+                          "name": "Specified Normal Read Card Title",
+                          "fill": "#151515",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "你收藏的夜宵清单已整理完成",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "rR1yO",
+                          "name": "Specified Normal Read Card Summary",
+                          "fill": "#6A635B",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "系统已经把你最近收藏的夜宵菜单归入同一份清单，晚上想做时会更好找。",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "k58oFS",
+                      "name": "Specified Normal Read Card Footer",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "i6YqaG",
+                          "name": "Specified Normal Read Card Prompt",
+                          "fill": "#8B857D",
+                          "content": "点击查看完整消息",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "RpKjc",
+                          "name": "Specified Normal Read Card State Chip",
+                          "fill": "#EFE8DF",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            5,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "eKtT0",
+                              "name": "Specified Normal Read Card State Text",
+                              "fill": "#8B857D",
+                              "content": "已读",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "m9Sofe",
+      "x": 10368.373812941696,
+      "y": 0,
+      "name": "User Notifications Modal",
+      "clip": true,
+      "width": 390,
+      "height": 1044,
+      "fill": "#F7F6F3",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "K8pFdh",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24,
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "DN422",
+              "name": "Time",
+              "fill": "$text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "xDuLv",
+              "name": "Status Right",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "qFR0e",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "cell-signal-full",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "aF0nQ",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi-high",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "Mn4gG",
+                  "name": "Battery",
+                  "width": 22,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "gNiWJ",
+          "name": "Top Nav",
+          "width": "fill_container",
+          "height": 60,
+          "padding": [
+            14,
+            20,
+            6,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "RDh7x",
+              "name": "Back Shell",
+              "width": 36,
+              "height": 36,
+              "fill": "#FFFFFF",
+              "cornerRadius": 9999,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "Mklje",
+                  "name": "Back Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "caret-left",
+                  "library": "phosphor",
+                  "fill": "#151515"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "BPTdh",
+              "name": "Title Wrap",
+              "layout": "vertical",
+              "gap": 3,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "x5mbNb",
+                  "name": "Page Label",
+                  "fill": "#9F5C38",
+                  "content": "消息中心",
+                  "fontFamily": "$font-body",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "QVzDr",
+                  "name": "Page Title",
+                  "fill": "#151515",
+                  "content": "用户通知",
+                  "fontFamily": "$font-body",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "y3nCj",
+              "name": "Top Action",
+              "width": 36,
+              "height": 36,
+              "fill": "#FFFFFF",
+              "cornerRadius": 9999,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "TSqBa",
+                  "name": "Bell Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "bell-ringing",
+                  "library": "phosphor",
+                  "fill": "#9F5C38"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "F5iFsb",
+          "name": "Request Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": [
+            12,
+            20,
+            24,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "ChsUI",
+              "name": "Notification Guidance Card",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 10,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "d6KRa9",
+                  "name": "Guidance Title",
+                  "fill": "#151515",
+                  "content": "有 2 条未读通知",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "uUcrV",
+                  "name": "Guidance Body",
+                  "fill": "#787774",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "未读通知会显示在前面，需要你尽快确认的消息会在登录首页时直接弹出。",
+                  "lineHeight": 1.5,
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "dca3c",
+              "name": "All Notifications Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "iSZM4",
+                  "name": "All Notifications Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "CXHqN",
+                      "name": "All Notifications Title",
+                      "fill": "#151515",
+                      "content": "全部通知",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "bX5db",
+                      "name": "All Notifications Note",
+                      "fill": "#8B857D",
+                      "content": "未读在前，已读在后",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 11,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Dp9Uy",
+                  "name": "Specified Important Unread Card",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "sYGAU",
+                      "name": "Specified Important Unread Head Simple",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "O80xTC",
+                          "name": "Specified Important Unread Head Simple Dot",
+                          "fill": "#C4704B",
+                          "width": 8,
+                          "height": 8
+                        },
+                        {
+                          "type": "frame",
+                          "id": "yuH1t",
+                          "name": "Specified Important Unread Head Simple Time Shell",
+                          "fill": "#FBF8F4",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            4,
+                            9
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "j2SES",
+                              "name": "Specified Important Unread Head Simple Time",
+                              "fill": "#8B857D",
+                              "content": "今天 18:30",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "QvMAl",
+                      "name": "Specified Important Unread Card Copy",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "DiRXi",
+                          "name": "Specified Important Unread Card Title",
+                          "fill": "#151515",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "本周末圈内聚餐时间调整",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "uTdhv",
+                          "name": "Specified Important Unread Card Summary",
+                          "fill": "#6A635B",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "你已被加入本周末的圈内聚餐名单，时间改为周日中午，地点仍在南门小馆。",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "aatXw",
+                      "name": "Specified Important Unread Card Footer",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "HvzwH",
+                          "name": "Specified Important Unread Card Prompt",
+                          "fill": "#8B857D",
+                          "content": "点击查看完整消息",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "go7av",
+                          "name": "Specified Important Unread Card State Chip",
+                          "fill": "#F4E6DE",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            5,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Ou9mO",
+                              "name": "Specified Important Unread Card State Text",
+                              "fill": "#9F5C38",
+                              "content": "未读",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "PCyXA",
+                  "name": "Broadcast Normal Unread Card",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "OOHqF",
+                      "name": "Broadcast Normal Unread Head Simple",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "ui8MT",
+                          "name": "Broadcast Normal Unread Head Simple Dot",
+                          "fill": "#D19A63",
+                          "width": 8,
+                          "height": 8
+                        },
+                        {
+                          "type": "frame",
+                          "id": "A0Vspx",
+                          "name": "Broadcast Normal Unread Head Simple Time Shell",
+                          "fill": "#FBF8F4",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            4,
+                            9
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "uUBcB",
+                              "name": "Broadcast Normal Unread Head Simple Time",
+                              "fill": "#8B857D",
+                              "content": "今天 14:20",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "x4sLJ",
+                      "name": "Broadcast Normal Unread Card Copy",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "dQD8b",
+                          "name": "Broadcast Normal Unread Card Title",
+                          "fill": "#151515",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "六月厨房清洁日提醒",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "PKYxA",
+                          "name": "Broadcast Normal Unread Card Summary",
+                          "fill": "#6A635B",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "本周五晚 8 点会统一做公共厨房清洁，记得把暂存食材贴好名字。",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "a6BMT4",
+                      "name": "Broadcast Normal Unread Card Footer",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "IZ7l0",
+                          "name": "Broadcast Normal Unread Card Prompt",
+                          "fill": "#8B857D",
+                          "content": "点击查看完整消息",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "DyTXo",
+                          "name": "Broadcast Normal Unread Card State Chip",
+                          "fill": "#F4E6DE",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            5,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "L5NfY",
+                              "name": "Broadcast Normal Unread Card State Text",
+                              "fill": "#9F5C38",
+                              "content": "未读",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "yVjCh",
+                  "name": "Broadcast Normal Read Card",
+                  "width": "fill_container",
+                  "fill": "#F8F5F0",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "v5xSK",
+                      "name": "Broadcast Normal Read Head Simple",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "xoId8",
+                          "name": "Broadcast Normal Read Head Simple Dot",
+                          "fill": "#D8D0C5",
+                          "width": 8,
+                          "height": 8
+                        },
+                        {
+                          "type": "frame",
+                          "id": "k6uoN",
+                          "name": "Broadcast Normal Read Head Simple Time Shell",
+                          "fill": "#FBF8F4",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            4,
+                            9
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "OHiYh",
+                              "name": "Broadcast Normal Read Head Simple Time",
+                              "fill": "#8B857D",
+                              "content": "昨天 19:40",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "kTdj9",
+                      "name": "Broadcast Normal Read Card Copy",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "m8gie6",
+                          "name": "Broadcast Normal Read Card Title",
+                          "fill": "#151515",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "端午假期配送时段说明",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Kh0EO",
+                          "name": "Broadcast Normal Read Card Summary",
+                          "fill": "#6A635B",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "假期期间生鲜配送会顺延半天，急用食材建议提前一天完成下单。",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FkyTl",
+                      "name": "Broadcast Normal Read Card Footer",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "iaxfQ",
+                          "name": "Broadcast Normal Read Card Prompt",
+                          "fill": "#8B857D",
+                          "content": "点击查看完整消息",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ElJBH",
+                          "name": "Broadcast Normal Read Card State Chip",
+                          "fill": "#EFE8DF",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            5,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "IsJYY",
+                              "name": "Broadcast Normal Read Card State Text",
+                              "fill": "#8B857D",
+                              "content": "已读",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "bClXa",
+                  "name": "Specified Normal Read Card",
+                  "width": "fill_container",
+                  "fill": "#F8F5F0",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "fntUG",
+                      "name": "Specified Normal Read Head Simple",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "J2t4go",
+                          "name": "Specified Normal Read Head Simple Dot",
+                          "fill": "#D8D0C5",
+                          "width": 8,
+                          "height": 8
+                        },
+                        {
+                          "type": "frame",
+                          "id": "msTbb",
+                          "name": "Specified Normal Read Head Simple Time Shell",
+                          "fill": "#FBF8F4",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            4,
+                            9
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "KAo6v",
+                              "name": "Specified Normal Read Head Simple Time",
+                              "fill": "#8B857D",
+                              "content": "周二 11:05",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "psZe5",
+                      "name": "Specified Normal Read Card Copy",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "rMIdb",
+                          "name": "Specified Normal Read Card Title",
+                          "fill": "#151515",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "你收藏的夜宵清单已整理完成",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "T9gWF",
+                          "name": "Specified Normal Read Card Summary",
+                          "fill": "#6A635B",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "系统已经把你最近收藏的夜宵菜单归入同一份清单，晚上想做时会更好找。",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "hVkAc",
+                      "name": "Specified Normal Read Card Footer",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "i2wU7",
+                          "name": "Specified Normal Read Card Prompt",
+                          "fill": "#8B857D",
+                          "content": "点击查看完整消息",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "P1NMFI",
+                          "name": "Specified Normal Read Card State Chip",
+                          "fill": "#EFE8DF",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            5,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "NIy87",
+                              "name": "Specified Normal Read Card State Text",
+                              "fill": "#8B857D",
+                              "content": "已读",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Luu2H",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 0,
+          "name": "Notification Page Overlay",
+          "width": 390,
+          "height": 1044,
+          "fill": "#15151573",
+          "layout": "vertical",
+          "padding": [
+            0,
+            20
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "E7xh5J",
+              "type": "ref",
+              "ref": "iQpdt",
+              "name": "Notification Detail Modal",
+              "width": 350,
+              "descendants": {
+                "hUASU": {
+                  "fill": "#F4E6DE"
+                },
+                "BhKLE": {
+                  "content": "重要通知"
+                },
+                "poFcm": {
+                  "content": "你被加入本周末的备菜分工"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "MyOGz",
+      "x": 10838.373812941696,
+      "y": 0,
+      "name": "Home Important Notice Modal",
+      "clip": true,
+      "width": 390,
+      "height": 844,
+      "fill": "#F5F2ED",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "C3IaW",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24,
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "wHOcP",
+              "name": "Time",
+              "fill": "$text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "g7KDk",
+              "name": "Status Right",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "l0wm2m",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "cell-signal-full",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "LFl2Z",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi-high",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "FauB3",
+                  "name": "Battery",
+                  "width": 22,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "CYfGW",
+          "name": "Content Wrapper",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            18,
+            16,
+            0,
+            16
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "EuMLp",
+              "name": "Hero",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "npMuF",
+                  "name": "Hero Copy",
+                  "layout": "vertical",
+                  "gap": 2,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "scZms",
+                      "name": "Greeting",
+                      "fill": "#8B8B8B",
+                      "content": "下午好，胖虎",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 13,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "sVveO",
+                  "name": "Hero Right",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "id": "EkKDH",
+                      "type": "ref",
+                      "ref": "vipChip01",
+                      "name": "Hero VIP Chip",
+                      "gap": 5,
+                      "padding": [
+                        5,
+                        9
+                      ],
+                      "cornerRadius": 9999,
+                      "strokeWidth": 0,
+                      "fill": {
+                        "type": "gradient",
+                        "gradientType": "linear",
+                        "enabled": true,
+                        "rotation": 135,
+                        "size": {
+                          "height": 1
+                        },
+                        "colors": [
+                          {
+                            "color": "#6E4317",
+                            "position": 0
+                          },
+                          {
+                            "color": "#B97A2A",
+                            "position": 1
+                          }
+                        ]
+                      },
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#A46A1F1F",
+                        "offset": {
+                          "x": 0,
+                          "y": 6
+                        },
+                        "blur": 14
+                      },
+                      "x": 0,
+                      "y": 9,
+                      "descendants": {
+                        "vipChipIcon01": {
+                          "width": 12,
+                          "height": 12,
+                          "fill": "#FFF3D6"
+                        },
+                        "vipChipText01": {
+                          "content": "VIP",
+                          "fontSize": 10,
+                          "fontWeight": "700",
+                          "fill": "#FFF3D6"
+                        }
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "XPuZR",
+                      "name": "Avatar",
+                      "width": 42,
+                      "height": 42,
+                      "fill": "#7A9E7E",
+                      "cornerRadius": 9999,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "URU4q",
+                          "x": 13,
+                          "y": 9,
+                          "name": "Avatar Initial",
+                          "fill": "#FFFFFF",
+                          "content": "胖",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 16,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "kYsTv",
+              "name": "Search Bar",
+              "width": "fill_container",
+              "height": 48,
+              "fill": "#EEEBE6",
+              "cornerRadius": 14,
+              "gap": 10,
+              "padding": [
+                14,
+                16
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "lkIG4",
+                  "name": "Search Icon",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "magnifying-glass",
+                  "library": "phosphor",
+                  "fill": "#8B8B8B"
+                },
+                {
+                  "type": "text",
+                  "id": "q8gjQz",
+                  "name": "Search Placeholder",
+                  "fill": "#8B8B8B",
+                  "content": "搜索菜谱...",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "SSdO6",
+              "name": "Category Strip",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "id": "Gw7BE",
+                  "type": "ref",
+                  "ref": "Ywr2x",
+                  "name": "Category 全部",
+                  "fill": "#1B3A2D",
+                  "descendants": {
+                    "aaUXw": {
+                      "content": "全部",
+                      "fill": "#FFFFFF",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  }
+                },
+                {
+                  "id": "sITsd",
+                  "type": "ref",
+                  "ref": "Ywr2x",
+                  "name": "Category 家常菜",
+                  "fill": "#FFFFFF",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1B3A2D14",
+                    "offset": {
+                      "x": 0,
+                      "y": 8
+                    },
+                    "blur": 22
+                  },
+                  "descendants": {
+                    "aaUXw": {
+                      "content": "家常菜",
+                      "fill": "#3D3D3D",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  }
+                },
+                {
+                  "id": "YuAKu",
+                  "type": "ref",
+                  "ref": "Ywr2x",
+                  "name": "Category 快手菜",
+                  "fill": "#FFFFFF",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1B3A2D14",
+                    "offset": {
+                      "x": 0,
+                      "y": 8
+                    },
+                    "blur": 22
+                  },
+                  "descendants": {
+                    "aaUXw": {
+                      "content": "快手菜",
+                      "fill": "#3D3D3D",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  }
+                },
+                {
+                  "id": "WSAKM",
+                  "type": "ref",
+                  "ref": "Ywr2x",
+                  "name": "Category 汤品",
+                  "fill": "#FFFFFF",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1B3A2D14",
+                    "offset": {
+                      "x": 0,
+                      "y": 8
+                    },
+                    "blur": 22
+                  },
+                  "descendants": {
+                    "aaUXw": {
+                      "content": "汤品",
+                      "fill": "#3D3D3D",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "coWoZ",
+              "name": "My Dishes Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "padding": [
+                6,
+                0,
+                0,
+                0
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "YPQLv",
+                  "name": "Section Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "lFNv1",
+                      "name": "Section Title",
+                      "fill": "#1B3A2D",
+                      "content": "我的菜品",
+                      "fontFamily": "Noto Serif SC",
+                      "fontSize": 19,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "U1MQSw",
+                  "name": "Recent Row",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "LBfNw",
+                      "name": "Dish 红烧肉",
+                      "clip": true,
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 18,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#1B3A2D14",
+                        "offset": {
+                          "x": 0,
+                          "y": 12
+                        },
+                        "blur": 28
+                      },
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "hWf3B",
+                          "name": "Dish Image",
+                          "width": "fill_container",
+                          "height": 126,
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "../image/uploads/157d17e2-acf5-4785-99bd-8210d77dffc3.jpg",
+                            "mode": "fill"
+                          }
+                        },
+                        {
+                          "type": "frame",
+                          "id": "pY4OI",
+                          "name": "Dish Copy",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "padding": 10,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "jUTd8",
+                              "name": "Dish Title",
+                              "fill": "#1B3A2D",
+                              "content": "红烧肉",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 15,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "x0OFuR",
+                              "name": "Dish Category",
+                              "fill": "#8B8B8B",
+                              "content": "家常菜",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "KriIG",
+                      "name": "Dish 番茄蛋汤",
+                      "clip": true,
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 18,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#1B3A2D14",
+                        "offset": {
+                          "x": 0,
+                          "y": 12
+                        },
+                        "blur": 28
+                      },
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "XxsAh",
+                          "name": "Dish Image",
+                          "width": "fill_container",
+                          "height": 126,
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "../image/uploads/0828041d-438e-481d-9127-f1249ba3faf1.jpg",
+                            "mode": "fill"
+                          }
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Q9y59w",
+                          "name": "Dish Copy",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "padding": 10,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "y5ySCp",
+                              "name": "Dish Title",
+                              "fill": "#1B3A2D",
+                              "content": "番茄蛋汤",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 15,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "obqPO",
+                              "name": "Dish Category",
+                              "fill": "#8B8B8B",
+                              "content": "汤品",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "rn2Vb",
+                      "name": "Dish 蒜蓉西兰花",
+                      "clip": true,
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 18,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#1B3A2D14",
+                        "offset": {
+                          "x": 0,
+                          "y": 12
+                        },
+                        "blur": 28
+                      },
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Y87fK",
+                          "name": "Dish Image",
+                          "width": "fill_container",
+                          "height": 126,
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "../image/uploads/1495cdcf-3b0a-4448-b7cc-41d243710625.jpg",
+                            "mode": "fill"
+                          }
+                        },
+                        {
+                          "type": "frame",
+                          "id": "u3KOaB",
+                          "name": "Dish Copy",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "padding": 10,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "dppg7",
+                              "name": "Dish Title",
+                              "fill": "#1B3A2D",
+                              "content": "蒜蓉西兰花",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 15,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "oj6Qv",
+                              "name": "Dish Category",
+                              "fill": "#8B8B8B",
+                              "content": "快手菜",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "TNuGH",
+          "layoutPosition": "absolute",
+          "x": 324,
+          "y": 678,
+          "name": "Floating Add Button",
+          "width": 54,
+          "height": 54,
+          "fill": "#C4704B",
+          "cornerRadius": 9999,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#C4704B4D",
+            "offset": {
+              "x": 0,
+              "y": 18
+            },
+            "blur": 30
+          },
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "yooJ8",
+              "name": "Floating Add Label",
+              "fill": "#FFFFFF",
+              "content": "＋",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 32,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "mavSV",
+          "name": "Tab Bar Wrapper",
+          "width": "fill_container",
+          "padding": [
+            12,
+            16,
+            16,
+            16
+          ],
+          "justifyContent": "center",
+          "children": [
+            {
+              "id": "su7GD",
+              "type": "ref",
+              "ref": "resnP",
+              "name": "Home Tab Bar"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "wlHGg",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 0,
+          "name": "Home Notice Overlay",
+          "width": 390,
+          "height": 844,
+          "fill": "#15151573",
+          "layout": "vertical",
+          "padding": [
+            0,
+            20
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "p9f49",
+              "type": "ref",
+              "ref": "iQpdt",
+              "name": "Home Important Notice Card",
+              "width": 350,
+              "descendants": {
+                "hUASU": {
+                  "fill": "#EDF3EC"
+                },
+                "BhKLE": {
+                  "content": "重要通知"
+                },
+                "poFcm": {
+                  "content": "今晚共享厨房维护时间提前"
+                }
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "variables": {

@@ -19,9 +19,6 @@
             <text class="picker-hero-eyebrow">{{ detail.title }} · {{ planDateShort }}</text>
             <text class="picker-hero-title">从圈内共享菜谱里挑几道</text>
           </view>
-          <view class="picker-hero-chip">
-            <text class="picker-hero-chip-text">多人协作</text>
-          </view>
         </view>
 
         <view class="picker-hero-stats">
@@ -54,7 +51,6 @@
       <section v-if="categoryItems.length" class="picker-category-section">
         <view class="picker-section-head">
           <text class="picker-section-title">按分类挑选</text>
-          <text class="picker-section-subtitle">{{ categoryItems.length }} 组</text>
         </view>
         <scroll-view class="picker-category-scroll" :scroll-x="true">
           <view class="picker-category-row">
@@ -78,7 +74,6 @@
 
       <section class="picker-list-section">
         <view class="picker-section-head">
-          <text class="picker-section-title">可加入的共享菜谱</text>
           <text class="picker-section-subtitle">{{ filteredMenus.length }} 道</text>
         </view>
 
@@ -105,7 +100,6 @@
                   <view class="picker-owner-chip">
                     <text class="picker-owner-chip-text">{{ menu.ownerNickname }}</text>
                   </view>
-                  <text class="picker-recipe-desc">{{ recipeSummary(menu) }}</text>
                 </view>
                 <view :class="['picker-recipe-radio', { active: selectedDishIds.includes(menu.id) }]">
                   <text v-if="selectedDishIds.includes(menu.id)" class="picker-recipe-radio-check">✓</text>
@@ -233,12 +227,7 @@ async function submitSelectedRecipes() {
   }
 }
 
-function recipeSummary(menu: (typeof availableMenus.value)[number]) {
-  if (menu.ingredientNames.length) {
-    return menu.ingredientNames.slice(0, 3).join('、')
-  }
-  return menu.description || '圈内共享菜谱'
-}
+
 </script>
 
 <style>
