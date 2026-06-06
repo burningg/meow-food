@@ -73,7 +73,7 @@
           </article>
         </section>
 
-        <section class="invite-section">
+        <!-- <section class="invite-section">
           <button class="invite-card pressable" open-type="share">
             <view class="invite-mark">邀</view>
             <view class="invite-copy">
@@ -82,7 +82,7 @@
             </view>
             <text class="invite-action">分享好友</text>
           </button>
-        </section>
+        </section> -->
 
         <section class="logout-section">
           <button class="primary-button logout-button" @tap="logout">退出登录</button>
@@ -121,9 +121,9 @@ const inviterId = computed(() => profile.value?.user.id || authStore.user?.id ||
 const vipChipLabel = computed(() => formatVipLabel(profile.value?.vipInfo?.vip ? profile.value?.vipInfo?.vipLevel : undefined))
 
 const visibilityOptions: Array<{ value: Exclude<MenuVisibility, 'inherit'>; label: string; desc: string }> = [
-  { value: 'public', label: '圈内公开', desc: '只要对方已经加入任意圈子，就能看到你的菜单。' },
-  { value: 'circle', label: '指定圈子', desc: '仅对你选中的圈子成员开放，可随时调整。' },
-  { value: 'private', label: '仅自己可见', desc: '只在你自己的菜单空间展示。' },
+  { value: 'public', label: '圈内公开', desc: '对你所在全部圈子的成员开放' },
+  { value: 'circle', label: '指定圈子', desc: '仅对你选中的圈子成员开放' },
+  { value: 'private', label: '仅自己可见', desc: '只在你自己的菜单空间展示' },
 ]
 
 onMounted(async () => {

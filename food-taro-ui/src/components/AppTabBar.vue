@@ -2,11 +2,11 @@
   <view class="tab-bar">
     <button
       v-for="item in visibleItems"
-      :key="item.name"
+      :key="item.key"
       :class="[
         'tab-item',
-        `tab-item-${item.name}`,
-        { active: item.name === active, add: item.add },
+        `tab-item-${item.key}`,
+        { active: item.key === active, add: item.add },
       ]"
       hover-class="pressable"
       @tap="navigate(item)"
@@ -15,7 +15,7 @@
         :class="['tab-icon', { 'tab-icon-add': item.add }]"
         :style="{ '--tab-icon-mask': `url(${item.iconSrc})` }"
       ></view>
-      <text v-if="item.name === active && !item.add" class="tab-label">{{
+      <text v-if="item.key === active && !item.add" class="tab-label">{{
         item.label
       }}</text>
     </button>
@@ -26,14 +26,14 @@
 import { computed } from "vue";
 import { openPrimaryRoute, push, type RouteName } from "@/lib/navigation";
 import homeIcon from "@/assets/tab-bar-icons/home.svg";
-import feedIcon from "@/assets/tab-bar-icons/feed.svg";
+import planIcon from "@/assets/tab-bar-icons/plan.svg";
 import addIcon from "@/assets/tab-bar-icons/add.svg";
 import circlesIcon from "@/assets/tab-bar-icons/circles.svg";
 import profileIcon from "@/assets/tab-bar-icons/profile.svg";
 
 const props = withDefaults(
   defineProps<{
-    active: "home" | "feed" | "profile" | "circles";
+    active: "home" | "plan" | "profile" | "circles";
     showAdd?: boolean;
   }>(),
   {
@@ -42,9 +42,8 @@ const props = withDefaults(
 );
 
 type TabItem = {
-  name: string;
+  key: "home" | "plan" | "add" | "circles" | "profile";
   label: string;
-  icon: "home" | "feed" | "add" | "circles" | "profile";
   iconSrc: string;
   route: RouteName;
   add?: boolean;
@@ -52,38 +51,33 @@ type TabItem = {
 
 const items: TabItem[] = [
   {
-    name: "home",
+    key: "home",
     label: "首页",
-    icon: "home",
     iconSrc: homeIcon,
     route: "home",
   },
   {
-    name: "feed",
+    key: "plan",
     label: "计划",
-    icon: "feed",
-    iconSrc: feedIcon,
-    route: "feed",
+    iconSrc: planIcon,
+    route: "plan",
   },
   {
-    name: "add",
+    key: "add",
     label: "添加",
-    icon: "add",
     iconSrc: addIcon,
     route: "add-dish",
     add: true,
   },
   {
-    name: "circles",
+    key: "circles",
     label: "搭子圈",
-    icon: "circles",
     iconSrc: circlesIcon,
     route: "circles",
   },
   {
-    name: "profile",
+    key: "profile",
     label: "我的",
-    icon: "profile",
     iconSrc: profileIcon,
     route: "profile",
   },
@@ -94,7 +88,7 @@ const visibleItems = computed(() =>
 );
 
 function navigate(item: TabItem) {
-  if (item.name === props.active) return;
+  if (item.key === props.active) return;
   if (item.add) {
     push(item.route);
     return;
@@ -107,7 +101,7 @@ function navigate(item: TabItem) {
 .tab-bar {
   position: fixed;
   left: 50%;
-  bottom: 25px;
+  bottom: 16px;
   z-index: 20;
   display: flex;
   align-items: center;
@@ -117,69 +111,12 @@ function navigate(item: TabItem) {
   padding: 8px 12px;
   transform: translateX(-50%);
   border-radius: 999px;
-  overflow: visible;
-  isolation: isolate;
-  border: 1px solid rgba(255, 255, 255, 0.72);
-  background: rgba(255, 250, 242, 0.96);
-  box-shadow:
-    0 10px 28px rgba(129, 98, 68, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.84);
-  backdrop-filter: blur(20px) saturate(145%);
-  -webkit-backdrop-filter: blur(20px) saturate(145%);
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
 }
 
-.tab-bar::before,
-.tab-bar::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  border-radius: inherit;
-}
-
-.tab-bar::before {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.34) 0%,
-    rgba(255, 255, 255, 0.14) 44%,
-    rgba(255, 255, 255, 0.02) 100%
-  );
-}
-
-.tab-bar::after {
-  top: calc(100% - 6px);
-  left: 4px;
-  right: 4px;
-  bottom: auto;
-  height: calc(40px + env(safe-area-inset-bottom));
-  border-radius: 0 0 28px 28px;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255, 248, 240, 0.08) 0%,
-      rgba(255, 249, 243, 0.18) 20%,
-      rgba(255, 251, 247, 0.36) 45%,
-      rgba(255, 253, 251, 0.62) 72%,
-      rgba(255, 255, 255, 0.88) 100%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.16) 52%,
-      rgba(255, 255, 255, 0.34) 100%
-    );
-  backdrop-filter: blur(30px) saturate(150%);
-  -webkit-backdrop-filter: blur(30px) saturate(150%);
-  box-shadow:
-    inset 0 -12px 18px rgba(255, 255, 255, 0.18),
-    0 14px 28px rgba(255, 252, 248, 0.38);
-  opacity: 1;
-}
-
 .tab-item {
-  position: relative;
-  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -193,18 +130,12 @@ function navigate(item: TabItem) {
   color: #787774;
   flex-shrink: 0;
   line-height: 1;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease,
-    transform 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .tab-item.active {
-  background: rgba(207, 197, 186, 0.45);
+  background: #edf3ec;
   color: #151515;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.45),
-    0 4px 10px rgba(120, 100, 83, 0.08);
 }
 
 .tab-item.active .tab-icon {

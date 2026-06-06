@@ -13,8 +13,8 @@ export default defineAppConfig({
       pages: ['profile', 'edit-profile', 'edit-avatar', 'friends', 'friend-requests', 'friend-invite'],
     },
     {
-      root: 'pages/feed',
-      pages: ['feed', 'plan-detail', 'plan-shopping'],
+      root: 'pages/plan',
+      pages: ['plan', 'plan-detail', 'plan-shopping'],
     },
     {
       root: 'pages/user',

@@ -14206,69 +14206,6 @@
       "children": [
         {
           "type": "frame",
-          "id": "Z4Ta7",
-          "name": "Status Bar",
-          "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24,
-            0,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "maTUe",
-              "name": "Time",
-              "fill": "#151515",
-              "content": "9:41",
-              "fontFamily": "Noto Sans SC",
-              "fontSize": 15,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "PJCk8",
-              "name": "Status Right",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "zkHUF",
-                  "name": "Status Dot 16",
-                  "width": 16,
-                  "height": 10,
-                  "fill": "#151515",
-                  "cornerRadius": 9999
-                },
-                {
-                  "type": "frame",
-                  "id": "jM9aj",
-                  "name": "Status Dot 16",
-                  "width": 16,
-                  "height": 10,
-                  "fill": "#151515",
-                  "cornerRadius": 9999
-                },
-                {
-                  "type": "frame",
-                  "id": "K1cNNt",
-                  "name": "Status Dot 24",
-                  "width": 24,
-                  "height": 10,
-                  "fill": "#151515",
-                  "cornerRadius": 9999
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "T84Z9r",
           "name": "Shopping Content",
           "width": "fill_container",
@@ -15298,62 +15235,63 @@
       "children": [
         {
           "type": "frame",
-          "id": "rpt1Z",
-          "name": "Status Bar",
+          "id": "z0rqO",
+          "name": "Picker Top Nav",
           "width": "fill_container",
-          "height": 54,
-          "padding": [
-            14,
-            24,
-            0,
-            24
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
+          "height": 68,
+          "fill": "#FFFFFF",
+          "cornerRadius": 12,
+          "layout": "none",
           "children": [
             {
               "type": "text",
-              "id": "L2WVY",
-              "name": "Picker Time",
+              "id": "ctorE",
+              "layoutPosition": "absolute",
+              "x": 140,
+              "y": 24,
+              "name": "Picker Page Title",
               "fill": "#151515",
-              "content": "9:41",
+              "content": "添加菜谱",
               "fontFamily": "Noto Sans SC",
-              "fontSize": 15,
+              "fontSize": 16,
               "fontWeight": "600"
             },
             {
               "type": "frame",
-              "id": "SyFMr",
-              "name": "Picker Status Right",
-              "gap": 6,
+              "id": "v5yRJI",
+              "layoutPosition": "absolute",
+              "x": 16,
+              "y": 16,
+              "name": "Picker Nav Left Spacer",
+              "width": 36,
+              "height": 36
+            },
+            {
+              "type": "frame",
+              "id": "GFhVp",
+              "layoutPosition": "absolute",
+              "x": 264,
+              "y": 16,
+              "name": "Picker Save Button",
+              "fill": "#9F5C38",
+              "cornerRadius": 9999,
+              "gap": 4,
+              "padding": [
+                8,
+                14
+              ],
+              "justifyContent": "center",
               "alignItems": "center",
               "children": [
                 {
-                  "type": "frame",
-                  "id": "w18H8",
-                  "name": "Picker Status Dot 1",
-                  "width": 16,
-                  "height": 10,
-                  "fill": "#151515",
-                  "cornerRadius": 9999
-                },
-                {
-                  "type": "frame",
-                  "id": "OFGkn",
-                  "name": "Picker Status Dot 2",
-                  "width": 16,
-                  "height": 10,
-                  "fill": "#151515",
-                  "cornerRadius": 9999
-                },
-                {
-                  "type": "frame",
-                  "id": "qjSc2",
-                  "name": "Picker Status Dot 3",
-                  "width": 24,
-                  "height": 10,
-                  "fill": "#151515",
-                  "cornerRadius": 9999
+                  "type": "text",
+                  "id": "N3Xff",
+                  "name": "Picker Save Button Text",
+                  "fill": "#FFFFFF",
+                  "content": "保存",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 13,
+                  "fontWeight": "600"
                 }
               ]
             }
@@ -15373,33 +15311,6 @@
             20
           ],
           "children": [
-            {
-              "type": "frame",
-              "id": "z0rqO",
-              "name": "Picker Top Nav",
-              "width": "fill_container",
-              "height": "fit_content(68)",
-              "fill": "#FFFFFF",
-              "cornerRadius": 12,
-              "padding": 16,
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "ctorE",
-                  "layoutPosition": "absolute",
-                  "x": 142.5,
-                  "y": 22.5,
-                  "name": "Picker Page Title",
-                  "fill": "#151515",
-                  "content": "添加菜谱",
-                  "fontFamily": "Noto Sans SC",
-                  "fontSize": 16,
-                  "fontWeight": "600"
-                }
-              ]
-            },
             {
               "type": "frame",
               "id": "I98PN3",
@@ -16308,42 +16219,6 @@
                           ]
                         }
                       ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "J5ueSG",
-              "name": "Picker Footer",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 10,
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "R2jqN",
-                  "name": "Picker Confirm Button",
-                  "width": "fill_container",
-                  "fill": "#9F5C38",
-                  "cornerRadius": 16,
-                  "padding": [
-                    14,
-                    18
-                  ],
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "OKyVG",
-                      "name": "Picker Confirm Button Text",
-                      "fill": "#FFFFFF",
-                      "content": "确认添加 2 道菜谱",
-                      "fontFamily": "Noto Sans SC",
-                      "fontSize": 15,
-                      "fontWeight": "600"
                     }
                   ]
                 }

@@ -14,7 +14,7 @@ export type RouteName =
   | 'friends'
   | 'friend-requests'
   | 'friend-invite'
-  | 'feed'
+  | 'plan'
   | 'plan-detail'
   | 'plan-shopping'
   | 'user-menu'
@@ -23,7 +23,7 @@ export type RouteName =
   | 'circle-members'
   | 'circle-share-invite'
 
-const primaryRouteNames: RouteName[] = ['home', 'feed', 'circles', 'profile']
+const primaryRouteNames: RouteName[] = ['home', 'plan', 'circles', 'profile']
 
 type RouteLocation = {
   name: RouteName
@@ -45,9 +45,9 @@ const routePathMap: Record<RouteName, string> = {
   friends: '/pages/profile/friends',
   'friend-requests': '/pages/profile/friend-requests',
   'friend-invite': '/pages/profile/friend-invite',
-  feed: '/pages/feed/feed',
-  'plan-detail': '/pages/feed/plan-detail',
-  'plan-shopping': '/pages/feed/plan-shopping',
+  plan: '/pages/plan/plan',
+  'plan-detail': '/pages/plan/plan-detail',
+  'plan-shopping': '/pages/plan/plan-shopping',
   'user-menu': '/pages/user/user-menu',
   circles: '/pages/circles/circles',
   'create-circle': '/pages/circles/create-circle',
@@ -151,7 +151,7 @@ export function navigateByLegacyPath(path: string, fallback: RouteName = 'home')
   if (path === '/login') return replace('login')
   if (path === '/register') return replace('register')
   if (path === '/profile') return openPrimaryRoute('profile')
-  if (path === '/feed') return openPrimaryRoute('feed')
+  if (path === '/feed' || path === '/plan') return openPrimaryRoute('plan')
   if (path === '/circles') return openPrimaryRoute('circles')
   if (path === '/dish/add') return push('add-dish')
 
