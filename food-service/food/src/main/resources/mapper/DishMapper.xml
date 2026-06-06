@@ -132,6 +132,21 @@
         ORDER BY d.updated_at DESC, d.created_at DESC
     </select>
 
+    <select id="selectVisibleByOwnerUserIdAndCircleId" resultMap="DishSummaryMap">
+        SELECT
+        <include refid="DishSummaryColumns" />
+        FROM dish d
+        LEFT JOIN category c ON d.category_id = c.id
+        LEFT JOIN user u ON d.owner_user_id = u.id
+        LEFT JOIN dish_visibility_circle dvc
+          ON dvc.dish_id = d.id AND dvc.circle_id = #{circleId}
+        WHERE d.status = 1
+          AND d.owner_user_id = #{ownerUserId}
+          <!-- 圈子内只展示公开菜，以及明确授权给当前圈子的菜，避免通用可见性规则误放大范围。 -->
+          AND (d.visibility = 'public' OR dvc.circle_id IS NOT NULL)
+        ORDER BY d.updated_at DESC, d.created_at DESC
+    </select>
+
     <select id="selectAllActive" resultMap="DishSummaryMap">
         SELECT
         <include refid="DishSummaryColumns" />

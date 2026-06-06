@@ -11,5 +11,4 @@ public class BuddyCircleSummaryResponse {
     private String ownerNickname;
     private long memberCount;
     private long sharedMenuCount;
-    private long weeklyUpdateCount;
 }

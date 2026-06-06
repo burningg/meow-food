@@ -55,8 +55,26 @@
           :key="item.clientId"
           class="row-grid"
         >
-          <input v-model.trim="item.name" class="line-input ingredient-name-input" placeholder="食材名称" />
-          <input v-model.trim="item.amount" class="line-input amount-input" placeholder="用量" />
+          <input
+            v-model.trim="item.name"
+            class="line-input ingredient-name-input"
+            placeholder="食材名称"
+            confirm-type="next"
+            :focus="isIngredientInputFocused(item.clientId, 'name')"
+            @focus="setIngredientInputFocus(item.clientId, 'name')"
+            @blur="clearIngredientInputFocus(item.clientId, 'name')"
+            @confirm="focusIngredientInput(item.clientId, 'amount')"
+          />
+          <input
+            v-model.trim="item.amount"
+            class="line-input amount-input"
+            placeholder="用量"
+            :confirm-type="hasNextIngredient(index) ? 'next' : 'done'"
+            :focus="isIngredientInputFocused(item.clientId, 'amount')"
+            @focus="setIngredientInputFocus(item.clientId, 'amount')"
+            @blur="clearIngredientInputFocus(item.clientId, 'amount')"
+            @confirm="focusNextIngredientName(index)"
+          />
           <button class="delete-link" @tap="removeIngredient(index)">删除</button>
         </view>
       </section>
@@ -64,8 +82,7 @@
       <section class="group-section">
         <view class="group-head">
           <view>
-            <text class="group-title">步骤</text>
-            <text class="group-tip">可选，不写也可以</text>
+            <text class="group-title">步骤（可选）</text>
           </view>
           <button class="pill-button" @tap="addStep">＋ 添加</button>
         </view>
@@ -180,6 +197,7 @@ const initializing = ref(false)
 const analyzingAi = ref(false)
 const formRenderKey = ref(0)
 const initializedRouteKey = ref('')
+const focusedIngredientInput = ref<{ clientId: string; field: 'name' | 'amount' } | null>(null)
 const vipInfo = ref<VipInfo | null>(null)
 const profileDefaults = ref<ProfileResponse | null>(null)
 const availableCircles = ref<BuddyCircleSummary[]>([])
@@ -378,7 +396,46 @@ function addIngredient() {
 }
 
 function removeIngredient(index: number) {
+  const removedClientId = form.ingredients[index]?.clientId
   form.ingredients.splice(index, 1)
+  if (removedClientId && focusedIngredientInput.value?.clientId === removedClientId) {
+    focusedIngredientInput.value = null
+  }
+}
+
+function setIngredientInputFocus(clientId: string, field: 'name' | 'amount') {
+  focusedIngredientInput.value = { clientId, field }
+}
+
+function clearIngredientInputFocus(clientId: string, field: 'name' | 'amount') {
+  if (isIngredientInputFocused(clientId, field)) {
+    focusedIngredientInput.value = null
+  }
+}
+
+function isIngredientInputFocused(clientId: string, field: 'name' | 'amount') {
+  return focusedIngredientInput.value?.clientId === clientId && focusedIngredientInput.value.field === field
+}
+
+function focusIngredientInput(clientId: string, field: 'name' | 'amount') {
+  focusedIngredientInput.value = null
+  // 先清空再设置，确保回车时 Taro 重新触发对应输入框聚焦。
+  setTimeout(() => {
+    focusedIngredientInput.value = { clientId, field }
+  }, 0)
+}
+
+function hasNextIngredient(index: number) {
+  return index < form.ingredients.length - 1
+}
+
+function focusNextIngredientName(index: number) {
+  const nextIngredient = form.ingredients[index + 1]
+  if (!nextIngredient) {
+    focusedIngredientInput.value = null
+    return
+  }
+  focusIngredientInput(nextIngredient.clientId, 'name')
 }
 
 function addStep() {

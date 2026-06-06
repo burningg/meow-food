@@ -117,7 +117,6 @@ export interface BuddyCircleSummary {
   ownerNickname: string
   memberCount: number
   sharedMenuCount: number
-  weeklyUpdateCount: number
 }
 
 export interface BuddyCircleMember {
@@ -132,7 +131,6 @@ export interface BuddyCircleMember {
 export interface BuddyCircleStats {
   memberCount: number
   sharedMenuCount: number
-  weeklyUpdateCount: number
 }
 
 export interface BuddyCircleDetail {

@@ -23,7 +23,7 @@
                 </view>
                 <button
                   class="circle-switch-button"
-                  :disabled="presentedCircles.length <= 1"
+                  :disabled="circles.length <= 1"
                   @tap="openCircleSwitcher"
                 >
                   <text>切换</text>
@@ -156,7 +156,7 @@
         </view>
         <view class="circle-option-list">
           <button
-            v-for="circle in presentedCircles"
+            v-for="circle in circles"
             :key="circle.id"
             :class="['circle-option', { active: circle.id === activeCircleId }]"
             @tap="selectCircle(circle.id)"
@@ -166,10 +166,7 @@
             }}</text>
             <view class="circle-option-copy">
               <text class="strong">{{ circle.name }}</text>
-              <text class="muted"
-                >{{ circle.memberCount }}人 ·
-                {{ circle.sharedMenuCount }}菜谱</text
-              >
+              <text class="muted">{{ getCircleStatsText(circle.id) }}</text>
             </view>
             <text class="circle-option-state">{{
               circle.id === activeCircleId ? "当前" : "切换"
@@ -212,6 +209,7 @@ const socialService = new SocialService();
 const params = getRouteParams() as { id?: string };
 const circles = ref<BuddyCircleSummary[]>([]);
 const activeDetail = ref<BuddyCircleDetail | null>(null);
+const circleDetailsById = ref<Record<string, BuddyCircleDetail>>({});
 const activeCircleId = ref("");
 const activeCategory = ref("全部");
 const categoryScrollLeft = ref(0);
@@ -227,11 +225,7 @@ const avatarPalette = [
   { bg: "#eeeaf7", fg: "#6c58a5" },
 ];
 
-const presentedCircles = computed(() =>
-  [...circles.value].sort(
-    (left, right) => right.weeklyUpdateCount - left.weeklyUpdateCount,
-  ),
-);
+
 const categories = computed(() => [
   "全部",
   ...Array.from(
@@ -306,6 +300,7 @@ async function loadData(preferredCircleId = "") {
       socialService.getCircles(),
     ]);
     circles.value = data;
+    retainCircleDetails(data);
     persistedCircleId = profile.lastSelectedCircleId || "";
     const routeCircleId = params.id || "";
     const savedCircleId =
@@ -322,7 +317,7 @@ async function loadData(preferredCircleId = "") {
       retainedCircleId ||
       routeCircleId ||
       savedCircleId ||
-      presentedCircles.value[0]?.id ||
+      circles.value[0]?.id ||
       "";
 
     activeCircleId.value = nextCircleId;
@@ -353,6 +348,10 @@ async function loadCircleDetail(circleId: string) {
     const { data } = await socialService.getCircleDetail(circleId);
     if (requestToken !== detailRequestToken) return;
     activeDetail.value = data;
+    circleDetailsById.value = {
+      ...circleDetailsById.value,
+      [circleId]: data,
+    };
   } catch (error: any) {
     Message.error(error?.response?.data?.message || "圈子详情加载失败");
   } finally {
@@ -361,7 +360,7 @@ async function loadCircleDetail(circleId: string) {
 }
 
 function openCircleSwitcher() {
-  if (presentedCircles.value.length <= 1) return;
+  if (circles.value.length <= 1) return;
   switcherVisible.value = true;
 }
 
@@ -473,6 +472,21 @@ function getInitial(member: BuddyCircleMember) {
     .trim()
     .slice(0, 1)
     .toUpperCase();
+}
+
+function getCircleStatsText(circleId: string) {
+  const detail = circleDetailsById.value[circleId];
+  if (!detail) return "切换后查看统计";
+  return `${detail.stats.memberCount}人 · ${detail.stats.sharedMenuCount}菜谱`;
+}
+
+function retainCircleDetails(nextCircles: BuddyCircleSummary[]) {
+  const nextDetails: Record<string, BuddyCircleDetail> = {};
+  nextCircles.forEach((circle) => {
+    const detail = circleDetailsById.value[circle.id];
+    if (detail) nextDetails[circle.id] = detail;
+  });
+  circleDetailsById.value = nextDetails;
 }
 </script>
 

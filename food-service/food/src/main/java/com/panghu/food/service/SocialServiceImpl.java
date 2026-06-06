@@ -69,7 +69,6 @@ public class SocialServiceImpl implements SocialService {
         ProfileResponse response = new ProfileResponse();
         response.setUser(authService.getCurrentUser());
         response.setStats(buildProfileStats(userId));
-        response.setFriendPreview(getFriends().stream().limit(2).collect(Collectors.toList()));
         response.setDefaultMenuVisibility(VisibilityUtils.normalizeProfileVisibility(settings.getDefaultMenuVisibility()));
         response.setDefaultMenuCircleIds(menuVisibilitySupport.getDefaultMenuCircleIds(userId));
         response.setLastSelectedCircleId(settings.getLastSelectedCircleId());
@@ -170,9 +169,6 @@ public class SocialServiceImpl implements SocialService {
             item.setAvatar(user.getAvatar());
             item.setBio(user.getBio());
             item.setFriend(true);
-            item.setVisibleMenuCount(countVisibleMenusForViewer(user.getId(), currentUserId, false));
-            item.setSharedMenuCount(countVisibleMenusForViewer(user.getId(), currentUserId, true));
-            item.setMemberInCircle(hasSharedCircle(currentUserId, user.getId()));
             result.add(item);
         }
         return result;
@@ -387,7 +383,7 @@ public class SocialServiceImpl implements SocialService {
         for (BuddyCircleMember member : members) {
             BuddyCircle circle = buddyCircleMapper.selectById(member.getCircleId());
             if (circle != null) {
-                result.add(buildCircleSummary(circle, currentUserId));
+                result.add(buildCircleListSummary(circle));
             }
         }
         return result;
@@ -426,14 +422,15 @@ public class SocialServiceImpl implements SocialService {
         String currentUserId = AuthContext.requireUserId();
         BuddyCircle circle = requireCircleMember(circleId, currentUserId);
         BuddyCircleDetailResponse response = new BuddyCircleDetailResponse();
-        response.setCircle(buildCircleSummary(circle, currentUserId));
+        List<BuddyCircleMemberResponse> members = getCircleMembers(circleId);
+        List<DishSummaryResponse> sharedMenus = getCircleMenus(circleId);
+        response.setCircle(buildCircleDetailSummary(circle, members.size(), sharedMenus.size()));
         BuddyCircleStatsResponse stats = new BuddyCircleStatsResponse();
-        stats.setMemberCount(getCircleMembers(circleId).size());
-        stats.setSharedMenuCount(getCircleMenus(circleId).size());
-        stats.setWeeklyUpdateCount(countCircleWeeklyUpdates(circleId));
+        stats.setMemberCount(members.size());
+        stats.setSharedMenuCount(sharedMenus.size());
         response.setStats(stats);
-        response.setMembers(getCircleMembers(circleId));
-        response.setSharedMenus(getCircleMenus(circleId));
+        response.setMembers(members);
+        response.setSharedMenus(sharedMenus);
         return response;
     }
 
@@ -462,7 +459,7 @@ public class SocialServiceImpl implements SocialService {
             item.setNickname(user.getNickname());
             item.setAvatar(user.getAvatar());
             item.setRole(member.getRole());
-            item.setSharedMenuCount(countVisibleMenusForViewer(user.getId(), currentUserId, true));
+            item.setSharedMenuCount(countVisibleMenusForViewer(circleId,user.getId(), currentUserId, true));
             result.add(item);
         }
         return result;
@@ -535,6 +532,11 @@ public class SocialServiceImpl implements SocialService {
         return dishes.stream()
                 .filter(item -> canViewDish(item, viewerUserId, circleMode))
                 .count();
+    }
+
+
+    private long countVisibleMenusForViewer(String circleId, String ownerUserId, String viewerUserId, boolean circleMode) {
+        return dishMapper.selectVisibleByOwnerUserIdAndCircleId(ownerUserId, circleId).size();
     }
 
     private boolean isFriend(String userId, String otherUserId) {
@@ -765,7 +767,7 @@ public class SocialServiceImpl implements SocialService {
         return rule;
     }
 
-    private BuddyCircleSummaryResponse buildCircleSummary(BuddyCircle circle, String viewerUserId) {
+    private BuddyCircleSummaryResponse buildCircleListSummary(BuddyCircle circle) {
         BuddyCircleSummaryResponse summary = new BuddyCircleSummaryResponse();
         summary.setId(circle.getId());
         summary.setName(circle.getName());
@@ -773,17 +775,20 @@ public class SocialServiceImpl implements SocialService {
         summary.setOwnerUserId(circle.getOwnerUserId());
         UserAccount owner = userAccountMapper.selectById(circle.getOwnerUserId());
         summary.setOwnerNickname(owner == null ? "" : owner.getNickname());
-        summary.setMemberCount(buddyCircleMemberMapper.selectCount(new QueryWrapper<BuddyCircleMember>().eq("circle_id", circle.getId())));
-        summary.setSharedMenuCount(getCircleMenus(circle.getId()).size());
-        summary.setWeeklyUpdateCount(countCircleWeeklyUpdates(circle.getId()));
         return summary;
     }
 
-    private long countCircleWeeklyUpdates(String circleId) {
-        LocalDateTime start = LocalDate.now().minusDays(7).atStartOfDay();
-        return activityFeedMapper.selectCount(new QueryWrapper<ActivityFeed>()
-                .eq("circle_id", circleId)
-                .ge("created_at", start));
+    private BuddyCircleSummaryResponse buildCircleDetailSummary(BuddyCircle circle, long memberCount, long sharedMenuCount) {
+        BuddyCircleSummaryResponse summary = new BuddyCircleSummaryResponse();
+        summary.setId(circle.getId());
+        summary.setName(circle.getName());
+        summary.setDescription(circle.getDescription());
+        summary.setOwnerUserId(circle.getOwnerUserId());
+        UserAccount owner = userAccountMapper.selectById(circle.getOwnerUserId());
+        summary.setOwnerNickname(owner == null ? "" : owner.getNickname());
+        summary.setMemberCount(memberCount);
+        summary.setSharedMenuCount(sharedMenuCount);
+        return summary;
     }
 
     private BuddyCircle requireCircleMember(String circleId, String currentUserId) {
@@ -868,7 +873,6 @@ public class SocialServiceImpl implements SocialService {
         summary.setOwnerNickname(owner == null ? "" : owner.getNickname());
         summary.setMemberCount(buddyCircleMemberMapper.selectCount(new QueryWrapper<BuddyCircleMember>().eq("circle_id", circle.getId())));
         summary.setSharedMenuCount(countCircleActiveMenus(circle.getId()));
-        summary.setWeeklyUpdateCount(countCircleWeeklyUpdates(circle.getId()));
         return summary;
     }
 
