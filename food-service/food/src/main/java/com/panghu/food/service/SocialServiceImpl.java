@@ -945,6 +945,9 @@ public class SocialServiceImpl implements SocialService {
     }
 
     private boolean canViewDish(DishSummaryResponse dish, String viewerUserId, boolean circleMode) {
+        if (dish.getName().equals("麦分虾堡")){
+            System.out.println("");
+        }
         return menuVisibilitySupport.canViewDish(dish, viewerUserId, circleMode);
     }
 

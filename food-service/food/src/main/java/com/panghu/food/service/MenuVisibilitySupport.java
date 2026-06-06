@@ -125,9 +125,9 @@ public class MenuVisibilitySupport {
                                List<String> effectiveCircleIds,
                                String viewerUserId,
                                boolean legacyCircleMode) {
-        if (viewerUserId != null && Objects.equals(viewerUserId, ownerUserId)) {
-            return true;
-        }
+        // if (viewerUserId != null && Objects.equals(viewerUserId, ownerUserId)) {
+        //     return true;
+        // }
         if (VisibilityUtils.VISIBILITY_PUBLIC.equals(effectiveVisibility)) {
             return viewerUserId != null && isUserInAnyCircle(viewerUserId);
         }
@@ -137,11 +137,11 @@ public class MenuVisibilitySupport {
         if (VisibilityUtils.VISIBILITY_CIRCLE.equals(effectiveVisibility)) {
             return viewerUserId != null && hasAnyCircleMembership(viewerUserId, effectiveCircleIds);
         }
-        if (VisibilityUtils.VISIBILITY_FRIENDS.equals(effectiveVisibility)) {
-            return viewerUserId != null
-                    && (isFriend(viewerUserId, ownerUserId)
-                    || (legacyCircleMode && hasSharedCircle(viewerUserId, ownerUserId)));
-        }
+        // if (VisibilityUtils.VISIBILITY_FRIENDS.equals(effectiveVisibility)) {
+        //     return viewerUserId != null
+        //             && (isFriend(viewerUserId, ownerUserId)
+        //             || (legacyCircleMode && hasSharedCircle(viewerUserId, ownerUserId)));
+        // }
         return false;
     }
 

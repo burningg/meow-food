@@ -73,9 +73,6 @@
               </view>
               <text v-else class="visibility-desc">你还没有加入圈子，暂时不能把默认权限设为指定圈子。</text>
             </view>
-            <button class="primary-button visibility-save" :disabled="savingVisibility" @tap="saveVisibility">
-              {{ savingVisibility ? '保存中' : '保存默认权限' }}
-            </button>
           </article>
         </section>
 
@@ -132,9 +129,9 @@ const vipChipLabel = computed(() => formatVipLabel(profile.value?.vipInfo?.vip ?
 const isVipActive = computed(() => Boolean(profile.value?.vipInfo?.vip || authStore.user?.vip))
 
 const visibilityOptions: Array<{ value: Exclude<MenuVisibility, 'inherit'>; label: string; desc: string }> = [
+  { value: 'private', label: '仅自己可见', desc: '只在你自己的菜单空间展示' },
   { value: 'public', label: '圈内公开', desc: '对你所在全部圈子的成员开放' },
   { value: 'circle', label: '指定圈子', desc: '仅对你选中的圈子成员开放' },
-  { value: 'private', label: '仅自己可见', desc: '只在你自己的菜单空间展示' },
 ]
 
 onMounted(async () => {
@@ -186,17 +183,20 @@ async function refreshProfile() {
   await authStore.restore()
 }
 
-function selectVisibility(value: Exclude<MenuVisibility, 'inherit'>) {
+async function selectVisibility(value: Exclude<MenuVisibility, 'inherit'>) {
+  if (savingVisibility.value) return
   draftVisibility.value = value
+  await saveVisibility()
 }
 
-function toggleCircle(circleId: string) {
-  if (!circleId) return
+async function toggleCircle(circleId: string) {
+  if (!circleId || savingVisibility.value) return
   if (draftCircleIds.value.includes(circleId)) {
     draftCircleIds.value = draftCircleIds.value.filter((id) => id !== circleId)
-    return
+  } else {
+    draftCircleIds.value = [...draftCircleIds.value, circleId]
   }
-  draftCircleIds.value = [...draftCircleIds.value, circleId]
+  await saveVisibility()
 }
 
 async function saveVisibility() {
@@ -213,6 +213,12 @@ async function saveVisibility() {
     Message.success('菜单默认可见范围已更新')
     await loadProfilePageData()
     await authStore.restore()
+  } catch (error: any) {
+    Message.error(error?.response?.data?.message || '权限更新失败，请稍后重试')
+    if (profile.value) {
+      draftVisibility.value = profile.value.defaultMenuVisibility
+      draftCircleIds.value = [...profile.value.defaultMenuCircleIds]
+    }
   } finally {
     savingVisibility.value = false
   }
@@ -565,10 +571,6 @@ function formatVipLabel(level?: string) {
 .circle-chip.active {
   background: #9f5c38;
   color: #fff;
-}
-
-.visibility-save {
-  margin-top: 14px;
 }
 
 .logout-section {

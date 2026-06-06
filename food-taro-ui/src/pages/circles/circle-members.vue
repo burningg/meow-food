@@ -3,12 +3,11 @@
     <view class="circle-members-content">
       <section class="circle-members-top-card">
         <view class="circle-members-title-stack">
-          <text class="eyebrow">搭子圈成员</text>
-          <text class="title">圈内成员</text>
+          <text class="title">搭子圈</text>
         </view>
         <view class="circle-members-actions">
           <button class="nav-shell share-shell" open-type="share">↗</button>
-          <button class="nav-shell" @tap="openInvitePicker">＋</button>
+          <!-- <button class="nav-shell" @tap="openInvitePicker">＋</button> -->
         </view>
       </section>
 

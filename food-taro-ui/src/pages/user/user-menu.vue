@@ -1,7 +1,7 @@
 <template>
   <view class="page-shell user-menu-page">
     <header class="top-nav">
-      <button class="back" @tap="goBack()">‹</button>
+      <!-- <button class="back" @tap="goBack()">‹</button> -->
       <text class="page-title">访问 {{ access?.user.nickname }} 的菜单</text>
       <view class="back placeholder"></view>
     </header>
@@ -10,7 +10,7 @@
       <image v-if="access?.user.avatar" class="avatar" :src="access.user.avatar" mode="aspectFill" />
       <view v-else class="avatar avatar-fallback">{{ access?.user.nickname?.slice(0, 1) || '?' }}</view>
       <view class="hero-copy">
-        <text class="hero-title">{{ access?.user.nickname }} 的{{ heroTitleSuffix }}</text>
+        <text class="hero-title">{{ access?.user.nickname }}</text>
       </view>
     </section>
 
@@ -31,9 +31,9 @@
       <view v-if="access && !access.menus.length" class="empty-card">{{ emptyStateText }}</view>
     </section>
 
-    <button class="primary-button action" @tap="handleAction">
+    <!-- <button class="primary-button action" @tap="handleAction">
       {{ access?.actionType === 'invite-circle' ? '邀请加入搭子圈' : '发起好友申请' }}
-    </button>
+    </button> -->
   </view>
 </template>
 
