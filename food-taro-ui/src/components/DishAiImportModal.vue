@@ -37,7 +37,7 @@
           class="ai-import-textarea"
           :disabled="isBusy"
           maxlength="2000"
-          placeholder="粘贴菜谱文字、食材清单或做法步骤..."
+          placeholder="可直接粘贴菜谱链接～或文字、食材清单或做法步骤..."
         />
       </section>
 

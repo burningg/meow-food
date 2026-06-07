@@ -104,7 +104,8 @@ public class DishAiService {
         payload.put("input", input);
         if (enableWebSearch) {
             payload.put("tools", List.of(Map.of("type", "web_search")));
-            payload.put("tool_choice", "auto");
+            payload.put("tool_choice", "required");
+            payload.put("reasoning", Map.of("effort", "low"));
         }
 
         ResponseEntity<String> response = restTemplate.exchange(
@@ -223,12 +224,12 @@ public class DishAiService {
         StringBuilder builder = new StringBuilder();
         builder.append("你是菜谱导入助手。请从用户粘贴的文字和上传截图中整理食材和步骤，输出严格 JSON，不要输出 Markdown，不要输出解释。");
         builder.append(" JSON 格式必须是：");
-        builder.append("{\"ingredients\":[{\"name\":\"食材名\",\"amount\":\"用量\"}],\"steps\":[\"步骤1\",\"步骤2\"]}");
+        builder.append("{\"name\":\"菜谱名\",\"ingredients\":[{\"name\":\"食材名\",\"amount\":\"用量\"}],\"steps\":[\"步骤1\",\"步骤2\"]}");
         builder.append(" 如果原内容缺少用量，请用“适量”；如果步骤散落在文字或截图中，请按合理烹饪顺序整理。");
         builder.append(" 不要补充原内容完全没有依据的食材和步骤，导入结果只用于填充食材和步骤。");
         if (!isBlank(text)) {
             if (containsUrl(text)) {
-                builder.append(" 如果原文包含 URL，请先读取 URL 页面内容，再从页面里的菜谱内容提取食材和步骤。");
+                builder.append(" 如果原文包含 URL，请先读取 URL 页面内容，再从页面里的菜谱内容提取食材和步骤(不需要管URL里的图片)。");
             }
             builder.append(" 用户粘贴的原文如下：").append(text.trim());
         } else {

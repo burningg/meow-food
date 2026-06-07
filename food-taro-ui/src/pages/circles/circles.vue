@@ -43,7 +43,7 @@
                   <view
                     v-for="member in previewMembers"
                     :key="member.id"
-                    :class="['avatar-badge', { 'vip-avatar-frame': member.vip }]"
+                    class="avatar-badge"
                     :style="{
                       background: avatarPalette[member.avatarTone].bg,
                       color: avatarPalette[member.avatarTone].fg,
@@ -105,10 +105,7 @@
                     <view class="recipe-meta">
                       <text class="muted">{{ menu.categoryName }}</text>
                       <view
-                        :class="[
-                          'recipe-owner-avatar',
-                          { 'vip-avatar-frame': getMenuOwnerVip(menu) },
-                        ]"
+                        class="recipe-owner-avatar"
                         :style="{
                           background: avatarPalette[getMenuOwnerTone(menu)].bg,
                           color: avatarPalette[getMenuOwnerTone(menu)].fg,
@@ -644,6 +641,7 @@ function retainCircleDetails(nextCircles: BuddyCircleSummary[]) {
 }
 
 .avatar-badge {
+  position: relative;
   display: flex;
   box-sizing: border-box;
   align-items: center;
@@ -743,6 +741,7 @@ function retainCircleDetails(nextCircles: BuddyCircleSummary[]) {
 }
 
 .recipe-owner-avatar {
+  position: relative;
   display: flex;
   box-sizing: border-box;
   align-items: center;
@@ -758,12 +757,6 @@ function retainCircleDetails(nextCircles: BuddyCircleSummary[]) {
   box-shadow: 0 6px 14px rgba(21, 21, 21, 0.08);
 }
 
-.vip-avatar-frame {
-  border: 2px solid #b97825;
-  box-shadow:
-    0 0 0 2px #fff4db,
-    0 6px 14px rgba(164, 106, 31, 0.2);
-}
 
 .status-card {
   display: flex;

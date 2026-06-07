@@ -96,7 +96,9 @@ class DishAiServiceTest {
                 eq(HttpMethod.POST),
                 captor.capture(),
                 eq(String.class));
-        assertThat(String.valueOf(captor.getValue().getBody())).contains("菜谱导入助手", "鸡腿切块");
+        assertThat(String.valueOf(captor.getValue().getBody()))
+                .contains("菜谱导入助手", "鸡腿切块")
+                .doesNotContain("web_search", "tool_choice", "reasoning");
     }
 
     @Test
@@ -120,6 +122,8 @@ class DishAiServiceTest {
                 captor.capture(),
                 eq(String.class));
         assertThat(String.valueOf(captor.getValue().getBody()))
-                .contains("web_search", "读取 URL 页面内容", "https://example.com/recipe/123");
+                .contains("web_search", "tool_choice=required", "reasoning={effort=low}",
+                        "读取 URL 页面内容", "https://example.com/recipe/123")
+                .doesNotContain("tool_choice=auto");
     }
 }
