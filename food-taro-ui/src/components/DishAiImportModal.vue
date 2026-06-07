@@ -6,7 +6,7 @@
         <button class="ai-import-close" :disabled="isBusy" @tap="close">×</button>
       </view>
 
-      <text class="ai-import-desc">粘贴其他软件里的菜谱文字，或上传截图，AI会整理食材和步骤。</text>
+      <text class="ai-import-desc">贴一段菜谱文字，或传几张截图，我们会帮你拆成食材和步骤。</text>
 
       <section class="ai-import-section">
         <view class="ai-import-section-head">
@@ -25,7 +25,7 @@
             @tap="chooseImages"
           >
             <text class="ai-import-upload-plus">＋</text>
-            <text class="ai-import-upload-text">{{ uploading ? '上传中' : '上传' }}</text>
+            <text class="ai-import-upload-text">{{ uploading ? '上传中' : '加截图' }}</text>
           </button>
         </view>
       </section>

@@ -3,7 +3,7 @@
 
 
     <section class="notification-guidance-card">
-      <text class="guidance-title">有 {{ unreadCount }} 条未读通知</text>
+      <text class="guidance-title">还有 {{ unreadCount }} 条未读通知</text>
     </section>
 
     <section class="notification-list-section">
@@ -27,7 +27,7 @@
             <text class="notification-item-summary">{{ item.summary }}</text>
           </view>
           <view class="notification-item-footer">
-            <text class="notification-item-prompt">点击查看完整消息</text>
+            <text class="notification-item-prompt">展开看完整内容</text>
             <view :class="['notification-item-state', { read: item.read }]">
               <text>{{ item.read ? '已读' : '未读' }}</text>
             </view>
@@ -35,7 +35,7 @@
         </button>
 
         <article v-if="!notifications.length" class="empty-card">
-          <text>暂时没有新的通知</text>
+          <text>现在还没有新通知</text>
         </article>
       </view>
     </section>

@@ -2,7 +2,7 @@
   <view class="page-shell vip-page">
     <header class="vip-top-nav">
       <view class="vip-title-block">
-        <text class="vip-eyebrow">{{ isVipActive ? 'VIP ACTIVE' : 'MEOW VIP' }}</text>
+        <text class="vip-eyebrow">{{ isVipActive ? '会员生效中' : 'meow 会员' }}</text>
         <text class="vip-page-title">{{ isVipActive ? '我的会员' : '会员权益' }}</text>
       </view>
       <view class="vip-nav-spacer"></view>
@@ -22,8 +22,8 @@
         </view>
 
         <view class="poster-copy">
-          <text class="poster-eyebrow">{{ isVipActive ? 'BENEFITS UNLOCKED' : 'FIRST YEAR SPECIAL' }}</text>
-          <text class="poster-title">{{ isVipActive ? '权益已点亮\n欢迎回到食堂' : '把食堂开成\n你的专属社区' }}</text>
+          <text class="poster-eyebrow">{{ isVipActive ? '已开通' : '首年特价' }}</text>
+          <text class="poster-title">{{ isVipActive ? '会员权益\n已经生效' : '把食堂慢慢\n开成自己的地盘' }}</text>
           <text class="poster-desc">
             {{ isVipActive ? '你的圈子、菜谱容量、AI 整理和专属标识已经生效，继续把喜欢的饭菜留下来。' : '更大的圈子、更多菜谱、AI 协助整理步骤食材，还有属于你的会员标识。' }}
           </text>
@@ -105,7 +105,7 @@
           <text>{{ paying ? '支付中...' : '2.9 元开通首年会员' }}</text>
           <text>→</text>
         </button>
-        <text class="claim-note">支付完成后以微信回调为准开通，到期自动取消。</text>
+        <text class="claim-note">支付结果以微信回调为准，会员到期后会自动结束。</text>
       </section>
     </main>
   </view>
@@ -129,7 +129,7 @@ const paying = ref(false)
 const benefits = [
   { icon: '圈', title: '圈子上限', desc: '和更多朋友共享菜单', before: '3', after: '10' },
   { icon: '谱', title: '菜谱上限', desc: '安心收藏每一道拿手菜', before: '50', after: '500' },
-  { icon: 'AI', title: 'AI生成步骤食材', desc: '上传灵感后自动整理结构', gold: true },
+  { icon: '整', title: '整理步骤和食材', desc: '传图片或文字后帮你拆好结构', gold: true },
   { icon: '♕', title: '尊贵标识', desc: '在个人页与圈子中亮起' },
   { icon: '框', title: '专属头像框', desc: '让你的头像更有辨识度' },
 ]

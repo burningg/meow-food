@@ -22,7 +22,7 @@
         <view class="friends-list-head">
           <view>
             <text class="list-title">好友列表</text>
-            <text class="muted">点击可查看对方菜单</text>
+            <text class="muted">可以看看对方开放给好友的菜单</text>
           </view>
         </view>
 
@@ -72,7 +72,7 @@
               <text>申请留言</text>
               <text class="accent">{{ friendMessage.length }}/60</text>
             </view>
-            <textarea v-model="friendMessage" class="modal-textarea" maxlength="60" placeholder="一起分享美味吧" :disabled="addFriendSubmitting" />
+            <textarea v-model="friendMessage" class="modal-textarea" maxlength="60" placeholder="比如：想看看你最近做了什么菜" :disabled="addFriendSubmitting" />
           </label>
         </view>
 
@@ -107,7 +107,7 @@ const outgoingRequests = ref<FriendRequestItem[]>([])
 const addFriendVisible = ref(false)
 const addFriendSubmitting = ref(false)
 const friendAccount = ref('')
-const friendMessage = ref('一起分享美味吧')
+const friendMessage = ref('想和你交换最近常做的菜')
 
 const avatarTones = ['tone-sage', 'tone-apricot', 'tone-lavender']
 const pendingRequestCount = computed(() => incomingRequests.value.filter((item) => item.status === 'pending').length)
@@ -160,7 +160,7 @@ function closeAddFriendModal() {
 
 function resetAddFriendForm() {
   friendAccount.value = ''
-  friendMessage.value = '一起分享美味吧'
+  friendMessage.value = '想和你交换最近常做的菜'
 }
 
 async function submitAddFriend() {
@@ -170,7 +170,7 @@ async function submitAddFriend() {
   try {
     await socialService.createFriendRequest({
       targetAccount,
-      message: friendMessage.value.trim() || '一起分享美味吧',
+      message: friendMessage.value.trim() || '想和你交换最近常做的菜',
     })
     Message.success('好友申请已发送')
     closeAddFriendModal()

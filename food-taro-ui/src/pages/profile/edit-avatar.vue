@@ -54,7 +54,7 @@
       <view class="upload-layout">
         <AUploadComponent :file-data="customAvatarPreview" tip="支持 JPG / PNG，系统会自动压缩" @success="handleAvatarUpload" />
         <view class="upload-copy">
-          <text class="muted">上传成功后会立即预览。想回到系统头像，也可以一键切回默认头像。</text>
+          <text class="muted">新头像会先显示在这里，确认保存后才会换到个人主页。</text>
           <button v-if="customAvatarPreview && isCustomAvatar" class="ghost-button" @tap="restoreDefaultAvatar">
             改回系统头像
           </button>

@@ -18,7 +18,7 @@
         <view class="invite-copy">
           <text class="invite-kicker">来自 {{ invitation.inviter.nickname || '好友' }} 的邀请</text>
           <text class="invite-title">一起交换私房菜单和美味灵感</text>
-          <text class="invite-desc">接受后，你们会自动成为好友，可以查看彼此开放给好友的菜单。</text>
+          <text class="invite-desc">接受后，你们会自动成为好友，也能看到彼此开放给好友的菜单。</text>
         </view>
 
         <view class="status-strip">
@@ -67,7 +67,7 @@ const statusText = computed(() => {
   if (invitation.value.status === 'already_friend') return '你们已经是好友，可以直接查看彼此菜单。'
   if (invitation.value.status === 'accepted') return '邀请已接受，好友关系已建立。'
   if (invitation.value.status === 'rejected') return '你已拒绝这次邀请。'
-  return '确认后会自动建立好友关系。'
+  return '点接受后就会直接成为好友。'
 })
 
 onMounted(async () => {

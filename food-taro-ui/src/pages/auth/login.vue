@@ -3,7 +3,7 @@
     <view class="login-content">
       <view class="auth-badge">
         <text class="badge-dot"></text>
-        <text>meow食堂 · 欢迎回来</text>
+        <text>meow食堂 · 开饭前先登录</text>
       </view>
 
       <view class="login-card">
@@ -35,7 +35,7 @@
               class="field-input"
               :type="isWeapp ? 'nickname' : 'text'"
               maxlength="20"
-              placeholder="点击填写昵称"
+              placeholder="写个你常用的昵称"
             />
           </label>
         </view>
@@ -85,8 +85,8 @@ const form = reactive({
 });
 const submitHint = computed(() =>
   profileRequired.value
-    ? "首次微信登录请先选择头像并填写昵称，后续登录无需重复填写。"
-    : "登录后可管理你的菜谱、收藏与好友动态。",
+    ? "第一次登录补一张头像和昵称就行，后面会直接进来。"
+    : "登录后就能整理菜谱、共享菜单和查看好友近况。",
 );
 const submitText = computed(() => {
   if (loading.value) return "登录中...";

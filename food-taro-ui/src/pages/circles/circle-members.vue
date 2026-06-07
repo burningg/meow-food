@@ -14,7 +14,7 @@
       <section v-if="detail" class="circle-members-intro-card">
         <text class="intro-title">{{ detail.circle.name }}</text>
         <text class="muted">{{ detail.stats.memberCount }} 位成员 · {{ detail.stats.sharedMenuCount }} 份共享菜谱 · 发起人 {{ detail.circle.ownerNickname }}</text>
-        <text class="intro-desc">{{ detail.circle.description || '只显示当前搭子圈里的成员，点击可查看对方菜单。' }}</text>
+        <text class="intro-desc">{{ detail.circle.description || '这里会列出这个搭子圈的成员，也能顺手看看大家共享出来的菜单。' }}</text>
       </section>
 
       <section class="circle-members-list-section">
@@ -131,7 +131,7 @@ const circleMemberIds = computed(() => new Set((detail.value?.members || []).map
 const inviteCandidates = computed(() => friends.value.filter((friend) => !circleMemberIds.value.has(friend.id)))
 const inviteButtonText = computed(() => {
   const target = inviteCandidates.value.find((friend) => friend.id === selectedFriendId.value)
-  return target ? `邀请${target.nickname}加入搭子圈` : '选择好友后邀请'
+  return target ? `邀请 ${target.nickname} 一起进圈` : '选一位好友发邀请'
 })
 const inviteEmptyTitle = computed(() => {
   if (inviteLoading.value) return '正在加载好友'
@@ -139,8 +139,8 @@ const inviteEmptyTitle = computed(() => {
   return '暂无可邀请好友'
 })
 const inviteEmptyText = computed(() => {
-  if (inviteLoading.value) return '稍等一下，马上就好。'
-  if (inviteLoadFailed.value) return '请稍后重试。'
+  if (inviteLoading.value) return '正在把可邀请的好友名单找出来。'
+  if (inviteLoadFailed.value) return '这次没拉到好友列表，稍后再试一次。'
   return '你的好友已经都在这个搭子圈里了。'
 })
 
