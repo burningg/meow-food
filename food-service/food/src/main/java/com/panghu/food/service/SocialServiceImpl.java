@@ -159,9 +159,12 @@ public class SocialServiceImpl implements SocialService {
         String currentUserId = AuthContext.requireUserId();
         List<FriendRelation> relations = friendRelationMapper.selectList(new QueryWrapper<FriendRelation>()
                 .eq("user_id", currentUserId));
+        Map<String, UserAccount> usersById = selectUsersByIds(relations.stream()
+                .map(FriendRelation::getFriendUserId)
+                .collect(Collectors.toList()));
         List<FriendItemResponse> result = new ArrayList<>();
         for (FriendRelation relation : relations) {
-            UserAccount user = userAccountMapper.selectById(relation.getFriendUserId());
+            UserAccount user = usersById.get(relation.getFriendUserId());
             if (user == null) {
                 continue;
             }
@@ -216,8 +219,8 @@ public class SocialServiceImpl implements SocialService {
         List<FriendRequest> outgoing = friendRequestMapper.selectList(new QueryWrapper<FriendRequest>()
                 .eq("requester_user_id", currentUserId)
                 .orderByDesc("created_at"));
-        response.setIncoming(incoming.stream().map(this::toFriendRequestItem).collect(Collectors.toList()));
-        response.setOutgoing(outgoing.stream().map(this::toFriendRequestItem).collect(Collectors.toList()));
+        response.setIncoming(toFriendRequestItems(incoming));
+        response.setOutgoing(toFriendRequestItems(outgoing));
         return response;
     }
 
@@ -307,15 +310,27 @@ public class SocialServiceImpl implements SocialService {
     public List<FeedItemResponse> getFeed(String filter) {
         String currentUserId = AuthContext.requireUserId();
         List<ActivityFeed> feeds = activityFeedMapper.selectList(new QueryWrapper<ActivityFeed>().orderByDesc("created_at"));
+        List<ActivityFeed> filteredFeeds = new ArrayList<>();
+        List<ActivityFeed> visibleFeeds = new ArrayList<>();
         List<FeedItemResponse> result = new ArrayList<>();
         for (ActivityFeed feed : feeds) {
             if (!matchesFilter(feed, filter)) {
                 continue;
             }
-            if (!canSeeFeed(feed, currentUserId)) {
+            filteredFeeds.add(feed);
+        }
+
+        FeedVisibilityContext visibilityContext = loadFeedVisibilityContext(filteredFeeds, currentUserId);
+        for (ActivityFeed feed : filteredFeeds) {
+            if (!canSeeFeed(feed, currentUserId, visibilityContext)) {
                 continue;
             }
-            FeedItemResponse item = toFeedItem(feed);
+            visibleFeeds.add(feed);
+        }
+
+        FeedResourceLookup resources = loadFeedResources(visibleFeeds);
+        for (ActivityFeed feed : visibleFeeds) {
+            FeedItemResponse item = toFeedItem(feed, resources);
             if (item != null) {
                 result.add(item);
             }
@@ -382,11 +397,20 @@ public class SocialServiceImpl implements SocialService {
         String currentUserId = AuthContext.requireUserId();
         List<BuddyCircleMember> members = buddyCircleMemberMapper.selectList(new QueryWrapper<BuddyCircleMember>()
                 .eq("user_id", currentUserId));
+        Map<String, BuddyCircle> circlesById = selectCirclesByIds(members.stream()
+                .map(BuddyCircleMember::getCircleId)
+                .collect(Collectors.toList()));
+        Map<String, UserAccount> ownersById = selectUsersByIds(members.stream()
+                .map(BuddyCircleMember::getCircleId)
+                .map(circlesById::get)
+                .filter(Objects::nonNull)
+                .map(BuddyCircle::getOwnerUserId)
+                .collect(Collectors.toList()));
         List<BuddyCircleSummaryResponse> result = new ArrayList<>();
         for (BuddyCircleMember member : members) {
-            BuddyCircle circle = buddyCircleMapper.selectById(member.getCircleId());
+            BuddyCircle circle = circlesById.get(member.getCircleId());
             if (circle != null) {
-                result.add(buildCircleListSummary(circle));
+                result.add(buildCircleListSummary(circle, ownersById));
             }
         }
         return result;
@@ -465,8 +489,10 @@ public class SocialServiceImpl implements SocialService {
                 .map(UserVip::getUserId)
                 .collect(Collectors.toSet());
         List<BuddyCircleMemberResponse> result = new ArrayList<>();
+        Map<String, UserAccount> usersById = selectUsersByIds(memberUserIds);
+        Map<String, Long> sharedMenuCountByUserId = countVisibleMenusByOwnerForCircle(circleId, usersById.keySet());
         for (BuddyCircleMember member : members) {
-            UserAccount user = userAccountMapper.selectById(member.getUserId());
+            UserAccount user = usersById.get(member.getUserId());
             if (user == null) {
                 continue;
             }
@@ -477,7 +503,7 @@ public class SocialServiceImpl implements SocialService {
             item.setAvatar(user.getAvatar());
             item.setRole(member.getRole());
             item.setVip(activeVipUserIds.contains(user.getId()));
-            item.setSharedMenuCount(countVisibleMenusForViewer(circleId,user.getId(), currentUserId, true));
+            item.setSharedMenuCount(sharedMenuCountByUserId.getOrDefault(user.getId(), 0L));
             result.add(item);
         }
         return result;
@@ -492,16 +518,9 @@ public class SocialServiceImpl implements SocialService {
                 .stream()
                 .map(BuddyCircleMember::getUserId)
                 .collect(Collectors.toList());
-        List<DishSummaryResponse> result = new ArrayList<>();
-        for (String memberId : memberIds) {
-            List<DishSummaryResponse> dishes = dishMapper.selectByOwnerUserId(memberId);
-            menuVisibilitySupport.hydrateSummaries(dishes);
-            for (DishSummaryResponse dish : dishes) {
-                if (isVisibleInCircleContext(dish, currentUserId, circleId)) {
-                    result.add(dish);
-                }
-            }
-        }
+        List<DishSummaryResponse> result = loadMemberMenus(memberIds).stream()
+                .filter(dish -> isVisibleInCircleContext(dish, currentUserId, circleId))
+                .collect(Collectors.toList());
         hydrateIngredientNames(result);
         result.sort(Comparator
                 .comparing(DishSummaryResponse::getCreatedAt,
@@ -546,8 +565,16 @@ public class SocialServiceImpl implements SocialService {
 
 
 
-    private long countVisibleMenusForViewer(String circleId, String ownerUserId, String viewerUserId, boolean circleMode) {
-        return dishMapper.selectVisibleByOwnerUserIdAndCircleId(ownerUserId, circleId).size();
+    private Map<String, Long> countVisibleMenusByOwnerForCircle(String circleId, Collection<String> ownerUserIds) {
+        List<String> normalizedOwnerUserIds = normalizeIds(ownerUserIds);
+        if (normalizedOwnerUserIds.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        // 与 selectVisibleByOwnerUserIdAndCircleId 保持一致：只统计公开菜和明确授权给当前圈子的菜。
+        return loadMemberMenus(normalizedOwnerUserIds).stream()
+                .filter(dish -> VisibilityUtils.VISIBILITY_PUBLIC.equals(dish.getVisibility())
+                        || dish.getVisibilityCircleIds().contains(circleId))
+                .collect(Collectors.groupingBy(DishSummaryResponse::getOwnerUserId, Collectors.counting()));
     }
 
     private boolean isFriend(String userId, String otherUserId) {
@@ -617,8 +644,32 @@ public class SocialServiceImpl implements SocialService {
     }
 
     private FriendRequestItemResponse toFriendRequestItem(FriendRequest request) {
-        UserAccount requester = userAccountMapper.selectById(request.getRequesterUserId());
-        UserAccount target = userAccountMapper.selectById(request.getTargetUserId());
+        Map<String, UserAccount> usersById = selectUsersByIds(List.of(request.getRequesterUserId(), request.getTargetUserId()));
+        return toFriendRequestItem(
+                request,
+                usersById.get(request.getRequesterUserId()),
+                usersById.get(request.getTargetUserId()));
+    }
+
+    private List<FriendRequestItemResponse> toFriendRequestItems(List<FriendRequest> requests) {
+        if (requests == null || requests.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<String> userIds = new ArrayList<>();
+        for (FriendRequest request : requests) {
+            userIds.add(request.getRequesterUserId());
+            userIds.add(request.getTargetUserId());
+        }
+        Map<String, UserAccount> usersById = selectUsersByIds(userIds);
+        return requests.stream()
+                .map(request -> toFriendRequestItem(
+                        request,
+                        usersById.get(request.getRequesterUserId()),
+                        usersById.get(request.getTargetUserId())))
+                .collect(Collectors.toList());
+    }
+
+    private FriendRequestItemResponse toFriendRequestItem(FriendRequest request, UserAccount requester, UserAccount target) {
         FriendRequestItemResponse item = new FriendRequestItemResponse();
         item.setId(request.getId());
         item.setRequesterUserId(request.getRequesterUserId());
@@ -657,33 +708,100 @@ public class SocialServiceImpl implements SocialService {
         return true;
     }
 
-    private boolean canSeeFeed(ActivityFeed feed, String viewerUserId) {
+    private boolean canSeeFeed(ActivityFeed feed, String viewerUserId, FeedVisibilityContext context) {
         if (Objects.equals(feed.getActorUserId(), viewerUserId)) {
             return true;
         }
         if ("public".equals(feed.getVisibilityScope())) {
-            return menuVisibilitySupport.isUserInAnyCircle(viewerUserId);
+            return context.viewerInAnyCircle();
         }
         if ("friends".equals(feed.getVisibilityScope())) {
-            return isFriend(viewerUserId, feed.getActorUserId());
+            return context.friendUserIds().contains(feed.getActorUserId());
         }
         if ("circle".equals(feed.getVisibilityScope()) && feed.getCircleId() != null) {
-            return buddyCircleMemberMapper.selectCount(new QueryWrapper<BuddyCircleMember>()
-                    .eq("circle_id", feed.getCircleId())
-                    .eq("user_id", viewerUserId)) > 0;
+            return context.viewerCircleIds().contains(feed.getCircleId());
         }
         return false;
     }
 
-    private FeedItemResponse toFeedItem(ActivityFeed feed) {
-        UserAccount actor = userAccountMapper.selectById(feed.getActorUserId());
-        DishSummaryResponse dish = feed.getDishId() == null ? null : dishMapper.selectAllActive().stream()
-                .filter(item -> item.getId().equals(feed.getDishId()))
-                .findFirst()
-                .orElse(null);
-        if (dish != null) {
-            menuVisibilitySupport.hydrateSummaries(List.of(dish));
+    private FeedVisibilityContext loadFeedVisibilityContext(List<ActivityFeed> feeds, String viewerUserId) {
+        boolean needsAnyCircleCheck = feeds.stream()
+                .anyMatch(feed -> !Objects.equals(feed.getActorUserId(), viewerUserId)
+                        && "public".equals(feed.getVisibilityScope()));
+        boolean needsCircleMembership = feeds.stream()
+                .anyMatch(feed -> !Objects.equals(feed.getActorUserId(), viewerUserId)
+                        && "circle".equals(feed.getVisibilityScope())
+                        && feed.getCircleId() != null);
+        boolean needsFriendCheck = feeds.stream()
+                .anyMatch(feed -> !Objects.equals(feed.getActorUserId(), viewerUserId)
+                        && "friends".equals(feed.getVisibilityScope()));
+        if (!needsAnyCircleCheck && !needsCircleMembership && !needsFriendCheck) {
+            return new FeedVisibilityContext(false, Collections.emptySet(), Collections.emptySet());
         }
+
+        // 动态流先一次性取出当前用户所在圈，避免每条 circle 动态都 selectCount。
+        List<BuddyCircleMember> memberships = needsAnyCircleCheck || needsCircleMembership
+                ? buddyCircleMemberMapper.selectList(new QueryWrapper<BuddyCircleMember>().eq("user_id", viewerUserId))
+                : Collections.emptyList();
+        Set<String> viewerCircleIds = (memberships == null ? Collections.<BuddyCircleMember>emptyList() : memberships)
+                .stream()
+                .map(BuddyCircleMember::getCircleId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+        boolean viewerInAnyCircle = !viewerCircleIds.isEmpty();
+        Set<String> friendUserIds = needsFriendCheck
+                ? loadFriendUserIds(viewerUserId)
+                : Collections.emptySet();
+        return new FeedVisibilityContext(viewerInAnyCircle, viewerCircleIds, friendUserIds);
+    }
+
+    private Set<String> loadFriendUserIds(String viewerUserId) {
+        List<FriendRelation> relations = friendRelationMapper.selectList(new QueryWrapper<FriendRelation>()
+                .eq("user_id", viewerUserId));
+        return (relations == null ? Collections.<FriendRelation>emptyList() : relations)
+                .stream()
+                .map(FriendRelation::getFriendUserId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+    }
+
+    private FeedResourceLookup loadFeedResources(List<ActivityFeed> feeds) {
+        if (feeds.isEmpty()) {
+            return new FeedResourceLookup(Collections.emptyMap(), Collections.emptyMap(), Collections.emptyMap());
+        }
+
+        Map<String, UserAccount> actorsById = selectUsersByIds(feeds.stream()
+                .map(ActivityFeed::getActorUserId)
+                .collect(Collectors.toList()));
+
+        // 批量缓存动态流需要的菜谱和圈子信息，避免每条动态重复扫表。
+        Set<String> dishIds = feeds.stream()
+                .map(ActivityFeed::getDishId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+        Map<String, DishSummaryResponse> dishesById;
+        if (dishIds.isEmpty()) {
+            dishesById = Collections.emptyMap();
+        } else {
+            List<DishSummaryResponse> dishes = dishMapper.selectAllActive().stream()
+                    .filter(item -> dishIds.contains(item.getId()))
+                    .collect(Collectors.toList());
+            menuVisibilitySupport.hydrateSummaries(dishes);
+            dishesById = dishes.stream()
+                    .collect(Collectors.toMap(DishSummaryResponse::getId, item -> item, (left, right) -> left));
+        }
+
+        Set<String> circleIds = feeds.stream()
+                .map(ActivityFeed::getCircleId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+        Map<String, BuddyCircle> circlesById = selectCirclesByIds(circleIds);
+        return new FeedResourceLookup(actorsById, dishesById, circlesById);
+    }
+
+    private FeedItemResponse toFeedItem(ActivityFeed feed, FeedResourceLookup resources) {
+        UserAccount actor = resources.usersById().get(feed.getActorUserId());
+        DishSummaryResponse dish = feed.getDishId() == null ? null : resources.dishesById().get(feed.getDishId());
         if (actor == null || dish == null) {
             return null;
         }
@@ -701,13 +819,53 @@ public class SocialServiceImpl implements SocialService {
         item.setDishDescription(dish.getDescription());
         item.setCreatedAt(feed.getCreatedAt());
         if (feed.getCircleId() != null) {
-            BuddyCircle circle = buddyCircleMapper.selectById(feed.getCircleId());
+            BuddyCircle circle = resources.circlesById().get(feed.getCircleId());
             if (circle != null) {
                 item.setCircleId(circle.getId());
                 item.setCircleName(circle.getName());
             }
         }
         return item;
+    }
+
+    private Map<String, UserAccount> selectUsersByIds(Collection<String> userIds) {
+        List<String> normalized = normalizeIds(userIds);
+        if (normalized.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        List<UserAccount> users = userAccountMapper.selectBatchIds(normalized);
+        if (users == null || users.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        return users.stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toMap(UserAccount::getId, item -> item, (left, right) -> left));
+    }
+
+    private Map<String, BuddyCircle> selectCirclesByIds(Collection<String> circleIds) {
+        List<String> normalized = normalizeIds(circleIds);
+        if (normalized.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        List<BuddyCircle> circles = buddyCircleMapper.selectBatchIds(normalized);
+        if (circles == null || circles.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        return circles.stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toMap(BuddyCircle::getId, item -> item, (left, right) -> left));
+    }
+
+    private List<String> normalizeIds(Collection<String> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return ids.stream()
+                .filter(Objects::nonNull)
+                .map(String::trim)
+                .filter(value -> !value.isEmpty())
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     private String buildFeedActionText(String activityType, LocalDateTime createdAt) {
@@ -779,12 +937,19 @@ public class SocialServiceImpl implements SocialService {
     }
 
     private BuddyCircleSummaryResponse buildCircleListSummary(BuddyCircle circle) {
+        return buildCircleListSummary(circle, Collections.emptyMap());
+    }
+
+    private BuddyCircleSummaryResponse buildCircleListSummary(BuddyCircle circle, Map<String, UserAccount> ownersById) {
         BuddyCircleSummaryResponse summary = new BuddyCircleSummaryResponse();
         summary.setId(circle.getId());
         summary.setName(circle.getName());
         summary.setDescription(circle.getDescription());
         summary.setOwnerUserId(circle.getOwnerUserId());
-        UserAccount owner = userAccountMapper.selectById(circle.getOwnerUserId());
+        UserAccount owner = ownersById.get(circle.getOwnerUserId());
+        if (owner == null) {
+            owner = userAccountMapper.selectById(circle.getOwnerUserId());
+        }
         summary.setOwnerNickname(owner == null ? "" : owner.getNickname());
         return summary;
     }
@@ -814,6 +979,18 @@ public class SocialServiceImpl implements SocialService {
             throw new ApiException(HttpStatus.FORBIDDEN, "你还不在这个搭子圈里");
         }
         return circle;
+    }
+
+    private List<DishSummaryResponse> loadMemberMenus(Collection<String> memberIds) {
+        List<String> normalizedMemberIds = normalizeIds(memberIds);
+        if (normalizedMemberIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<DishSummaryResponse> dishes = dishMapper.selectAllActive().stream()
+                .filter(dish -> normalizedMemberIds.contains(dish.getOwnerUserId()))
+                .collect(Collectors.toList());
+        menuVisibilitySupport.hydrateSummaries(dishes);
+        return dishes;
     }
 
     private void hydrateIngredientNames(List<DishSummaryResponse> dishes) {
@@ -894,15 +1071,13 @@ public class SocialServiceImpl implements SocialService {
     }
 
     private long countCircleActiveMenus(String circleId) {
-        return buddyCircleMemberMapper.selectList(new QueryWrapper<BuddyCircleMember>().eq("circle_id", circleId))
+        List<String> memberIds = buddyCircleMemberMapper.selectList(new QueryWrapper<BuddyCircleMember>().eq("circle_id", circleId))
                 .stream()
                 .map(BuddyCircleMember::getUserId)
-                .mapToLong(memberId -> {
-                    List<DishSummaryResponse> dishes = dishMapper.selectByOwnerUserId(memberId);
-                    menuVisibilitySupport.hydrateSummaries(dishes);
-                    return dishes.stream().filter(dish -> isSharedWithCircle(dish, circleId)).count();
-                })
-                .sum();
+                .collect(Collectors.toList());
+        return loadMemberMenus(memberIds).stream()
+                .filter(dish -> isSharedWithCircle(dish, circleId))
+                .count();
     }
 
     private void addCircleMember(String circleId, String inviterUserId, String inviteeUserId) {
@@ -951,18 +1126,7 @@ public class SocialServiceImpl implements SocialService {
         return settings;
     }
 
-    private DishSummaryResponse withEffectiveVisibility(DishSummaryResponse item, String ownerUserId) {
-        if (item == null) {
-            return item;
-        }
-        menuVisibilitySupport.hydrateSummaries(List.of(item));
-        return item;
-    }
-
     private boolean canViewDish(DishSummaryResponse dish, String viewerUserId, boolean circleMode) {
-        if (dish.getName().equals("麦分虾堡")){
-            System.out.println("");
-        }
         return menuVisibilitySupport.canViewDish(dish, viewerUserId, circleMode);
     }
 
@@ -1028,5 +1192,17 @@ public class SocialServiceImpl implements SocialService {
             relation.setCreatedAt(LocalDateTime.now());
             userDefaultVisibilityCircleMapper.insert(relation);
         }
+    }
+
+    private record FeedResourceLookup(
+            Map<String, UserAccount> usersById,
+            Map<String, DishSummaryResponse> dishesById,
+            Map<String, BuddyCircle> circlesById) {
+    }
+
+    private record FeedVisibilityContext(
+            boolean viewerInAnyCircle,
+            Set<String> viewerCircleIds,
+            Set<String> friendUserIds) {
     }
 }

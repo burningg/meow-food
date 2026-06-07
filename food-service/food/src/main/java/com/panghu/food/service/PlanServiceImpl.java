@@ -110,9 +110,10 @@ public class PlanServiceImpl implements PlanService {
                 .orderByAsc("created_at")
                 .orderByAsc("id"));
 
+        PlanSummaryContext summaryContext = loadPlanSummaryContext(plans);
         Map<LocalDate, List<PlanSummaryResponse>> byDate = new LinkedHashMap<>();
         for (CirclePlan plan : plans) {
-            byDate.computeIfAbsent(plan.getPlanDate(), key -> new ArrayList<>()).add(buildPlanSummary(plan));
+            byDate.computeIfAbsent(plan.getPlanDate(), key -> new ArrayList<>()).add(buildPlanSummary(plan, summaryContext));
         }
         response.setDays(byDate.entrySet().stream().map(entry -> {
             PlanDayPlansResponse day = new PlanDayPlansResponse();
@@ -291,20 +292,24 @@ public class PlanServiceImpl implements PlanService {
     }
 
     private PlanSummaryResponse buildPlanSummary(CirclePlan plan) {
+        return buildPlanSummary(plan, loadPlanSummaryContext(List.of(plan)));
+    }
+
+    private PlanSummaryResponse buildPlanSummary(CirclePlan plan, PlanSummaryContext context) {
         PlanSummaryResponse response = new PlanSummaryResponse();
         response.setId(plan.getId());
         response.setTitle(plan.getTitle());
         response.setPlanDate(plan.getPlanDate());
         response.setCircleId(plan.getCircleId());
-        BuddyCircle circle = buddyCircleMapper.selectById(plan.getCircleId());
+        BuddyCircle circle = context.circlesById().get(plan.getCircleId());
         response.setCircleName(circle == null ? "" : circle.getName());
         response.setCreatorUserId(plan.getCreatorUserId());
-        UserAccount creator = userAccountMapper.selectById(plan.getCreatorUserId());
+        UserAccount creator = context.usersById().get(plan.getCreatorUserId());
         response.setCreatorNickname(creator == null ? "" : creator.getNickname());
-        response.setRecipeCount(circlePlanRecipeMapper.selectCount(new QueryWrapper<CirclePlanRecipe>()
-                .eq("plan_id", plan.getId())).intValue());
+        response.setRecipeCount(context.recipeCountByPlanId().getOrDefault(plan.getId(), 0L).intValue());
 
-        ShoppingSummary shoppingSummary = summarizeShopping(plan.getId());
+        ShoppingSummary shoppingSummary = context.shoppingSummaryByPlanId()
+                .getOrDefault(plan.getId(), new ShoppingSummary(false, 0, 0, 0));
         response.setShoppingStatus(resolveShoppingStatus(shoppingSummary));
         response.setShoppingStarted(shoppingSummary.started());
         response.setShoppingTotalItemCount(shoppingSummary.totalCount());
@@ -340,6 +345,9 @@ public class PlanServiceImpl implements PlanService {
                 .eq("shopping_list_id", shoppingList.getId())
                 .orderByAsc("sort")
                 .orderByAsc("id"));
+        Map<String, UserAccount> buyersById = selectUsersByIds(items.stream()
+                .map(CirclePlanShoppingItem::getPurchasedByUserId)
+                .collect(Collectors.toList()));
         Map<String, List<CirclePlanShoppingItemSource>> sourcesByItemId = items.isEmpty()
                 ? Collections.emptyMap()
                 : circlePlanShoppingItemSourceMapper.selectList(
@@ -363,7 +371,7 @@ public class PlanServiceImpl implements PlanService {
             itemResponse.setPurchasedByUserId(item.getPurchasedByUserId());
             itemResponse.setPurchasedAt(item.getPurchasedAt());
             if (item.getPurchasedByUserId() != null) {
-                UserAccount buyer = userAccountMapper.selectById(item.getPurchasedByUserId());
+                UserAccount buyer = buyersById.get(item.getPurchasedByUserId());
                 itemResponse.setPurchasedByNickname(buyer == null ? "" : buyer.getNickname());
             }
             itemResponse.setSources(sourcesByItemId.getOrDefault(item.getId(), Collections.emptyList()).stream().map(source -> {
@@ -380,6 +388,63 @@ public class PlanServiceImpl implements PlanService {
         response.setPurchasedItemCount(purchasedCount);
         response.setItems(itemResponses);
         return response;
+    }
+
+    private PlanSummaryContext loadPlanSummaryContext(List<CirclePlan> plans) {
+        if (plans == null || plans.isEmpty()) {
+            return new PlanSummaryContext(Collections.emptyMap(), Collections.emptyMap(), Collections.emptyMap(), Collections.emptyMap());
+        }
+
+        List<String> planIds = plans.stream()
+                .map(CirclePlan::getId)
+                .collect(Collectors.toList());
+        Map<String, BuddyCircle> circlesById = selectCirclesByIds(plans.stream()
+                .map(CirclePlan::getCircleId)
+                .collect(Collectors.toList()));
+        Map<String, UserAccount> usersById = selectUsersByIds(plans.stream()
+                .map(CirclePlan::getCreatorUserId)
+                .collect(Collectors.toList()));
+
+        Map<String, Long> recipeCountByPlanId = circlePlanRecipeMapper.selectList(new QueryWrapper<CirclePlanRecipe>()
+                        .in("plan_id", planIds))
+                .stream()
+                .collect(Collectors.groupingBy(CirclePlanRecipe::getPlanId, Collectors.counting()));
+
+        // 月视图只需要汇总状态，批量加载后按 planId 回填，避免每个计划单独查清单和采购项。
+        Map<String, CirclePlanShoppingList> shoppingListByPlanId = circlePlanShoppingListMapper.selectList(new QueryWrapper<CirclePlanShoppingList>()
+                        .in("plan_id", planIds))
+                .stream()
+                .collect(Collectors.toMap(CirclePlanShoppingList::getPlanId, item -> item, (left, right) -> left));
+        Map<String, ShoppingSummary> shoppingSummaryByPlanId = buildShoppingSummaries(shoppingListByPlanId);
+
+        return new PlanSummaryContext(circlesById, usersById, recipeCountByPlanId, shoppingSummaryByPlanId);
+    }
+
+    private Map<String, ShoppingSummary> buildShoppingSummaries(Map<String, CirclePlanShoppingList> shoppingListByPlanId) {
+        if (shoppingListByPlanId.isEmpty()) {
+            return Collections.emptyMap();
+        }
+
+        Map<String, String> planIdByShoppingListId = shoppingListByPlanId.values().stream()
+                .collect(Collectors.toMap(CirclePlanShoppingList::getId, CirclePlanShoppingList::getPlanId, (left, right) -> left));
+        List<CirclePlanShoppingItem> items = circlePlanShoppingItemMapper.selectList(new QueryWrapper<CirclePlanShoppingItem>()
+                .in("shopping_list_id", planIdByShoppingListId.keySet()));
+        Map<String, List<CirclePlanShoppingItem>> itemsByShoppingListId = items.stream()
+                .collect(Collectors.groupingBy(CirclePlanShoppingItem::getShoppingListId));
+
+        Map<String, ShoppingSummary> result = new LinkedHashMap<>();
+        for (CirclePlanShoppingList shoppingList : shoppingListByPlanId.values()) {
+            List<CirclePlanShoppingItem> shoppingItems = itemsByShoppingListId.getOrDefault(shoppingList.getId(), Collections.emptyList());
+            int purchasedCount = (int) shoppingItems.stream()
+                    .filter(item -> Boolean.TRUE.equals(item.getPurchased()))
+                    .count();
+            result.put(shoppingList.getPlanId(), new ShoppingSummary(
+                    true,
+                    shoppingList.getRestartCount() == null ? 0 : shoppingList.getRestartCount(),
+                    shoppingItems.size(),
+                    purchasedCount));
+        }
+        return result;
     }
 
     private void rebuildShoppingList(CirclePlan plan, String operatorUserId, boolean countAsRestart) {
@@ -733,7 +798,42 @@ public class PlanServiceImpl implements PlanService {
                 .collect(Collectors.toList());
     }
 
+    private Map<String, UserAccount> selectUsersByIds(Collection<String> userIds) {
+        List<String> normalized = normalizeIds(userIds);
+        if (normalized.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        List<UserAccount> users = userAccountMapper.selectBatchIds(normalized);
+        if (users == null || users.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        return users.stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toMap(UserAccount::getId, item -> item, (left, right) -> left));
+    }
+
+    private Map<String, BuddyCircle> selectCirclesByIds(Collection<String> circleIds) {
+        List<String> normalized = normalizeIds(circleIds);
+        if (normalized.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        List<BuddyCircle> circles = buddyCircleMapper.selectBatchIds(normalized);
+        if (circles == null || circles.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        return circles.stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toMap(BuddyCircle::getId, item -> item, (left, right) -> left));
+    }
+
     private record PlanContext(CirclePlan plan, BuddyCircle circle) {
+    }
+
+    private record PlanSummaryContext(
+            Map<String, BuddyCircle> circlesById,
+            Map<String, UserAccount> usersById,
+            Map<String, Long> recipeCountByPlanId,
+            Map<String, ShoppingSummary> shoppingSummaryByPlanId) {
     }
 
     private record ShoppingSummary(boolean started, int restartCount, int totalCount, int purchasedCount) {

@@ -9,10 +9,12 @@ import com.panghu.food.dto.DishUpsertRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 public interface DishService {
     List<DishSummaryResponse> getDishes(String categoryId, String ownerUserId, String scope, String circleId);
     List<DishSummaryResponse> getFeaturedDishes(String categoryId);
+    Map<String, List<DishSummaryResponse>> getFeaturedDishesByCategoryIds(List<String> categoryIds);
     List<DishSummaryResponse> getRecentDishes();
     DishDetailResponse getDishById(String id);
     String uploadImage(MultipartFile file);

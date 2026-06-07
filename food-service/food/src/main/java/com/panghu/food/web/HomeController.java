@@ -1,6 +1,7 @@
 package com.panghu.food.web;
 
 import com.panghu.food.dto.CategoryRecommendationGroup;
+import com.panghu.food.dto.DishSummaryResponse;
 import com.panghu.food.dto.HomeResponse;
 import com.panghu.food.entity.Category;
 import com.panghu.food.service.CategoryService;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/home")
@@ -32,12 +35,16 @@ public class HomeController {
         response.setFeaturedDishes(dishService.getFeaturedDishes(null));
         response.setRecentDishes(dishService.getRecentDishes());
 
+        Map<String, List<DishSummaryResponse>> featuredByCategoryId =
+                dishService.getFeaturedDishesByCategoryIds(categories.stream()
+                        .map(Category::getId)
+                        .collect(Collectors.toList()));
         List<CategoryRecommendationGroup> featuredByCategory = new ArrayList<>();
         for (Category category : categories) {
             CategoryRecommendationGroup group = new CategoryRecommendationGroup();
             group.setCategoryId(category.getId());
             group.setCategoryName(category.getName());
-            group.setDishes(dishService.getFeaturedDishes(category.getId()));
+            group.setDishes(featuredByCategoryId.getOrDefault(category.getId(), new ArrayList<>()));
             featuredByCategory.add(group);
         }
         response.setFeaturedByCategory(featuredByCategory);

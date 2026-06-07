@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -105,6 +106,31 @@ public class DishServiceImpl implements DishService {
                 : dishMapper.selectByCategoryId(categoryId, null);
         menuVisibilitySupport.hydrateSummaries(source);
         return filterHomeDishes(source, currentUserId, item -> Boolean.TRUE.equals(item.getIsFeatured()));
+    }
+
+    @Override
+    public Map<String, List<DishSummaryResponse>> getFeaturedDishesByCategoryIds(List<String> categoryIds) {
+        List<String> normalizedCategoryIds = normalizeIds(categoryIds);
+        if (normalizedCategoryIds.isEmpty()) {
+            return Collections.emptyMap();
+        }
+
+        String currentUserId = AuthContext.getUserId();
+        List<DishSummaryResponse> source = dishMapper.selectAllActive();
+        menuVisibilitySupport.hydrateSummaries(source);
+
+        Map<String, List<DishSummaryResponse>> result = new LinkedHashMap<>();
+        for (String categoryId : normalizedCategoryIds) {
+            List<DishSummaryResponse> dishes = source.stream()
+                    .filter(item -> categoryId.equals(item.getCategoryId()))
+                    .filter(item -> Boolean.TRUE.equals(item.getIsFeatured()))
+                    .filter(item -> canViewDish(item, currentUserId, false))
+                    .limit(HOME_FEATURED_LIST_LIMIT)
+                    .collect(Collectors.toList());
+            hydrateIngredientNames(dishes);
+            result.put(categoryId, dishes);
+        }
+        return result;
     }
 
     @Override
@@ -337,6 +363,18 @@ public class DishServiceImpl implements DishService {
         return images.stream()
                 .map(this::trimToEmpty)
                 .filter(item -> !item.isEmpty())
+                .collect(Collectors.toList());
+    }
+
+    private List<String> normalizeIds(List<String> ids) {
+        if (ids == null) {
+            return Collections.emptyList();
+        }
+        return ids.stream()
+                .filter(Objects::nonNull)
+                .map(String::trim)
+                .filter(value -> !value.isEmpty())
+                .distinct()
                 .collect(Collectors.toList());
     }
 

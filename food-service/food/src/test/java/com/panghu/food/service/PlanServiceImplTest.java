@@ -231,7 +231,7 @@ class PlanServiceImplTest {
         when(circlePlanShoppingItemMapper.selectById("item-1")).thenReturn(item);
         when(circlePlanShoppingItemMapper.selectList(any())).thenAnswer(invocation -> List.of(item));
         when(circlePlanShoppingItemSourceMapper.selectList(any())).thenReturn(List.of());
-        when(userAccountMapper.selectById("viewer")).thenReturn(user("viewer", "胖虎"));
+        when(userAccountMapper.selectBatchIds(List.of("viewer"))).thenReturn(List.of(user("viewer", "胖虎")));
 
         PlanShoppingListResponse response = planService.toggleShoppingItem("plan-1", "item-1");
 
