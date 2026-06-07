@@ -98,4 +98,28 @@ class DishAiServiceTest {
                 eq(String.class));
         assertThat(String.valueOf(captor.getValue().getBody())).contains("菜谱导入助手", "鸡腿切块");
     }
+
+    @Test
+    void importDishEnablesWebSearchWhenTextContainsUrl() {
+        ReflectionTestUtils.setField(dishAiService, "openaiApiKey", "test-key");
+        ReflectionTestUtils.setField(dishAiService, "openaiBaseUrl", "https://api.openai.com/v1");
+        ReflectionTestUtils.setField(dishAiService, "openaiModel", "gpt-5.4");
+        when(restTemplate.exchange(
+                eq("https://api.openai.com/v1/responses"),
+                eq(HttpMethod.POST),
+                any(HttpEntity.class),
+                eq(String.class)))
+                .thenReturn(ResponseEntity.ok("{\"output_text\":\"{\\\"ingredients\\\":[{\\\"name\\\":\\\"鸡腿\\\",\\\"amount\\\":\\\"2只\\\"}],\\\"steps\\\":[\\\"腌制\\\"]}\"}"));
+
+        dishAiService.importDish("https://example.com/recipe/123", List.of());
+
+        ArgumentCaptor<HttpEntity> captor = ArgumentCaptor.forClass(HttpEntity.class);
+        verify(restTemplate).exchange(
+                eq("https://api.openai.com/v1/responses"),
+                eq(HttpMethod.POST),
+                captor.capture(),
+                eq(String.class));
+        assertThat(String.valueOf(captor.getValue().getBody()))
+                .contains("web_search", "读取 URL 页面内容", "https://example.com/recipe/123");
+    }
 }

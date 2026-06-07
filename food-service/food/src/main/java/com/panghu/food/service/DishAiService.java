@@ -20,10 +20,12 @@ import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @Service
 public class DishAiService {
     private static final String AI_FAILURE_MESSAGE = "AI 识别失败，请稍后重试";
+    private static final Pattern URL_PATTERN = Pattern.compile("https?://\\S+", Pattern.CASE_INSENSITIVE);
 
     @Value("${upload.base-path:./uploads}")
     private String basePath;
@@ -71,7 +73,7 @@ public class DishAiService {
             for (String imageUrl : imageUrls) {
                 userContent.add(inputImage(toImageDataUrl(imageUrl)));
             }
-            String responseText = requestOpenAi(userContent);
+            String responseText = requestOpenAi(userContent, containsUrl(text));
             DishAiAnalysisResponse response = parseAiResponse(responseText);
             response.setName(null);
             if (response.getIngredients().isEmpty() && response.getSteps().isEmpty()) {
@@ -86,6 +88,10 @@ public class DishAiService {
     }
 
     private String requestOpenAi(List<Object> userContent) {
+        return requestOpenAi(userContent, false);
+    }
+
+    private String requestOpenAi(List<Object> userContent, boolean enableWebSearch) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(openaiApiKey);
@@ -96,6 +102,10 @@ public class DishAiService {
         Map<String, Object> payload = new LinkedHashMap<>();
         payload.put("model", openaiModel);
         payload.put("input", input);
+        if (enableWebSearch) {
+            payload.put("tools", List.of(Map.of("type", "web_search")));
+            payload.put("tool_choice", "auto");
+        }
 
         ResponseEntity<String> response = restTemplate.exchange(
                 openaiBaseUrl + "/responses",
@@ -217,6 +227,9 @@ public class DishAiService {
         builder.append(" 如果原内容缺少用量，请用“适量”；如果步骤散落在文字或截图中，请按合理烹饪顺序整理。");
         builder.append(" 不要补充原内容完全没有依据的食材和步骤，导入结果只用于填充食材和步骤。");
         if (!isBlank(text)) {
+            if (containsUrl(text)) {
+                builder.append(" 如果原文包含 URL，请先读取 URL 页面内容，再从页面里的菜谱内容提取食材和步骤。");
+            }
             builder.append(" 用户粘贴的原文如下：").append(text.trim());
         } else {
             builder.append(" 用户未粘贴文字，请只根据截图内容整理。");
@@ -298,5 +311,9 @@ public class DishAiService {
 
     private boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();
+    }
+
+    private boolean containsUrl(String value) {
+        return value != null && URL_PATTERN.matcher(value).find();
     }
 }

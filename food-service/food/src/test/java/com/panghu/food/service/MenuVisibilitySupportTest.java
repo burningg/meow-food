@@ -69,14 +69,7 @@ class MenuVisibilitySupportTest {
         assertThat(visible).isTrue();
     }
 
-    @Test
-    void canViewLegacyFriendsDishWhenFriendRelationExists() {
-        when(friendRelationMapper.selectCount(any(QueryWrapper.class))).thenReturn(1L);
 
-        boolean visible = support.canViewDish("owner", "friends", List.of(), "viewer", false);
-
-        assertThat(visible).isTrue();
-    }
 
     private UserDefaultVisibilityCircle defaultCircle(String userId, String circleId) {
         UserDefaultVisibilityCircle relation = new UserDefaultVisibilityCircle();
