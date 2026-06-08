@@ -12,7 +12,8 @@
               class="plan-nav-action week-add-button"
               @tap="openCreateSheet"
             >
-              ＋
+              <text class="week-add-button-icon">＋</text>
+              <text class="week-add-button-text">新建计划</text>
             </button>
             <view class="week-switch-controls">
               <button class="week-switch-button" @tap="changeWeek(-1)">
@@ -202,7 +203,7 @@
                   添加菜谱
                 </button>
                 <button class="plan-primary-button" @tap="openShopping(plan)">
-                  {{ hasShoppingStarted(plan) ? "查看采购" : "开始采购" }}
+                  采购清单
                 </button>
               </view>
             </view>
@@ -404,6 +405,12 @@ onMounted(async () => {
   await loadInitial();
 });
 
+watch(selectedDateKey, () => {
+  // 切换日期后，按新的日期重新执行一次“默认展开第一条”。
+  expandedPlanId.value = "";
+  hasAppliedInitialExpand.value = false;
+});
+
 watch(
   selectedPlans,
   async (plans) => {
@@ -460,6 +467,8 @@ async function loadInitial() {
 }
 
 async function refreshWeek() {
+  expandedPlanId.value = "";
+  hasAppliedInitialExpand.value = false;
   await loadWeek(true);
 }
 
@@ -875,11 +884,6 @@ function formatDisplayDate(value: string, withSpace: boolean) {
 }
 
 .plan-nav-action {
-  width: 36px;
-  height: 36px;
-}
-
-.plan-nav-action {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -934,17 +938,38 @@ function formatDisplayDate(value: string, withSpace: boolean) {
 .week-switch {
   flex-direction: column;
   align-items: flex-end;
-  gap: 8px;
+  gap: 10px;
 }
 
 .week-switch-controls {
-  gap: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 999px;
+  background: #f7f1ea;
 }
 
 .week-add-button {
-  width: 30px;
-  height: 30px;
+  min-width: 112px;
+  min-height: 38px;
+  padding: 0 14px;
+  gap: 4px;
+  background: linear-gradient(135deg, #b86b41 0%, #9f5c38 100%);
+  color: #ffffff;
+  box-shadow: 0 12px 24px rgba(159, 92, 56, 0.24);
+}
+
+.week-add-button-icon {
   font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.week-add-button-text {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .week-switch-button {
@@ -954,9 +979,10 @@ function formatDisplayDate(value: string, withSpace: boolean) {
   width: 34px;
   height: 34px;
   border-radius: 999px;
-  background: #f4eee7;
+  background: #ffffff;
   color: #5a4333;
   font-size: 18px;
+  box-shadow: 0 4px 12px rgba(90, 67, 51, 0.08);
 }
 
 .week-calendar-card {

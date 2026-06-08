@@ -49,9 +49,7 @@
       </view>
 
       <section v-if="categoryItems.length" class="picker-category-section">
-        <view class="picker-section-head">
-          <text class="picker-section-title">按分类挑选</text>
-        </view>
+
         <scroll-view class="picker-category-scroll" :scroll-x="true">
           <view class="picker-category-row">
             <button
@@ -73,9 +71,6 @@
       </section>
 
       <section class="picker-list-section">
-        <view class="picker-section-head">
-          <text class="picker-section-subtitle">{{ filteredMenus.length }} 道</text>
-        </view>
 
         <view v-if="filteredMenus.length" class="picker-list">
           <button
