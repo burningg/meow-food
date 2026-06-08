@@ -75,7 +75,7 @@ public class DishAiService {
             }
             String responseText = requestOpenAi(userContent, containsUrl(text));
             DishAiAnalysisResponse response = parseAiResponse(responseText);
-            response.setName(null);
+            // AI 导入场景也保留菜名，前端可以在名称为空时直接回填，减少用户手动补录。
             if (response.getIngredients().isEmpty() && response.getSteps().isEmpty()) {
                 throw new ApiException(HttpStatus.BAD_GATEWAY, AI_FAILURE_MESSAGE);
             }

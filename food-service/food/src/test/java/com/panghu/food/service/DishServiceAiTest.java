@@ -112,6 +112,7 @@ class DishServiceAiTest {
         request.setImages(List.of(" http://localhost:8080/uploads/import.jpg ", ""));
 
         DishAiAnalysisResponse aiResponse = new DishAiAnalysisResponse();
+        aiResponse.setName("黄焖鸡");
         IngredientItem ingredient = new IngredientItem();
         ingredient.setName("鸡腿");
         ingredient.setAmount("2只");
@@ -130,6 +131,7 @@ class DishServiceAiTest {
 
         DishAiAnalysisResponse response = dishService.importDishByAi(request);
 
+        assertThat(response.getName()).isEqualTo("黄焖鸡");
         assertThat(response.getIngredients()).hasSize(1);
         assertThat(response.getUsage().getRemainingToday()).isEqualTo(2);
         verify(vipService).assertCanUseAi("user-1");

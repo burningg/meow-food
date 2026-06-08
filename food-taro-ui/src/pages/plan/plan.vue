@@ -1,7 +1,7 @@
 <template>
   <view class="plan-page-root">
     <PullRefreshPage @refresh="refreshWeek">
-      <view class="page-shell plan-page">
+      <view class="page-shell plan-page" @tap="closePlanMenu">
         <section class="week-header-card">
           <view class="week-header-copy">
             <text class="week-eyebrow">本周计划</text>
@@ -45,15 +45,31 @@
               :key="plan.id"
               :class="['plan-card', { expanded: expandedPlanId === plan.id, shopping: hasShoppingStarted(plan) }]"
             >
-              <button class="plan-card-head" @tap="toggleExpandedPlan(plan.id)">
-                <view class="plan-card-copy">
-                  <text class="plan-card-title">{{ plan.title }}</text>
-                  <text class="plan-card-meta">{{ plan.circleName }} · {{ plan.creatorNickname }}创建</text>
+              <view class="plan-card-head">
+                <button class="plan-card-main" @tap="toggleExpandedPlan(plan.id)">
+                  <view class="plan-card-copy">
+                    <text class="plan-card-title">{{ plan.title }}</text>
+                    <text class="plan-card-meta">{{ plan.circleName }} · {{ plan.creatorNickname }}创建</text>
+                  </view>
+                </button>
+                <view class="plan-card-side">
+                  <view :class="['plan-card-badge', { shopping: hasShoppingStarted(plan) }]">
+                    <text class="plan-card-badge-text">{{ getShoppingStatusLabel(plan.shoppingStatus) }}</text>
+                  </view>
+                  <view v-if="canDeletePlan(plan)" class="plan-card-menu-wrap">
+                    <button class="plan-card-menu-trigger" @tap.stop="togglePlanMenu(plan.id)">···</button>
+                    <view v-if="activeMenuPlanId === plan.id" class="plan-card-menu-popover" @tap.stop>
+                      <button
+                        class="plan-card-menu-delete"
+                        :disabled="deletingPlanId === plan.id"
+                        @tap.stop="deletePlan(plan)"
+                      >
+                        {{ deletingPlanId === plan.id ? '删除中...' : '删除计划' }}
+                      </button>
+                    </view>
+                  </view>
                 </view>
-                <view :class="['plan-card-badge', { shopping: hasShoppingStarted(plan) }]">
-                  <text class="plan-card-badge-text">{{ getShoppingStatusLabel(plan.shoppingStatus) }}</text>
-                </view>
-              </button>
+              </view>
 
               <view v-if="expandedPlanId === plan.id" class="plan-card-body">
                 <view v-if="expandedRecipes(plan.id).length" class="checked-recipe-row">
@@ -200,10 +216,13 @@ const detailCache = ref<Record<string, PlanDetail>>({})
 const viewedWeekStart = ref(startOfWeek(initialDate))
 const selectedDateKey = ref(formatDateKey(initialDate))
 const expandedPlanId = ref(routeParams.planId || '')
+const currentUserId = ref('')
 const selectedCircleId = ref('')
 const draftTitle = ref(buildDefaultPlanTitle(formatDateKey(initialDate)))
 const creating = ref(false)
 const createSheetVisible = ref(false)
+const activeMenuPlanId = ref('')
+const deletingPlanId = ref('')
 const removingRecipeKey = ref('')
 const revealedRecipeKey = ref('')
 const recipeSwipeStart = ref<{ key: string; x: number; y: number } | null>(null)
@@ -258,6 +277,9 @@ watch(
   selectedPlans,
   async (plans) => {
     revealedRecipeKey.value = ''
+    if (activeMenuPlanId.value && !plans.some((plan) => plan.id === activeMenuPlanId.value)) {
+      activeMenuPlanId.value = ''
+    }
     if (!plans.length) {
       expandedPlanId.value = ''
       return
@@ -278,6 +300,7 @@ async function loadInitial() {
       socialService.getCircles(),
       socialService.getProfile(),
     ])
+    currentUserId.value = profileData.user.id || ''
     circles.value = circlesData
     selectedCircleId.value =
       circlesData.find((circle) => circle.id === profileData.lastSelectedCircleId)?.id ||
@@ -318,6 +341,7 @@ async function ensurePlanDetail(planId: string, force = false) {
 }
 
 function openCreateSheet() {
+  closePlanMenu()
   draftTitle.value = buildDefaultPlanTitle(selectedDateKey.value)
   createSheetVisible.value = true
 }
@@ -327,6 +351,7 @@ function closeCreateSheet() {
 }
 
 function changeWeek(offset: number) {
+  closePlanMenu()
   const currentSelectedDate = parseDateKey(selectedDateKey.value) || new Date()
   const weekdayIndex = getWeekdayIndex(currentSelectedDate)
   viewedWeekStart.value = addDays(viewedWeekStart.value, offset * 7)
@@ -335,10 +360,12 @@ function changeWeek(offset: number) {
 }
 
 function selectDate(key: string) {
+  closePlanMenu()
   selectedDateKey.value = key
 }
 
 async function toggleExpandedPlan(planId: string) {
+  closePlanMenu()
   revealedRecipeKey.value = ''
   expandedPlanId.value = planId
   await ensurePlanDetail(planId)
@@ -354,6 +381,7 @@ function handleCircleChange(event: { detail: { value: string } }) {
 }
 
 async function submitPlan() {
+  closePlanMenu()
   if (!draftTitle.value.trim()) {
     Message.info('先写一个计划标题')
     return
@@ -395,6 +423,7 @@ function goAddRecipes(plan: PlanSummary) {
 }
 
 async function openShopping(plan: PlanSummary) {
+  closePlanMenu()
   try {
     if (!hasShoppingStarted(plan)) {
       const { data } = await planService.startShoppingList(plan.id)
@@ -424,6 +453,7 @@ async function openShopping(plan: PlanSummary) {
 }
 
 async function removeRecipeFromPlan(planId: string, dishId: string, dishName: string) {
+  closePlanMenu()
   const recipeKey = buildRecipeKey(planId, dishId)
   if (removingRecipeKey.value) return
   try {
@@ -465,6 +495,63 @@ function syncPlanState(planId: string, patch: Partial<PlanSummary>) {
     }))
   })
   monthCache.value = nextCache
+}
+
+function canDeletePlan(plan: Pick<PlanSummary, 'creatorUserId'>) {
+  return !!currentUserId.value && plan.creatorUserId === currentUserId.value
+}
+
+function togglePlanMenu(planId: string) {
+  activeMenuPlanId.value = activeMenuPlanId.value === planId ? '' : planId
+}
+
+function closePlanMenu() {
+  activeMenuPlanId.value = ''
+}
+
+async function deletePlan(plan: PlanSummary) {
+  if (deletingPlanId.value) return
+  try {
+    await confirmDialog({
+      title: '删除计划',
+      message: `确认删除“${plan.title}”吗？计划里的菜谱和采购清单会一起删除。`,
+    })
+    deletingPlanId.value = plan.id
+    closePlanMenu()
+    await planService.deletePlan(plan.id)
+    removePlanState(plan.id)
+    Message.success('计划已删除')
+  } catch (error: any) {
+    if (error?.message === 'cancelled') return
+    Message.error(error?.response?.data?.message || '删除计划失败')
+  } finally {
+    deletingPlanId.value = ''
+  }
+}
+
+function removePlanState(planId: string) {
+  // 删除后同步清理月缓存和详情缓存，避免页面必须整页刷新才能看到结果。
+  const nextCache: Record<string, PlanDayPlans[]> = {}
+  Object.entries(monthCache.value).forEach(([monthKey, days]) => {
+    nextCache[monthKey] = days
+      .map((day) => ({
+        ...day,
+        plans: day.plans.filter((plan) => plan.id !== planId),
+      }))
+      .filter((day) => day.plans.length)
+  })
+  monthCache.value = nextCache
+
+  const nextDetailCache = { ...detailCache.value }
+  delete nextDetailCache[planId]
+  detailCache.value = nextDetailCache
+
+  if (expandedPlanId.value === planId) {
+    expandedPlanId.value = ''
+  }
+  if (revealedRecipeKey.value.startsWith(`${planId}:`)) {
+    revealedRecipeKey.value = ''
+  }
 }
 
 function buildRecipeKey(planId: string, dishId: string) {
@@ -608,6 +695,7 @@ function formatDisplayDate(value: string, withSpace: boolean) {
 .weekday-row,
 .week-date-row,
 .plan-card-head,
+.plan-card-side,
 .create-sheet-head,
 .create-sheet-actions {
   display: flex;
@@ -824,6 +912,21 @@ function formatDisplayDate(value: string, withSpace: boolean) {
   text-align: left;
 }
 
+.plan-card-main {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.plan-card-side {
+  position: relative;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+}
+
 .plan-card.expanded .plan-card-badge {
   background: #9f5c38;
 }
@@ -873,6 +976,52 @@ function formatDisplayDate(value: string, withSpace: boolean) {
 
 .plan-card-badge.shopping .plan-card-badge-text {
   color: #346538;
+}
+
+.plan-card-menu-wrap {
+  position: relative;
+  z-index: 32;
+}
+
+.plan-card-menu-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 999px;
+  background: #f4eee7;
+  color: #7a6657;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.plan-card-menu-popover {
+  position: absolute;
+  top: 38px;
+  right: 0;
+  min-width: 92px;
+  padding: 6px;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 18px 36px rgba(27, 58, 45, 0.14);
+}
+
+.plan-card-menu-delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 10px;
+  background: #fff1ef;
+  color: #c25549;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
 }
 
 .plan-card-body {

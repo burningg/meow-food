@@ -465,6 +465,9 @@ async function submitSelectedRecipes() {
 }
 
 .picker-category-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   min-height: 34px;
   padding: 0 14px;
   border-radius: 999px;
@@ -472,6 +475,8 @@ async function submitSelectedRecipes() {
   color: #5a4333;
   font-size: 12px;
   font-weight: 600;
+  line-height: 1;
+  text-align: center;
 }
 
 .picker-category-pill.active {

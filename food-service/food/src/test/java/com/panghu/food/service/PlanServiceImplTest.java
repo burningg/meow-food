@@ -255,6 +255,32 @@ class PlanServiceImplTest {
         verify(circlePlanMapper, never()).deleteById(anyString());
     }
 
+    @Test
+    void deletePlanRemovesRecipesAndShoppingListData() {
+        AuthContext.setUserId("creator");
+        CirclePlan plan = plan("plan-1", "circle-1", "creator");
+        CirclePlanShoppingList shoppingList = new CirclePlanShoppingList();
+        shoppingList.setId("list-1");
+        shoppingList.setPlanId("plan-1");
+        CirclePlanShoppingItem item = new CirclePlanShoppingItem();
+        item.setId("item-1");
+        item.setShoppingListId("list-1");
+
+        when(circlePlanMapper.selectById("plan-1")).thenReturn(plan);
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(1L);
+        when(circlePlanShoppingListMapper.selectOne(any())).thenReturn(shoppingList);
+        when(circlePlanShoppingItemMapper.selectList(any())).thenReturn(List.of(item));
+
+        planService.deletePlan("plan-1");
+
+        verify(circlePlanShoppingItemSourceMapper).delete(any());
+        verify(circlePlanShoppingItemMapper).delete(any());
+        verify(circlePlanShoppingListMapper).deleteById("list-1");
+        verify(circlePlanRecipeMapper).delete(any());
+        verify(circlePlanMapper).deleteById("plan-1");
+    }
+
     private CirclePlan plan(String id, String circleId, String creatorUserId) {
         CirclePlan plan = new CirclePlan();
         plan.setId(id);

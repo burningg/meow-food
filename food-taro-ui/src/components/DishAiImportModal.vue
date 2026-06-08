@@ -158,6 +158,8 @@ function submit() {
   border-radius: 22px;
   background: #fff;
   padding: 20px;
+  color: var(--text-main);
+  font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   box-shadow: 0 20px 44px rgba(0, 0, 0, 0.08);
 }
 
@@ -174,11 +176,11 @@ function submit() {
 }
 
 .ai-import-title {
-  color: #151515;
-  font-family: 'Times New Roman', 'Noto Serif SC', serif;
-  font-size: 27px;
-  font-weight: 700;
-  line-height: 1.15;
+  color: var(--text-main);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .ai-import-close {
@@ -198,9 +200,9 @@ function submit() {
 .ai-import-desc {
   display: block;
   margin-top: 14px;
-  color: #787774;
-  font-size: 12px;
-  line-height: 1.55;
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 .ai-import-section {
@@ -214,15 +216,15 @@ function submit() {
 
 .ai-import-section-title {
   display: block;
-  color: #151515;
-  font-size: 14px;
-  font-weight: 800;
+  color: var(--text-main);
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .ai-import-limit {
-  color: #9f5c38;
-  font-size: 11px;
-  font-weight: 800;
+  color: var(--accent-dark);
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .ai-import-images {
@@ -269,7 +271,7 @@ function submit() {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  color: #9f5c38;
+  color: var(--accent-dark);
 }
 
 .ai-import-upload-plus {
@@ -279,8 +281,8 @@ function submit() {
 }
 
 .ai-import-upload-text {
-  font-size: 11px;
-  font-weight: 800;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .ai-import-textarea {
@@ -291,10 +293,15 @@ function submit() {
   border: 1px solid #f0e7dc;
   border-radius: 16px;
   background: #fbf8f4;
-  color: #544d45;
-  font-size: 13px;
+  color: var(--text-main);
+  font-size: 14px;
+  font-family: inherit;
   line-height: 1.6;
   padding: 14px;
+}
+
+.ai-import-textarea::placeholder {
+  color: #9a938a;
 }
 
 .ai-import-action {
@@ -307,8 +314,8 @@ function submit() {
   border-radius: 999px;
   background: linear-gradient(135deg, #a15f38 0%, #bf764a 100%);
   color: #fff;
-  font-size: 13px;
-  font-weight: 800;
+  font-size: 14px;
+  font-weight: 700;
   line-height: 1;
   box-shadow: 0 8px 18px rgba(164, 106, 31, 0.1);
 }

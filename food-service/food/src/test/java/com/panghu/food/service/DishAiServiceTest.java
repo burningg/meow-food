@@ -74,7 +74,7 @@ class DishAiServiceTest {
     }
 
     @Test
-    void importDishParsesIngredientsAndStepsWithoutName() {
+    void importDishParsesIngredientsAndStepsWithName() {
         ReflectionTestUtils.setField(dishAiService, "openaiApiKey", "test-key");
         ReflectionTestUtils.setField(dishAiService, "openaiBaseUrl", "https://api.openai.com/v1");
         ReflectionTestUtils.setField(dishAiService, "openaiModel", "gpt-5.4");
@@ -87,7 +87,7 @@ class DishAiServiceTest {
 
         DishAiAnalysisResponse response = dishAiService.importDish("鸡腿切块，加土豆焖煮。", List.of());
 
-        assertThat(response.getName()).isNull();
+        assertThat(response.getName()).isEqualTo("不应填充");
         assertThat(response.getIngredients()).hasSize(1);
         assertThat(response.getSteps()).hasSize(2);
         ArgumentCaptor<HttpEntity> captor = ArgumentCaptor.forClass(HttpEntity.class);
