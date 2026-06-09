@@ -75,6 +75,7 @@
             class="line-input ingredient-name-input"
             placeholder="食材名称"
             confirm-type="next"
+            :adjust-position="false"
             :focus="isIngredientInputFocused(item.clientId, 'name')"
             @focus="setIngredientInputFocus(item.clientId, 'name')"
             @blur="clearIngredientInputFocus(item.clientId, 'name')"
@@ -85,6 +86,7 @@
             class="line-input amount-input"
             placeholder="用量"
             :confirm-type="hasNextIngredient(index) ? 'next' : 'done'"
+            :adjust-position="false"
             :focus="isIngredientInputFocused(item.clientId, 'amount')"
             @focus="setIngredientInputFocus(item.clientId, 'amount')"
             @blur="clearIngredientInputFocus(item.clientId, 'amount')"
@@ -102,10 +104,15 @@
           <button class="pill-button" @tap="addStep">＋ 添加</button>
         </view>
         <view v-if="!form.steps.length" class="empty-helper">暂未添加步骤，用户可以稍后再完善做法</view>
-        <view v-for="(item, index) in form.steps" :key="`step-${index}`" class="step-row">
+        <view v-for="(item, index) in form.steps" :key="item.clientId" class="step-row">
           <text class="step-badge">{{ index + 1 }}</text>
-          <textarea v-model.trim="item.content" class="step-input" :placeholder="`输入第 ${index + 1} 步`" />
-          <button class="delete-link" @tap="removeStep(index)">删除</button>
+          <textarea
+            v-model.trim="item.content"
+            class="step-input"
+            :placeholder="`输入第 ${index + 1} 步`"
+            :adjust-position="false"
+          />
+          <button class="delete-link" @tap="removeStep(item.clientId)">删除</button>
         </view>
       </section>
 
@@ -232,18 +239,28 @@ type IngredientFormItem = IngredientItem & {
   clientId: string
 }
 
+type StepFormItem = StepItem & {
+  clientId: string
+}
+
 type DishEditableVisibility = Exclude<MenuVisibility, 'inherit' | 'friends'>
 
 type DishFormState = Omit<DishUpsertRequest, 'ingredients' | 'steps'> & {
   ingredients: IngredientFormItem[]
-  steps: StepItem[]
+  steps: StepFormItem[]
 }
 
 let ingredientIdSeed = 0
+let stepIdSeed = 0
 
 function nextIngredientClientId() {
   ingredientIdSeed += 1
   return `ingredient-${Date.now()}-${ingredientIdSeed}`
+}
+
+function nextStepClientId() {
+  stepIdSeed += 1
+  return `step-${Date.now()}-${stepIdSeed}`
 }
 
 function createEmptyIngredient(): IngredientFormItem {
@@ -251,6 +268,13 @@ function createEmptyIngredient(): IngredientFormItem {
     clientId: nextIngredientClientId(),
     name: '',
     amount: '',
+  }
+}
+
+function createEmptyStep(): StepFormItem {
+  return {
+    clientId: nextStepClientId(),
+    content: '',
   }
 }
 
@@ -402,6 +426,7 @@ function fillForm(detail: DishDetail) {
     : []
   form.steps = detail.steps.length
     ? detail.steps.map((item) => ({
+        clientId: nextStepClientId(),
         content: item.content || '',
         stepNo: item.stepNo,
       }))
@@ -465,10 +490,12 @@ function focusNextIngredientName(index: number) {
 }
 
 function addStep() {
-  form.steps.push({ content: '' })
+  form.steps.push(createEmptyStep())
 }
 
-function removeStep(index: number) {
+function removeStep(clientId: string) {
+  const index = form.steps.findIndex((item) => item.clientId === clientId)
+  if (index === -1) return
   form.steps.splice(index, 1)
 }
 
@@ -503,6 +530,7 @@ function toIngredientFormItems(items: IngredientItem[]) {
 
 function toStepItems(items: StepItem[]) {
   return items.map((item, index) => ({
+    clientId: nextStepClientId(),
     content: item.content || '',
     stepNo: item.stepNo ?? index + 1,
   }))

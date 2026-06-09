@@ -12,7 +12,6 @@
               class="plan-nav-action week-add-button"
               @tap="openCreateSheet"
             >
-              <text class="week-add-button-icon">＋</text>
               <text class="week-add-button-text">新建计划</text>
             </button>
             <view class="week-switch-controls">
@@ -916,8 +915,10 @@ function formatDisplayDate(value: string, withSpace: boolean) {
 
 .week-header-copy {
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
 }
 
 .week-eyebrow {
@@ -933,9 +934,13 @@ function formatDisplayDate(value: string, withSpace: boolean) {
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .week-switch {
+  flex-shrink: 0;
   flex-direction: column;
   align-items: flex-end;
   gap: 10px;
@@ -951,7 +956,7 @@ function formatDisplayDate(value: string, withSpace: boolean) {
 }
 
 .week-add-button {
-  min-width: 112px;
+  min-width: 82px;
   min-height: 38px;
   padding: 0 14px;
   gap: 4px;
