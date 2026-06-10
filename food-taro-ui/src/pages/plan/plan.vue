@@ -123,73 +123,145 @@
                   v-if="expandedRecipes(plan.id).length"
                   class="checked-recipe-row"
                 >
-                  <view
-                    v-for="recipe in expandedRecipes(plan.id)"
-                    :key="recipe.id"
-                    class="checked-recipe-swipe"
-                    @touchstart="
-                      handleRecipeTouchStart(plan.id, recipe.id, $event)
-                    "
-                    @touchend="handleRecipeTouchEnd(plan.id, recipe.id, $event)"
-                    @touchcancel="resetRecipeSwipeTracking"
+                  <view class="checked-recipe-tools">
+                    <text class="checked-recipe-count"
+                      >已选 {{ expandedRecipes(plan.id).length }} 道</text
+                    >
+                    <button
+                      class="checked-recipe-sort-button"
+                      :disabled="savingRecipeSortPlanId === plan.id"
+                      @tap.stop="toggleRecipeSortMode(plan.id)"
+                    >
+                      {{
+                        isRecipeSortMode(plan.id)
+                          ? savingRecipeSortPlanId === plan.id
+                            ? "保存中..."
+                            : "完成"
+                          : "排序"
+                      }}
+                    </button>
+                  </view>
+                  <movable-area
+                    v-if="isRecipeSortMode(plan.id)"
+                    :key="recipeSortRenderKey"
+                    class="recipe-sort-area"
+                    :style="{
+                      height: `${expandedRecipes(plan.id).length * RECIPE_SORT_ROW_HEIGHT}px`,
+                    }"
                   >
-                    <view class="checked-recipe-action">
-                      <button
-                        class="checked-recipe-remove"
-                        :disabled="
-                          removingRecipeKey ===
-                          buildRecipeKey(plan.id, recipe.id)
-                        "
-                        @tap.stop="
-                          removeRecipeFromPlan(plan.id, recipe.id, recipe.name)
-                        "
-                      >
-                        <view
-                          v-if="
-                            removingRecipeKey ===
-                            buildRecipeKey(plan.id, recipe.id)
-                          "
-                          class="checked-recipe-remove-loading"
-                        ></view>
-                        <text v-else class="checked-recipe-remove-text"
-                          >删除</text
-                        >
-                      </button>
-                    </view>
-                    <view
+                    <movable-view
+                      v-for="(recipe, index) in expandedRecipes(plan.id)"
+                      :key="recipe.id"
                       :class="[
-                        'checked-recipe-card',
+                        'recipe-sort-view',
                         {
-                          revealed:
-                            revealedRecipeKey ===
+                          dragging:
+                            draggingRecipeKey ===
                             buildRecipeKey(plan.id, recipe.id),
                         },
                       ]"
+                      direction="vertical"
+                      :x="0"
+                      :y="getRecipeSortY(index)"
+                      :animation="
+                        draggingRecipeKey !== buildRecipeKey(plan.id, recipe.id)
+                      "
+                      @change="
+                        handleRecipeDragChange(plan.id, recipe.id, $event)
+                      "
+                      @touchstart="startRecipeDrag(plan.id, recipe.id)"
+                      @touchend="finishRecipeDrag"
+                      @touchcancel="finishRecipeDrag"
                     >
-                      <button
-                        class="checked-recipe-main"
-                        @tap="handleRecipeTap(plan.id, recipe.id)"
-                      >
+                      <view class="recipe-sort-card">
+                        <text class="recipe-sort-index">{{ index + 1 }}</text>
+                        <text class="recipe-sort-handle">☰</text>
                         <SmartImage
                           :src="recipe.image"
-                          class-name="checked-recipe-image"
+                          class-name="recipe-sort-image"
                         />
-                        <view class="checked-recipe-copy">
-                          <text class="checked-recipe-title">{{
+                        <view class="recipe-sort-copy">
+                          <text class="recipe-sort-title">{{
                             recipe.name
                           }}</text>
-                          <text class="checked-recipe-meta">
-                            {{ recipe.categoryName || "共享菜谱"
-                            }}{{
-                              recipe.addedByNickname
-                                ? ` · ${recipe.addedByNickname}加入`
-                                : ""
-                            }}
+                          <text class="recipe-sort-meta">
+                            {{ recipe.categoryName || "共享菜谱" }}
                           </text>
                         </view>
-                      </button>
+                      </view>
+                    </movable-view>
+                  </movable-area>
+                  <template v-else>
+                    <view
+                      v-for="recipe in expandedRecipes(plan.id)"
+                      :key="recipe.id"
+                      class="checked-recipe-swipe"
+                      @touchstart="
+                        handleRecipeTouchStart(plan.id, recipe.id, $event)
+                      "
+                      @touchend="
+                        handleRecipeTouchEnd(plan.id, recipe.id, $event)
+                      "
+                      @touchcancel="resetRecipeSwipeTracking"
+                    >
+                      <view class="checked-recipe-action">
+                        <button
+                          class="checked-recipe-remove"
+                          :disabled="
+                            removingRecipeKey ===
+                            buildRecipeKey(plan.id, recipe.id)
+                          "
+                          @tap.stop="
+                            removeRecipeFromPlan(plan.id, recipe.id, recipe.name)
+                          "
+                        >
+                          <view
+                            v-if="
+                              removingRecipeKey ===
+                              buildRecipeKey(plan.id, recipe.id)
+                            "
+                            class="checked-recipe-remove-loading"
+                          ></view>
+                          <text v-else class="checked-recipe-remove-text"
+                            >删除</text
+                          >
+                        </button>
+                      </view>
+                      <view
+                        :class="[
+                          'checked-recipe-card',
+                          {
+                            revealed:
+                              revealedRecipeKey ===
+                              buildRecipeKey(plan.id, recipe.id),
+                          },
+                        ]"
+                      >
+                        <button
+                          class="checked-recipe-main"
+                          @tap="handleRecipeTap(plan.id, recipe.id)"
+                        >
+                          <SmartImage
+                            :src="recipe.image"
+                            class-name="checked-recipe-image"
+                          />
+                          <view class="checked-recipe-copy">
+                            <text class="checked-recipe-title">{{
+                              recipe.name
+                            }}</text>
+                            <text class="checked-recipe-meta">
+                              {{ recipe.categoryName || "共享菜谱"
+                              }}{{
+                                recipe.addedByNickname
+                                  ? ` · ${recipe.addedByNickname}加入`
+                                  : ""
+                              }}
+                            </text>
+                          </view>
+                        </button>
+                      </view>
                     </view>
-                  </view>
+                  </template>
                 </view>
                 <view v-else class="checked-empty-card">
                   <text class="checked-empty-title">这条计划还没加菜谱</text>
@@ -340,9 +412,15 @@ const activeMenuPlanId = ref("");
 const deletingPlanId = ref("");
 const removingRecipeKey = ref("");
 const revealedRecipeKey = ref("");
+const sortingPlanId = ref("");
+const draggingRecipeKey = ref("");
+const recipeSortRenderKey = ref(0);
+const savingRecipeSortPlanId = ref("");
+const recipeSortSnapshotIds = ref<string[]>([]);
 const recipeSwipeStart = ref<{ key: string; x: number; y: number } | null>(
   null,
 );
+const RECIPE_SORT_ROW_HEIGHT = 88;
 
 const weekDates = computed<WeekDateItem[]>(() => {
   return Array.from({ length: 7 }, (_, index) => {
@@ -466,6 +544,7 @@ async function loadInitial() {
 }
 
 async function refreshWeek() {
+  void finishRecipeSortMode(false);
   expandedPlanId.value = "";
   hasAppliedInitialExpand.value = false;
   await loadWeek(true);
@@ -509,6 +588,7 @@ function closeCreateSheet() {
 
 function changeWeek(offset: number) {
   closePlanMenu();
+  void finishRecipeSortMode(false);
   const currentSelectedDate = parseDateKey(selectedDateKey.value) || new Date();
   const weekdayIndex = getWeekdayIndex(currentSelectedDate);
   viewedWeekStart.value = addDays(viewedWeekStart.value, offset * 7);
@@ -520,12 +600,14 @@ function changeWeek(offset: number) {
 
 function selectDate(key: string) {
   closePlanMenu();
+  void finishRecipeSortMode(false);
   selectedDateKey.value = key;
 }
 
 async function toggleExpandedPlan(planId: string) {
   closePlanMenu();
   revealedRecipeKey.value = "";
+  void finishRecipeSortMode(false);
   if (expandedPlanId.value === planId) {
     expandedPlanId.value = "";
     return;
@@ -536,6 +618,129 @@ async function toggleExpandedPlan(planId: string) {
 
 function expandedRecipes(planId: string) {
   return detailCache.value[planId]?.recipes || [];
+}
+
+function isRecipeSortMode(planId: string) {
+  return sortingPlanId.value === planId;
+}
+
+function toggleRecipeSortMode(planId: string) {
+  if (isRecipeSortMode(planId)) {
+    void finishRecipeSortMode(true);
+    return;
+  }
+  const recipes = expandedRecipes(planId);
+  if (recipes.length < 2) {
+    Message.warning("至少添加 2 道菜谱后再排序");
+    return;
+  }
+  revealedRecipeKey.value = "";
+  recipeSwipeStart.value = null;
+  recipeSortSnapshotIds.value = recipes.map((recipe) => recipe.id);
+  sortingPlanId.value = planId;
+  refreshRecipeSortPosition();
+}
+
+async function finishRecipeSortMode(shouldSave: boolean) {
+  const planId = sortingPlanId.value;
+  draggingRecipeKey.value = "";
+  if (!planId) return;
+  if (!shouldSave) {
+    restoreRecipeSortSnapshot(planId);
+    sortingPlanId.value = "";
+    recipeSortSnapshotIds.value = [];
+    return;
+  }
+
+  savingRecipeSortPlanId.value = planId;
+  try {
+    const dishIds = expandedRecipes(planId).map((recipe) => recipe.id);
+    const { data } = await planService.sortRecipes(planId, dishIds);
+    detailCache.value = {
+      ...detailCache.value,
+      [planId]: data,
+    };
+    sortingPlanId.value = "";
+    recipeSortSnapshotIds.value = [];
+    Message.success("菜谱排序已保存");
+  } catch (error: any) {
+    Message.error(error?.response?.data?.message || "菜谱排序保存失败");
+  } finally {
+    savingRecipeSortPlanId.value = "";
+    refreshRecipeSortPosition();
+  }
+}
+
+function restoreRecipeSortSnapshot(planId: string) {
+  const detail = detailCache.value[planId];
+  if (!detail || !recipeSortSnapshotIds.value.length) return;
+  const orderMap = new Map(
+    recipeSortSnapshotIds.value.map((dishId, index) => [dishId, index]),
+  );
+  detailCache.value = {
+    ...detailCache.value,
+    [planId]: {
+      ...detail,
+      recipes: [...detail.recipes].sort(
+        (left, right) =>
+          (orderMap.get(left.id) ?? detail.recipes.length) -
+          (orderMap.get(right.id) ?? detail.recipes.length),
+      ),
+    },
+  };
+}
+
+function startRecipeDrag(planId: string, dishId: string) {
+  draggingRecipeKey.value = buildRecipeKey(planId, dishId);
+}
+
+function finishRecipeDrag() {
+  draggingRecipeKey.value = "";
+  refreshRecipeSortPosition();
+}
+
+function refreshRecipeSortPosition() {
+  recipeSortRenderKey.value += 1;
+}
+
+function getRecipeSortY(index: number) {
+  return index * RECIPE_SORT_ROW_HEIGHT;
+}
+
+function handleRecipeDragChange(
+  planId: string,
+  dishId: string,
+  event: { detail?: { y?: number } },
+) {
+  const recipeKey = buildRecipeKey(planId, dishId);
+  if (!isRecipeSortMode(planId) || draggingRecipeKey.value !== recipeKey) return;
+  const recipes = expandedRecipes(planId);
+  const currentIndex = recipes.findIndex((recipe) => recipe.id === dishId);
+  if (currentIndex === -1) return;
+  // 拖拽时只调整本地详情缓存顺序，点“完成”后统一提交到后端保存 sort。
+  const dragY = event.detail?.y ?? 0;
+  const targetIndex = Math.max(
+    0,
+    Math.min(recipes.length - 1, Math.round(dragY / RECIPE_SORT_ROW_HEIGHT)),
+  );
+  moveRecipe(planId, currentIndex, targetIndex);
+}
+
+function moveRecipe(planId: string, fromIndex: number, toIndex: number) {
+  if (fromIndex === toIndex || fromIndex < 0 || toIndex < 0) return;
+  const detail = detailCache.value[planId];
+  if (!detail) return;
+  const recipes = [...detail.recipes];
+  const [movedRecipe] = recipes.splice(fromIndex, 1);
+  if (!movedRecipe) return;
+  recipes.splice(toIndex, 0, movedRecipe);
+  detailCache.value = {
+    ...detailCache.value,
+    [planId]: {
+      ...detail,
+      recipes,
+    },
+  };
 }
 
 function handleCircleChange(event: { detail: { value: string } }) {
@@ -576,6 +781,7 @@ async function submitPlan() {
 }
 
 function goAddRecipes(plan: PlanSummary) {
+  void finishRecipeSortMode(false);
   push({
     name: "plan-detail",
     params: { id: plan.id },
@@ -587,6 +793,7 @@ function goAddRecipes(plan: PlanSummary) {
 
 async function openShopping(plan: PlanSummary) {
   closePlanMenu();
+  void finishRecipeSortMode(false);
   try {
     if (!hasShoppingStarted(plan)) {
       const { data } = await planService.startShoppingList(plan.id);
@@ -621,6 +828,7 @@ async function removeRecipeFromPlan(
   dishName: string,
 ) {
   closePlanMenu();
+  void finishRecipeSortMode(false);
   const recipeKey = buildRecipeKey(planId, dishId);
   if (removingRecipeKey.value) return;
   try {
@@ -671,6 +879,7 @@ function canDeletePlan(plan: Pick<PlanSummary, "creatorUserId">) {
 }
 
 function togglePlanMenu(planId: string) {
+  void finishRecipeSortMode(false);
   activeMenuPlanId.value = activeMenuPlanId.value === planId ? "" : planId;
 }
 
@@ -679,6 +888,7 @@ function closePlanMenu() {
 }
 
 async function deletePlan(plan: PlanSummary) {
+  void finishRecipeSortMode(false);
   if (!canDeletePlan(plan)) {
     Message.error(`请联系计划创建人'${plan.creatorNickname}'删除哦`);
 
@@ -751,6 +961,7 @@ function getShoppingStatusLabel(status: PlanShoppingStatus) {
 }
 
 function handleRecipeTap(planId: string, dishId: string) {
+  void finishRecipeSortMode(false);
   const recipeKey = buildRecipeKey(planId, dishId);
   if (revealedRecipeKey.value === recipeKey) {
     revealedRecipeKey.value = "";
@@ -1235,6 +1446,122 @@ function formatDisplayDate(value: string, withSpace: boolean) {
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.checked-recipe-tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.checked-recipe-count {
+  color: #7b6a5d;
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.checked-recipe-sort-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 58px;
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: #f3eee7;
+  color: #5a4333;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.recipe-sort-area {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.recipe-sort-view {
+  width: 100%;
+  height: 88px;
+  z-index: 1;
+}
+
+.recipe-sort-view.dragging {
+  z-index: 5;
+}
+
+.recipe-sort-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 76px;
+  margin: 6px 0;
+  padding: 10px;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 10px 22px rgba(27, 58, 45, 0.07);
+}
+
+.recipe-sort-view.dragging .recipe-sort-card {
+  background: #fff8ef;
+  box-shadow: 0 14px 28px rgba(27, 58, 45, 0.14);
+}
+
+.recipe-sort-index {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: #9f5c38;
+  color: #ffffff;
+  font-size: var(--text-xs);
+  font-weight: 800;
+}
+
+.recipe-sort-handle {
+  color: #9f5c38;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.recipe-sort-image {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 12px;
+}
+
+.recipe-sort-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.recipe-sort-title {
+  display: block;
+  color: var(--text-main);
+  font-size: var(--text-sm);
+  font-weight: 800;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recipe-sort-meta {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .checked-recipe-swipe {

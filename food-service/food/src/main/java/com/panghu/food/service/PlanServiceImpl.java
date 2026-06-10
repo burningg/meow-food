@@ -176,14 +176,19 @@ public class PlanServiceImpl implements PlanService {
             throw new ApiException(HttpStatus.BAD_REQUEST, "请至少选择一道菜谱");
         }
 
-        Set<String> existingDishIds = circlePlanRecipeMapper.selectList(new QueryWrapper<CirclePlanRecipe>()
-                        .eq("plan_id", context.plan().getId()))
+        List<CirclePlanRecipe> existingRecipes = loadPlanRecipeRelations(context.plan().getId());
+        Set<String> existingDishIds = existingRecipes
                 .stream()
                 .map(CirclePlanRecipe::getDishId)
                 .collect(Collectors.toCollection(LinkedHashSet::new));
+        int nextSort = nextRecipeSort(existingRecipes);
 
-        List<DishSummaryResponse> candidateDishes = loadCircleVisibleDishes(context.circle().getId(), currentUserId);
-        Map<String, DishSummaryResponse> candidateById = candidateDishes.stream()
+        List<String> pendingDishIds = dishIds.stream()
+                .filter(dishId -> !existingDishIds.contains(dishId))
+                .collect(Collectors.toList());
+        Map<String, DishSummaryResponse> candidateById = pendingDishIds.isEmpty()
+                ? Collections.emptyMap()
+                : loadCircleVisibleDishes(context.circle().getId(), currentUserId).stream()
                 .collect(Collectors.toMap(DishSummaryResponse::getId, item -> item));
 
         for (String dishId : dishIds) {
@@ -198,10 +203,41 @@ public class PlanServiceImpl implements PlanService {
             recipe.setDishId(dishId);
             recipe.setAddedByUserId(currentUserId);
             recipe.setCreatedAt(LocalDateTime.now());
+            recipe.setSort(nextSort++);
             circlePlanRecipeMapper.insert(recipe);
         }
 
         synchronizeShoppingListIfExists(context.plan(), currentUserId);
+        return buildPlanDetail(context.plan(), context.circle());
+    }
+
+    @Override
+    @Transactional
+    public PlanDetailResponse sortRecipes(String planId, PlanRecipesUpdateRequest request) {
+        String currentUserId = AuthContext.requireUserId();
+        PlanContext context = requirePlanContext(planId, currentUserId);
+        List<String> dishIds = normalizeIds(request == null ? null : request.getDishIds());
+        List<CirclePlanRecipe> recipes = loadPlanRecipeRelations(context.plan().getId());
+        if (recipes.isEmpty()) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "暂无可排序的菜谱");
+        }
+        if (dishIds.size() != recipes.size()) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "菜谱排序数据不完整");
+        }
+
+        Map<String, CirclePlanRecipe> recipeByDishId = recipes.stream()
+                .collect(Collectors.toMap(CirclePlanRecipe::getDishId, item -> item, (left, right) -> left));
+        for (String dishId : dishIds) {
+            if (!recipeByDishId.containsKey(dishId)) {
+                throw new ApiException(HttpStatus.BAD_REQUEST, "只能排序当前计划里的菜谱");
+            }
+        }
+
+        for (int i = 0; i < dishIds.size(); i++) {
+            CirclePlanRecipe recipe = recipeByDishId.get(dishIds.get(i));
+            recipe.setSort(i + 1);
+            circlePlanRecipeMapper.updateById(recipe);
+        }
         return buildPlanDetail(context.plan(), context.circle());
     }
 
@@ -544,10 +580,7 @@ public class PlanServiceImpl implements PlanService {
     }
 
     private List<PlanRecipeIngredientSource> loadPlanRecipeIngredientSources(String planId) {
-        List<CirclePlanRecipe> planRecipes = circlePlanRecipeMapper.selectList(new QueryWrapper<CirclePlanRecipe>()
-                .eq("plan_id", planId)
-                .orderByAsc("created_at")
-                .orderByAsc("id"));
+        List<CirclePlanRecipe> planRecipes = loadPlanRecipeRelations(planId);
         if (planRecipes.isEmpty()) {
             return Collections.emptyList();
         }
@@ -584,10 +617,7 @@ public class PlanServiceImpl implements PlanService {
     }
 
     private List<DishSummaryResponse> loadPlanRecipes(String planId) {
-        List<CirclePlanRecipe> planRecipes = circlePlanRecipeMapper.selectList(new QueryWrapper<CirclePlanRecipe>()
-                .eq("plan_id", planId)
-                .orderByAsc("created_at")
-                .orderByAsc("id"));
+        List<CirclePlanRecipe> planRecipes = loadPlanRecipeRelations(planId);
         if (planRecipes.isEmpty()) {
             return Collections.emptyList();
         }
@@ -618,6 +648,23 @@ public class PlanServiceImpl implements PlanService {
             }
         }
         return ordered;
+    }
+
+    private List<CirclePlanRecipe> loadPlanRecipeRelations(String planId) {
+        return circlePlanRecipeMapper.selectList(new QueryWrapper<CirclePlanRecipe>()
+                .eq("plan_id", planId)
+                .orderByAsc("sort")
+                .orderByAsc("created_at")
+                .orderByAsc("id"));
+    }
+
+    private int nextRecipeSort(List<CirclePlanRecipe> recipes) {
+        int maxSort = recipes.stream()
+                .map(CirclePlanRecipe::getSort)
+                .filter(Objects::nonNull)
+                .max(Integer::compareTo)
+                .orElse(0);
+        return Math.max(maxSort, recipes.size()) + 1;
     }
 
     private List<DishSummaryResponse> loadCircleVisibleDishes(String circleId, String viewerUserId) {

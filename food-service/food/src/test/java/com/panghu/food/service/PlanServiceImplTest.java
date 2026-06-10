@@ -7,6 +7,7 @@ import com.panghu.food.dto.PlanDetailResponse;
 import com.panghu.food.dto.PlanRecipesUpdateRequest;
 import com.panghu.food.dto.PlanShoppingListResponse;
 import com.panghu.food.entity.BuddyCircle;
+import com.panghu.food.entity.BuddyCircleMember;
 import com.panghu.food.entity.CirclePlan;
 import com.panghu.food.entity.CirclePlanRecipe;
 import com.panghu.food.entity.CirclePlanShoppingItem;
@@ -149,6 +150,89 @@ class PlanServiceImplTest {
         assertThat(response.getRecipes()).hasSize(1);
         assertThat(response.getRecipes().get(0).getAddedByNickname()).isEqualTo("胖虎");
         verify(circlePlanRecipeMapper, never()).insert(any(CirclePlanRecipe.class));
+    }
+
+    @Test
+    void addRecipesAppendsSortAfterExistingRecipes() {
+        AuthContext.setUserId("viewer");
+        CirclePlan plan = plan("plan-1", "circle-1", "viewer");
+        CirclePlanRecipe existing = recipe("plan-1", "dish-1");
+        existing.setSort(2);
+        existing.setAddedByUserId("viewer");
+        List<CirclePlanRecipe> storedRecipes = new ArrayList<>(List.of(existing));
+        DishSummaryResponse existingDish = dishSummary("dish-1", "viewer", LocalDateTime.of(2026, 6, 1, 10, 0));
+        DishSummaryResponse newDish = dishSummary("dish-2", "viewer", LocalDateTime.of(2026, 6, 2, 10, 0));
+
+        when(circlePlanMapper.selectById("plan-1")).thenReturn(plan);
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(1L);
+        when(buddyCircleMemberMapper.selectList(any())).thenReturn(List.of(member("circle-1", "viewer")));
+        when(circlePlanRecipeMapper.selectList(any())).thenAnswer(invocation -> storedRecipes.stream()
+                .sorted((left, right) -> Integer.compare(left.getSort() == null ? 0 : left.getSort(),
+                        right.getSort() == null ? 0 : right.getSort()))
+                .collect(java.util.stream.Collectors.toList()));
+        when(dishMapper.selectAllActive()).thenReturn(List.of(existingDish, newDish));
+        when(dishMapper.selectByIds(any())).thenReturn(List.of(existingDish, newDish));
+        when(dishIngredientMapper.selectList(any())).thenReturn(List.of());
+        when(circlePlanShoppingListMapper.selectOne(any())).thenReturn(null);
+        when(userAccountMapper.selectById("viewer")).thenReturn(user("viewer", "胖虎"));
+        when(userAccountMapper.selectBatchIds(any())).thenReturn(List.of(user("viewer", "胖虎")));
+        doNothing().when(menuVisibilitySupport).hydrateSummaries(anyList());
+        when(menuVisibilitySupport.canViewDish(any(DishSummaryResponse.class), anyString(), anyBoolean())).thenReturn(true);
+        when(circlePlanRecipeMapper.insert(any(CirclePlanRecipe.class))).thenAnswer(invocation -> {
+            CirclePlanRecipe recipe = invocation.getArgument(0);
+            storedRecipes.add(recipe);
+            return 1;
+        });
+
+        PlanRecipesUpdateRequest request = new PlanRecipesUpdateRequest();
+        request.setDishIds(List.of("dish-2"));
+
+        planService.addRecipes("plan-1", request);
+
+        assertThat(storedRecipes).hasSize(2);
+        assertThat(storedRecipes.get(1).getDishId()).isEqualTo("dish-2");
+        assertThat(storedRecipes.get(1).getSort()).isEqualTo(3);
+        verify(circlePlanRecipeMapper).insert(any(CirclePlanRecipe.class));
+    }
+
+    @Test
+    void sortRecipesUpdatesRecipeSortByDishOrder() {
+        AuthContext.setUserId("viewer");
+        CirclePlan plan = plan("plan-1", "circle-1", "viewer");
+        CirclePlanRecipe first = recipe("plan-1", "dish-1");
+        CirclePlanRecipe second = recipe("plan-1", "dish-2");
+        CirclePlanRecipe third = recipe("plan-1", "dish-3");
+        List<CirclePlanRecipe> storedRecipes = new ArrayList<>(List.of(first, second, third));
+        List<DishSummaryResponse> dishes = List.of(
+                dishSummary("dish-1", "viewer", LocalDateTime.of(2026, 6, 1, 10, 0)),
+                dishSummary("dish-2", "viewer", LocalDateTime.of(2026, 6, 2, 10, 0)),
+                dishSummary("dish-3", "viewer", LocalDateTime.of(2026, 6, 3, 10, 0))
+        );
+
+        when(circlePlanMapper.selectById("plan-1")).thenReturn(plan);
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(1L);
+        when(circlePlanRecipeMapper.selectList(any())).thenAnswer(invocation -> storedRecipes.stream()
+                .sorted((left, right) -> Integer.compare(left.getSort() == null ? 0 : left.getSort(),
+                        right.getSort() == null ? 0 : right.getSort()))
+                .collect(java.util.stream.Collectors.toList()));
+        when(dishMapper.selectByIds(any())).thenReturn(dishes);
+        when(dishIngredientMapper.selectList(any())).thenReturn(List.of());
+        when(circlePlanShoppingListMapper.selectOne(any())).thenReturn(null);
+        when(userAccountMapper.selectById("viewer")).thenReturn(user("viewer", "胖虎"));
+        when(userAccountMapper.selectBatchIds(any())).thenReturn(List.of());
+
+        PlanRecipesUpdateRequest request = new PlanRecipesUpdateRequest();
+        request.setDishIds(List.of("dish-3", "dish-1", "dish-2"));
+
+        PlanDetailResponse response = planService.sortRecipes("plan-1", request);
+
+        assertThat(response.getRecipes()).extracting("id").containsExactly("dish-3", "dish-1", "dish-2");
+        assertThat(third.getSort()).isEqualTo(1);
+        assertThat(first.getSort()).isEqualTo(2);
+        assertThat(second.getSort()).isEqualTo(3);
+        verify(circlePlanRecipeMapper, times(3)).updateById(any(CirclePlanRecipe.class));
     }
 
     @Test
@@ -305,6 +389,13 @@ class PlanServiceImplTest {
         circle.setId(id);
         circle.setName("周末探店局");
         return circle;
+    }
+
+    private BuddyCircleMember member(String circleId, String userId) {
+        BuddyCircleMember member = new BuddyCircleMember();
+        member.setCircleId(circleId);
+        member.setUserId(userId);
+        return member;
     }
 
     private UserAccount user(String id, String nickname) {

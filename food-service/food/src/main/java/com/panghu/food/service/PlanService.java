@@ -17,6 +17,8 @@ public interface PlanService {
 
     PlanDetailResponse addRecipes(String planId, PlanRecipesUpdateRequest request);
 
+    PlanDetailResponse sortRecipes(String planId, PlanRecipesUpdateRequest request);
+
     PlanDetailResponse removeRecipe(String planId, String dishId);
 
     PlanShoppingListResponse startShoppingList(String planId);

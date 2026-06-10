@@ -107,6 +107,10 @@ export class PlanService {
     return http.post<PlanDetail>(`/api/plans/${planId}/recipes`, { dishIds })
   }
 
+  sortRecipes(planId: string, dishIds: string[]) {
+    return http.put<PlanDetail>(`/api/plans/${planId}/recipes/sort`, { dishIds })
+  }
+
   removeRecipe(planId: string, dishId: string) {
     return http.delete<PlanDetail>(`/api/plans/${planId}/recipes/${dishId}`)
   }

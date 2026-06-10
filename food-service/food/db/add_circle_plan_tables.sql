@@ -17,6 +17,7 @@ CREATE TABLE `circle_plan_recipe` (
   `plan_id` varchar(36) NOT NULL COMMENT '计划ID(UUID)',
   `dish_id` varchar(36) NOT NULL COMMENT '菜谱ID(UUID)',
   `added_by_user_id` varchar(36) NOT NULL COMMENT '添加人用户ID(UUID)',
+  `sort` int NOT NULL DEFAULT '0' COMMENT '排序',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_circle_plan_recipe` (`plan_id`,`dish_id`),

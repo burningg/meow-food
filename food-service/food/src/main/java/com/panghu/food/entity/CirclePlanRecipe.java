@@ -16,4 +16,5 @@ public class CirclePlanRecipe {
     private String dishId;
     private String addedByUserId;
     private LocalDateTime createdAt;
+    private Integer sort;
 }

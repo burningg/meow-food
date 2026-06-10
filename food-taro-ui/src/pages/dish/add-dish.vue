@@ -62,38 +62,81 @@
           <view>
             <text class="group-title">食材</text>
           </view>
-          <button class="pill-button" @tap="addIngredient">＋ 添加</button>
+          <view class="group-actions">
+            <button
+              v-if="isIngredientSortMode"
+              class="pill-button"
+              @tap="finishIngredientSortMode"
+            >
+              完成
+            </button>
+            <template v-else>
+              <button class="pill-button subtle" @tap="toggleIngredientSortMode">排序</button>
+              <button class="pill-button" @tap="addIngredient">＋ 添加</button>
+            </template>
+          </view>
         </view>
         <view v-if="!form.ingredients.length" class="empty-helper">暂未添加食材，想写时再补充即可</view>
-        <view
-          v-for="(item, index) in form.ingredients"
-          :key="item.clientId"
-          class="row-grid"
+        <movable-area
+          v-else-if="isIngredientSortMode"
+          :key="ingredientSortRenderKey"
+          class="ingredient-sort-area"
+          :style="{ height: `${ingredientSortAreaHeight}px` }"
         >
-          <input
-            v-model.trim="item.name"
-            class="line-input ingredient-name-input"
-            placeholder="食材名称"
-            confirm-type="next"
-            :adjust-position="false"
-            :focus="isIngredientInputFocused(item.clientId, 'name')"
-            @focus="setIngredientInputFocus(item.clientId, 'name')"
-            @blur="clearIngredientInputFocus(item.clientId, 'name')"
-            @confirm="focusIngredientInput(item.clientId, 'amount')"
-          />
-          <input
-            v-model.trim="item.amount"
-            class="line-input amount-input"
-            placeholder="用量"
-            :confirm-type="hasNextIngredient(index) ? 'next' : 'done'"
-            :adjust-position="false"
-            :focus="isIngredientInputFocused(item.clientId, 'amount')"
-            @focus="setIngredientInputFocus(item.clientId, 'amount')"
-            @blur="clearIngredientInputFocus(item.clientId, 'amount')"
-            @confirm="focusNextIngredientName(index)"
-          />
-          <button class="delete-link" @tap="removeIngredient(index)">删除</button>
-        </view>
+          <movable-view
+            v-for="(item, index) in form.ingredients"
+            :key="item.clientId"
+            :class="['ingredient-sort-view', { dragging: draggingIngredientClientId === item.clientId }]"
+            direction="vertical"
+            :x="0"
+            :y="getIngredientSortY(index)"
+            :animation="draggingIngredientClientId !== item.clientId"
+            @change="handleIngredientDragChange(item.clientId, $event)"
+            @touchstart="startIngredientDrag(item.clientId)"
+            @touchend="finishIngredientDrag"
+            @touchcancel="finishIngredientDrag"
+          >
+            <view class="ingredient-sort-row">
+              <text class="ingredient-sort-index">{{ index + 1 }}</text>
+              <text class="ingredient-sort-handle">☰</text>
+              <view class="ingredient-sort-main">
+                <text class="ingredient-sort-name">{{ item.name || '未命名食材' }}</text>
+                <text class="ingredient-sort-amount">{{ item.amount || '适量' }}</text>
+              </view>
+            </view>
+          </movable-view>
+        </movable-area>
+        <template v-else>
+          <view
+            v-for="(item, index) in form.ingredients"
+            :key="item.clientId"
+            class="row-grid"
+          >
+            <input
+              v-model.trim="item.name"
+              class="line-input ingredient-name-input"
+              placeholder="食材名称"
+              confirm-type="next"
+              :adjust-position="false"
+              :focus="isIngredientInputFocused(item.clientId, 'name')"
+              @focus="setIngredientInputFocus(item.clientId, 'name')"
+              @blur="clearIngredientInputFocus(item.clientId, 'name')"
+              @confirm="focusIngredientInput(item.clientId, 'amount')"
+            />
+            <input
+              v-model.trim="item.amount"
+              class="line-input amount-input"
+              placeholder="用量"
+              :confirm-type="hasNextIngredient(index) ? 'next' : 'done'"
+              :adjust-position="false"
+              :focus="isIngredientInputFocused(item.clientId, 'amount')"
+              @focus="setIngredientInputFocus(item.clientId, 'amount')"
+              @blur="clearIngredientInputFocus(item.clientId, 'amount')"
+              @confirm="focusNextIngredientName(index)"
+            />
+            <button class="delete-link" @tap="removeIngredient(item.clientId)">删除</button>
+          </view>
+        </template>
       </section>
 
       <section class="group-section">
@@ -231,9 +274,13 @@ const showAiImportModal = ref(false)
 const formRenderKey = ref(0)
 const initializedRouteKey = ref('')
 const focusedIngredientInput = ref<{ clientId: string; field: 'name' | 'amount' } | null>(null)
+const isIngredientSortMode = ref(false)
+const draggingIngredientClientId = ref('')
+const ingredientSortRenderKey = ref(0)
 const vipInfo = ref<VipInfo | null>(null)
 const profileDefaults = ref<ProfileResponse | null>(null)
 const availableCircles = ref<BuddyCircleSummary[]>([])
+const INGREDIENT_SORT_ROW_HEIGHT = 62
 
 type IngredientFormItem = IngredientItem & {
   clientId: string
@@ -321,6 +368,7 @@ const isAiImportOpenDisabled = computed(() => saving.value || analyzingAi.value 
 const currentDefaultVisibility = computed(() => profileDefaults.value?.defaultMenuVisibility || authStore.user?.defaultMenuVisibility || 'public')
 const defaultCircleIds = computed(() => profileDefaults.value?.defaultMenuCircleIds || authStore.user?.defaultMenuCircleIds || [])
 const showCircleSelector = computed(() => form.visibility === 'circle')
+const ingredientSortAreaHeight = computed(() => form.ingredients.length * INGREDIENT_SORT_ROW_HEIGHT)
 const aiUsageText = computed(() => {
   if (!vipInfo.value) return 'VIP权益'
   return `VIP权益，今日剩余${vipInfo.value.dailyRecipeAnalysisRemaining}次`
@@ -398,6 +446,7 @@ function resetForm() {
   form.ingredients = nextForm.ingredients
   form.steps = nextForm.steps
   vipInfo.value = null
+  finishIngredientSortMode()
   formRenderKey.value += 1
 }
 
@@ -443,15 +492,77 @@ function uploadSuccess(url: string) {
 }
 
 function addIngredient() {
+  finishIngredientSortMode()
   form.ingredients.push(createEmptyIngredient())
 }
 
-function removeIngredient(index: number) {
+function removeIngredient(clientId: string) {
+  const index = form.ingredients.findIndex((item) => item.clientId === clientId)
+  if (index === -1) return
   const removedClientId = form.ingredients[index]?.clientId
   form.ingredients.splice(index, 1)
   if (removedClientId && focusedIngredientInput.value?.clientId === removedClientId) {
     focusedIngredientInput.value = null
   }
+  if (form.ingredients.length < 2) {
+    finishIngredientSortMode()
+  }
+}
+
+function toggleIngredientSortMode() {
+  if (isIngredientSortMode.value) {
+    finishIngredientSortMode()
+    return
+  }
+  if (form.ingredients.length < 2) {
+    Message.warning('至少添加 2 个食材后再排序')
+    return
+  }
+  focusedIngredientInput.value = null
+  refreshIngredientSortPosition()
+  isIngredientSortMode.value = true
+}
+
+function finishIngredientSortMode() {
+  isIngredientSortMode.value = false
+  draggingIngredientClientId.value = ''
+}
+
+function startIngredientDrag(clientId: string) {
+  draggingIngredientClientId.value = clientId
+}
+
+function finishIngredientDrag() {
+  draggingIngredientClientId.value = ''
+  refreshIngredientSortPosition()
+}
+
+function refreshIngredientSortPosition() {
+  ingredientSortRenderKey.value += 1
+}
+
+function getIngredientSortY(index: number) {
+  return index * INGREDIENT_SORT_ROW_HEIGHT
+}
+
+function handleIngredientDragChange(clientId: string, event: { detail?: { y?: number } }) {
+  if (!isIngredientSortMode.value || draggingIngredientClientId.value !== clientId) return
+  const currentIndex = form.ingredients.findIndex((item) => item.clientId === clientId)
+  if (currentIndex === -1) return
+  // 根据固定行高把拖拽位移换算成目标下标，只调整本地表单顺序，保存时再提交 sort。
+  const dragY = event.detail?.y ?? 0
+  const targetIndex = Math.max(
+    0,
+    Math.min(form.ingredients.length - 1, Math.round(dragY / INGREDIENT_SORT_ROW_HEIGHT)),
+  )
+  moveIngredient(currentIndex, targetIndex)
+}
+
+function moveIngredient(fromIndex: number, toIndex: number) {
+  if (fromIndex === toIndex || fromIndex < 0 || toIndex < 0) return
+  const [movedIngredient] = form.ingredients.splice(fromIndex, 1)
+  if (!movedIngredient) return
+  form.ingredients.splice(toIndex, 0, movedIngredient)
 }
 
 function setIngredientInputFocus(clientId: string, field: 'name' | 'amount') {
@@ -556,6 +667,7 @@ function applyAiNameIfEmpty(data: DishAiAnalysisResponse) {
 
 function applyAiAnalysisResult(data: DishAiAnalysisResponse) {
   applyAiNameIfEmpty(data)
+  finishIngredientSortMode()
   form.ingredients = toIngredientFormItems(data.ingredients || [])
   form.steps = toStepItems(data.steps || [])
   updateVipUsage(data)
@@ -564,6 +676,7 @@ function applyAiAnalysisResult(data: DishAiAnalysisResponse) {
 
 function applyAiImportResult(data: DishAiAnalysisResponse) {
   applyAiNameIfEmpty(data)
+  finishIngredientSortMode()
   form.ingredients = toIngredientFormItems(data.ingredients || [])
   form.steps = toStepItems(data.steps || [])
   updateVipUsage(data)
@@ -659,6 +772,7 @@ function normalizedCookTimeMinutes() {
 }
 
 async function save() {
+  finishIngredientSortMode()
   const errorText = validateForm()
   if (errorText) {
     Message.warning(errorText)
@@ -689,6 +803,7 @@ async function save() {
 }
 
 function cancel() {
+  finishIngredientSortMode()
   if (isEditMode.value && dishId.value) {
     push({ name: 'dish-detail', params: { id: dishId.value } })
     return
@@ -847,6 +962,12 @@ function cancel() {
   margin-bottom: 12px;
 }
 
+.group-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .group-title {
   color: var(--text-main);
   font-size: var(--title-md);
@@ -864,12 +985,20 @@ function cancel() {
 }
 
 .pill-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 999px;
   background: var(--accent-soft);
   color: #7a9e7e;
   padding: 7px 12px;
   font-size: var(--text-xs);
   font-weight: 800;
+}
+
+.pill-button.subtle {
+  background: #f0ede8;
+  color: #6b6a67;
 }
 
 .row-grid,
@@ -893,6 +1022,89 @@ function cancel() {
   max-width: 92px;
   text-align: right;
   border-bottom: none;
+}
+
+.ingredient-sort-area {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.ingredient-sort-view {
+  width: 100%;
+  height: 62px;
+  z-index: 1;
+}
+
+.ingredient-sort-view.dragging {
+  z-index: 5;
+}
+
+.ingredient-sort-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 52px;
+  margin: 5px 0;
+  border-radius: 16px;
+  background: #f7f4ef;
+  padding: 0 12px;
+  box-shadow: 0 8px 20px rgba(27, 58, 45, 0.06);
+}
+
+.ingredient-sort-view.dragging .ingredient-sort-row {
+  background: #fff8ef;
+  box-shadow: 0 14px 28px rgba(27, 58, 45, 0.14);
+}
+
+.ingredient-sort-index {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: var(--text-xs);
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.ingredient-sort-handle {
+  color: #9f5c38;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.ingredient-sort-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.ingredient-sort-name {
+  color: var(--text-main);
+  font-size: var(--text-sm);
+  font-weight: 800;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ingredient-sort-amount {
+  color: #8b8b8b;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  flex-shrink: 0;
+  max-width: 92px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .delete-link {

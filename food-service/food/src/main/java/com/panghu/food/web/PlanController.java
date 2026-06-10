@@ -45,6 +45,12 @@ public class PlanController {
         return ResponseEntity.ok(planService.addRecipes(planId, request));
     }
 
+    @PutMapping("/{planId}/recipes/sort")
+    public ResponseEntity<PlanDetailResponse> sortRecipes(@PathVariable String planId,
+                                                          @RequestBody PlanRecipesUpdateRequest request) {
+        return ResponseEntity.ok(planService.sortRecipes(planId, request));
+    }
+
     @DeleteMapping("/{planId}/recipes/{dishId}")
     public ResponseEntity<PlanDetailResponse> removeRecipe(@PathVariable String planId,
                                                            @PathVariable String dishId) {
