@@ -23,9 +23,18 @@
 
         <view class="poster-copy">
           <text class="poster-eyebrow">{{ isVipActive ? '已开通' : '首年特价' }}</text>
-          <text class="poster-title">{{ isVipActive ? '会员权益\n已经生效' : '把食堂慢慢\n开成自己的地盘' }}</text>
+          <text v-if="isVipActive" class="poster-title">会员权益已生效</text>
+          <view v-else class="poster-price-lockup">
+            <view class="poster-price-row">
+              <text class="poster-price-currency">¥2.9</text>
+            </view>
+            <view class="poster-price-meta">
+              <text class="poster-price-tag">首年会员</text>
+              <text class="poster-price-original">原价 ¥9.9</text>
+            </view>
+          </view>
           <text class="poster-desc">
-            {{ isVipActive ? '你的圈子、菜谱容量、AI 整理和专属标识已经生效，继续把喜欢的饭菜留下来。' : '更大的圈子、更多菜谱、AI 协助整理步骤食材，还有属于你的会员标识。' }}
+            {{ isVipActive ? '权益已生效，到期后自动取消，不会自动续费。感谢你支持 meow 食堂继续运营。' : '限时礼遇，无需自动续费订阅，到期自动取消。' }}
           </text>
         </view>
 
@@ -65,42 +74,13 @@
         </view>
       </section>
 
-      <section class="price-ticket">
-        <view class="ticket-top">
-          <view class="ticket-copy">
-            <text class="vip-eyebrow">{{ isVipActive ? '会员状态' : '限时礼遇' }}</text>
-            <text class="ticket-title">{{ isVipActive ? '已开通 VIP' : '2.9 元开通首年会员' }}</text>
-          </view>
-          <view class="ticket-price">
-            <text class="ticket-price-main">{{ isVipActive ? '生效中' : '¥2.9' }}</text>
-            <text class="ticket-price-sub">{{ isVipActive ? expiresText : '首年特惠' }}</text>
-          </view>
-        </view>
-        <view class="ticket-divider"></view>
-        <text class="ticket-desc">
-          {{ isVipActive ? '权益已生效，到期后自动取消，不会自动续费。感谢你支持 meow 食堂继续运营。' : '无需自动续费订阅，到期自动取消。首年会员限时 2.9 元。' }}
-        </text>
-      </section>
-
       <section class="thanks-note">
         <text class="vip-eyebrow">写给会员的话</text>
         <text class="thanks-body">感谢您的充值，可以为meow食堂的运营提供助力，我们将倾听您的意见，尽力打造我们共同的社区</text>
       </section>
 
-      <section v-if="isVipActive" class="active-status-card">
-        <view class="active-status-panel">
-          <view class="active-status-icon">♕</view>
-          <view class="active-status-copy">
-            <text class="active-status-title">VIP 权益生效中</text>
-            <text class="active-status-desc">首月权益结束后自动取消，无需手动管理。</text>
-          </view>
-          <view class="active-status-pill">
-            <text>已开通</text>
-          </view>
-        </view>
-      </section>
 
-      <section v-else class="vip-action-card">
+      <section v-if="!isVipActive" class="vip-action-card">
         <button class="claim-button" :disabled="loading || paying" @tap="payVip">
           <text>{{ paying ? '支付中...' : '2.9 元开通首年会员' }}</text>
           <text>→</text>
@@ -408,6 +388,60 @@ function formatDate(value: string) {
   white-space: pre-line;
 }
 
+.poster-price-lockup {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.poster-price-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4px;
+  color: #25160d;
+}
+
+.poster-price-currency {
+  margin-bottom: 8px;
+  color: #8e5c19;
+  font-size: 36px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.poster-price-main {
+  font-size: 64px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  line-height: 0.9;
+}
+
+.poster-price-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-radius: 999px;
+  background: rgba(164, 106, 31, 0.1);
+  padding: 5px 9px;
+}
+
+.poster-price-tag {
+  color: #8e5c19;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.poster-price-original {
+  color: #9e8b75;
+  font-size: 11px;
+  font-weight: 800;
+  text-decoration: line-through;
+}
+
 .poster-desc {
   color: #5b4a39;
   font-size: 13px;
@@ -616,16 +650,14 @@ function formatDate(value: string) {
 
 .ticket-price-main {
   color: #9f5c38;
-  font-family: 'Noto Serif SC', serif;
-  font-size: 36px;
-  font-weight: 800;
+  font-size: 26px;
+  font-weight: 700;
   line-height: 1.05;
 }
 
 .ticket-price-sub {
   color: #a99785;
   font-size: 11px;
-  text-decoration: line-through;
 }
 
 .ticket-divider {

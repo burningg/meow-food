@@ -11,7 +11,7 @@
                 <view class="hero-title">
                   <text class="hero-title-name">{{ displayName }}</text>
                   <text class="hero-title-suffix"> 的美味空间</text>
-                  <view v-if="vipChipLabel" class="vip-chip" @tap="openVipPage">
+                  <view :class="['vip-chip', { 'vip-chip-muted': !isVipActive }]" @tap="openVipPage">
                     <text class="vip-chip-label">{{ vipChipLabel }}</text>
                   </view>
                 </view>
@@ -28,11 +28,11 @@
           </view>
 
           <view class="stats-row">
-            <view class="stat-item">
+            <view class="stat-item stat-item-clickable" @tap="openHomePage">
               <text class="stat-number">{{ profile?.stats.menuCount ?? 0 }}</text>
               <text>菜单</text>
             </view>
-            <view class="stat-item">
+            <view class="stat-item stat-item-clickable" @tap="openCirclesPage">
               <text class="stat-number">{{ profile?.stats.circleCount ?? 0 }}</text>
               <text>搭子圈</text>
             </view>
@@ -105,7 +105,7 @@ import AppTabBar from '@/components/AppTabBar.vue'
 import PullRefreshPage from '@/components/PullRefreshPage.vue'
 import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
-import { push, replace, resolveSharePath } from '@/lib/navigation'
+import { openPrimaryRoute, push, replace, resolveSharePath } from '@/lib/navigation'
 import { NotificationService } from '@/services/notification-service'
 import { SocialService, type BuddyCircleSummary, type ProfileResponse } from '@/services/social-service'
 import { useAuthStore } from '@/stores/auth-store'
@@ -125,8 +125,11 @@ const displayName = computed(() => profile.value?.user.nickname || authStore.use
 const displayAvatar = computed(() => profile.value?.user.avatar || authStore.user?.avatar || '')
 const displayBio = computed(() => profile.value?.user.bio?.trim() || authStore.user?.bio?.trim() || '还没有留下简介')
 const inviterId = computed(() => profile.value?.user.id || authStore.user?.id || '')
-const vipChipLabel = computed(() => formatVipLabel(profile.value?.vipInfo?.vip ? profile.value?.vipInfo?.vipLevel : undefined))
 const isVipActive = computed(() => Boolean(profile.value?.vipInfo?.vip || authStore.user?.vip))
+const vipChipLabel = computed(() => {
+  if (!isVipActive.value) return '开通VIP'
+  return formatVipLabel(profile.value?.vipInfo?.vipLevel || authStore.user?.vipLevel)
+})
 
 const visibilityOptions: Array<{ value: Exclude<MenuVisibility, 'inherit'>; label: string; desc: string }> = [
   { value: 'private', label: '仅自己可见', desc: '只在你自己的菜单空间展示' },
@@ -236,6 +239,14 @@ function openVipPage() {
   push('vip')
 }
 
+function openHomePage() {
+  openPrimaryRoute('home')
+}
+
+function openCirclesPage() {
+  openPrimaryRoute('circles')
+}
+
 function logout() {
   authStore.logout()
   hasUnreadNotification.value = false
@@ -243,7 +254,7 @@ function logout() {
 }
 
 function formatVipLabel(level?: string) {
-  if (!level) return ''
+  if (!level) return 'VIP'
   const normalized = level.trim().replace(/\s+/g, ' ')
   if (/^vip\b/i.test(normalized)) {
     return normalized.replace(/\s+/g, '·')
@@ -393,6 +404,10 @@ function formatVipLabel(level?: string) {
   gap: 4px;
 }
 
+.stat-item-clickable {
+  cursor: pointer;
+}
+
 .stat-number {
   color: var(--text-main) !important;
   font-size: var(--title-md);
@@ -406,6 +421,7 @@ function formatVipLabel(level?: string) {
 .vip-chip {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   flex-shrink: 0;
   border-radius: 999px;
@@ -414,9 +430,18 @@ function formatVipLabel(level?: string) {
   padding: 5px 9px;
 }
 
+.vip-chip-muted {
+  background: #e8e5df;
+  box-shadow: none;
+}
+
 .vip-chip-icon,
 .vip-chip-label {
   color: #fff3d6;
+}
+
+.vip-chip-muted .vip-chip-label {
+  color: #89847c;
 }
 
 .vip-chip-icon {

@@ -105,7 +105,14 @@
                       @tap.stop
                     >
                       <button
-                        class="plan-card-menu-delete"
+                        v-if="plan.recipeCount > 1 && !isRecipeSortMode(plan.id)"
+                        class="plan-card-menu-action"
+                        @tap.stop="startRecipeSortFromMenu(plan.id)"
+                      >
+                        排序
+                      </button>
+                      <button
+                        class="plan-card-menu-action delete"
                         :disabled="deletingPlanId === plan.id"
                         @tap.stop="deletePlan(plan)"
                       >
@@ -128,6 +135,7 @@
                       >已选 {{ expandedRecipes(plan.id).length }} 道</text
                     >
                     <button
+                      v-if="isRecipeSortMode(plan.id)"
                       class="checked-recipe-sort-button"
                       :disabled="savingRecipeSortPlanId === plan.id"
                       @tap.stop="toggleRecipeSortMode(plan.id)"
@@ -614,6 +622,15 @@ async function toggleExpandedPlan(planId: string) {
   }
   expandedPlanId.value = planId;
   await ensurePlanDetail(planId);
+}
+
+async function startRecipeSortFromMenu(planId: string) {
+  closePlanMenu();
+  if (expandedPlanId.value !== planId) {
+    expandedPlanId.value = planId;
+  }
+  await ensurePlanDetail(planId);
+  toggleRecipeSortMode(planId);
 }
 
 function expandedRecipes(planId: string) {
@@ -1419,7 +1436,7 @@ function formatDisplayDate(value: string, withSpace: boolean) {
   box-shadow: 0 18px 36px rgba(27, 58, 45, 0.14);
 }
 
-.plan-card-menu-delete {
+.plan-card-menu-action {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1427,12 +1444,21 @@ function formatDisplayDate(value: string, withSpace: boolean) {
   min-height: 36px;
   padding: 0 12px;
   border-radius: 10px;
-  background: #fff1ef;
-  color: #c25549;
+  background: #f4eee7;
+  color: #5a4333;
   font-size: 13px;
   font-weight: 600;
   line-height: 1.2;
   text-align: center;
+}
+
+.plan-card-menu-action + .plan-card-menu-action {
+  margin-top: 6px;
+}
+
+.plan-card-menu-action.delete {
+  background: #fff1ef;
+  color: #c25549;
 }
 
 .plan-card-body {

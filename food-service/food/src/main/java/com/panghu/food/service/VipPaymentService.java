@@ -12,6 +12,8 @@ import com.panghu.food.mapper.VipPaymentOrderMapper;
 import com.panghu.food.pay.JsapiPaymentParams;
 import com.panghu.food.pay.WechatPayClient;
 import com.panghu.food.pay.WechatPayTransaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,8 @@ import java.util.UUID;
 
 @Service
 public class VipPaymentService {
+    private static final Logger log = LoggerFactory.getLogger(VipPaymentService.class);
+
     public static final String PLAN_CODE = "VIP_FIRST_YEAR";
     public static final String PLAN_NAME = "VIP 首年会员";
     public static final int AMOUNT_FEN = 290;
@@ -103,30 +107,40 @@ public class VipPaymentService {
 
     @Transactional
     public void handleNotify(Map<String, String> headers, String body) {
-        WechatPayTransaction transaction = wechatPayClient.parseTransactionNotify(headers, body);
-        if (!TRADE_SUCCESS.equals(transaction.getTradeState())) {
-            return;
-        }
+        try {
+            WechatPayTransaction transaction = wechatPayClient.parseTransactionNotify(headers, body);
+            log.info("微信支付回调验签成功，outTradeNo={}, transactionId={}, tradeState={}",
+                    transaction.getOutTradeNo(), transaction.getTransactionId(), transaction.getTradeState());
+            if (!TRADE_SUCCESS.equals(transaction.getTradeState())) {
+                return;
+            }
 
-        VipPaymentOrder order = vipPaymentOrderMapper.selectOne(new QueryWrapper<VipPaymentOrder>()
-                .eq("out_trade_no", transaction.getOutTradeNo())
-                .last("LIMIT 1"));
-        if (order == null) {
-            throw new ApiException(HttpStatus.BAD_REQUEST, "VIP 支付订单不存在");
-        }
-        if (STATUS_PAID.equals(order.getStatus())) {
-            return;
-        }
-        validateTransaction(order, transaction);
+            VipPaymentOrder order = vipPaymentOrderMapper.selectOne(new QueryWrapper<VipPaymentOrder>()
+                    .eq("out_trade_no", transaction.getOutTradeNo())
+                    .last("LIMIT 1"));
+            if (order == null) {
+                throw new ApiException(HttpStatus.BAD_REQUEST, "VIP 支付订单不存在");
+            }
+            if (STATUS_PAID.equals(order.getStatus())) {
+                return;
+            }
+            validateTransaction(order, transaction);
 
-        LocalDateTime paidAt = transaction.getSuccessTime() == null ? LocalDateTime.now() : transaction.getSuccessTime();
-        order.setStatus(STATUS_PAID);
-        order.setTransactionId(transaction.getTransactionId());
-        order.setPaidAt(paidAt);
-        order.setUpdatedAt(LocalDateTime.now());
-        vipPaymentOrderMapper.updateById(order);
+            LocalDateTime paidAt = transaction.getSuccessTime() == null ? LocalDateTime.now() : transaction.getSuccessTime();
+            order.setStatus(STATUS_PAID);
+            order.setTransactionId(transaction.getTransactionId());
+            order.setPaidAt(paidAt);
+            order.setUpdatedAt(LocalDateTime.now());
+            vipPaymentOrderMapper.updateById(order);
 
-        vipService.activatePaidYear(order.getUserId(), BigDecimal.valueOf(2.90));
+            vipService.activatePaidYear(order.getUserId(), BigDecimal.valueOf(2.90));
+            log.info("VIP 支付回调处理成功，outTradeNo={}, userId={}", order.getOutTradeNo(), order.getUserId());
+        } catch (RuntimeException e) {
+            log.warn("微信支付回调处理失败，微信会继续重试，serial={}, bodyLength={}, reason={}: {}",
+                    header(headers, "Wechatpay-Serial"), body == null ? 0 : body.length(),
+                    e.getClass().getSimpleName(), e.getMessage());
+            throw e;
+        }
     }
 
     private void validateTransaction(VipPaymentOrder order, WechatPayTransaction transaction) {
@@ -143,6 +157,22 @@ public class VipPaymentService {
 
     private boolean amountFenEquals(Integer orderAmount, Integer notifyAmount) {
         return orderAmount != null && orderAmount.equals(notifyAmount) && orderAmount == AMOUNT_FEN;
+    }
+
+    private String header(Map<String, String> headers, String name) {
+        if (headers == null) {
+            return null;
+        }
+        String value = headers.get(name);
+        if (value != null) {
+            return value;
+        }
+        for (Map.Entry<String, String> entry : headers.entrySet()) {
+            if (entry.getKey() != null && entry.getKey().equalsIgnoreCase(name)) {
+                return entry.getValue();
+            }
+        }
+        return null;
     }
 
     private VipPaymentOrderStatusResponse toStatus(VipPaymentOrder order, VipInfoResponse vipInfo) {

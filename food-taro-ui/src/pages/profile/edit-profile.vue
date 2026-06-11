@@ -3,7 +3,6 @@
     <header class="top-nav edit-top-nav">
       <button class="icon-button" @tap="goBack()">‹</button>
       <view class="title-block">
-        <text class="eyebrow">个人信息</text>
         <text class="page-title">编辑资料</text>
       </view>
       <view class="nav-spacer"></view>
@@ -15,7 +14,6 @@
         <view v-else class="avatar avatar-fallback">{{ nicknameInitial }}</view>
         <view class="avatar-copy">
           <text class="avatar-name">{{ form.nickname || '未设置昵称' }}</text>
-          <text class="muted">{{ form.bio || '偏爱热汤和下饭菜，最近在认真收集一人食菜单。' }}</text>
           <text class="muted">{{ currentAvatarLabel }}</text>
         </view>
       </view>
@@ -29,13 +27,12 @@
       <view class="section-head">
         <view>
           <text class="eyebrow">基础资料</text>
-          <text class="section-title">只保留最必要的信息</text>
         </view>
       </view>
 
       <label class="field">
         <text>昵称</text>
-        <input v-model.trim="form.nickname" maxlength="20" placeholder="例如 meow今天吃什么" />
+        <input v-model.trim="form.nickname" maxlength="20" />
       </label>
 
       <label class="field">

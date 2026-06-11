@@ -1,7 +1,7 @@
 package com.panghu.food.pay;
 
 import com.panghu.food.exception.ApiException;
-import com.wechat.pay.java.core.RSAAutoCertificateConfig;
+import com.wechat.pay.java.core.RSAPublicKeyConfig;
 import com.wechat.pay.java.core.notification.NotificationParser;
 import com.wechat.pay.java.core.notification.RequestParam;
 import com.wechat.pay.java.service.payments.jsapi.JsapiServiceExtension;
@@ -24,7 +24,7 @@ public class WechatPayClientImpl implements WechatPayClient {
     private final WechatPayProperties properties;
     private final String appid;
 
-    private RSAAutoCertificateConfig config;
+    private RSAPublicKeyConfig config;
     private JsapiServiceExtension jsapiService;
     private NotificationParser notificationParser;
 
@@ -107,12 +107,15 @@ public class WechatPayClientImpl implements WechatPayClient {
         return notificationParser;
     }
 
-    private RSAAutoCertificateConfig config() {
+    private RSAPublicKeyConfig config() {
         if (config == null) {
-            config = new RSAAutoCertificateConfig.Builder()
+            // 微信支付公钥ID会被SDK写入请求头 Wechatpay-Serial，用于请求-应答场景验签。
+            config = new RSAPublicKeyConfig.Builder()
                     .merchantId(requireConfig("wechat.pay.mch-id", properties.getMchId()))
                     .merchantSerialNumber(requireConfig("wechat.pay.merchant-serial-number", properties.getMerchantSerialNumber()))
                     .privateKeyFromPath(requireConfig("wechat.pay.private-key-path", properties.getPrivateKeyPath()))
+                    .publicKeyFromPath(requireConfig("wechat.pay.public-key-path", properties.getPublicKeyPath()))
+                    .publicKeyId(requireConfig("wechat.pay.public-key-id", properties.getPublicKeyId()))
                     .apiV3Key(requireConfig("wechat.pay.api-v3-key", properties.getApiV3Key()))
                     .build();
         }

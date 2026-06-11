@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 public class WechatPayProperties {
     private String mchId;
     private String merchantSerialNumber;
+    private String publicKeyId;
+    private String publicKeyPath;
     private String privateKeyPath;
     private String apiV3Key;
     private String notifyUrl;

@@ -1,7 +1,7 @@
 <template>
   <view v-if="dish" class="detail-page">
     <section class="hero-shell">
-      <SmartImage :src="dish.image" variant="hero" class-name="hero-image" />
+      <SmartImage :src="dish.image" variant="hero" class-name="hero-image" @tap="previewHeroImage" />
       <view class="hero-overlay">
         <button v-if="isOwner" class="icon-button text-button" @tap="goEdit">编辑</button>
       </view>
@@ -86,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { useShareAppMessage } from '@tarojs/taro'
+import Taro, { useShareAppMessage } from '@tarojs/taro'
 import { computed, onMounted, ref } from 'vue'
 import SmartImage from '@/components/SmartImage.vue'
 import { requireAuth } from '@/lib/auth'
@@ -132,6 +132,17 @@ function goBack() {
 
 function goEdit() {
   push({ name: 'edit-dish', params: { id: params.id } })
+}
+
+function previewHeroImage() {
+  const image = dish.value?.image
+  if (!image) return
+
+  // 使用平台原生图片预览能力，保留长按保存、缩放查看等系统交互。
+  void Taro.previewImage({
+    current: image,
+    urls: [image],
+  })
 }
 
 function difficultyLabel(value: string) {

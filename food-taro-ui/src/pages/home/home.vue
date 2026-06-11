@@ -61,11 +61,10 @@
             <button v-else-if="showEmptyAddButton" class="primary-button small" @tap="goToAdd">添加菜谱</button>
           </view>
         </section>
-
-        <button v-if="authStore.isLoggedIn" class="floating-add" @tap="goToAdd">＋</button>
       </view>
     </PullRefreshPage>
 
+    <button v-if="authStore.isLoggedIn" class="floating-add" @tap="goToAdd">＋</button>
     <AppTabBar active="home" :show-add="authStore.isLoggedIn" />
     <NotificationModalCard
       :visible="Boolean(importantNotification)"
