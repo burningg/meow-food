@@ -133,7 +133,7 @@ public class VipPaymentService {
             order.setUpdatedAt(LocalDateTime.now());
             vipPaymentOrderMapper.updateById(order);
 
-            vipService.activatePaidYear(order.getUserId(), BigDecimal.valueOf(2.90));
+            vipService.activatePaidYear(order.getUserId(), amountFenToYuan(order.getAmountFen()));
             log.info("VIP 支付回调处理成功，outTradeNo={}, userId={}", order.getOutTradeNo(), order.getUserId());
         } catch (RuntimeException e) {
             log.warn("微信支付回调处理失败，微信会继续重试，serial={}, bodyLength={}, reason={}: {}",
@@ -147,7 +147,10 @@ public class VipPaymentService {
         if (!wechatPayClient.getMchId().equals(transaction.getMchid())) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "微信支付商户号不匹配");
         }
+        // 回调金额只和订单创建时落库的金额比对，避免套餐价格调整后误判已创建订单。
         if (!amountFenEquals(order.getAmountFen(), transaction.getAmountFen())) {
+            log.warn("微信支付金额不匹配，outTradeNo={}, orderAmountFen={}, notifyAmountFen={}",
+                    order.getOutTradeNo(), order.getAmountFen(), transaction.getAmountFen());
             throw new ApiException(HttpStatus.BAD_REQUEST, "微信支付金额不匹配");
         }
         if (!PLAN_CODE.equals(order.getPlanCode())) {
@@ -156,7 +159,11 @@ public class VipPaymentService {
     }
 
     private boolean amountFenEquals(Integer orderAmount, Integer notifyAmount) {
-        return orderAmount != null && orderAmount.equals(notifyAmount) && orderAmount == AMOUNT_FEN;
+        return orderAmount != null && orderAmount.equals(notifyAmount);
+    }
+
+    private BigDecimal amountFenToYuan(Integer amountFen) {
+        return BigDecimal.valueOf(amountFen, 2);
     }
 
     private String header(Map<String, String> headers, String name) {

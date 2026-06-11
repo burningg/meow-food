@@ -1,5 +1,5 @@
 <template>
-  <view class="page-shell vip-page">
+  <view :class="['page-shell', 'vip-page', { 'vip-page-fixed-action': !isVipActive }]">
     <header class="vip-top-nav">
       <view class="vip-title-block">
         <text class="vip-eyebrow">{{ isVipActive ? '会员生效中' : 'meow 会员' }}</text>
@@ -43,8 +43,8 @@
             <text>喵</text>
           </view>
           <view class="avatar-preview-copy">
-            <text class="avatar-preview-title">专属头像框</text>
-            <text class="avatar-preview-desc">尊贵标识同步展示</text>
+            <text class="avatar-preview-title">独特的AI能力</text>
+            <text class="avatar-preview-desc">更丰富的体验</text>
           </view>
         </view>
       </section>
@@ -76,7 +76,7 @@
 
       <section class="thanks-note">
         <text class="vip-eyebrow">写给会员的话</text>
-        <text class="thanks-body">感谢您的充值，可以为meow食堂的运营提供助力，我们将倾听您的意见，尽力打造我们共同的社区</text>
+        <text class="thanks-body">感谢您的充值帮助我们更好的运营meow食堂，我们将倾听您的意见，尽力提供更优惠、优质的服务</text>
       </section>
 
 
@@ -85,7 +85,6 @@
           <text>{{ paying ? '支付中...' : '2.9 元开通首年会员' }}</text>
           <text>→</text>
         </button>
-        <text class="claim-note">支付结果以微信回调为准，会员到期后会自动结束。</text>
       </section>
     </main>
   </view>
@@ -97,7 +96,7 @@ import Taro, { useDidShow } from '@tarojs/taro'
 import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
 import { goBack } from '@/lib/navigation'
-import { SocialService, type ProfileResponse } from '@/services/social-service'
+import { SocialService, type ProfileResponse, type VipPaymentOrderStatus } from '@/services/social-service'
 import { useAuthStore } from '@/stores/auth-store'
 
 const socialService = new SocialService()
@@ -105,6 +104,7 @@ const authStore = useAuthStore()
 const profile = ref<ProfileResponse | null>(null)
 const loading = ref(false)
 const paying = ref(false)
+const VIP_ORDER_POLL_DELAYS = [0, 800, 1200, 2000, 3000, 5000]
 
 const benefits = [
   { icon: '圈', title: '圈子上限', desc: '和更多朋友共享菜单', before: '3', after: '10' },
@@ -156,11 +156,13 @@ async function payVip() {
       paySign: order.paySign,
     })
 
-    const { data: latestOrder } = await socialService.getVipOrder(order.outTradeNo)
-    if (latestOrder.vipInfo?.vip && profile.value) {
-      profile.value = {
-        ...profile.value,
-        vipInfo: latestOrder.vipInfo,
+    const latestOrder = await pollVipOrder(order.outTradeNo)
+    if (latestOrder?.status === 'PAID' && latestOrder.vipInfo?.vip) {
+      if (profile.value) {
+        profile.value = {
+          ...profile.value,
+          vipInfo: latestOrder.vipInfo,
+        }
       }
       await authStore.restore()
       Message.success('VIP 已开通')
@@ -181,6 +183,26 @@ async function payVip() {
   }
 }
 
+// 微信支付组件返回可能早于服务端回调，短轮询订单直到后端确认 PAID。
+async function pollVipOrder(outTradeNo: string): Promise<VipPaymentOrderStatus | null> {
+  let latestOrder: VipPaymentOrderStatus | null = null
+  for (const delay of VIP_ORDER_POLL_DELAYS) {
+    if (delay > 0) {
+      await sleep(delay)
+    }
+    const { data } = await socialService.getVipOrder(outTradeNo)
+    latestOrder = data
+    if (data.status === 'PAID') {
+      return data
+    }
+  }
+  return latestOrder
+}
+
+function sleep(ms: number) {
+  return new Promise<void>((resolve) => setTimeout(resolve, ms))
+}
+
 function formatDate(value: string) {
   return value.slice(0, 10).replace(/-/g, '.')
 }
@@ -194,6 +216,10 @@ function formatDate(value: string) {
     radial-gradient(circle at 88% 4%, rgba(245, 179, 106, 0.3), transparent 28%),
     radial-gradient(circle at 5% 72%, rgba(141, 176, 125, 0.26), transparent 34%),
     linear-gradient(180deg, #fff7ea 0%, #f7f6f3 43%, #eef5ea 100%);
+}
+
+.vip-page-fixed-action {
+  padding-bottom: calc(150px + env(safe-area-inset-bottom));
 }
 
 .vip-top-nav,
@@ -692,6 +718,16 @@ function formatDate(value: string) {
   border: 1px solid #efe3d1;
   background: rgba(255, 255, 255, 0.86);
   padding: 14px;
+}
+
+.vip-action-card {
+  position: fixed;
+  left: 50%;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  z-index: 18;
+  width: min(358px, calc(100vw - 32px));
+  transform: translateX(-50%);
+  backdrop-filter: blur(14px);
 }
 
 .claim-button {

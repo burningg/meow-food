@@ -96,7 +96,7 @@ class VipPaymentServiceTest {
         assertThat(order.getTransactionId()).isEqualTo("transaction-1");
         assertThat(order.getPaidAt()).isNotNull();
         verify(vipPaymentOrderMapper).updateById(order);
-        verify(vipService).activatePaidYear("user-1", BigDecimal.valueOf(2.90));
+        verify(vipService).activatePaidYear("user-1", BigDecimal.valueOf(290, 2));
     }
 
     @Test
@@ -110,6 +110,21 @@ class VipPaymentServiceTest {
 
         verify(vipPaymentOrderMapper, never()).updateById(any(VipPaymentOrder.class));
         verify(vipService, never()).activatePaidYear(any(), any());
+    }
+
+    @Test
+    void handleNotifyUsesPersistedOrderAmount() {
+        VipPaymentOrder order = pendingOrder();
+        order.setAmountFen(1);
+        when(wechatPayClient.parseTransactionNotify(any(), eq("{}"))).thenReturn(successTransaction(1));
+        when(vipPaymentOrderMapper.selectOne(any(QueryWrapper.class))).thenReturn(order);
+        when(wechatPayClient.getMchId()).thenReturn("mch-1");
+
+        vipPaymentService.handleNotify(Map.of(), "{}");
+
+        assertThat(order.getStatus()).isEqualTo("PAID");
+        verify(vipPaymentOrderMapper).updateById(order);
+        verify(vipService).activatePaidYear("user-1", BigDecimal.valueOf(1, 2));
     }
 
     @Test
