@@ -13,6 +13,7 @@ import com.panghu.food.mapper.UserNotificationBroadcastReadMapper;
 import com.panghu.food.mapper.UserNotificationMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -79,20 +80,21 @@ class NotificationServiceImplTest {
     }
 
     @Test
-    void getNotificationsHidesExistingUsersOnlyBroadcastForNewUsers() {
+    void getNotificationsHidesBroadcastPublishedBeforeUserRegistered() {
         AuthContext.setUserId("user-1");
         mockCurrentUser("user-1", LocalDateTime.of(2026, 6, 7, 9, 0));
         mockCurrentUserNotifications(
                 List.of(notification("direct-1", "user-1", "direct", "normal", null, LocalDateTime.of(2026, 6, 6, 10, 0))),
                 List.of(
                         notification("broadcast-all", null, "broadcast", "normal", null, LocalDateTime.of(2026, 6, 6, 12, 0)),
+                        notification("broadcast-new", null, "broadcast", "normal", null, LocalDateTime.of(2026, 6, 7, 10, 0)),
                         notification("broadcast-existing", null, "broadcast", "important", null, LocalDateTime.of(2026, 6, 6, 11, 0), "existing_users_only", LocalDateTime.of(2026, 6, 6, 11, 0))),
                 List.of());
 
         NotificationListResponse response = notificationService.getNotifications();
 
         assertThat(response.getItems()).extracting("id")
-                .containsExactly("broadcast-all", "direct-1");
+                .containsExactly("broadcast-new", "direct-1");
     }
 
     @Test
@@ -103,7 +105,7 @@ class NotificationServiceImplTest {
                 List.of(),
                 List.of(
                         notification("important-hidden", null, "broadcast", "important", null, LocalDateTime.of(2026, 6, 6, 18, 0), "existing_users_only", LocalDateTime.of(2026, 6, 6, 18, 0)),
-                        notification("important-visible", null, "broadcast", "important", null, LocalDateTime.of(2026, 6, 6, 17, 0))),
+                        notification("important-visible", null, "broadcast", "important", null, LocalDateTime.of(2026, 6, 7, 10, 0))),
                 List.of());
 
         NotificationBootstrapResponse response = notificationService.getBootstrap();
@@ -158,6 +160,38 @@ class NotificationServiceImplTest {
         assertThatThrownBy(() -> notificationService.markRead("n-1"))
                 .isInstanceOf(ApiException.class)
                 .hasMessageContaining("通知不存在");
+    }
+
+    @Test
+    void markReadRejectsBroadcastPublishedBeforeUserRegistered() {
+        AuthContext.setUserId("user-1");
+        mockCurrentUser("user-1", LocalDateTime.of(2026, 6, 7, 9, 0));
+        when(userNotificationMapper.selectById("n-1")).thenReturn(
+                notification("n-1", null, "broadcast", "important", null, LocalDateTime.of(2026, 6, 6, 18, 0)));
+
+        assertThatThrownBy(() -> notificationService.markRead("n-1"))
+                .isInstanceOf(ApiException.class)
+                .hasMessageContaining("通知不存在");
+    }
+
+    @Test
+    void sendVipOpenedSuccessNotificationInsertsDirectNotification() {
+        notificationService.sendVipOpenedSuccessNotification("user-1");
+
+        ArgumentCaptor<UserNotification> notificationCaptor = ArgumentCaptor.forClass(UserNotification.class);
+        verify(userNotificationMapper).insert(notificationCaptor.capture());
+        UserNotification notification = notificationCaptor.getValue();
+        assertThat(notification.getUserId()).isEqualTo("user-1");
+        assertThat(notification.getTitle()).isEqualTo("感谢你成为 meow 食堂 VIP");
+        assertThat(notification.getSummary()).isEqualTo("感谢你成为 meow 食堂 VIP");
+        assertThat(notification.getBody()).contains("你的支持不仅帮助我们把这个社区持续做下去");
+        assertThat(notification.getAudienceType()).isEqualTo("direct");
+        assertThat(notification.getPriority()).isEqualTo("normal");
+        assertThat(notification.getRecipientScope()).isEqualTo("existing_users_only");
+        assertThat(notification.getPublishedAt()).isNotNull();
+        assertThat(notification.getCreatedAt()).isNotNull();
+        assertThat(notification.getUpdatedAt()).isNotNull();
+        assertThat(notification.getReadAt()).isNull();
     }
 
     private UserNotification notification(String id,

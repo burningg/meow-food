@@ -105,7 +105,8 @@ import AppTabBar from '@/components/AppTabBar.vue'
 import PullRefreshPage from '@/components/PullRefreshPage.vue'
 import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
-import { openPrimaryRoute, push, replace, resolveSharePath } from '@/lib/navigation'
+import { openPrimaryRoute, push, replace } from '@/lib/navigation'
+import { createHomeShareMessage } from '@/lib/share'
 import { NotificationService } from '@/services/notification-service'
 import { SocialService, type BuddyCircleSummary, type ProfileResponse } from '@/services/social-service'
 import { useAuthStore } from '@/stores/auth-store'
@@ -124,7 +125,6 @@ const hasUnreadNotification = ref(false)
 const displayName = computed(() => profile.value?.user.nickname || authStore.user?.nickname || 'meow')
 const displayAvatar = computed(() => profile.value?.user.avatar || authStore.user?.avatar || '')
 const displayBio = computed(() => profile.value?.user.bio?.trim() || authStore.user?.bio?.trim() || '还没有留下简介')
-const inviterId = computed(() => profile.value?.user.id || authStore.user?.id || '')
 const isVipActive = computed(() => Boolean(profile.value?.vipInfo?.vip || authStore.user?.vip))
 const vipChipLabel = computed(() => {
   if (!isVipActive.value) return '开通VIP'
@@ -147,10 +147,11 @@ useDidShow(async () => {
   await loadProfilePageData()
 })
 
-useShareAppMessage(() => ({
-  title: '我在 meow食堂邀请你成为好友',
-  path: resolveSharePath({ name: 'friend-invite', params: { inviterId: inviterId.value } }),
-}))
+useShareAppMessage(() =>
+  createHomeShareMessage({
+    title: '我在 meow食堂记录了不少下厨灵感，来首页看看吧',
+  }),
+)
 
 async function loadProfilePageData() {
   try {

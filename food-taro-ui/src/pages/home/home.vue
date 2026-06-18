@@ -76,7 +76,7 @@
 </template>
 
 <script setup lang="ts">
-import Taro, { useDidShow } from '@tarojs/taro'
+import Taro, { useDidShow, useShareAppMessage } from '@tarojs/taro'
 import { computed, nextTick, onMounted, ref } from 'vue'
 import AppTabBar from '@/components/AppTabBar.vue'
 import NotificationModalCard from '@/components/NotificationModalCard.vue'
@@ -84,6 +84,7 @@ import PullRefreshPage from '@/components/PullRefreshPage.vue'
 import SmartImage from '@/components/SmartImage.vue'
 import { Message } from '@/lib/feedback'
 import { push, resolveRoute } from '@/lib/navigation'
+import { createHomeShareMessage } from '@/lib/share'
 import { FoodService, type DishSummary, type HomeResponse } from '@/services/food-service'
 import { NotificationService, type NotificationItem } from '@/services/notification-service'
 import { useAuthStore } from '@/stores/auth-store'
@@ -146,6 +147,12 @@ onMounted(async () => {
 useDidShow(async () => {
   await syncImportantNotification()
 })
+
+useShareAppMessage(() =>
+  createHomeShareMessage({
+    title: '我在 meow食堂发现了不少灵感菜谱，来看看吧',
+  }),
+)
 
 async function loadHome() {
   try {

@@ -31,10 +31,13 @@ import java.util.stream.Collectors;
 @Service
 public class NotificationServiceImpl implements NotificationService {
     private static final String AUDIENCE_BROADCAST = "broadcast";
+    private static final String AUDIENCE_DIRECT = "direct";
     private static final String PRIORITY_NORMAL = "normal";
     private static final String PRIORITY_IMPORTANT = "important";
     private static final String RECIPIENT_SCOPE_ALL_USERS = "all_users";
     private static final String RECIPIENT_SCOPE_EXISTING_USERS_ONLY = "existing_users_only";
+    private static final String VIP_OPENED_TITLE = "感谢你成为 meow 食堂 VIP";
+    private static final String VIP_OPENED_BODY = "感谢你成为 meow 食堂 VIP。你的支持不仅帮助我们把这个社区持续做下去，也让更多认真记录三餐、分享菜谱的人被看见。成为会员后，你将解锁更大的圈子与菜谱容量、菜谱的AI加持 、专属头像框和尊贵标识等权益。希望这份会员礼遇，能陪你更轻松地收藏灵感、记录好味道，也和更多同好一起把食堂经营得更热闹。";
 
     private final UserAccountMapper userAccountMapper;
     private final UserNotificationMapper userNotificationMapper;
@@ -108,13 +111,34 @@ public class NotificationServiceImpl implements NotificationService {
         userNotificationMapper.updateById(notification);
     }
 
+    @Override
+    public void sendVipOpenedSuccessNotification(String userId) {
+        LocalDateTime now = LocalDateTime.now();
+        UserNotification notification = new UserNotification();
+        notification.setUserId(userId);
+        notification.setTitle(VIP_OPENED_TITLE);
+        notification.setSummary(VIP_OPENED_TITLE);
+        notification.setBody(VIP_OPENED_BODY);
+        notification.setAudienceType(AUDIENCE_DIRECT);
+        notification.setPriority(PRIORITY_NORMAL);
+        notification.setRecipientScope(RECIPIENT_SCOPE_EXISTING_USERS_ONLY);
+        notification.setPublishedAt(now);
+        notification.setCreatedAt(now);
+        notification.setUpdatedAt(now);
+        userNotificationMapper.insert(notification);
+    }
+
     private NotificationView getCurrentUserNotificationView() {
         String userId = AuthContext.requireUserId();
         UserAccount currentUser = requireCurrentUser(userId);
         List<UserNotification> directNotifications = userNotificationMapper.selectList(new QueryWrapper<UserNotification>()
                 .eq("user_id", userId));
-        List<UserNotification> broadcastNotifications = userNotificationMapper.selectList(new QueryWrapper<UserNotification>()
-                .eq("audience_type", AUDIENCE_BROADCAST)).stream()
+        QueryWrapper<UserNotification> broadcastQuery = new QueryWrapper<UserNotification>()
+                .eq("audience_type", AUDIENCE_BROADCAST);
+        if (currentUser.getCreatedAt() != null) {
+            broadcastQuery.ge("published_at", currentUser.getCreatedAt());
+        }
+        List<UserNotification> broadcastNotifications = userNotificationMapper.selectList(broadcastQuery).stream()
                 .filter(notification -> canAccessBroadcast(notification, currentUser))
                 .collect(Collectors.toList());
 
@@ -182,6 +206,12 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     private boolean canAccessBroadcast(UserNotification notification, UserAccount currentUser) {
+        // 全局通知只面向发布时已存在的用户，避免新注册用户看到历史弹窗。
+        if (currentUser.getCreatedAt() != null
+                && notification.getPublishedAt() != null
+                && currentUser.getCreatedAt().isAfter(notification.getPublishedAt())) {
+            return false;
+        }
         String recipientScope = notification.getRecipientScope();
         if (recipientScope == null || RECIPIENT_SCOPE_ALL_USERS.equals(recipientScope)) {
             return true;

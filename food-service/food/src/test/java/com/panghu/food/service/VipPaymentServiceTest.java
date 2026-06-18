@@ -31,11 +31,13 @@ class VipPaymentServiceTest {
     private final VipPaymentOrderMapper vipPaymentOrderMapper = mock(VipPaymentOrderMapper.class);
     private final UserAccountMapper userAccountMapper = mock(UserAccountMapper.class);
     private final VipService vipService = mock(VipService.class);
+    private final NotificationService notificationService = mock(NotificationService.class);
     private final WechatPayClient wechatPayClient = mock(WechatPayClient.class);
     private final VipPaymentService vipPaymentService = new VipPaymentService(
             vipPaymentOrderMapper,
             userAccountMapper,
             vipService,
+            notificationService,
             wechatPayClient);
 
     @Test
@@ -97,6 +99,7 @@ class VipPaymentServiceTest {
         assertThat(order.getPaidAt()).isNotNull();
         verify(vipPaymentOrderMapper).updateById(order);
         verify(vipService).activatePaidYear("user-1", BigDecimal.valueOf(290, 2));
+        verify(notificationService).sendVipOpenedSuccessNotification("user-1");
     }
 
     @Test
@@ -110,6 +113,7 @@ class VipPaymentServiceTest {
 
         verify(vipPaymentOrderMapper, never()).updateById(any(VipPaymentOrder.class));
         verify(vipService, never()).activatePaidYear(any(), any());
+        verify(notificationService, never()).sendVipOpenedSuccessNotification(any());
     }
 
     @Test
@@ -125,6 +129,7 @@ class VipPaymentServiceTest {
         assertThat(order.getStatus()).isEqualTo("PAID");
         verify(vipPaymentOrderMapper).updateById(order);
         verify(vipService).activatePaidYear("user-1", BigDecimal.valueOf(1, 2));
+        verify(notificationService).sendVipOpenedSuccessNotification("user-1");
     }
 
     @Test
@@ -140,6 +145,7 @@ class VipPaymentServiceTest {
 
         verify(vipPaymentOrderMapper, never()).updateById(any(VipPaymentOrder.class));
         verify(vipService, never()).activatePaidYear(any(), any());
+        verify(notificationService, never()).sendVipOpenedSuccessNotification(any());
     }
 
     private JsapiPaymentParams paymentParams() {

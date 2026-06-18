@@ -9,4 +9,6 @@ public interface NotificationService {
     NotificationListResponse getNotifications();
 
     void markRead(String notificationId);
+
+    void sendVipOpenedSuccessNotification(String userId);
 }

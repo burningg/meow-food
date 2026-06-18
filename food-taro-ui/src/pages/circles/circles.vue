@@ -179,7 +179,7 @@
 </template>
 
 <script setup lang="ts">
-import Taro from "@tarojs/taro";
+import Taro, { useShareAppMessage } from "@tarojs/taro";
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 import AppTabBar from "@/components/AppTabBar.vue";
 import PullRefreshPage from "@/components/PullRefreshPage.vue";
@@ -187,6 +187,7 @@ import SmartImage from "@/components/SmartImage.vue";
 import { requireAuth } from "@/lib/auth";
 import { Message } from "@/lib/feedback";
 import { getRouteParams, push } from "@/lib/navigation";
+import { createHomeShareMessage } from "@/lib/share";
 import type { DishSummary } from "@/services/food-service";
 import {
   SocialService,
@@ -225,6 +226,12 @@ const avatarPalette = [
   { bg: "#f9ebdd", fg: "#9f5c38" },
   { bg: "#eeeaf7", fg: "#6c58a5" },
 ];
+
+useShareAppMessage(() =>
+  createHomeShareMessage({
+    title: "我在 meow食堂找到了做饭搭子，来一起逛逛",
+  }),
+);
 
 
 const categories = computed(() => [

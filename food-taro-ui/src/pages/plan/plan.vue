@@ -371,6 +371,7 @@
 </template>
 
 <script setup lang="ts">
+import { useShareAppMessage } from "@tarojs/taro";
 import { computed, onMounted, ref, watch } from "vue";
 import AppTabBar from "@/components/AppTabBar.vue";
 import PullRefreshPage from "@/components/PullRefreshPage.vue";
@@ -378,6 +379,7 @@ import SmartImage from "@/components/SmartImage.vue";
 import { requireAuth } from "@/lib/auth";
 import { confirmDialog, Message } from "@/lib/feedback";
 import { getRouteParams, push } from "@/lib/navigation";
+import { createHomeShareMessage } from "@/lib/share";
 import {
   PlanService,
   type PlanDayPlans,
@@ -429,6 +431,12 @@ const recipeSwipeStart = ref<{ key: string; x: number; y: number } | null>(
   null,
 );
 const RECIPE_SORT_ROW_HEIGHT = 88;
+
+useShareAppMessage(() =>
+  createHomeShareMessage({
+    title: "我在 meow食堂安排本周吃什么，来一起看看",
+  }),
+);
 
 const weekDates = computed<WeekDateItem[]>(() => {
   return Array.from({ length: 7 }, (_, index) => {

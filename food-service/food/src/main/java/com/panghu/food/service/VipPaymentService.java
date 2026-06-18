@@ -40,15 +40,18 @@ public class VipPaymentService {
     private final VipPaymentOrderMapper vipPaymentOrderMapper;
     private final UserAccountMapper userAccountMapper;
     private final VipService vipService;
+    private final NotificationService notificationService;
     private final WechatPayClient wechatPayClient;
 
     public VipPaymentService(VipPaymentOrderMapper vipPaymentOrderMapper,
                              UserAccountMapper userAccountMapper,
                              VipService vipService,
+                             NotificationService notificationService,
                              WechatPayClient wechatPayClient) {
         this.vipPaymentOrderMapper = vipPaymentOrderMapper;
         this.userAccountMapper = userAccountMapper;
         this.vipService = vipService;
+        this.notificationService = notificationService;
         this.wechatPayClient = wechatPayClient;
     }
 
@@ -134,6 +137,8 @@ public class VipPaymentService {
             vipPaymentOrderMapper.updateById(order);
 
             vipService.activatePaidYear(order.getUserId(), amountFenToYuan(order.getAmountFen()));
+            // 支付成功后补发一条站内信，方便用户在通知中心查看会员权益说明。
+            notificationService.sendVipOpenedSuccessNotification(order.getUserId());
             log.info("VIP 支付回调处理成功，outTradeNo={}, userId={}", order.getOutTradeNo(), order.getUserId());
         } catch (RuntimeException e) {
             log.warn("微信支付回调处理失败，微信会继续重试，serial={}, bodyLength={}, reason={}: {}",

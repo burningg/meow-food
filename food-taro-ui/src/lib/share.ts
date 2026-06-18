@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro'
+import { resolveSharePath } from '@/lib/navigation'
 
 type ShareToGroupOptions = {
   title: string
@@ -6,8 +7,20 @@ type ShareToGroupOptions = {
   imageUrl?: string
 }
 
+type HomeShareOptions = {
+  title: string
+}
+
 type WechatShareApi = {
   shareAppMessageToGroup?: (options: ShareToGroupOptions) => Promise<unknown> | void
+}
+
+export function createHomeShareMessage(options: HomeShareOptions) {
+  // 四个主页面统一分享回首页，避免访客进入需要特定上下文的页面。
+  return {
+    title: options.title,
+    path: resolveSharePath('home'),
+  }
 }
 
 export function canShareAppMessageToGroup() {
