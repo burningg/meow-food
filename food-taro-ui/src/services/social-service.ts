@@ -23,17 +23,25 @@ export interface VipPaymentOrderResponse {
   outTradeNo: string
   amountFen: number
   planName: string
-  timeStamp: string
-  nonceStr: string
-  payPackage: string
-  signType: 'RSA'
-  paySign: string
+  offerId: string
+  productId: string
+  buyQuantity: number
+  env: number
+  currencyType: 'CNY'
+  goodsPrice: number
+  attach: string
+  signData: string
+  paySig: string
+  signature: string
+  mode: 'short_series_goods'
+  successTip: string
 }
 
 export interface VipPaymentOrderStatus {
   outTradeNo: string
   amountFen: number
   planName: string
+  productId: string
   status: 'PENDING' | 'PAID' | 'FAILED' | 'CLOSED'
   paidAt?: string
   vipInfo: VipInfo
@@ -186,8 +194,8 @@ export class SocialService {
     return http.post<VipInfo>('/api/vip/free-trial')
   }
 
-  createVipOrder() {
-    return http.post<VipPaymentOrderResponse>('/api/vip/orders')
+  createVipOrder(payload: { code: string }) {
+    return http.post<VipPaymentOrderResponse>('/api/vip/orders', payload)
   }
 
   getVipOrder(outTradeNo: string) {

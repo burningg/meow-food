@@ -16,10 +16,19 @@ public class VipPaymentOrder {
     private String outTradeNo;
     private String transactionId;
     private String planCode;
+    private String productId;
     private Integer amountFen;
+    private Integer env;
+    private String openId;
+    private String wechatOrderId;
+    private String wechatPayMchOrderNo;
+    private String attach;
+    private String payChannel;
+    private String provideStatus;
     private String status;
     private String prepayId;
     private LocalDateTime paidAt;
+    private LocalDateTime providedAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

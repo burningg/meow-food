@@ -145,15 +145,28 @@ async function loadVipPage() {
 
 async function payVip() {
   if (paying.value || isVipActive.value) return
+  if (process.env.TARO_ENV !== 'weapp') {
+    Message.warning('请在微信小程序中完成支付')
+    return
+  }
+  if (!canUseVirtualPayment()) {
+    Message.warning('当前微信版本不支持虚拟支付，请升级微信后重试')
+    return
+  }
   paying.value = true
   try {
-    const { data: order } = await socialService.createVipOrder()
-    await Taro.requestPayment({
-      timeStamp: order.timeStamp,
-      nonceStr: order.nonceStr,
-      package: order.payPackage,
-      signType: order.signType,
-      paySign: order.paySign,
+    const loginResult = await Taro.login()
+    if (!loginResult.code) {
+      throw new Error(loginResult.errMsg || '获取微信支付凭证失败')
+    }
+
+    const { data: order } = await socialService.createVipOrder({ code: loginResult.code })
+    // Taro 可透传微信新 API，但当前 TS 类型未内置，这里走项目内补充的声明。
+    await Taro.requestVirtualPayment({
+      signData: order.signData,
+      paySig: order.paySig,
+      signature: order.signature,
+      mode: order.mode,
     })
 
     const latestOrder = await pollVipOrder(order.outTradeNo)
@@ -173,7 +186,8 @@ async function payVip() {
     }
   } catch (error: any) {
     const errMsg = error?.errMsg || error?.message || ''
-    if (errMsg.includes('cancel')) {
+    const errCode = error?.errCode
+    if (errCode === -2 || errMsg.includes('cancel')) {
       Message.info('已取消支付')
       return
     }
@@ -201,6 +215,14 @@ async function pollVipOrder(outTradeNo: string): Promise<VipPaymentOrderStatus |
 
 function sleep(ms: number) {
   return new Promise<void>((resolve) => setTimeout(resolve, ms))
+}
+
+function canUseVirtualPayment() {
+  try {
+    return Taro.canIUse('requestVirtualPayment')
+  } catch (error) {
+    return false
+  }
 }
 
 function formatDate(value: string) {
