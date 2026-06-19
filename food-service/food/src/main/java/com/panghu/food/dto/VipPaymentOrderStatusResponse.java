@@ -12,5 +12,6 @@ public class VipPaymentOrderStatusResponse {
     private String productId;
     private String status;
     private LocalDateTime paidAt;
+    private LocalDateTime providedAt;
     private VipInfoResponse vipInfo;
 }

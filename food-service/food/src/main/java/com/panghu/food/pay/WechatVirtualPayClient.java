@@ -1,5 +1,7 @@
 package com.panghu.food.pay;
 
+import com.alibaba.fastjson.JSONObject;
+
 public interface WechatVirtualPayClient {
     String createAccessToken();
 
@@ -11,5 +13,5 @@ public interface WechatVirtualPayClient {
 
     void notifyProvideGoods(String orderId, String wechatOrderId, Integer env);
 
-    WechatVirtualPayNotifyResult parsePayNotify(String body);
+    WechatVirtualPayNotifyResult parsePayNotify(JSONObject payload);
 }

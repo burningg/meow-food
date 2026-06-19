@@ -42,6 +42,7 @@ public class VipPaymentService {
     public static final String CURRENCY_TYPE = "CNY";
     public static final String MODE_SHORT_SERIES_GOODS = "short_series_goods";
     public static final String STATUS_PENDING = "PENDING";
+    public static final String STATUS_PAID_PENDING_CALLBACK = "PAID_PENDING_CALLBACK";
     public static final String STATUS_PAID = "PAID";
     public static final String STATUS_REFUNDED = "REFUNDED";
     public static final String STATUS_CLOSED = "CLOSED";
@@ -163,8 +164,7 @@ public class VipPaymentService {
     }
 
     @Transactional
-    public String handleVirtualPayNotify(String body) {
-        WechatVirtualPayNotifyResult notify = wechatVirtualPayClient.parsePayNotify(body);
+    public String handleVirtualPayNotify(WechatVirtualPayNotifyResult notify) {
         if (EVENT_GOODS_DELIVER.equals(notify.getEvent())) {
             handlePaySuccess(notify);
         } else if (EVENT_REFUND.equals(notify.getEvent())) {
@@ -172,13 +172,13 @@ public class VipPaymentService {
         } else {
             log.info("忽略未处理的虚拟支付事件，event={}", notify.getEvent());
         }
-        return "<xml><ErrCode>0</ErrCode><ErrMsg>success</ErrMsg></xml>";
+        return "success";
     }
 
     private void handlePaySuccess(WechatVirtualPayNotifyResult notify) {
         VipPaymentOrder order = findByOutTradeNo(notify.getOutTradeNo());
         validateNotify(order, notify);
-        markOrderPaid(order, notify.getTransactionId(), notify.getWechatPayMchOrderNo(), notify.getPayChannel(),
+        markOrderPaidFromCallback(order, notify.getTransactionId(), notify.getWechatPayMchOrderNo(), notify.getPayChannel(),
                 LocalDateTime.now(), PROVIDE_STATUS_SUCCESS, LocalDateTime.now());
     }
 
@@ -244,32 +244,13 @@ public class VipPaymentService {
             markClosed(order);
             return;
         }
-        if (remoteStatus == WECHAT_ORDER_STATUS_PAID) {
-            // 关键补偿逻辑：支付已成功但回调未到时，主动补发货通知，再落本地权益。
-            order.setProvideStatus(PROVIDE_STATUS_PROCESSING);
-            persistOrder(order);
-            try {
-                wechatVirtualPayClient.notifyProvideGoods(order.getOutTradeNo(), order.getWechatOrderId(), order.getEnv());
-            } catch (Exception exception) {
-                log.warn("虚拟支付补发货失败，outTradeNo={}, userId={}", order.getOutTradeNo(), order.getUserId(), exception);
-                return;
-            }
-            markOrderPaid(order, remoteOrder.getWxpayOrderId(), remoteOrder.getChannelOrderId(), order.getPayChannel(),
-                    resolveDateTime(remoteOrder.getPaidTime(), LocalDateTime.now()),
-                    PROVIDE_STATUS_SUCCESS,
-                    resolveDateTime(remoteOrder.getProvideTime(), LocalDateTime.now()));
-            return;
-        }
-        if (remoteStatus == WECHAT_ORDER_STATUS_PROVIDING) {
-            markOrderProviding(order,
-                    remoteOrder.getWxpayOrderId(),
-                    remoteOrder.getChannelOrderId(),
-                    order.getPayChannel(),
-                    resolveDateTime(remoteOrder.getPaidTime(), LocalDateTime.now()));
+        if (remoteStatus == WECHAT_ORDER_STATUS_PAID || remoteStatus == WECHAT_ORDER_STATUS_PROVIDING) {
+            compensateProvideGoods(order, remoteOrder);
             return;
         }
         if (remoteStatus == WECHAT_ORDER_STATUS_PROVIDED) {
-            markOrderPaid(order, remoteOrder.getWxpayOrderId(), remoteOrder.getChannelOrderId(), order.getPayChannel(),
+            // 微信侧已经确认发货成功，但本地仍需等官方回调后才真正开通 VIP。
+            markOrderAwaitingCallback(order, remoteOrder.getWxpayOrderId(), remoteOrder.getChannelOrderId(), order.getPayChannel(),
                     resolveDateTime(remoteOrder.getPaidTime(), LocalDateTime.now()),
                     PROVIDE_STATUS_SUCCESS,
                     resolveDateTime(remoteOrder.getProvideTime(), LocalDateTime.now()));
@@ -301,6 +282,28 @@ public class VipPaymentService {
         }
     }
 
+    private void compensateProvideGoods(VipPaymentOrder order, WechatVirtualPayOrderQueryResult remoteOrder) {
+        // 微信查单只能证明支付与发货进度，不能替代官方消息推送作为 VIP 生效依据。
+        markOrderProviding(order,
+                remoteOrder.getWxpayOrderId(),
+                remoteOrder.getChannelOrderId(),
+                order.getPayChannel(),
+                resolveDateTime(remoteOrder.getPaidTime(), LocalDateTime.now()));
+        try {
+            wechatVirtualPayClient.notifyProvideGoods(order.getOutTradeNo(), order.getWechatOrderId(), order.getEnv());
+        } catch (Exception exception) {
+            log.warn("虚拟支付补发货失败，outTradeNo={}, userId={}", order.getOutTradeNo(), order.getUserId(), exception);
+            return;
+        }
+        markOrderAwaitingCallback(order,
+                remoteOrder.getWxpayOrderId(),
+                remoteOrder.getChannelOrderId(),
+                order.getPayChannel(),
+                resolveDateTime(remoteOrder.getPaidTime(), LocalDateTime.now()),
+                PROVIDE_STATUS_SUCCESS,
+                resolveDateTime(remoteOrder.getProvideTime(), LocalDateTime.now()));
+    }
+
     private void markOrderProviding(VipPaymentOrder order,
                                     String transactionId,
                                     String wechatPayMchOrderNo,
@@ -318,19 +321,50 @@ public class VipPaymentService {
         if (paidAt != null) {
             order.setPaidAt(paidAt);
         }
+        order.setStatus(STATUS_PAID_PENDING_CALLBACK);
         order.setProvideStatus(PROVIDE_STATUS_PROCESSING);
         persistOrder(order);
     }
 
-    private void markOrderPaid(VipPaymentOrder order,
-                               String transactionId,
-                               String wechatPayMchOrderNo,
-                               String payChannel,
-                               LocalDateTime paidAt,
-                               String provideStatus,
-                               LocalDateTime providedAt) {
+    private void markOrderAwaitingCallback(VipPaymentOrder order,
+                                           String transactionId,
+                                           String wechatPayMchOrderNo,
+                                           String payChannel,
+                                           LocalDateTime paidAt,
+                                           String provideStatus,
+                                           LocalDateTime providedAt) {
+        applyPaymentSnapshot(order, transactionId, wechatPayMchOrderNo, payChannel, paidAt, provideStatus, providedAt);
+        order.setStatus(STATUS_PAID_PENDING_CALLBACK);
+        persistOrder(order);
+    }
+
+    private void markOrderPaidFromCallback(VipPaymentOrder order,
+                                           String transactionId,
+                                           String wechatPayMchOrderNo,
+                                           String payChannel,
+                                           LocalDateTime paidAt,
+                                           String provideStatus,
+                                           LocalDateTime providedAt) {
         boolean alreadyPaid = STATUS_PAID.equals(order.getStatus());
+        applyPaymentSnapshot(order, transactionId, wechatPayMchOrderNo, payChannel, paidAt, provideStatus, providedAt);
         order.setStatus(STATUS_PAID);
+        persistOrder(order);
+        if (alreadyPaid) {
+            return;
+        }
+
+        vipService.activatePaidYear(order.getUserId(), amountFenToYuan(order.getAmountFen()));
+        notificationService.sendVipOpenedSuccessNotification(order.getUserId());
+        log.info("虚拟支付开通VIP成功，outTradeNo={}, userId={}", order.getOutTradeNo(), order.getUserId());
+    }
+
+    private void applyPaymentSnapshot(VipPaymentOrder order,
+                                      String transactionId,
+                                      String wechatPayMchOrderNo,
+                                      String payChannel,
+                                      LocalDateTime paidAt,
+                                      String provideStatus,
+                                      LocalDateTime providedAt) {
         if (!isBlank(transactionId)) {
             order.setTransactionId(transactionId.trim());
         }
@@ -352,14 +386,6 @@ public class VipPaymentService {
         if (order.getProvidedAt() == null && PROVIDE_STATUS_SUCCESS.equals(order.getProvideStatus())) {
             order.setProvidedAt(LocalDateTime.now());
         }
-        persistOrder(order);
-        if (alreadyPaid) {
-            return;
-        }
-
-        vipService.activatePaidYear(order.getUserId(), amountFenToYuan(order.getAmountFen()));
-        notificationService.sendVipOpenedSuccessNotification(order.getUserId());
-        log.info("虚拟支付开通VIP成功，outTradeNo={}, userId={}", order.getOutTradeNo(), order.getUserId());
     }
 
     private void markRefunded(VipPaymentOrder order) {
@@ -406,6 +432,7 @@ public class VipPaymentService {
         response.setProductId(order.getProductId());
         response.setStatus(order.getStatus());
         response.setPaidAt(order.getPaidAt());
+        response.setProvidedAt(order.getProvidedAt());
         response.setVipInfo(vipInfo);
         return response;
     }

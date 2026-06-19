@@ -5,15 +5,16 @@ import com.panghu.food.dto.VipCreateOrderRequest;
 import com.panghu.food.dto.VipInfoResponse;
 import com.panghu.food.dto.VipPaymentOrderResponse;
 import com.panghu.food.dto.VipPaymentOrderStatusResponse;
+import com.panghu.food.pay.WechatVirtualPayNotifyResult;
+import com.panghu.food.service.WechatMessagePushService;
 import com.panghu.food.service.VipPaymentService;
 import com.panghu.food.service.VipService;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,10 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class VipController {
     private final VipService vipService;
     private final VipPaymentService vipPaymentService;
+    private final WechatMessagePushService wechatMessagePushService;
 
-    public VipController(VipService vipService, VipPaymentService vipPaymentService) {
+    public VipController(VipService vipService,
+                         VipPaymentService vipPaymentService,
+                         WechatMessagePushService wechatMessagePushService) {
         this.vipService = vipService;
         this.vipPaymentService = vipPaymentService;
+        this.wechatMessagePushService = wechatMessagePushService;
     }
 
     @PostMapping("/free-trial")
@@ -43,11 +48,27 @@ public class VipController {
         return ResponseEntity.ok(vipPaymentService.getOrder(AuthContext.requireUserId(), outTradeNo));
     }
 
-    @PostMapping(value = "/virtual-pay/notify", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<String> virtualPayNotify(@RequestBody String body) {
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_XML_VALUE)
-                .body(vipPaymentService.handleVirtualPayNotify(body));
+    @GetMapping("/virtual-pay/notify")
+    public ResponseEntity<String> verifyVirtualPayNotify(@RequestParam String signature,
+                                                         @RequestParam String timestamp,
+                                                         @RequestParam String nonce,
+                                                         @RequestParam String echostr) {
+        return ResponseEntity.ok(wechatMessagePushService.verifyUrl(signature, timestamp, nonce, echostr));
+    }
+
+    @PostMapping("/virtual-pay/notify")
+    public ResponseEntity<String> virtualPayNotify(@RequestParam String timestamp,
+                                                   @RequestParam String nonce,
+                                                   @RequestParam(name = "encrypt_type") String encryptType,
+                                                   @RequestParam(name = "msg_signature") String msgSignature,
+                                                   @RequestBody String body) {
+        WechatVirtualPayNotifyResult notify = wechatMessagePushService.parseVirtualPayNotify(
+                timestamp,
+                nonce,
+                encryptType,
+                msgSignature,
+                body);
+        return ResponseEntity.ok(vipPaymentService.handleVirtualPayNotify(notify));
     }
 
     @PostMapping("/pay/notify")

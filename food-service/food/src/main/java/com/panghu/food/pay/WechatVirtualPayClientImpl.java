@@ -104,29 +104,28 @@ public class WechatVirtualPayClientImpl implements WechatVirtualPayClient {
     }
 
     @Override
-    public WechatVirtualPayNotifyResult parsePayNotify(String body) {
-        if (body == null || body.trim().isEmpty()) {
+    public WechatVirtualPayNotifyResult parsePayNotify(JSONObject payload) {
+        if (payload == null || payload.isEmpty()) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "虚拟支付回调内容不能为空");
         }
-        JSONObject xml = XmlUtils.parseXmlToJson(body);
-        String event = value(xml, "Event");
+        String event = value(payload, "Event");
         if (event == null || event.trim().isEmpty()) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "虚拟支付回调事件不能为空");
         }
 
         WechatVirtualPayNotifyResult result = new WechatVirtualPayNotifyResult();
         result.setEvent(event.trim());
-        result.setOpenId(value(xml, "OpenId"));
-        result.setOutTradeNo(value(xml, "OutTradeNo"));
-        result.setEnv(intValue(xml, "Env"));
+        result.setOpenId(value(payload, "OpenId"));
+        result.setOutTradeNo(value(payload, "OutTradeNo"));
+        result.setEnv(intValue(payload, "Env"));
 
-        JSONObject wechatPayInfo = objectValue(xml, "WeChatPayInfo");
+        JSONObject wechatPayInfo = objectValue(payload, "WeChatPayInfo");
         if (wechatPayInfo != null) {
             result.setWechatPayMchOrderNo(value(wechatPayInfo, "MchOrderNo"));
             result.setTransactionId(value(wechatPayInfo, "TransactionId"));
         }
 
-        JSONObject goodsInfo = objectValue(xml, "GoodsInfo");
+        JSONObject goodsInfo = objectValue(payload, "GoodsInfo");
         if (goodsInfo != null) {
             result.setQuantity(intValue(goodsInfo, "Quantity"));
             result.setOrigPrice(intValue(goodsInfo, "OrigPrice"));
@@ -136,7 +135,7 @@ public class WechatVirtualPayClientImpl implements WechatVirtualPayClient {
         }
 
         String payChannel = MODE_WECHAT;
-        if (objectValue(xml, "AppleSubscriptionInfo") != null) {
+        if (objectValue(payload, "AppleSubscriptionInfo") != null) {
             payChannel = MODE_APPLE;
         }
         result.setPayChannel(payChannel);

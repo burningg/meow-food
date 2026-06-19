@@ -121,12 +121,11 @@ class VipPaymentServiceTest {
     @Test
     void handleVirtualPayNotifySuccessActivatesVipAndMarksOrderPaid() {
         VipPaymentOrder order = pendingOrder();
-        when(wechatVirtualPayClient.parsePayNotify("<xml/>")).thenReturn(successNotify(290));
         when(vipPaymentOrderMapper.selectOne(any(QueryWrapper.class))).thenReturn(order);
 
-        String response = vipPaymentService.handleVirtualPayNotify("<xml/>");
+        String response = vipPaymentService.handleVirtualPayNotify(successNotify(290));
 
-        assertThat(response).contains("<ErrCode>0</ErrCode>");
+        assertThat(response).isEqualTo("success");
         assertThat(order.getStatus()).isEqualTo("PAID");
         assertThat(order.getTransactionId()).isEqualTo("transaction-1");
         assertThat(order.getWechatPayMchOrderNo()).isEqualTo("mch-order-1");
@@ -140,10 +139,9 @@ class VipPaymentServiceTest {
         VipPaymentOrder order = pendingOrder();
         order.setStatus("PAID");
         order.setProvideStatus(VipPaymentService.PROVIDE_STATUS_SUCCESS);
-        when(wechatVirtualPayClient.parsePayNotify("<xml/>")).thenReturn(successNotify(290));
         when(vipPaymentOrderMapper.selectOne(any(QueryWrapper.class))).thenReturn(order);
 
-        vipPaymentService.handleVirtualPayNotify("<xml/>");
+        vipPaymentService.handleVirtualPayNotify(successNotify(290));
 
         verify(vipService, never()).activatePaidYear(any(), any());
         verify(notificationService, never()).sendVipOpenedSuccessNotification(any());
@@ -155,21 +153,21 @@ class VipPaymentServiceTest {
         WechatVirtualPayOrderQueryResult remoteOrder = paidWechatOrder(2);
         when(vipPaymentOrderMapper.selectOne(any(QueryWrapper.class))).thenReturn(order);
         when(wechatVirtualPayClient.queryOrder("openid-1", 1, order.getOutTradeNo(), null)).thenReturn(remoteOrder);
-        when(vipService.getVipInfo("user-1")).thenReturn(vipInfo(true));
+        when(vipService.getVipInfo("user-1")).thenReturn(vipInfo(false));
 
         VipPaymentOrderStatusResponse response = vipPaymentService.getOrder("user-1", order.getOutTradeNo());
 
-        assertThat(response.getStatus()).isEqualTo("PAID");
+        assertThat(response.getStatus()).isEqualTo(VipPaymentService.STATUS_PAID_PENDING_CALLBACK);
         assertThat(order.getWechatOrderId()).isEqualTo("wx-order-1");
         assertThat(order.getProvideStatus()).isEqualTo(VipPaymentService.PROVIDE_STATUS_SUCCESS);
         verify(wechatVirtualPayClient).notifyProvideGoods(order.getOutTradeNo(), "wx-order-1", 1);
         verify(vipPaymentOrderMapper, atLeastOnce()).updateById(order);
-        verify(vipService).activatePaidYear("user-1", BigDecimal.valueOf(290, 2));
-        verify(notificationService).sendVipOpenedSuccessNotification("user-1");
+        verify(vipService, never()).activatePaidYear(any(), any());
+        verify(notificationService, never()).sendVipOpenedSuccessNotification(any());
     }
 
     @Test
-    void getOrderKeepsPendingWhenWechatOrderIsProviding() {
+    void getOrderProvidesGoodsWhenWechatOrderIsProviding() {
         VipPaymentOrder order = pendingOrder();
         WechatVirtualPayOrderQueryResult remoteOrder = paidWechatOrder(3);
         when(vipPaymentOrderMapper.selectOne(any(QueryWrapper.class))).thenReturn(order);
@@ -178,12 +176,28 @@ class VipPaymentServiceTest {
 
         VipPaymentOrderStatusResponse response = vipPaymentService.getOrder("user-1", order.getOutTradeNo());
 
-        assertThat(response.getStatus()).isEqualTo("PENDING");
-        assertThat(order.getProvideStatus()).isEqualTo(VipPaymentService.PROVIDE_STATUS_PROCESSING);
+        assertThat(response.getStatus()).isEqualTo(VipPaymentService.STATUS_PAID_PENDING_CALLBACK);
+        assertThat(order.getProvideStatus()).isEqualTo(VipPaymentService.PROVIDE_STATUS_SUCCESS);
         assertThat(order.getPaidAt()).isNotNull();
-        verify(wechatVirtualPayClient, never()).notifyProvideGoods(any(), any(), any());
+        verify(wechatVirtualPayClient).notifyProvideGoods(order.getOutTradeNo(), "wx-order-1", 1);
         verify(vipService, never()).activatePaidYear(any(), any());
         verify(notificationService, never()).sendVipOpenedSuccessNotification(any());
+    }
+
+    @Test
+    void getOrderMarksPendingCallbackWhenWechatOrderAlreadyProvided() {
+        VipPaymentOrder order = pendingOrder();
+        WechatVirtualPayOrderQueryResult remoteOrder = paidWechatOrder(4);
+        when(vipPaymentOrderMapper.selectOne(any(QueryWrapper.class))).thenReturn(order);
+        when(wechatVirtualPayClient.queryOrder("openid-1", 1, order.getOutTradeNo(), null)).thenReturn(remoteOrder);
+        when(vipService.getVipInfo("user-1")).thenReturn(vipInfo(false));
+
+        VipPaymentOrderStatusResponse response = vipPaymentService.getOrder("user-1", order.getOutTradeNo());
+
+        assertThat(response.getStatus()).isEqualTo(VipPaymentService.STATUS_PAID_PENDING_CALLBACK);
+        assertThat(order.getProvideStatus()).isEqualTo(VipPaymentService.PROVIDE_STATUS_SUCCESS);
+        verify(wechatVirtualPayClient, never()).notifyProvideGoods(any(), any(), any());
+        verify(vipService, never()).activatePaidYear(any(), any());
     }
 
     @Test
@@ -253,10 +267,9 @@ class VipPaymentServiceTest {
     @Test
     void handleVirtualPayNotifyDoesNotActivateWhenAmountMismatch() {
         VipPaymentOrder order = pendingOrder();
-        when(wechatVirtualPayClient.parsePayNotify("<xml/>")).thenReturn(successNotify(1));
         when(vipPaymentOrderMapper.selectOne(any(QueryWrapper.class))).thenReturn(order);
 
-        assertThatThrownBy(() -> vipPaymentService.handleVirtualPayNotify("<xml/>"))
+        assertThatThrownBy(() -> vipPaymentService.handleVirtualPayNotify(successNotify(1)))
                 .isInstanceOf(ApiException.class)
                 .hasMessage("微信虚拟支付金额不匹配");
 
@@ -269,10 +282,9 @@ class VipPaymentServiceTest {
         VipPaymentOrder order = pendingOrder();
         WechatVirtualPayNotifyResult notify = successNotify(290);
         notify.setProductId("other-product");
-        when(wechatVirtualPayClient.parsePayNotify("<xml/>")).thenReturn(notify);
         when(vipPaymentOrderMapper.selectOne(any(QueryWrapper.class))).thenReturn(order);
 
-        assertThatThrownBy(() -> vipPaymentService.handleVirtualPayNotify("<xml/>"))
+        assertThatThrownBy(() -> vipPaymentService.handleVirtualPayNotify(notify))
                 .isInstanceOf(ApiException.class)
                 .hasMessage("微信虚拟支付商品不匹配");
     }
@@ -282,10 +294,9 @@ class VipPaymentServiceTest {
         VipPaymentOrder order = pendingOrder();
         WechatVirtualPayNotifyResult notify = successNotify(290);
         notify.setOpenId("openid-2");
-        when(wechatVirtualPayClient.parsePayNotify("<xml/>")).thenReturn(notify);
         when(vipPaymentOrderMapper.selectOne(any(QueryWrapper.class))).thenReturn(order);
 
-        assertThatThrownBy(() -> vipPaymentService.handleVirtualPayNotify("<xml/>"))
+        assertThatThrownBy(() -> vipPaymentService.handleVirtualPayNotify(notify))
                 .isInstanceOf(ApiException.class)
                 .hasMessage("微信虚拟支付用户不匹配");
     }

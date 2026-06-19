@@ -179,10 +179,14 @@ async function payVip() {
       }
       await authStore.restore()
       Message.success('VIP 已开通')
+    } else if (latestOrder?.status === 'PAID_PENDING_CALLBACK') {
+      await loadVipPage()
+      await authStore.restore()
+      Message.info('支付成功，正在同步会员权益，请稍后刷新')
     } else {
       await loadVipPage()
       await authStore.restore()
-      Message.info('支付处理中，请稍后刷新')
+      Message.info('支付成功，正在同步会员权益，请稍后刷新')
     }
   } catch (error: any) {
     const errMsg = error?.errMsg || error?.message || ''
@@ -207,6 +211,9 @@ async function pollVipOrder(outTradeNo: string): Promise<VipPaymentOrderStatus |
     const { data } = await socialService.getVipOrder(outTradeNo)
     latestOrder = data
     if (data.status === 'PAID') {
+      return data
+    }
+    if (data.status === 'PAID_PENDING_CALLBACK') {
       return data
     }
   }

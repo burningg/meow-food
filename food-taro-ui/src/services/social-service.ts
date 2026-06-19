@@ -42,8 +42,9 @@ export interface VipPaymentOrderStatus {
   amountFen: number
   planName: string
   productId: string
-  status: 'PENDING' | 'PAID' | 'FAILED' | 'CLOSED'
+  status: 'PENDING' | 'PAID_PENDING_CALLBACK' | 'PAID' | 'FAILED' | 'CLOSED'
   paidAt?: string
+  providedAt?: string
   vipInfo: VipInfo
 }
 
