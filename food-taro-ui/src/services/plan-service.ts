@@ -12,6 +12,43 @@ export type PlanShoppingStatus =
   | 'PARTIALLY_PURCHASED'
   | 'PURCHASED'
 
+export type PlanAiMealType = 'lunch' | 'dinner'
+
+export interface PlanAiUsage {
+  monthlyLimit: number
+  usedThisMonth: number
+  remainingThisMonth: number
+}
+
+export interface PlanAiArrangeRequest {
+  circleId: string
+  mealType: PlanAiMealType
+  planDate: string
+  dishCount: number
+  healthAdvice?: string
+}
+
+export interface PlanAiArrangementRecipe {
+  dish: DishSummary
+  reason: string
+}
+
+export interface PlanAiArrangeResponse {
+  title: string
+  petText: string
+  suggestionText: string
+  healthText: string
+  recipes: PlanAiArrangementRecipe[]
+  usage?: PlanAiUsage
+}
+
+export interface PlanAiArrangementConfirmRequest {
+  circleId: string
+  planDate: string
+  title: string
+  dishIds: string[]
+}
+
 export interface PlanSummary {
   id: string
   title: string
@@ -93,6 +130,14 @@ export class PlanService {
 
   createPlan(payload: { circleId: string; planDate: string; title: string }) {
     return http.post<PlanDetail>('/api/plans', payload)
+  }
+
+  arrangePlanByAi(payload: PlanAiArrangeRequest) {
+    return http.post<PlanAiArrangeResponse>('/api/plans/ai-arrangements', payload)
+  }
+
+  confirmAiArrangement(payload: PlanAiArrangementConfirmRequest) {
+    return http.post<PlanDetail>('/api/plans/ai-arrangements/confirm', payload)
   }
 
   getPlanDetail(planId: string) {

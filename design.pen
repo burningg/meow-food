@@ -32418,6 +32418,1731 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "E8IFvg",
+      "x": 15084.373812941696,
+      "y": 0,
+      "name": "Pet AI Planner Form",
+      "clip": true,
+      "width": 390,
+      "height": 844,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "#FFF7EA",
+            "position": 0
+          },
+          {
+            "color": "#F7F6F3",
+            "position": 0.44
+          },
+          {
+            "color": "#EDF3EC",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "Yf0r2",
+          "x": 20,
+          "y": 48,
+          "name": "Soft Pet Hero Background",
+          "clip": true,
+          "width": 350,
+          "height": 252,
+          "fill": "#FFF8EF",
+          "cornerRadius": 28,
+          "stroke": "#EAD9C4",
+          "strokeWidth": 1,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#8A4E2920",
+            "offset": {
+              "x": 0,
+              "y": 18
+            },
+            "blur": 42
+          },
+          "layout": "none",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "rbKYj",
+              "x": 0,
+              "y": 126,
+              "name": "Sage Glow",
+              "fill": {
+                "type": "gradient",
+                "gradientType": "radial",
+                "enabled": true,
+                "rotation": 0,
+                "size": {
+                  "width": 1,
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "#8DB07D44",
+                    "position": 0
+                  },
+                  {
+                    "color": "#8DB07D00",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 126,
+              "height": 126
+            },
+            {
+              "type": "ellipse",
+              "id": "Mcepm",
+              "x": 182,
+              "y": 0,
+              "name": "Honey Glow",
+              "fill": {
+                "type": "gradient",
+                "gradientType": "radial",
+                "enabled": true,
+                "rotation": 0,
+                "size": {
+                  "width": 1,
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "#FFE5A866",
+                    "position": 0
+                  },
+                  {
+                    "color": "#FFE5A800",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 168,
+              "height": 168
+            },
+            {
+              "type": "text",
+              "id": "X8nNIg",
+              "x": 0,
+              "y": 0,
+              "name": "Pet Name Hint",
+              "fill": "#1B3A2D",
+              "content": "饭团",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 30,
+              "fontWeight": "800"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "U9IXs",
+          "x": 20,
+          "y": 336,
+          "name": "Dimmed Pet Stats",
+          "width": 350,
+          "height": 76,
+          "gap": 10,
+          "children": [
+            {
+              "type": "frame",
+              "id": "ckWTR",
+              "name": "Dimmed Stat Card",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 18,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 4,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "mZpec",
+                  "name": "Stat Value",
+                  "fill": "#1B3A2D",
+                  "content": "--",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 18,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "CeDZj",
+                  "name": "Stat Label",
+                  "fill": "#7F7A72",
+                  "content": "陪伴",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nWULf",
+              "name": "Dimmed Stat Card",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 18,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 4,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "cvCYn",
+                  "name": "Stat Value",
+                  "fill": "#1B3A2D",
+                  "content": "--",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 18,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "bM4Fm",
+                  "name": "Stat Label",
+                  "fill": "#7F7A72",
+                  "content": "心情",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "fhmHd",
+              "name": "Dimmed Stat Card",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 18,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 4,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Y0nik",
+                  "name": "Stat Value",
+                  "fill": "#1B3A2D",
+                  "content": "--",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 18,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "PUvAk",
+                  "name": "Stat Label",
+                  "fill": "#7F7A72",
+                  "content": "饱腹",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "Y8YMmM",
+          "x": 0,
+          "y": 0,
+          "name": "Dim Overlay",
+          "fill": "#15151566",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "type": "frame",
+          "id": "jCCg3",
+          "x": 0,
+          "y": 282,
+          "name": "Planner Form Bottom Sheet",
+          "width": 390,
+          "height": 562,
+          "fill": "#FFFFFF",
+          "cornerRadius": [
+            24,
+            24,
+            0,
+            0
+          ],
+          "stroke": "#EFE3D1",
+          "strokeWidth": 1,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#8A4E291A",
+            "offset": {
+              "x": 0,
+              "y": -10
+            },
+            "blur": 36
+          },
+          "layout": "vertical",
+          "gap": 10,
+          "padding": [
+            12,
+            20,
+            24,
+            20
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 9999,
+              "id": "uZVb3",
+              "name": "Sheet Handle",
+              "fill": "#E6DBCF",
+              "width": 42,
+              "height": 4
+            },
+            {
+              "type": "frame",
+              "id": "awpjQ",
+              "name": "Pet Paw Hint",
+              "fill": "#F7F3EE",
+              "cornerRadius": 9999,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "gap": 6,
+              "padding": [
+                5,
+                10
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "pRtSQ",
+                  "name": "Paw Hint Icon",
+                  "fill": "#9F5C38",
+                  "content": "🐾",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "ZU0in",
+                  "name": "Paw Hint Text",
+                  "fill": "#6F5C4A",
+                  "content": "饭团正在摇尾巴",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "kCxMb",
+              "name": "Sheet Title",
+              "fill": "#1B3A2D",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "饭团小爪帮你安排一餐",
+              "fontFamily": "Noto Serif SC",
+              "fontSize": 22,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "wjyzT",
+              "name": "Sheet Subtitle",
+              "fill": "#787774",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "选好圈子和饭点，饭团会把合适菜谱轻轻叼来。",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "T071d",
+              "name": "圈子 Field",
+              "width": "fill_container",
+              "fill": "#F7F3EE",
+              "cornerRadius": 14,
+              "layout": "vertical",
+              "gap": 6,
+              "padding": 14,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "frSsQ",
+                  "name": "圈子 Label",
+                  "fill": "#7F7A72",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "圈子",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "WyCVN",
+                  "name": "圈子 Value",
+                  "fill": "#1B3A2D",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "周末探店局 · 饭团想去",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 15,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "jMBja",
+              "name": "Meal Segmented Control",
+              "width": "fill_container",
+              "height": 44,
+              "fill": "#F7F3EE",
+              "cornerRadius": 9999,
+              "gap": 6,
+              "padding": 4,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "IpJhX",
+                  "name": "午餐 Segment",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "#9F5C38",
+                  "cornerRadius": 9999,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Cf8Nd",
+                      "name": "午餐 Text",
+                      "fill": "#FFFFFF",
+                      "content": "午餐",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "fdJWD",
+                  "name": "晚餐 Segment",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "#00000000",
+                  "cornerRadius": 9999,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "b9SEw",
+                      "name": "晚餐 Text",
+                      "fill": "#6F5C4A",
+                      "content": "晚餐",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "iEhll",
+              "name": "Date Count Row",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Cyrcq",
+                  "name": "日期 Field",
+                  "width": "fill_container",
+                  "fill": "#F7F3EE",
+                  "cornerRadius": 14,
+                  "layout": "vertical",
+                  "gap": 6,
+                  "padding": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "p5KzpM",
+                      "name": "日期 Label",
+                      "fill": "#7F7A72",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "日期",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "CjDgx",
+                      "name": "日期 Value",
+                      "fill": "#1B3A2D",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "今天 06.21 · 等开饭",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 15,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "b7fc2",
+                  "name": "菜数 Field",
+                  "width": "fill_container",
+                  "fill": "#F7F3EE",
+                  "cornerRadius": 14,
+                  "layout": "vertical",
+                  "gap": 6,
+                  "padding": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "a0vsBA",
+                      "name": "菜数 Label",
+                      "fill": "#7F7A72",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "菜数",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "g3pew",
+                      "name": "菜数 Value",
+                      "fill": "#1B3A2D",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "-  3 道  +",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 15,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ZbqIG",
+              "name": "健康建议 Field",
+              "width": "fill_container",
+              "fill": "#F7F3EE",
+              "cornerRadius": 14,
+              "layout": "vertical",
+              "gap": 6,
+              "padding": 14,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "llzjN",
+                  "name": "健康建议 Label",
+                  "fill": "#7F7A72",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "健康建议",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "eaC8C",
+                  "name": "健康建议 Value",
+                  "fill": "#1B3A2D",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "少油、清爽、荤素搭配，饭团点头",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 15,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "nZXGp",
+              "name": "Quota Text",
+              "fill": "#9F5C38",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "本月 AI 排菜剩余 29 次，饭团还能帮忙",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 12,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "VUYuH",
+              "name": "Form Actions",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "R4xQpE",
+                  "name": "取消 Button",
+                  "width": "fill_container",
+                  "height": 48,
+                  "fill": "#F4EEE7",
+                  "cornerRadius": 9999,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "cAvQ8",
+                      "name": "取消 Text",
+                      "fill": "#6F5C4A",
+                      "content": "取消",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 15,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "I7FJS",
+                  "name": "开始排菜 Button",
+                  "width": "fill_container",
+                  "height": 48,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 135,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#9F5C38",
+                        "position": 0
+                      },
+                      {
+                        "color": "#C8873B",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 9999,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "U31pBH",
+                      "name": "开始排菜 Text",
+                      "fill": "#FFFFFF",
+                      "content": "让饭团安排",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 15,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "n1KIF",
+      "x": 15554.373812941696,
+      "y": 0,
+      "name": "Pet AI Planner Loading",
+      "clip": true,
+      "width": 390,
+      "height": 844,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "#FFF7EA",
+            "position": 0
+          },
+          {
+            "color": "#F7F6F3",
+            "position": 0.44
+          },
+          {
+            "color": "#EDF3EC",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "v5Ww3h",
+          "x": 20,
+          "y": 48,
+          "name": "Soft Pet Hero Background",
+          "clip": true,
+          "width": 350,
+          "height": 252,
+          "fill": "#FFF8EF",
+          "cornerRadius": 28,
+          "stroke": "#EAD9C4",
+          "strokeWidth": 1,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#8A4E2920",
+            "offset": {
+              "x": 0,
+              "y": 18
+            },
+            "blur": 42
+          },
+          "layout": "none",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "C3xkHu",
+              "x": 0,
+              "y": 126,
+              "name": "Sage Glow",
+              "fill": {
+                "type": "gradient",
+                "gradientType": "radial",
+                "enabled": true,
+                "rotation": 0,
+                "size": {
+                  "width": 1,
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "#8DB07D44",
+                    "position": 0
+                  },
+                  {
+                    "color": "#8DB07D00",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 126,
+              "height": 126
+            },
+            {
+              "type": "ellipse",
+              "id": "LCpNS",
+              "x": 182,
+              "y": 0,
+              "name": "Honey Glow",
+              "fill": {
+                "type": "gradient",
+                "gradientType": "radial",
+                "enabled": true,
+                "rotation": 0,
+                "size": {
+                  "width": 1,
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "#FFE5A866",
+                    "position": 0
+                  },
+                  {
+                    "color": "#FFE5A800",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 168,
+              "height": 168
+            },
+            {
+              "type": "text",
+              "id": "MRTrH",
+              "x": 0,
+              "y": 0,
+              "name": "Pet Name Hint",
+              "fill": "#1B3A2D",
+              "content": "饭团",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 30,
+              "fontWeight": "800"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "LmpCc",
+          "x": 20,
+          "y": 336,
+          "name": "Dimmed Pet Stats",
+          "width": 350,
+          "height": 76,
+          "gap": 10,
+          "children": [
+            {
+              "type": "frame",
+              "id": "MN46R",
+              "name": "Dimmed Stat Card",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 18,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 4,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "bcxat",
+                  "name": "Stat Value",
+                  "fill": "#1B3A2D",
+                  "content": "--",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 18,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "HyK5w",
+                  "name": "Stat Label",
+                  "fill": "#7F7A72",
+                  "content": "陪伴",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "lF3s0",
+              "name": "Dimmed Stat Card",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 18,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 4,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "H22XF",
+                  "name": "Stat Value",
+                  "fill": "#1B3A2D",
+                  "content": "--",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 18,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "jmIvE",
+                  "name": "Stat Label",
+                  "fill": "#7F7A72",
+                  "content": "心情",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "U8WJ5",
+              "name": "Dimmed Stat Card",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 18,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 4,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "G5wpD",
+                  "name": "Stat Value",
+                  "fill": "#1B3A2D",
+                  "content": "--",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 18,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "hXDH4",
+                  "name": "Stat Label",
+                  "fill": "#7F7A72",
+                  "content": "饱腹",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "HrEfj",
+          "x": 0,
+          "y": 0,
+          "name": "Dim Overlay",
+          "fill": "#15151566",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "type": "frame",
+          "id": "tcO73",
+          "x": 0,
+          "y": 376,
+          "name": "Planner Loading Bottom Sheet",
+          "width": 390,
+          "height": 468,
+          "fill": "#FFFFFF",
+          "cornerRadius": [
+            24,
+            24,
+            0,
+            0
+          ],
+          "stroke": "#EFE3D1",
+          "strokeWidth": 1,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#8A4E291A",
+            "offset": {
+              "x": 0,
+              "y": -10
+            },
+            "blur": 36
+          },
+          "layout": "vertical",
+          "gap": 14,
+          "padding": [
+            12,
+            20,
+            24,
+            20
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 9999,
+              "id": "LC40X",
+              "name": "Sheet Handle",
+              "fill": "#E6DBCF",
+              "width": 42,
+              "height": 4
+            },
+            {
+              "type": "text",
+              "id": "PbJtk",
+              "name": "Sheet Title",
+              "fill": "#1B3A2D",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "饭团正在翻菜单",
+              "fontFamily": "Noto Serif SC",
+              "fontSize": 22,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "g78Ir",
+              "name": "Sheet Subtitle",
+              "fill": "#787774",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "正在查看最近 30 次计划、圈内可见菜谱和你的口味记录。",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "GSlQP",
+              "name": "Progress Card",
+              "width": "fill_container",
+              "fill": "#FFF8EF",
+              "cornerRadius": 18,
+              "stroke": "#EAD9C4",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "W73I2",
+                  "name": "Progress Icon",
+                  "fill": "#C8873B",
+                  "content": "✦",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 28,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "frame",
+                  "id": "FYorC",
+                  "name": "读圈子菜谱 Row",
+                  "width": "fill_container",
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "ellipse",
+                      "id": "X95lN",
+                      "name": "Loading Dot",
+                      "fill": "#9F5C38",
+                      "width": 8,
+                      "height": 8
+                    },
+                    {
+                      "type": "text",
+                      "id": "yuqOK",
+                      "name": "读圈子菜谱 Text",
+                      "fill": "#1B3A2D",
+                      "content": "读圈子菜谱",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 13,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "YIGu8",
+                  "name": "看历史偏好 Row",
+                  "width": "fill_container",
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "ellipse",
+                      "id": "y80KFR",
+                      "name": "Loading Dot",
+                      "fill": "#9F5C38",
+                      "width": 8,
+                      "height": 8
+                    },
+                    {
+                      "type": "text",
+                      "id": "BK6AG",
+                      "name": "看历史偏好 Text",
+                      "fill": "#1B3A2D",
+                      "content": "看历史偏好",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 13,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "GjhCC",
+                  "name": "写健康建议 Row",
+                  "width": "fill_container",
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "ellipse",
+                      "id": "T9dxV",
+                      "name": "Loading Dot",
+                      "fill": "#9F5C38",
+                      "width": 8,
+                      "height": 8
+                    },
+                    {
+                      "type": "text",
+                      "id": "XDFWt",
+                      "name": "写健康建议 Text",
+                      "fill": "#1B3A2D",
+                      "content": "写健康建议",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 13,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "yFGIU",
+              "name": "排菜中... Button",
+              "width": "fill_container",
+              "height": 48,
+              "fill": "#D8C3B6",
+              "cornerRadius": 9999,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "iEpHP",
+                  "name": "排菜中... Text",
+                  "fill": "#FFFFFF",
+                  "content": "排菜中...",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 15,
+                  "fontWeight": "700"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "e2MqXZ",
+      "x": 16024.373812941696,
+      "y": 0,
+      "name": "Pet AI Planner Preview",
+      "clip": true,
+      "width": 390,
+      "height": 844,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "#FFF7EA",
+            "position": 0
+          },
+          {
+            "color": "#F7F6F3",
+            "position": 0.44
+          },
+          {
+            "color": "#EDF3EC",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "ffxyh",
+          "x": 20,
+          "y": 48,
+          "name": "Soft Pet Hero Background",
+          "clip": true,
+          "width": 350,
+          "height": 252,
+          "fill": "#FFF8EF",
+          "cornerRadius": 28,
+          "stroke": "#EAD9C4",
+          "strokeWidth": 1,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#8A4E2920",
+            "offset": {
+              "x": 0,
+              "y": 18
+            },
+            "blur": 42
+          },
+          "layout": "none",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "mIhms",
+              "x": 0,
+              "y": 126,
+              "name": "Sage Glow",
+              "fill": {
+                "type": "gradient",
+                "gradientType": "radial",
+                "enabled": true,
+                "rotation": 0,
+                "size": {
+                  "width": 1,
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "#8DB07D44",
+                    "position": 0
+                  },
+                  {
+                    "color": "#8DB07D00",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 126,
+              "height": 126
+            },
+            {
+              "type": "ellipse",
+              "id": "qHIeu",
+              "x": 182,
+              "y": 0,
+              "name": "Honey Glow",
+              "fill": {
+                "type": "gradient",
+                "gradientType": "radial",
+                "enabled": true,
+                "rotation": 0,
+                "size": {
+                  "width": 1,
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "#FFE5A866",
+                    "position": 0
+                  },
+                  {
+                    "color": "#FFE5A800",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 168,
+              "height": 168
+            },
+            {
+              "type": "text",
+              "id": "sfFR8",
+              "x": 0,
+              "y": 0,
+              "name": "Pet Name Hint",
+              "fill": "#1B3A2D",
+              "content": "饭团",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 30,
+              "fontWeight": "800"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "TbVCr",
+          "x": 20,
+          "y": 336,
+          "name": "Dimmed Pet Stats",
+          "width": 350,
+          "height": 76,
+          "gap": 10,
+          "children": [
+            {
+              "type": "frame",
+              "id": "G3Uin",
+              "name": "Dimmed Stat Card",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 18,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 4,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "D5OoR",
+                  "name": "Stat Value",
+                  "fill": "#1B3A2D",
+                  "content": "--",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 18,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "XJ6aU",
+                  "name": "Stat Label",
+                  "fill": "#7F7A72",
+                  "content": "陪伴",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "HfDXq",
+              "name": "Dimmed Stat Card",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 18,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 4,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "dPz2D",
+                  "name": "Stat Value",
+                  "fill": "#1B3A2D",
+                  "content": "--",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 18,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "XILIJ",
+                  "name": "Stat Label",
+                  "fill": "#7F7A72",
+                  "content": "心情",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "gIwxc",
+              "name": "Dimmed Stat Card",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 18,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 4,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "pMB79",
+                  "name": "Stat Value",
+                  "fill": "#1B3A2D",
+                  "content": "--",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 18,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "tQ8yx",
+                  "name": "Stat Label",
+                  "fill": "#7F7A72",
+                  "content": "饱腹",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "s8kBuL",
+          "x": 0,
+          "y": 0,
+          "name": "Dim Overlay",
+          "fill": "#15151566",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "type": "frame",
+          "id": "uC2lB",
+          "x": 0,
+          "y": 188,
+          "name": "Planner Preview Bottom Sheet",
+          "width": 390,
+          "height": 656,
+          "fill": "#FFFFFF",
+          "cornerRadius": [
+            24,
+            24,
+            0,
+            0
+          ],
+          "stroke": "#EFE3D1",
+          "strokeWidth": 1,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#8A4E291A",
+            "offset": {
+              "x": 0,
+              "y": -10
+            },
+            "blur": 36
+          },
+          "layout": "vertical",
+          "gap": 14,
+          "padding": [
+            12,
+            20,
+            24,
+            20
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 9999,
+              "id": "lLElT",
+              "name": "Sheet Handle",
+              "fill": "#E6DBCF",
+              "width": 42,
+              "height": 4
+            },
+            {
+              "type": "text",
+              "id": "iXXgd",
+              "name": "Sheet Title",
+              "fill": "#1B3A2D",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "今天午餐这样吃",
+              "fontFamily": "Noto Serif SC",
+              "fontSize": 22,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "yWwL3",
+              "name": "Pet Suggestion",
+              "fill": "#787774",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "饭团叼来一份清爽但不寡淡的菜单。",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "JSJHF",
+              "name": "Health Suggestion Card",
+              "width": "fill_container",
+              "fill": "#EDF3EC",
+              "cornerRadius": 18,
+              "stroke": "#DCE7DA",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 6,
+              "padding": 14,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "V1gQW",
+                  "name": "Health Title",
+                  "fill": "#346538",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "健康小建议",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 12,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "f1cWc",
+                  "name": "Health Body",
+                  "fill": "#1B3A2D",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "少油一点，保留一份热菜和一份蔬菜，吃完不会困。",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "uMv8r",
+              "name": "番茄牛腩 Recipe Card",
+              "width": "fill_container",
+              "fill": "#FFF8EF",
+              "cornerRadius": 16,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 5,
+              "padding": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Wzsam",
+                  "name": "番茄牛腩 Title",
+                  "fill": "#1B3A2D",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "番茄牛腩",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 15,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "ldGqB",
+                  "name": "番茄牛腩 Reason",
+                  "fill": "#6F5C4A",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "暖胃，有蛋白质，也适合午餐补能量。",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "d7MVn",
+              "name": "清炒藕带 Recipe Card",
+              "width": "fill_container",
+              "fill": "#FFF8EF",
+              "cornerRadius": 16,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 5,
+              "padding": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "lDWwG",
+                  "name": "清炒藕带 Title",
+                  "fill": "#1B3A2D",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "清炒藕带",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 15,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "oAN4g",
+                  "name": "清炒藕带 Reason",
+                  "fill": "#6F5C4A",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "脆爽解腻，把这一餐拉得更轻盈。",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "F5Fd8",
+              "name": "紫菜蛋花汤 Recipe Card",
+              "width": "fill_container",
+              "fill": "#FFF8EF",
+              "cornerRadius": 16,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 5,
+              "padding": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "MfkUJ",
+                  "name": "紫菜蛋花汤 Title",
+                  "fill": "#1B3A2D",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "紫菜蛋花汤",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 15,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "sskh7",
+                  "name": "紫菜蛋花汤 Reason",
+                  "fill": "#6F5C4A",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "补一点汤水，收尾舒服。",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "k8rtfI",
+              "name": "Quota Text",
+              "fill": "#9F5C38",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "生成后已使用 1 次，本月剩余 29 次",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 12,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "spI8I",
+              "name": "Preview Actions",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "IiOJO",
+                  "name": "重新生成 Button",
+                  "width": "fill_container",
+                  "height": 48,
+                  "fill": "#F4EEE7",
+                  "cornerRadius": 9999,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "zYeE6",
+                      "name": "重新生成 Text",
+                      "fill": "#6F5C4A",
+                      "content": "重新生成",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 15,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "MJG0s",
+                  "name": "确定创建计划 Button",
+                  "width": "fill_container",
+                  "height": 48,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 135,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#9F5C38",
+                        "position": 0
+                      },
+                      {
+                        "color": "#C8873B",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 9999,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "x3svO",
+                      "name": "确定创建计划 Text",
+                      "fill": "#FFFFFF",
+                      "content": "确定创建计划",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 15,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "variables": {

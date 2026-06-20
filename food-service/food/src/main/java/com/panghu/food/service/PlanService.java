@@ -1,6 +1,9 @@
 package com.panghu.food.service;
 
 import com.panghu.food.dto.PlanCreateRequest;
+import com.panghu.food.dto.PlanAiArrangeRequest;
+import com.panghu.food.dto.PlanAiArrangementConfirmRequest;
+import com.panghu.food.dto.PlanAiArrangementResponse;
 import com.panghu.food.dto.PlanDetailResponse;
 import com.panghu.food.dto.PlanMonthResponse;
 import com.panghu.food.dto.PlanRecipesUpdateRequest;
@@ -10,6 +13,10 @@ public interface PlanService {
     PlanMonthResponse getPlans(String month);
 
     PlanDetailResponse createPlan(PlanCreateRequest request);
+
+    PlanAiArrangementResponse arrangePlanByAi(PlanAiArrangeRequest request);
+
+    PlanDetailResponse confirmAiArrangement(PlanAiArrangementConfirmRequest request);
 
     PlanDetailResponse getPlanDetail(String planId);
 

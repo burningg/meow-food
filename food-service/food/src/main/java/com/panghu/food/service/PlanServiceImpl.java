@@ -3,6 +3,10 @@ package com.panghu.food.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.panghu.food.auth.AuthContext;
 import com.panghu.food.dto.DishSummaryResponse;
+import com.panghu.food.dto.PlanAiArrangeRequest;
+import com.panghu.food.dto.PlanAiArrangementConfirmRequest;
+import com.panghu.food.dto.PlanAiArrangementRecipeResponse;
+import com.panghu.food.dto.PlanAiArrangementResponse;
 import com.panghu.food.dto.PlanCreateRequest;
 import com.panghu.food.dto.PlanDayPlansResponse;
 import com.panghu.food.dto.PlanDetailResponse;
@@ -48,6 +52,7 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -55,6 +60,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class PlanServiceImpl implements PlanService {
+    private static final int MIN_AI_DISH_COUNT = 1;
+    private static final int MAX_AI_DISH_COUNT = 8;
+    private static final int RECENT_PLAN_HISTORY_LIMIT = 30;
+    private static final String DEFAULT_HEALTH_ADVICE = "荤素搭配";
+    private static final String MEAL_TYPE_LUNCH = "lunch";
+    private static final String MEAL_TYPE_DINNER = "dinner";
+
     private final CirclePlanMapper circlePlanMapper;
     private final CirclePlanRecipeMapper circlePlanRecipeMapper;
     private final CirclePlanShoppingListMapper circlePlanShoppingListMapper;
@@ -66,6 +78,8 @@ public class PlanServiceImpl implements PlanService {
     private final DishIngredientMapper dishIngredientMapper;
     private final UserAccountMapper userAccountMapper;
     private final MenuVisibilitySupport menuVisibilitySupport;
+    private final DishAiService dishAiService;
+    private final VipService vipService;
 
     public PlanServiceImpl(CirclePlanMapper circlePlanMapper,
                            CirclePlanRecipeMapper circlePlanRecipeMapper,
@@ -77,7 +91,9 @@ public class PlanServiceImpl implements PlanService {
                            DishMapper dishMapper,
                            DishIngredientMapper dishIngredientMapper,
                            UserAccountMapper userAccountMapper,
-                           MenuVisibilitySupport menuVisibilitySupport) {
+                           MenuVisibilitySupport menuVisibilitySupport,
+                           DishAiService dishAiService,
+                           VipService vipService) {
         this.circlePlanMapper = circlePlanMapper;
         this.circlePlanRecipeMapper = circlePlanRecipeMapper;
         this.circlePlanShoppingListMapper = circlePlanShoppingListMapper;
@@ -89,6 +105,8 @@ public class PlanServiceImpl implements PlanService {
         this.dishIngredientMapper = dishIngredientMapper;
         this.userAccountMapper = userAccountMapper;
         this.menuVisibilitySupport = menuVisibilitySupport;
+        this.dishAiService = dishAiService;
+        this.vipService = vipService;
     }
 
     @Override
@@ -144,6 +162,89 @@ public class PlanServiceImpl implements PlanService {
         plan.setCreatedAt(LocalDateTime.now());
         plan.setUpdatedAt(LocalDateTime.now());
         circlePlanMapper.insert(plan);
+        return buildPlanDetail(plan, circle);
+    }
+
+    @Override
+    public PlanAiArrangementResponse arrangePlanByAi(PlanAiArrangeRequest request) {
+        String currentUserId = AuthContext.requireUserId();
+        String circleId = normalizeRequired(request == null ? null : request.getCircleId(), "请选择圈子");
+        LocalDate planDate = request == null ? null : request.getPlanDate();
+        if (planDate == null) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "请选择计划日期");
+        }
+        int dishCount = normalizeAiDishCount(request == null ? null : request.getDishCount());
+        String mealType = normalizeMealType(request == null ? null : request.getMealType());
+        String mealTypeLabel = mealTypeLabel(mealType);
+        String healthAdvice = normalizeOptional(request == null ? null : request.getHealthAdvice(), DEFAULT_HEALTH_ADVICE);
+
+        requireCircleMember(circleId, currentUserId);
+        List<DishSummaryResponse> visibleDishes = loadCircleVisibleDishes(circleId, currentUserId);
+        if (visibleDishes.isEmpty()) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "当前圈子暂无可安排的菜谱");
+        }
+
+        vipService.assertCanUsePlanAi(currentUserId);
+        List<CirclePlan> recentPlans = loadRecentCirclePlans(circleId);
+        PlanArrangementHistoryContext historyContext = buildPlanArrangementHistoryContext(recentPlans, visibleDishes);
+        // 历史高频菜谱放前面并带上次数，让 AI 的首要依据更贴近用户过往口味。
+        List<DishSummaryResponse> historyRankedDishes = rankDishesByHistoricalPreference(
+                visibleDishes,
+                historyContext.recipeCountByDishId());
+        DishAiService.PlanArrangementAiResult aiResult = dishAiService.arrangePlan(
+                mealTypeLabel,
+                planDate,
+                Math.min(dishCount, visibleDishes.size()),
+                healthAdvice,
+                historyRankedDishes,
+                historyContext.histories(),
+                historyContext.recipeCountByDishId());
+
+        PlanAiArrangementResponse response = buildAiArrangementResponse(
+                aiResult,
+                visibleDishes,
+                historyContext.recipeCountByDishId(),
+                dishCount,
+                mealTypeLabel,
+                planDate,
+                healthAdvice);
+        response.setUsage(vipService.consumePlanAiUsage(currentUserId));
+        return response;
+    }
+
+    @Override
+    @Transactional
+    public PlanDetailResponse confirmAiArrangement(PlanAiArrangementConfirmRequest request) {
+        String currentUserId = AuthContext.requireUserId();
+        String circleId = normalizeRequired(request == null ? null : request.getCircleId(), "请选择圈子");
+        LocalDate planDate = request == null ? null : request.getPlanDate();
+        if (planDate == null) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "请选择计划日期");
+        }
+        List<String> dishIds = normalizeIds(request == null ? null : request.getDishIds());
+        if (dishIds.isEmpty()) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "请至少选择一道菜谱");
+        }
+
+        BuddyCircle circle = requireCircleMember(circleId, currentUserId);
+        Map<String, DishSummaryResponse> visibleDishById = loadCircleVisibleDishes(circleId, currentUserId).stream()
+                .collect(Collectors.toMap(DishSummaryResponse::getId, item -> item, (left, right) -> left));
+        for (String dishId : dishIds) {
+            if (!visibleDishById.containsKey(dishId)) {
+                throw new ApiException(HttpStatus.BAD_REQUEST, "只能添加当前圈子可见的菜谱");
+            }
+        }
+
+        CirclePlan plan = new CirclePlan();
+        plan.setCircleId(circleId);
+        plan.setPlanDate(planDate);
+        plan.setTitle(normalizeTitle(request == null ? null : request.getTitle()));
+        plan.setCreatorUserId(currentUserId);
+        plan.setShoppingStatus(CirclePlan.SHOPPING_STATUS_NOT_STARTED);
+        plan.setCreatedAt(LocalDateTime.now());
+        plan.setUpdatedAt(LocalDateTime.now());
+        circlePlanMapper.insert(plan);
+        insertPlanRecipes(plan.getId(), dishIds, currentUserId);
         return buildPlanDetail(plan, circle);
     }
 
@@ -303,6 +404,130 @@ public class PlanServiceImpl implements PlanService {
         PlanContext context = requirePlanContext(planId, currentUserId);
         rebuildShoppingList(context.plan(), currentUserId, true);
         return buildShoppingListResponse(context.plan(), context.circle());
+    }
+
+    private PlanAiArrangementResponse buildAiArrangementResponse(DishAiService.PlanArrangementAiResult aiResult,
+                                                                 List<DishSummaryResponse> visibleDishes,
+                                                                 Map<String, Long> recipeCountByDishId,
+                                                                 int requestedDishCount,
+                                                                 String mealTypeLabel,
+                                                                 LocalDate planDate,
+                                                                 String healthAdvice) {
+        Map<String, DishSummaryResponse> visibleDishById = visibleDishes.stream()
+                .collect(Collectors.toMap(DishSummaryResponse::getId, item -> item, (left, right) -> left, LinkedHashMap::new));
+        List<String> selectedDishIds = new ArrayList<>();
+        Map<String, String> reasonByDishId = new HashMap<>();
+
+        if (aiResult != null && aiResult.recipes() != null) {
+            for (DishAiService.PlanArrangementRecipe recipe : aiResult.recipes()) {
+                if (!visibleDishById.containsKey(recipe.dishId()) || selectedDishIds.contains(recipe.dishId())) {
+                    continue;
+                }
+                selectedDishIds.add(recipe.dishId());
+                reasonByDishId.put(recipe.dishId(), normalizeOptional(recipe.reason(), "适合这顿饭。"));
+                if (selectedDishIds.size() >= requestedDishCount) {
+                    break;
+                }
+            }
+        }
+
+        // AI 可能少返回、重复返回或返回不可见 ID，这里用后端可见菜谱按历史偏好补齐。
+        int targetCount = Math.min(requestedDishCount, visibleDishes.size());
+        List<DishSummaryResponse> fallbackDishes = rankDishesByHistoricalPreference(visibleDishes, recipeCountByDishId);
+        for (DishSummaryResponse dish : fallbackDishes) {
+            if (selectedDishIds.size() >= targetCount) {
+                break;
+            }
+            if (selectedDishIds.contains(dish.getId())) {
+                continue;
+            }
+            selectedDishIds.add(dish.getId());
+            reasonByDishId.put(dish.getId(), "结合最近计划和圈内菜谱热度补上这一道。");
+        }
+
+        PlanAiArrangementResponse response = new PlanAiArrangementResponse();
+        response.setTitle(normalizeAiTitle(aiResult == null ? null : aiResult.title(), mealTypeLabel, planDate));
+        response.setPetText(normalizeOptional(aiResult == null ? null : aiResult.petText(), "饭团把菜谱叼来啦，先看看这桌合不合胃口。"));
+        response.setSuggestionText(normalizeOptional(aiResult == null ? null : aiResult.suggestionText(), "按最近计划和圈内菜谱搭了一餐。"));
+        response.setHealthText(normalizeOptional(aiResult == null ? null : aiResult.healthText(), healthAdvice));
+        response.setRecipes(selectedDishIds.stream().map(dishId -> {
+            PlanAiArrangementRecipeResponse item = new PlanAiArrangementRecipeResponse();
+            item.setDish(visibleDishById.get(dishId));
+            item.setReason(reasonByDishId.getOrDefault(dishId, "适合这顿饭。"));
+            return item;
+        }).collect(Collectors.toList()));
+        return response;
+    }
+
+    private List<DishSummaryResponse> rankDishesByHistoricalPreference(List<DishSummaryResponse> visibleDishes,
+                                                                       Map<String, Long> recipeCountByDishId) {
+        return visibleDishes.stream()
+                .sorted(Comparator
+                        .comparing((DishSummaryResponse item) -> recipeCountByDishId.getOrDefault(item.getId(), 0L)).reversed()
+                        .thenComparing(DishSummaryResponse::getCreatedAt, Comparator.nullsLast(Comparator.reverseOrder())))
+                .collect(Collectors.toList());
+    }
+
+    private List<CirclePlan> loadRecentCirclePlans(String circleId) {
+        return circlePlanMapper.selectList(new QueryWrapper<CirclePlan>()
+                .eq("circle_id", circleId)
+                .orderByDesc("plan_date")
+                .orderByDesc("created_at")
+                .orderByDesc("id")
+                .last("LIMIT " + RECENT_PLAN_HISTORY_LIMIT));
+    }
+
+    private PlanArrangementHistoryContext buildPlanArrangementHistoryContext(List<CirclePlan> recentPlans,
+                                                                             List<DishSummaryResponse> visibleDishes) {
+        if (recentPlans.isEmpty()) {
+            return new PlanArrangementHistoryContext(Collections.emptyList(), Collections.emptyMap());
+        }
+
+        Map<String, DishSummaryResponse> visibleDishById = visibleDishes.stream()
+                .collect(Collectors.toMap(DishSummaryResponse::getId, item -> item, (left, right) -> left));
+        List<String> planIds = recentPlans.stream().map(CirclePlan::getId).collect(Collectors.toList());
+        List<CirclePlanRecipe> planRecipes = circlePlanRecipeMapper.selectList(new QueryWrapper<CirclePlanRecipe>()
+                .in("plan_id", planIds)
+                .orderByAsc("plan_id")
+                .orderByAsc("sort")
+                .orderByAsc("created_at")
+                .orderByAsc("id"));
+        Map<String, List<CirclePlanRecipe>> recipesByPlanId = planRecipes.stream()
+                .collect(Collectors.groupingBy(CirclePlanRecipe::getPlanId));
+        Map<String, Long> recipeCountByDishId = new LinkedHashMap<>();
+        List<DishAiService.PlanArrangementHistory> histories = new ArrayList<>();
+
+        for (CirclePlan plan : recentPlans) {
+            List<String> dishNames = new ArrayList<>();
+            for (CirclePlanRecipe recipe : recipesByPlanId.getOrDefault(plan.getId(), Collections.emptyList())) {
+                DishSummaryResponse dish = visibleDishById.get(recipe.getDishId());
+                if (dish == null) {
+                    continue;
+                }
+                recipeCountByDishId.merge(recipe.getDishId(), 1L, Long::sum);
+                dishNames.add(dish.getName());
+            }
+            if (!dishNames.isEmpty()) {
+                histories.add(new DishAiService.PlanArrangementHistory(
+                        plan.getTitle(),
+                        plan.getPlanDate() == null ? "" : plan.getPlanDate().toString(),
+                        dishNames));
+            }
+        }
+        return new PlanArrangementHistoryContext(histories, recipeCountByDishId);
+    }
+
+    private void insertPlanRecipes(String planId, List<String> dishIds, String currentUserId) {
+        LocalDateTime now = LocalDateTime.now();
+        for (int i = 0; i < dishIds.size(); i++) {
+            CirclePlanRecipe recipe = new CirclePlanRecipe();
+            recipe.setPlanId(planId);
+            recipe.setDishId(dishIds.get(i));
+            recipe.setAddedByUserId(currentUserId);
+            recipe.setCreatedAt(now);
+            recipe.setSort(i + 1);
+            circlePlanRecipeMapper.insert(recipe);
+        }
     }
 
     private PlanDetailResponse buildPlanDetail(CirclePlan plan, BuddyCircle circle) {
@@ -826,6 +1051,48 @@ public class PlanServiceImpl implements PlanService {
         return normalized;
     }
 
+    private int normalizeAiDishCount(Integer dishCount) {
+        int normalized = dishCount == null ? 3 : dishCount;
+        if (normalized < MIN_AI_DISH_COUNT || normalized > MAX_AI_DISH_COUNT) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "菜数范围应为 1-8 道");
+        }
+        return normalized;
+    }
+
+    private String normalizeMealType(String mealType) {
+        String normalized = normalizeRequired(mealType, "请选择午餐或晚餐");
+        if (!MEAL_TYPE_LUNCH.equals(normalized) && !MEAL_TYPE_DINNER.equals(normalized)) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "请选择午餐或晚餐");
+        }
+        return normalized;
+    }
+
+    private String mealTypeLabel(String mealType) {
+        return MEAL_TYPE_DINNER.equals(mealType) ? "晚餐" : "午餐";
+    }
+
+    private String normalizeOptional(String value, String fallback) {
+        if (value == null || value.trim().isEmpty()) {
+            return fallback;
+        }
+        return value.trim();
+    }
+
+    private String normalizeAiTitle(String title, String mealTypeLabel, LocalDate planDate) {
+        String normalized = normalizeOptional(title, formatShortDate(planDate) + " " + mealTypeLabel + "排菜");
+        if (normalized.length() <= 40) {
+            return normalized;
+        }
+        return normalized.substring(0, 40);
+    }
+
+    private String formatShortDate(LocalDate date) {
+        if (date == null) {
+            return "今天";
+        }
+        return String.format("%02d.%02d", date.getMonthValue(), date.getDayOfMonth());
+    }
+
     private String normalizeRequired(String value, String message) {
         if (value == null || value.trim().isEmpty()) {
             throw new ApiException(HttpStatus.BAD_REQUEST, message);
@@ -881,6 +1148,11 @@ public class PlanServiceImpl implements PlanService {
             Map<String, UserAccount> usersById,
             Map<String, Long> recipeCountByPlanId,
             Map<String, ShoppingSummary> shoppingSummaryByPlanId) {
+    }
+
+    private record PlanArrangementHistoryContext(
+            List<DishAiService.PlanArrangementHistory> histories,
+            Map<String, Long> recipeCountByDishId) {
     }
 
     private record ShoppingSummary(boolean started, int restartCount, int totalCount, int purchasedCount) {

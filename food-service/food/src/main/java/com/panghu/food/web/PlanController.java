@@ -1,5 +1,8 @@
 package com.panghu.food.web;
 
+import com.panghu.food.dto.PlanAiArrangeRequest;
+import com.panghu.food.dto.PlanAiArrangementConfirmRequest;
+import com.panghu.food.dto.PlanAiArrangementResponse;
 import com.panghu.food.dto.PlanCreateRequest;
 import com.panghu.food.dto.PlanDetailResponse;
 import com.panghu.food.dto.PlanMonthResponse;
@@ -26,6 +29,16 @@ public class PlanController {
     @PostMapping
     public ResponseEntity<PlanDetailResponse> createPlan(@RequestBody PlanCreateRequest request) {
         return ResponseEntity.ok(planService.createPlan(request));
+    }
+
+    @PostMapping("/ai-arrangements")
+    public ResponseEntity<PlanAiArrangementResponse> arrangePlanByAi(@RequestBody PlanAiArrangeRequest request) {
+        return ResponseEntity.ok(planService.arrangePlanByAi(request));
+    }
+
+    @PostMapping("/ai-arrangements/confirm")
+    public ResponseEntity<PlanDetailResponse> confirmAiArrangement(@RequestBody PlanAiArrangementConfirmRequest request) {
+        return ResponseEntity.ok(planService.confirmAiArrangement(request));
     }
 
     @GetMapping("/{planId}")

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.panghu.food.dto.DishAiAnalysisResponse;
+import com.panghu.food.dto.DishSummaryResponse;
 import com.panghu.food.dto.IngredientItem;
 import com.panghu.food.dto.StepItem;
 import com.panghu.food.exception.ApiException;
@@ -15,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.LinkedHashMap;
@@ -25,6 +27,8 @@ import java.util.regex.Pattern;
 @Service
 public class DishAiService {
     private static final String AI_FAILURE_MESSAGE = "AI 识别失败，请稍后重试";
+    private static final String PLAN_AI_FAILURE_MESSAGE = "AI 排菜失败，请稍后重试";
+    private static final double PLAN_ARRANGEMENT_TEMPERATURE = 1.1;
     private static final Pattern URL_PATTERN = Pattern.compile("https?://\\S+", Pattern.CASE_INSENSITIVE);
 
     @Value("${upload.base-path:./uploads}")
@@ -43,6 +47,35 @@ public class DishAiService {
 
     public DishAiService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
+    }
+
+    public PlanArrangementAiResult arrangePlan(String mealTypeLabel,
+                                               LocalDate planDate,
+                                               int dishCount,
+                                               String healthAdvice,
+                                               List<DishSummaryResponse> candidates,
+                                               List<PlanArrangementHistory> histories,
+                                               Map<String, Long> historyCountByDishId) {
+        if (isBlank(openaiApiKey)) {
+            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, PLAN_AI_FAILURE_MESSAGE);
+        }
+        try {
+            List<Object> userContent = new ArrayList<>();
+            userContent.add(inputText(buildPlanArrangementPrompt(
+                    mealTypeLabel,
+                    planDate,
+                    dishCount,
+                    healthAdvice,
+                    candidates,
+                    histories,
+                    historyCountByDishId)));
+            String responseText = requestOpenAi(userContent, false, PLAN_ARRANGEMENT_TEMPERATURE);
+            return parsePlanArrangementResponse(responseText);
+        } catch (ApiException exception) {
+            throw exception;
+        } catch (Exception exception) {
+            throw new ApiException(HttpStatus.BAD_GATEWAY, PLAN_AI_FAILURE_MESSAGE);
+        }
     }
 
     public DishAiAnalysisResponse analyzeDish(String imageUrl, String dishName) {
@@ -88,10 +121,14 @@ public class DishAiService {
     }
 
     private String requestOpenAi(List<Object> userContent) {
-        return requestOpenAi(userContent, false);
+        return requestOpenAi(userContent, false, null);
     }
 
     private String requestOpenAi(List<Object> userContent, boolean enableWebSearch) {
+        return requestOpenAi(userContent, enableWebSearch, null);
+    }
+
+    private String requestOpenAi(List<Object> userContent, boolean enableWebSearch, Double temperature) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(openaiApiKey);
@@ -102,6 +139,9 @@ public class DishAiService {
         Map<String, Object> payload = new LinkedHashMap<>();
         payload.put("model", openaiModel);
         payload.put("input", input);
+        if (temperature != null) {
+            payload.put("temperature", temperature);
+        }
         if (enableWebSearch) {
             payload.put("tools", List.of(Map.of("type", "web_search")));
             payload.put("tool_choice", "required");
@@ -172,6 +212,37 @@ public class DishAiService {
         return response;
     }
 
+    private PlanArrangementAiResult parsePlanArrangementResponse(String responseText) {
+        String normalized = stripMarkdownFence(responseText);
+        JSONObject json = JSON.parseObject(normalized);
+        List<PlanArrangementRecipe> recipes = new ArrayList<>();
+        JSONArray recipeArray = json.getJSONArray("recipes");
+        if (recipeArray != null) {
+            for (int i = 0; i < recipeArray.size(); i++) {
+                JSONObject item = recipeArray.getJSONObject(i);
+                if (item == null) {
+                    continue;
+                }
+                String dishId = trimToNull(item.getString("dishId"));
+                if (dishId == null) {
+                    dishId = trimToNull(item.getString("id"));
+                }
+                if (dishId == null) {
+                    continue;
+                }
+                recipes.add(new PlanArrangementRecipe(
+                        dishId,
+                        defaultString(trimToNull(item.getString("reason")), "适合这顿饭。")));
+            }
+        }
+        return new PlanArrangementAiResult(
+                trimToNull(json.getString("title")),
+                trimToNull(json.getString("petText")),
+                trimToNull(json.getString("suggestionText")),
+                trimToNull(json.getString("healthText")),
+                recipes);
+    }
+
     private String extractText(String responseBody) {
         JSONObject json = JSON.parseObject(responseBody);
         String outputText = trimToNull(json.getString("output_text"));
@@ -236,6 +307,44 @@ public class DishAiService {
             builder.append(" 用户未粘贴文字，请只根据截图内容整理。");
         }
         return builder.toString();
+    }
+
+    private String buildPlanArrangementPrompt(String mealTypeLabel,
+                                              LocalDate planDate,
+                                              int dishCount,
+                                              String healthAdvice,
+                                              List<DishSummaryResponse> candidates,
+                                              List<PlanArrangementHistory> histories,
+                                              Map<String, Long> historyCountByDishId) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("你是 meoi 食堂里的宠物排菜助手。请重点根据用户历史口味安排菜谱，再兼顾所选餐次、菜数和健康建议。");
+        builder.append("只能从候选菜谱里选择 dishId，不要创造新菜谱 ID。输出严格 JSON，不要输出 Markdown，不要解释。");
+        builder.append(" JSON 格式必须是：");
+        builder.append("{\"title\":\"计划标题\",\"petText\":\"宠物口吻的一句有趣建议\",\"suggestionText\":\"整体搭配说明\",\"healthText\":\"健康建议说明\",\"recipes\":[{\"dishId\":\"候选菜谱ID\",\"reason\":\"推荐理由\"}]}。");
+        builder.append("请推荐 ").append(dishCount).append(" 道菜。餐次：").append(mealTypeLabel).append("。日期：").append(planDate).append("。");
+        builder.append("健康建议：").append(healthAdvice).append("。");
+        builder.append("优先规则：根据最近 30 次圈子计划里的高频 dishId、菜品名、类别和食材判断历史口味；历史出现次数越高越优先，同时保留少量新鲜变化，避免完全照搬。");
+        builder.append("每个 recipes 项都必须有 reason，说明它为什么符合历史口味、餐次或健康建议。");
+        builder.append("最近 30 次圈子计划：").append(JSON.toJSONString(histories)).append("。");
+        builder.append("候选菜谱：").append(JSON.toJSONString(candidates.stream()
+                .map(dish -> toPlanCandidateJson(dish, historyCountByDishId))
+                .toList())).append("。");
+        builder.append("标题不超过 40 个字符，petText 要轻松有趣但不要夸张。");
+        return builder.toString();
+    }
+
+    private Map<String, Object> toPlanCandidateJson(DishSummaryResponse dish, Map<String, Long> historyCountByDishId) {
+        Map<String, Object> item = new LinkedHashMap<>();
+        item.put("dishId", defaultString(dish.getId(), ""));
+        item.put("name", defaultString(dish.getName(), ""));
+        item.put("historyCount", historyCountByDishId == null ? 0L : historyCountByDishId.getOrDefault(dish.getId(), 0L));
+        item.put("categoryName", defaultString(dish.getCategoryName(), ""));
+        item.put("description", defaultString(dish.getDescription(), ""));
+        item.put("cookTimeMinutes", dish.getCookTimeMinutes());
+        item.put("difficulty", defaultString(dish.getDifficulty(), ""));
+        item.put("servings", dish.getServings());
+        item.put("ingredients", dish.getIngredientNames() == null ? List.of() : dish.getIngredientNames());
+        return item;
     }
 
     private Map<String, Object> inputText(String text) {
@@ -316,5 +425,20 @@ public class DishAiService {
 
     private boolean containsUrl(String value) {
         return value != null && URL_PATTERN.matcher(value).find();
+    }
+
+    public record PlanArrangementHistory(String title, String planDate, List<String> dishNames) {
+    }
+
+    public record PlanArrangementAiResult(
+            String title,
+            String petText,
+            String suggestionText,
+            String healthText,
+            List<PlanArrangementRecipe> recipes
+    ) {
+    }
+
+    public record PlanArrangementRecipe(String dishId, String reason) {
     }
 }

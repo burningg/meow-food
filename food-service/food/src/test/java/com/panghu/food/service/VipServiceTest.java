@@ -1,6 +1,7 @@
 package com.panghu.food.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.panghu.food.dto.PlanAiUsageResponse;
 import com.panghu.food.dto.VipInfoResponse;
 import com.panghu.food.dto.VipUsageResponse;
 import com.panghu.food.entity.UserVip;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -59,6 +61,33 @@ class VipServiceTest {
         assertThat(usage.getUsedToday()).isEqualTo(2);
         assertThat(usage.getRemainingToday()).isEqualTo(3);
         verify(userVipMapper).updateById(vip);
+    }
+
+    @Test
+    void consumePlanAiUsageUsesNormalMonthlyLimit() {
+        UserVip vip = activeVip();
+        vip.setIsVip(false);
+        vip.setExpiresAt(null);
+        vip.setMonthlyPlanAiUsed(29);
+        when(userVipMapper.selectOne(any(QueryWrapper.class))).thenReturn(vip);
+
+        PlanAiUsageResponse usage = vipService.consumePlanAiUsage("user-1");
+
+        assertThat(usage.getMonthlyLimit()).isEqualTo(30);
+        assertThat(usage.getUsedThisMonth()).isEqualTo(30);
+        assertThat(usage.getRemainingThisMonth()).isZero();
+        verify(userVipMapper).updateById(vip);
+    }
+
+    @Test
+    void assertCanUsePlanAiRejectsMonthlyLimitExceeded() {
+        UserVip vip = activeVip();
+        vip.setMonthlyPlanAiUsed(90);
+        when(userVipMapper.selectOne(any(QueryWrapper.class))).thenReturn(vip);
+
+        assertThatThrownBy(() -> vipService.assertCanUsePlanAi("user-1"))
+                .isInstanceOf(ApiException.class)
+                .hasMessage("本月 AI 排菜次数已用完");
     }
 
     @Test
@@ -153,6 +182,8 @@ class VipServiceTest {
         vip.setDailyRecipeAnalysisLimit(5);
         vip.setDailyRecipeAnalysisUsed(1);
         vip.setDailyRecipeAnalysisDate(LocalDate.now());
+        vip.setMonthlyPlanAiUsed(1);
+        vip.setMonthlyPlanAiMonth(YearMonth.now().toString());
         return vip;
     }
 }

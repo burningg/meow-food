@@ -15,4 +15,7 @@ public class VipInfoResponse {
     private Integer dailyRecipeAnalysisLimit;
     private Integer dailyRecipeAnalysisUsed;
     private Integer dailyRecipeAnalysisRemaining;
+    private Integer monthlyPlanAiLimit;
+    private Integer monthlyPlanAiUsed;
+    private Integer monthlyPlanAiRemaining;
 }

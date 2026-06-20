@@ -23,6 +23,8 @@ public class UserVip {
     private Integer dailyRecipeAnalysisLimit;
     private Integer dailyRecipeAnalysisUsed;
     private LocalDate dailyRecipeAnalysisDate;
+    private Integer monthlyPlanAiUsed;
+    private String monthlyPlanAiMonth;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

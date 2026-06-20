@@ -1,6 +1,7 @@
 package com.panghu.food.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.panghu.food.dto.PlanAiUsageResponse;
 import com.panghu.food.dto.VipInfoResponse;
 import com.panghu.food.dto.VipUsageResponse;
 import com.panghu.food.entity.UserVip;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 
 @Service
 public class VipService {
@@ -22,6 +24,8 @@ public class VipService {
     private static final int VIP_CIRCLE_LIMIT = 10;
     private static final int NORMAL_MENU_LIMIT = 50;
     private static final int VIP_MENU_LIMIT = 500;
+    private static final int NORMAL_MONTHLY_PLAN_AI_LIMIT = 30;
+    private static final int VIP_MONTHLY_PLAN_AI_LIMIT = 90;
 
     private final UserVipMapper userVipMapper;
 
@@ -43,12 +47,14 @@ public class VipService {
             vip.setDailyRecipeAnalysisLimit(0);
             vip.setDailyRecipeAnalysisUsed(0);
             vip.setDailyRecipeAnalysisDate(LocalDate.now());
+            vip.setMonthlyPlanAiUsed(0);
+            vip.setMonthlyPlanAiMonth(YearMonth.now().toString());
             LocalDateTime now = LocalDateTime.now();
             vip.setCreatedAt(now);
             vip.setUpdatedAt(now);
             userVipMapper.insert(vip);
         }
-        return refreshDailyUsageIfNeeded(vip);
+        return refreshPlanAiUsageIfNeeded(refreshDailyUsageIfNeeded(vip));
     }
 
     @Transactional
@@ -64,6 +70,26 @@ public class VipService {
     @Transactional
     public int getMenuLimit(String userId) {
         return isVipActive(getOrCreateByUserId(userId)) ? VIP_MENU_LIMIT : NORMAL_MENU_LIMIT;
+    }
+
+    @Transactional
+    public void assertCanUsePlanAi(String userId) {
+        UserVip vip = getOrCreateByUserId(userId);
+        if (remainingPlanAi(vip) <= 0) {
+            throw new ApiException(HttpStatus.TOO_MANY_REQUESTS, "本月 AI 排菜次数已用完");
+        }
+    }
+
+    @Transactional
+    public PlanAiUsageResponse consumePlanAiUsage(String userId) {
+        UserVip vip = getOrCreateByUserId(userId);
+        if (remainingPlanAi(vip) <= 0) {
+            throw new ApiException(HttpStatus.TOO_MANY_REQUESTS, "本月 AI 排菜次数已用完");
+        }
+        vip.setMonthlyPlanAiUsed(safeInt(vip.getMonthlyPlanAiUsed()) + 1);
+        vip.setUpdatedAt(LocalDateTime.now());
+        userVipMapper.updateById(vip);
+        return toPlanAiUsage(vip);
     }
 
     @Transactional
@@ -154,6 +180,20 @@ public class VipService {
         return vip;
     }
 
+    private UserVip refreshPlanAiUsageIfNeeded(UserVip vip) {
+        String currentMonth = YearMonth.now().toString();
+        if (vip.getMonthlyPlanAiMonth() == null || !currentMonth.equals(vip.getMonthlyPlanAiMonth())) {
+            vip.setMonthlyPlanAiMonth(currentMonth);
+            vip.setMonthlyPlanAiUsed(0);
+            vip.setUpdatedAt(LocalDateTime.now());
+            userVipMapper.updateById(vip);
+        }
+        if (vip.getMonthlyPlanAiUsed() == null) {
+            vip.setMonthlyPlanAiUsed(0);
+        }
+        return vip;
+    }
+
     private VipInfoResponse toVipInfo(UserVip vip) {
         VipInfoResponse response = new VipInfoResponse();
         response.setVip(isVipActive(vip));
@@ -164,6 +204,9 @@ public class VipService {
         response.setDailyRecipeAnalysisLimit(safeInt(vip.getDailyRecipeAnalysisLimit()));
         response.setDailyRecipeAnalysisUsed(safeInt(vip.getDailyRecipeAnalysisUsed()));
         response.setDailyRecipeAnalysisRemaining(Math.max(remaining(vip), 0));
+        response.setMonthlyPlanAiLimit(planAiLimit(vip));
+        response.setMonthlyPlanAiUsed(safeInt(vip.getMonthlyPlanAiUsed()));
+        response.setMonthlyPlanAiRemaining(Math.max(remainingPlanAi(vip), 0));
         return response;
     }
 
@@ -177,6 +220,22 @@ public class VipService {
 
     private int remaining(UserVip vip) {
         return safeInt(vip.getDailyRecipeAnalysisLimit()) - safeInt(vip.getDailyRecipeAnalysisUsed());
+    }
+
+    private PlanAiUsageResponse toPlanAiUsage(UserVip vip) {
+        PlanAiUsageResponse response = new PlanAiUsageResponse();
+        response.setMonthlyLimit(planAiLimit(vip));
+        response.setUsedThisMonth(safeInt(vip.getMonthlyPlanAiUsed()));
+        response.setRemainingThisMonth(Math.max(remainingPlanAi(vip), 0));
+        return response;
+    }
+
+    private int remainingPlanAi(UserVip vip) {
+        return planAiLimit(vip) - safeInt(vip.getMonthlyPlanAiUsed());
+    }
+
+    private int planAiLimit(UserVip vip) {
+        return isVipActive(vip) ? VIP_MONTHLY_PLAN_AI_LIMIT : NORMAL_MONTHLY_PLAN_AI_LIMIT;
     }
 
     private int safeInt(Integer value) {

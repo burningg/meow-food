@@ -17,6 +17,9 @@ export interface VipInfo {
   dailyRecipeAnalysisLimit: number
   dailyRecipeAnalysisUsed: number
   dailyRecipeAnalysisRemaining: number
+  monthlyPlanAiLimit: number
+  monthlyPlanAiUsed: number
+  monthlyPlanAiRemaining: number
 }
 
 export interface VipPaymentOrderResponse {

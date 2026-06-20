@@ -2,10 +2,14 @@ package com.panghu.food.service;
 
 import com.panghu.food.auth.AuthContext;
 import com.panghu.food.dto.DishSummaryResponse;
+import com.panghu.food.dto.PlanAiArrangeRequest;
+import com.panghu.food.dto.PlanAiArrangementConfirmRequest;
+import com.panghu.food.dto.PlanAiArrangementResponse;
 import com.panghu.food.dto.PlanCreateRequest;
 import com.panghu.food.dto.PlanDetailResponse;
 import com.panghu.food.dto.PlanRecipesUpdateRequest;
 import com.panghu.food.dto.PlanShoppingListResponse;
+import com.panghu.food.dto.PlanAiUsageResponse;
 import com.panghu.food.entity.BuddyCircle;
 import com.panghu.food.entity.BuddyCircleMember;
 import com.panghu.food.entity.CirclePlan;
@@ -29,19 +33,24 @@ import com.panghu.food.mapper.DishMapper;
 import com.panghu.food.mapper.UserAccountMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -61,6 +70,8 @@ class PlanServiceImplTest {
     private final DishIngredientMapper dishIngredientMapper = mock(DishIngredientMapper.class);
     private final UserAccountMapper userAccountMapper = mock(UserAccountMapper.class);
     private final MenuVisibilitySupport menuVisibilitySupport = mock(MenuVisibilitySupport.class);
+    private final DishAiService dishAiService = mock(DishAiService.class);
+    private final VipService vipService = mock(VipService.class);
 
     private final PlanServiceImpl planService = new PlanServiceImpl(
             circlePlanMapper,
@@ -73,7 +84,9 @@ class PlanServiceImplTest {
             dishMapper,
             dishIngredientMapper,
             userAccountMapper,
-            menuVisibilitySupport);
+            menuVisibilitySupport,
+            dishAiService,
+            vipService);
 
     @AfterEach
     void tearDown() {
@@ -108,6 +121,131 @@ class PlanServiceImplTest {
         assertThat(first.getShoppingStatus()).isEqualTo(CirclePlan.SHOPPING_STATUS_NOT_STARTED);
         assertThat(second.getId()).isEqualTo("plan-2");
         verify(circlePlanMapper, times(2)).insert(any(CirclePlan.class));
+    }
+
+    @Test
+    void arrangePlanByAiRejectsDishCountOutOfRange() {
+        AuthContext.setUserId("viewer");
+        PlanAiArrangeRequest request = aiArrangeRequest();
+        request.setDishCount(9);
+
+        assertThatThrownBy(() -> planService.arrangePlanByAi(request))
+                .isInstanceOf(ApiException.class)
+                .hasMessage("菜数范围应为 1-8 道");
+    }
+
+    @Test
+    void arrangePlanByAiRejectsEmptyVisibleDishes() {
+        AuthContext.setUserId("viewer");
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(1L);
+        when(buddyCircleMemberMapper.selectList(any())).thenReturn(List.of(member("circle-1", "viewer")));
+        when(dishMapper.selectAllActive()).thenReturn(List.of());
+
+        assertThatThrownBy(() -> planService.arrangePlanByAi(aiArrangeRequest()))
+                .isInstanceOf(ApiException.class)
+                .hasMessage("当前圈子暂无可安排的菜谱");
+    }
+
+    @Test
+    void arrangePlanByAiFiltersInvisibleRecipeAndFallbacks() {
+        AuthContext.setUserId("viewer");
+        CirclePlan recentPlan = plan("plan-recent", "circle-1", "viewer");
+        DishSummaryResponse first = dishSummary("dish-1", "viewer", LocalDateTime.of(2026, 6, 1, 10, 0));
+        first.setName("番茄牛腩");
+        DishSummaryResponse second = dishSummary("dish-2", "viewer", LocalDateTime.of(2026, 6, 2, 10, 0));
+        second.setName("清炒藕带");
+        CirclePlanRecipe historicalRecipe = recipe("plan-recent", "dish-1");
+        PlanAiUsageResponse usage = new PlanAiUsageResponse();
+        usage.setMonthlyLimit(30);
+        usage.setUsedThisMonth(1);
+        usage.setRemainingThisMonth(29);
+
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(1L);
+        when(buddyCircleMemberMapper.selectList(any())).thenReturn(List.of(member("circle-1", "viewer")));
+        when(dishMapper.selectAllActive()).thenReturn(List.of(first, second));
+        when(dishIngredientMapper.selectList(any())).thenReturn(List.of());
+        when(circlePlanMapper.selectList(any())).thenReturn(List.of(recentPlan));
+        when(circlePlanRecipeMapper.selectList(any())).thenReturn(List.of(historicalRecipe));
+        when(dishAiService.arrangePlan(anyString(), any(), anyInt(), anyString(), anyList(), anyList(), anyMap()))
+                .thenReturn(new DishAiService.PlanArrangementAiResult(
+                        "今天午餐这样吃",
+                        "饭团叼来一份清爽菜单。",
+                        "热菜配蔬菜。",
+                        "少油一点。",
+                        List.of(
+                                new DishAiService.PlanArrangementRecipe("dish-2", "清爽解腻"),
+                                new DishAiService.PlanArrangementRecipe("dish-x", "不可见"))));
+        doNothing().when(vipService).assertCanUsePlanAi("viewer");
+        when(vipService.consumePlanAiUsage("viewer")).thenReturn(usage);
+
+        PlanAiArrangeRequest request = aiArrangeRequest();
+        request.setHealthAdvice(null);
+        PlanAiArrangementResponse response = planService.arrangePlanByAi(request);
+
+        assertThat(response.getRecipes()).hasSize(2);
+        assertThat(response.getRecipes()).extracting(item -> item.getDish().getId())
+                .containsExactly("dish-2", "dish-1");
+        assertThat(response.getRecipes().get(0).getReason()).isEqualTo("清爽解腻");
+        assertThat(response.getUsage().getRemainingThisMonth()).isEqualTo(29);
+        @SuppressWarnings("unchecked")
+        ArgumentCaptor<List<DishSummaryResponse>> candidatesCaptor = ArgumentCaptor.forClass(List.class);
+        @SuppressWarnings("unchecked")
+        ArgumentCaptor<Map<String, Long>> historyCountCaptor = ArgumentCaptor.forClass(Map.class);
+        verify(dishAiService).arrangePlan(
+                anyString(),
+                any(),
+                anyInt(),
+                eq("荤素搭配"),
+                candidatesCaptor.capture(),
+                anyList(),
+                historyCountCaptor.capture());
+        assertThat(candidatesCaptor.getValue()).extracting(DishSummaryResponse::getId)
+                .containsExactly("dish-1", "dish-2");
+        assertThat(historyCountCaptor.getValue()).containsEntry("dish-1", 1L);
+        verify(vipService).consumePlanAiUsage("viewer");
+    }
+
+    @Test
+    void confirmAiArrangementCreatesPlanWithVisibleRecipes() {
+        AuthContext.setUserId("viewer");
+        List<CirclePlanRecipe> storedRecipes = new ArrayList<>();
+        DishSummaryResponse first = dishSummary("dish-1", "viewer", LocalDateTime.of(2026, 6, 1, 10, 0));
+        DishSummaryResponse second = dishSummary("dish-2", "viewer", LocalDateTime.of(2026, 6, 2, 10, 0));
+
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(1L);
+        when(buddyCircleMemberMapper.selectList(any())).thenReturn(List.of(member("circle-1", "viewer")));
+        when(dishMapper.selectAllActive()).thenReturn(List.of(first, second));
+        when(dishMapper.selectByIds(any())).thenReturn(List.of(first, second));
+        when(dishIngredientMapper.selectList(any())).thenReturn(List.of());
+        when(circlePlanRecipeMapper.selectList(any())).thenAnswer(invocation -> storedRecipes);
+        when(circlePlanRecipeMapper.insert(any(CirclePlanRecipe.class))).thenAnswer(invocation -> {
+            storedRecipes.add(invocation.getArgument(0));
+            return 1;
+        });
+        when(circlePlanMapper.insert(any(CirclePlan.class))).thenAnswer(invocation -> {
+            CirclePlan plan = invocation.getArgument(0);
+            plan.setId("plan-ai");
+            return 1;
+        });
+        when(circlePlanShoppingListMapper.selectOne(any())).thenReturn(null);
+        when(userAccountMapper.selectById("viewer")).thenReturn(user("viewer", "胖虎"));
+        when(userAccountMapper.selectBatchIds(any())).thenReturn(List.of(user("viewer", "胖虎")));
+
+        PlanAiArrangementConfirmRequest request = new PlanAiArrangementConfirmRequest();
+        request.setCircleId("circle-1");
+        request.setPlanDate(LocalDate.of(2026, 6, 21));
+        request.setTitle("今天午餐这样吃");
+        request.setDishIds(List.of("dish-1", "dish-2"));
+
+        PlanDetailResponse response = planService.confirmAiArrangement(request);
+
+        assertThat(response.getId()).isEqualTo("plan-ai");
+        assertThat(response.getRecipes()).extracting("id").containsExactly("dish-1", "dish-2");
+        assertThat(storedRecipes).extracting(CirclePlanRecipe::getSort).containsExactly(1, 2);
+        verify(circlePlanMapper).insert(any(CirclePlan.class));
     }
 
     @Test
@@ -374,6 +512,16 @@ class PlanServiceImplTest {
         plan.setTitle("周五下班拼饭局");
         plan.setShoppingStatus(CirclePlan.SHOPPING_STATUS_NOT_STARTED);
         return plan;
+    }
+
+    private PlanAiArrangeRequest aiArrangeRequest() {
+        PlanAiArrangeRequest request = new PlanAiArrangeRequest();
+        request.setCircleId("circle-1");
+        request.setMealType("lunch");
+        request.setPlanDate(LocalDate.of(2026, 6, 21));
+        request.setDishCount(2);
+        request.setHealthAdvice("少油、清爽");
+        return request;
     }
 
     private CirclePlanRecipe recipe(String planId, String dishId) {

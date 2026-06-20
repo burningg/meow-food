@@ -43,6 +43,8 @@ CREATE TABLE `user_vip` (
   `daily_recipe_analysis_limit` int NOT NULL DEFAULT '0' COMMENT '每日菜谱分析次数上限',
   `daily_recipe_analysis_used` int NOT NULL DEFAULT '0' COMMENT '每日菜谱分析已使用次数',
   `daily_recipe_analysis_date` date DEFAULT NULL COMMENT '每日次数统计日期',
+  `monthly_plan_ai_used` int NOT NULL DEFAULT '0' COMMENT '每月AI排菜已使用次数',
+  `monthly_plan_ai_month` varchar(7) DEFAULT NULL COMMENT '每月AI排菜统计月份(YYYY-MM)',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
