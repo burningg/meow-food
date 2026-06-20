@@ -80,7 +80,7 @@
           <button class="invite-card pressable" open-type="share">
             <view class="invite-mark">邀</view>
             <view class="invite-copy">
-              <text class="invite-title">邀请好友加入 meow食堂</text>
+              <text class="invite-title">邀请好友加入 meoi食堂</text>
               <text class="invite-desc">发送一张小程序卡片，对方接受后会自动成为好友。</text>
             </view>
             <text class="invite-action">分享好友</text>
@@ -122,7 +122,7 @@ const draftCircleIds = ref<string[]>([])
 const savingVisibility = ref(false)
 const hasUnreadNotification = ref(false)
 
-const displayName = computed(() => profile.value?.user.nickname || authStore.user?.nickname || 'meow')
+const displayName = computed(() => profile.value?.user.nickname || authStore.user?.nickname || 'meoi')
 const displayAvatar = computed(() => profile.value?.user.avatar || authStore.user?.avatar || '')
 const displayBio = computed(() => profile.value?.user.bio?.trim() || authStore.user?.bio?.trim() || '还没有留下简介')
 const isVipActive = computed(() => Boolean(profile.value?.vipInfo?.vip || authStore.user?.vip))
@@ -149,7 +149,7 @@ useDidShow(async () => {
 
 useShareAppMessage(() =>
   createHomeShareMessage({
-    title: '我在 meow食堂记录了不少下厨灵感，来首页看看吧',
+    title: '我在 meoi食堂记录了不少下厨灵感，来首页看看吧',
   }),
 )
 

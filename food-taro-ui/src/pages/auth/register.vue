@@ -3,7 +3,7 @@
     <view class="register-content">
       <view class="auth-badge">
         <text class="badge-dot"></text>
-        <text>meow食堂 · 新用户注册</text>
+        <text>meoi食堂 · 新用户注册</text>
       </view>
 
       <view class="register-card">

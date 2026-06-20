@@ -36,8 +36,8 @@ public class NotificationServiceImpl implements NotificationService {
     private static final String PRIORITY_IMPORTANT = "important";
     private static final String RECIPIENT_SCOPE_ALL_USERS = "all_users";
     private static final String RECIPIENT_SCOPE_EXISTING_USERS_ONLY = "existing_users_only";
-    private static final String VIP_OPENED_TITLE = "感谢你成为 meow 食堂 VIP";
-    private static final String VIP_OPENED_BODY = "感谢你成为 meow 食堂 VIP。你的支持不仅帮助我们把这个社区持续做下去，也让更多认真记录三餐、分享菜谱的人被看见。成为会员后，你将解锁更大的圈子与菜谱容量、菜谱的AI加持 、专属头像框和尊贵标识等权益。希望这份会员礼遇，能陪你更轻松地收藏灵感、记录好味道，也和更多同好一起把食堂经营得更热闹。";
+    private static final String VIP_OPENED_TITLE = "感谢你成为 meoi 食堂 VIP";
+    private static final String VIP_OPENED_BODY = "感谢你成为 meoi 食堂 VIP。你的支持不仅帮助我们把这个社区持续做下去，也让更多认真记录三餐、分享菜谱的人被看见。成为会员后，你将解锁更大的圈子与菜谱容量、菜谱的AI加持 、专属头像框和尊贵标识等权益。希望这份会员礼遇，能陪你更轻松地收藏灵感、记录好味道，也和更多同好一起把食堂经营得更热闹。";
 
     private final UserAccountMapper userAccountMapper;
     private final UserNotificationMapper userNotificationMapper;

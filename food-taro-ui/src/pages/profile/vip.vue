@@ -2,7 +2,7 @@
   <view :class="['page-shell', 'vip-page', { 'vip-page-fixed-action': !isVipActive }]">
     <header class="vip-top-nav">
       <view class="vip-title-block">
-        <text class="vip-eyebrow">{{ isVipActive ? '会员生效中' : 'meow 会员' }}</text>
+        <text class="vip-eyebrow">{{ isVipActive ? '会员生效中' : 'meoi 会员' }}</text>
         <text class="vip-page-title">{{ isVipActive ? '我的会员' : '会员权益' }}</text>
       </view>
       <view class="vip-nav-spacer"></view>
@@ -34,7 +34,7 @@
             </view>
           </view>
           <text class="poster-desc">
-            {{ isVipActive ? '权益已生效，到期后自动取消，不会自动续费。感谢你支持 meow 食堂继续运营。' : '限时礼遇，无需自动续费订阅，到期自动取消。' }}
+            {{ isVipActive ? '权益已生效，到期后自动取消，不会自动续费。感谢你支持 meoi 食堂继续运营。' : '限时礼遇，无需自动续费订阅，到期自动取消。' }}
           </text>
         </view>
 
@@ -76,7 +76,7 @@
 
       <section class="thanks-note">
         <text class="vip-eyebrow">写给会员的话</text>
-        <text class="thanks-body">感谢您的充值帮助我们更好的运营meow食堂，我们将倾听您的意见，尽力提供更优惠、优质的服务</text>
+        <text class="thanks-body">感谢您的充值帮助我们更好的运营meoi食堂，我们将倾听您的意见，尽力提供更优惠、优质的服务</text>
       </section>
 
 

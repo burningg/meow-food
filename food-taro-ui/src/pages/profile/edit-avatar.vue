@@ -87,7 +87,7 @@ const avatar = ref(authStore.user?.avatar || '')
 
 const defaultAvatarMap = new Map(defaultAvatarOptions.map((option) => [option.src, option.label]))
 const avatarUrl = computed(() => avatar.value)
-const displayName = computed(() => authStore.user?.nickname || 'meow')
+const displayName = computed(() => authStore.user?.nickname || 'meoi')
 const nicknameInitial = computed(() => (authStore.user?.nickname || authStore.user?.account || '我').slice(0, 1))
 const isCustomAvatar = computed(() => Boolean(avatar.value) && !defaultAvatarMap.has(avatar.value))
 const fallbackDefaultAvatar = computed(() => {

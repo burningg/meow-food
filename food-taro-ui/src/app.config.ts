@@ -28,7 +28,7 @@ export default defineAppConfig({
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#f5f2ed',
-    navigationBarTitleText: 'meow食堂',
+    navigationBarTitleText: 'meoi食堂',
     navigationBarTextStyle: 'black',
   },
 })

@@ -106,7 +106,7 @@ useShareAppMessage(() => {
   const dishId = String(params.id || '')
 
   return {
-    title: currentDish ? `分享一道菜给你：${currentDish.name}` : '分享一道 meow 食堂里的菜谱给你',
+    title: currentDish ? `分享一道菜给你：${currentDish.name}` : '分享一道 meoi 食堂里的菜谱给你',
     path: resolveSharePath({ name: 'dish-detail', params: { id: dishId } }),
   }
 })

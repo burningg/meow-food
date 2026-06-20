@@ -3,7 +3,7 @@
     <view class="login-content">
       <view class="auth-badge">
         <text class="badge-dot"></text>
-        <text>meow食堂</text>
+        <text>meoi食堂</text>
       </view>
 
       <view class="login-card">
@@ -76,7 +76,7 @@
         <view class="privacy-head">
           <view>
             <text class="privacy-title">用户隐私协议</text>
-            <text class="privacy-subtitle">meow食堂</text>
+            <text class="privacy-subtitle">meoi食堂</text>
           </view>
           <button class="privacy-close" @tap="closePrivacyAgreement">×</button>
         </view>
@@ -177,7 +177,7 @@ const privacySections = [
     title: "七、协议更新",
     items: [
       "我们可能根据产品功能、法律法规或安全要求更新本协议。发生重要变更时，会在登录、使用或其他合理位置提示你再次阅读并确认。",
-      "继续使用 meow食堂，即表示你理解并同意更新后的用户隐私协议。",
+      "继续使用 meoi食堂，即表示你理解并同意更新后的用户隐私协议。",
     ],
   },
 ];

@@ -6,7 +6,7 @@
     <view class="invite-content">
       <view class="invite-badge">
         <text class="badge-dot"></text>
-        <text>meow食堂 · 搭子圈邀请</text>
+        <text>meoi食堂 · 搭子圈邀请</text>
       </view>
 
       <section v-if="invitation" class="invite-hero-card">

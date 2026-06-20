@@ -182,8 +182,8 @@ class NotificationServiceImplTest {
         verify(userNotificationMapper).insert(notificationCaptor.capture());
         UserNotification notification = notificationCaptor.getValue();
         assertThat(notification.getUserId()).isEqualTo("user-1");
-        assertThat(notification.getTitle()).isEqualTo("感谢你成为 meow 食堂 VIP");
-        assertThat(notification.getSummary()).isEqualTo("感谢你成为 meow 食堂 VIP");
+        assertThat(notification.getTitle()).isEqualTo("感谢你成为 meoi 食堂 VIP");
+        assertThat(notification.getSummary()).isEqualTo("感谢你成为 meoi 食堂 VIP");
         assertThat(notification.getBody()).contains("你的支持不仅帮助我们把这个社区持续做下去");
         assertThat(notification.getAudienceType()).isEqualTo("direct");
         assertThat(notification.getPriority()).isEqualTo("normal");

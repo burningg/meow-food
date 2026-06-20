@@ -26374,6 +26374,967 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "vxfwk",
+      "x": 12264.373812941696,
+      "y": 0,
+      "name": "Pet Mascot Assets",
+      "width": 860,
+      "fill": "#F5F2ED",
+      "cornerRadius": 24,
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#1B3A2D12",
+        "offset": {
+          "x": 0,
+          "y": 14
+        },
+        "blur": 36
+      },
+      "layout": "vertical",
+      "gap": 18,
+      "padding": 24,
+      "children": [
+        {
+          "type": "frame",
+          "id": "YLsau",
+          "name": "Asset Board Header",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 6,
+          "children": [
+            {
+              "type": "text",
+              "id": "Mkbzr",
+              "name": "Title",
+              "fill": "#1B3A2D",
+              "content": "宠物角色素材",
+              "fontFamily": "Inter",
+              "fontSize": 28,
+              "fontWeight": "800"
+            },
+            {
+              "type": "text",
+              "id": "B3FBR",
+              "name": "Subtitle",
+              "fill": "#6F756D",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "猫咪、小狗、双宠互动形象，适合小程序入口、空状态和活动页使用",
+              "lineHeight": 1.45,
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "BaJQw",
+          "name": "Mascot Image Row",
+          "width": "fill_container",
+          "gap": 18,
+          "children": [
+            {
+              "type": "frame",
+              "id": "qej7u",
+              "name": "Cat Mascot Card",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 18,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1B3A2D0F",
+                "offset": {
+                  "x": 0,
+                  "y": 10
+                },
+                "blur": 24
+              },
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 12,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 18,
+                  "id": "oKWYV",
+                  "name": "Cat Mascot Image",
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "images/generated-1781879759247.png",
+                    "mode": "fill"
+                  },
+                  "width": "fill_container",
+                  "height": 220
+                },
+                {
+                  "type": "frame",
+                  "id": "Ijr7R",
+                  "name": "Cat Mascot Label",
+                  "width": "fill_container",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "e45cw",
+                      "name": "Cat Mascot Text",
+                      "fill": "#1B3A2D",
+                      "content": "橘猫厨厨",
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "mwzZ4",
+              "name": "Dog Mascot Card",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 18,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1B3A2D0F",
+                "offset": {
+                  "x": 0,
+                  "y": 10
+                },
+                "blur": 24
+              },
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 12,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 18,
+                  "id": "mAS9J",
+                  "name": "Dog Mascot Image",
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "images/generated-1781879754236.png",
+                    "mode": "fill"
+                  },
+                  "width": "fill_container",
+                  "height": 220
+                },
+                {
+                  "type": "frame",
+                  "id": "iUutS",
+                  "name": "Dog Mascot Label",
+                  "width": "fill_container",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "WJfor",
+                      "name": "Dog Mascot Text",
+                      "fill": "#1B3A2D",
+                      "content": "小狗饭饭",
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "N9bWuk",
+          "name": "Cat Variant Section",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 14,
+          "children": [
+            {
+              "type": "text",
+              "id": "mG7Us",
+              "name": "Cat Section Title",
+              "fill": "#1B3A2D",
+              "content": "猫咪形象 · 6 种（幼年/青年/成年 × 瘦/胖）",
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "800"
+            },
+            {
+              "type": "frame",
+              "id": "wQrAb",
+              "name": "Cat Grid",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 14,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "k5yTy8",
+                  "name": "Cat Row 瘦",
+                  "width": "fill_container",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "OsBHC",
+                      "name": "Cat 幼年瘦 Card",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 16,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#1B3A2D0F",
+                        "offset": {
+                          "x": 0,
+                          "y": 8
+                        },
+                        "blur": 18
+                      },
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 8,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 12,
+                          "id": "BohO1",
+                          "name": "Cat 幼年瘦 Image",
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "./images/generated-1781882813016.png",
+                            "mode": "fill"
+                          },
+                          "width": "fill_container",
+                          "height": 150
+                        },
+                        {
+                          "type": "frame",
+                          "id": "JG76Z",
+                          "name": "Cat 幼年瘦 Label",
+                          "width": "fill_container",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "SEJ2F",
+                              "name": "Cat 幼年瘦 Text",
+                              "fill": "#1B3A2D",
+                              "content": "幼年 · 瘦",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "g3Mmjk",
+                      "name": "Cat 青年瘦 Card",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 16,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#1B3A2D0F",
+                        "offset": {
+                          "x": 0,
+                          "y": 8
+                        },
+                        "blur": 18
+                      },
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 8,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 12,
+                          "id": "E4arb5",
+                          "name": "Cat 青年瘦 Image",
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "./images/generated-1781882813550.png",
+                            "mode": "fill"
+                          },
+                          "width": "fill_container",
+                          "height": 150
+                        },
+                        {
+                          "type": "frame",
+                          "id": "h8Zq2f",
+                          "name": "Cat 青年瘦 Label",
+                          "width": "fill_container",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "j17i2",
+                              "name": "Cat 青年瘦 Text",
+                              "fill": "#1B3A2D",
+                              "content": "青年 · 瘦",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "t7xEw",
+                      "name": "Cat 成年瘦 Card",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 16,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#1B3A2D0F",
+                        "offset": {
+                          "x": 0,
+                          "y": 8
+                        },
+                        "blur": 18
+                      },
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 8,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 12,
+                          "id": "gqWSt",
+                          "name": "Cat 成年瘦 Image",
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "./images/generated-1781882813673.png",
+                            "mode": "fill"
+                          },
+                          "width": "fill_container",
+                          "height": 150
+                        },
+                        {
+                          "type": "frame",
+                          "id": "kPatE",
+                          "name": "Cat 成年瘦 Label",
+                          "width": "fill_container",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "m1Y22",
+                              "name": "Cat 成年瘦 Text",
+                              "fill": "#1B3A2D",
+                              "content": "成年 · 瘦",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "A1FHk",
+                  "name": "Cat Row 胖",
+                  "width": "fill_container",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "wALnu",
+                      "name": "Cat 幼年胖 Card",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 16,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#1B3A2D0F",
+                        "offset": {
+                          "x": 0,
+                          "y": 8
+                        },
+                        "blur": 18
+                      },
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 8,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 12,
+                          "id": "kn059",
+                          "name": "Cat 幼年胖 Image",
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "./images/generated-1781882812556.png",
+                            "mode": "fill"
+                          },
+                          "width": "fill_container",
+                          "height": 150
+                        },
+                        {
+                          "type": "frame",
+                          "id": "vl2Wd",
+                          "name": "Cat 幼年胖 Label",
+                          "width": "fill_container",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "JjLeX",
+                              "name": "Cat 幼年胖 Text",
+                              "fill": "#1B3A2D",
+                              "content": "幼年 · 胖",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "S4yNx",
+                      "name": "Cat 青年胖 Card",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 16,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#1B3A2D0F",
+                        "offset": {
+                          "x": 0,
+                          "y": 8
+                        },
+                        "blur": 18
+                      },
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 8,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 12,
+                          "id": "t3pmm",
+                          "name": "Cat 青年胖 Image",
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "./images/generated-1781882813743.png",
+                            "mode": "fill"
+                          },
+                          "width": "fill_container",
+                          "height": 150
+                        },
+                        {
+                          "type": "frame",
+                          "id": "GAoGF",
+                          "name": "Cat 青年胖 Label",
+                          "width": "fill_container",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "i6rnk",
+                              "name": "Cat 青年胖 Text",
+                              "fill": "#1B3A2D",
+                              "content": "青年 · 胖",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "a8whZg",
+                      "name": "Cat 成年胖 Card",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 16,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#1B3A2D0F",
+                        "offset": {
+                          "x": 0,
+                          "y": 8
+                        },
+                        "blur": 18
+                      },
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 8,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 12,
+                          "id": "O8DEFy",
+                          "name": "Cat 成年胖 Image",
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "./images/generated-1781882813489.png",
+                            "mode": "fill"
+                          },
+                          "width": "fill_container",
+                          "height": 150
+                        },
+                        {
+                          "type": "frame",
+                          "id": "S1hYT6",
+                          "name": "Cat 成年胖 Label",
+                          "width": "fill_container",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "uAlIK",
+                              "name": "Cat 成年胖 Text",
+                              "fill": "#1B3A2D",
+                              "content": "成年 · 胖",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "CBo3m",
+          "name": "Dog Variant Section",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 14,
+          "children": [
+            {
+              "type": "text",
+              "id": "GaR1M",
+              "name": "Dog Section Title",
+              "fill": "#1B3A2D",
+              "content": "小狗形象 · 6 种（幼年/青年/成年 × 瘦/胖）",
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "800"
+            },
+            {
+              "type": "frame",
+              "id": "N1RlMq",
+              "name": "Dog Grid",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 14,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "xoiwX",
+                  "name": "Dog Row 瘦",
+                  "width": "fill_container",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "zd2a7",
+                      "name": "Dog 幼年瘦 Card",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 16,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#1B3A2D0F",
+                        "offset": {
+                          "x": 0,
+                          "y": 8
+                        },
+                        "blur": 18
+                      },
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 8,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 12,
+                          "id": "Erv7G",
+                          "name": "Dog 幼年瘦 Image",
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "./images/generated-1781882908724.png",
+                            "mode": "fill"
+                          },
+                          "width": "fill_container",
+                          "height": 150
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Kf8uj",
+                          "name": "Dog 幼年瘦 Label",
+                          "width": "fill_container",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "L3c5u",
+                              "name": "Dog 幼年瘦 Text",
+                              "fill": "#1B3A2D",
+                              "content": "幼年 · 瘦",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "PYCpw",
+                      "name": "Dog 青年瘦 Card",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 16,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#1B3A2D0F",
+                        "offset": {
+                          "x": 0,
+                          "y": 8
+                        },
+                        "blur": 18
+                      },
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 8,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 12,
+                          "id": "Uarwu",
+                          "name": "Dog 青年瘦 Image",
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "./images/generated-1781882908610.png",
+                            "mode": "fill"
+                          },
+                          "width": "fill_container",
+                          "height": 150
+                        },
+                        {
+                          "type": "frame",
+                          "id": "v7sjwo",
+                          "name": "Dog 青年瘦 Label",
+                          "width": "fill_container",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "ZbHEe",
+                              "name": "Dog 青年瘦 Text",
+                              "fill": "#1B3A2D",
+                              "content": "青年 · 瘦",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "SLH9L",
+                      "name": "Dog 成年瘦 Card",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 16,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#1B3A2D0F",
+                        "offset": {
+                          "x": 0,
+                          "y": 8
+                        },
+                        "blur": 18
+                      },
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 8,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 12,
+                          "id": "h04neI",
+                          "name": "Dog 成年瘦 Image",
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "./images/generated-1781882908522.png",
+                            "mode": "fill"
+                          },
+                          "width": "fill_container",
+                          "height": 150
+                        },
+                        {
+                          "type": "frame",
+                          "id": "pmj6m",
+                          "name": "Dog 成年瘦 Label",
+                          "width": "fill_container",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "pifaA",
+                              "name": "Dog 成年瘦 Text",
+                              "fill": "#1B3A2D",
+                              "content": "成年 · 瘦",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "bQ25q",
+                  "name": "Dog Row 胖",
+                  "width": "fill_container",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "gRRJu",
+                      "name": "Dog 幼年胖 Card",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 16,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#1B3A2D0F",
+                        "offset": {
+                          "x": 0,
+                          "y": 8
+                        },
+                        "blur": 18
+                      },
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 8,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 12,
+                          "id": "ckli2",
+                          "name": "Dog 幼年胖 Image",
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "./images/generated-1781882908645.png",
+                            "mode": "fill"
+                          },
+                          "width": "fill_container",
+                          "height": 150
+                        },
+                        {
+                          "type": "frame",
+                          "id": "q2Etv1",
+                          "name": "Dog 幼年胖 Label",
+                          "width": "fill_container",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "r1kqEY",
+                              "name": "Dog 幼年胖 Text",
+                              "fill": "#1B3A2D",
+                              "content": "幼年 · 胖",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fof2W",
+                      "name": "Dog 青年胖 Card",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 16,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#1B3A2D0F",
+                        "offset": {
+                          "x": 0,
+                          "y": 8
+                        },
+                        "blur": 18
+                      },
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 8,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 12,
+                          "id": "vd7O6",
+                          "name": "Dog 青年胖 Image",
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "./images/generated-1781882970320.png",
+                            "mode": "fill"
+                          },
+                          "width": "fill_container",
+                          "height": 150
+                        },
+                        {
+                          "type": "frame",
+                          "id": "kNEvb",
+                          "name": "Dog 青年胖 Label",
+                          "width": "fill_container",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "H579OU",
+                              "name": "Dog 青年胖 Text",
+                              "fill": "#1B3A2D",
+                              "content": "青年 · 胖",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "f4Tgx",
+                      "name": "Dog 成年胖 Card",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 16,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#1B3A2D0F",
+                        "offset": {
+                          "x": 0,
+                          "y": 8
+                        },
+                        "blur": 18
+                      },
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 8,
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "cornerRadius": 12,
+                          "id": "L7qjk",
+                          "name": "Dog 成年胖 Image",
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "./images/generated-1781882908440.png",
+                            "mode": "fill"
+                          },
+                          "width": "fill_container",
+                          "height": 150
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Riqi6",
+                          "name": "Dog 成年胖 Label",
+                          "width": "fill_container",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "rbTEp",
+                              "name": "Dog 成年胖 Text",
+                              "fill": "#1B3A2D",
+                              "content": "成年 · 胖",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "variables": {

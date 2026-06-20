@@ -18,7 +18,7 @@
         </label>
         <label class="field-group">
           <text class="field-label">一句话介绍</text>
-          <textarea v-model.trim="form.description" class="intro-input" maxlength="90" placeholder="meow" />
+          <textarea v-model.trim="form.description" class="intro-input" maxlength="90" placeholder="meoi" />
         </label>
       </section>
 

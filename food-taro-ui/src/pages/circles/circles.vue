@@ -229,7 +229,7 @@ const avatarPalette = [
 
 useShareAppMessage(() =>
   createHomeShareMessage({
-    title: "我在 meow食堂找到了做饭搭子，来一起逛逛",
+    title: "我在 meoi食堂找到了做饭搭子，来一起逛逛",
   }),
 );
 

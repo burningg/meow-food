@@ -434,7 +434,7 @@ const RECIPE_SORT_ROW_HEIGHT = 88;
 
 useShareAppMessage(() =>
   createHomeShareMessage({
-    title: "我在 meow食堂安排本周吃什么，来一起看看",
+    title: "我在 meoi食堂安排本周吃什么，来一起看看",
   }),
 );
 

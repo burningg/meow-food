@@ -65,6 +65,7 @@
     </PullRefreshPage>
 
     <button v-if="authStore.isLoggedIn" class="floating-add" @tap="goToAdd">＋</button>
+    <PetMascot card-selector=".recent-card" />
     <AppTabBar active="home" :show-add="authStore.isLoggedIn" />
     <NotificationModalCard
       :visible="Boolean(importantNotification)"
@@ -80,6 +81,7 @@ import Taro, { useDidShow, useShareAppMessage } from '@tarojs/taro'
 import { computed, nextTick, onMounted, ref } from 'vue'
 import AppTabBar from '@/components/AppTabBar.vue'
 import NotificationModalCard from '@/components/NotificationModalCard.vue'
+import PetMascot from '@/components/PetMascot.vue'
 import PullRefreshPage from '@/components/PullRefreshPage.vue'
 import SmartImage from '@/components/SmartImage.vue'
 import { Message } from '@/lib/feedback'
@@ -108,7 +110,7 @@ const categoryScrollLeft = ref(0)
 const searchKeyword = ref('')
 const importantNotification = ref<NotificationItem | null>(null)
 const shownImportantNotificationId = ref('')
-const displayName = computed(() => authStore.user?.nickname ?? 'meow')
+const displayName = computed(() => authStore.user?.nickname ?? 'meoi')
 const vipChipLabel = computed(() => formatVipLabel(authStore.user?.vip ? authStore.user?.vipLevel : undefined))
 const showEmptyLoginButton = computed(() => !authStore.isLoggedIn && !searchKeyword.value.trim() && !homeData.value.recentDishes.length)
 const showEmptyAddButton = computed(() => authStore.isLoggedIn && !searchKeyword.value.trim() && !homeData.value.recentDishes.length)
@@ -150,7 +152,7 @@ useDidShow(async () => {
 
 useShareAppMessage(() =>
   createHomeShareMessage({
-    title: '我在 meow食堂发现了不少灵感菜谱，来看看吧',
+    title: '我在 meoi食堂发现了不少灵感菜谱，来看看吧',
   }),
 )
 

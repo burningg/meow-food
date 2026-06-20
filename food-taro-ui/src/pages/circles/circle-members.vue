@@ -150,7 +150,7 @@ useShareAppMessage(() => {
   const sharedCircleId = circle?.id || circleId.value
 
   return {
-    title: circle ? `邀请你加入「${circle.name}」搭子圈` : '邀请你加入 meow食堂搭子圈',
+    title: circle ? `邀请你加入「${circle.name}」搭子圈` : '邀请你加入 meoi食堂搭子圈',
     path: resolveSharePath({
       name: 'circle-share-invite',
       params: { circleId: sharedCircleId, inviterId },

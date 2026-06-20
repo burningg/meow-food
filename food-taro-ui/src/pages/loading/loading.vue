@@ -3,10 +3,10 @@
     <view class="loading-card">
       <view class="emblem">
         <image v-if="logoSrc" class="logo" :src="logoSrc" mode="aspectFit" />
-        <text v-else>meow</text>
+        <text v-else>meoi</text>
       </view>
       <view class="title">
-        <text class="title-main">meow食堂</text>
+        <text class="title-main">meoi食堂</text>
         <text class="title-sub">正在打开你的美味空间</text>
       </view>
     </view>
