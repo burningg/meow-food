@@ -38,6 +38,9 @@ public class NotificationServiceImpl implements NotificationService {
     private static final String RECIPIENT_SCOPE_EXISTING_USERS_ONLY = "existing_users_only";
     private static final String VIP_OPENED_TITLE = "感谢你成为 meoi 食堂 VIP";
     private static final String VIP_OPENED_BODY = "感谢你成为 meoi 食堂 VIP。你的支持不仅帮助我们把这个社区持续做下去，也让更多认真记录三餐、分享菜谱的人被看见。成为会员后，你将解锁更大的圈子与菜谱容量、菜谱的AI加持 、专属头像框和尊贵标识等权益。希望这份会员礼遇，能陪你更轻松地收藏灵感、记录好味道，也和更多同好一起把食堂经营得更热闹。";
+    private static final String FEEDBACK_RECEIVED_TITLE = "感谢你的反馈";
+    private static final String FEEDBACK_RECEIVED_SUMMARY = "我们已经收到你的建议，会认真阅读并持续改进 meoi 食堂。";
+    private static final String FEEDBACK_RECEIVED_BODY = "谢谢你把真实体验告诉我们。我们会认真阅读每一条建议，并持续把产品做得更顺手。";
 
     private final UserAccountMapper userAccountMapper;
     private final UserNotificationMapper userNotificationMapper;
@@ -119,6 +122,23 @@ public class NotificationServiceImpl implements NotificationService {
         notification.setTitle(VIP_OPENED_TITLE);
         notification.setSummary(VIP_OPENED_TITLE);
         notification.setBody(VIP_OPENED_BODY);
+        notification.setAudienceType(AUDIENCE_DIRECT);
+        notification.setPriority(PRIORITY_NORMAL);
+        notification.setRecipientScope(RECIPIENT_SCOPE_EXISTING_USERS_ONLY);
+        notification.setPublishedAt(now);
+        notification.setCreatedAt(now);
+        notification.setUpdatedAt(now);
+        userNotificationMapper.insert(notification);
+    }
+
+    @Override
+    public void sendFeedbackReceivedNotification(String userId) {
+        LocalDateTime now = LocalDateTime.now();
+        UserNotification notification = new UserNotification();
+        notification.setUserId(userId);
+        notification.setTitle(FEEDBACK_RECEIVED_TITLE);
+        notification.setSummary(FEEDBACK_RECEIVED_SUMMARY);
+        notification.setBody(FEEDBACK_RECEIVED_BODY);
         notification.setAudienceType(AUDIENCE_DIRECT);
         notification.setPriority(PRIORITY_NORMAL);
         notification.setRecipientScope(RECIPIENT_SCOPE_EXISTING_USERS_ONLY);

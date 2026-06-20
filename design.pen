@@ -3832,7 +3832,7 @@
       "name": "User Profile",
       "clip": true,
       "width": 390,
-      "height": 856.3250172454366,
+      "height": 1096,
       "fill": "$bg-primary",
       "layout": "vertical",
       "children": [
@@ -4597,6 +4597,119 @@
                               "fontWeight": "600"
                             }
                           ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "d6DG3M",
+              "name": "Feedback Block",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "FHoFu",
+                  "name": "Feedback Entry Card",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "gap": 12,
+                  "padding": 16,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Na28B",
+                      "name": "Feedback Entry Left",
+                      "width": "fill_container",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "t5LpmH",
+                          "name": "Feedback Icon Shell",
+                          "width": 42,
+                          "height": 42,
+                          "fill": "#EDF3EC",
+                          "cornerRadius": 12,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "tlCXC",
+                              "name": "Feedback Icon",
+                              "width": 20,
+                              "height": 20,
+                              "icon": "chat-circle-text",
+                              "library": "phosphor",
+                              "fill": "#346538"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "a8EzXP",
+                          "name": "Feedback Entry Copy",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "KiwiY",
+                              "name": "Feedback Entry Title",
+                              "fill": "#151515",
+                              "content": "意见反馈",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 15,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "ilTDu",
+                              "name": "Feedback Entry Subtitle",
+                              "fill": "#787774",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "遇到问题，或有想让我们改进的地方，都可以写给我们。",
+                              "lineHeight": 1.45,
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "e1cPm",
+                      "name": "Feedback Arrow Shell",
+                      "width": 30,
+                      "height": 30,
+                      "fill": "#F7F4EF",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "K9Voa",
+                          "name": "Feedback Arrow",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "caret-right",
+                          "library": "phosphor",
+                          "fill": "#9F5C38"
                         }
                       ]
                     }
@@ -17775,7 +17888,7 @@
           "y": 20,
           "name": "Notification Modal Chip Row",
           "enabled": false,
-          "width": "fill_container(310)",
+          "width": 310,
           "fill": "#FBF6F0",
           "cornerRadius": 16,
           "stroke": "#F0E6DA",
@@ -17988,7 +18101,7 @@
       "name": "User Profile Notifications Unread",
       "clip": true,
       "width": 390,
-      "height": 961,
+      "height": 1096,
       "fill": "$bg-primary",
       "layout": "vertical",
       "children": [
@@ -18805,6 +18918,119 @@
             },
             {
               "type": "frame",
+              "id": "fsmaN",
+              "name": "Feedback Block",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "rVZLo",
+                  "name": "Feedback Entry Card",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "gap": 12,
+                  "padding": 16,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "HaTie",
+                      "name": "Feedback Entry Left",
+                      "width": "fill_container",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Ybk72",
+                          "name": "Feedback Icon Shell",
+                          "width": 42,
+                          "height": 42,
+                          "fill": "#EDF3EC",
+                          "cornerRadius": 12,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "Zq8gk",
+                              "name": "Feedback Icon",
+                              "width": 20,
+                              "height": 20,
+                              "icon": "chat-circle-text",
+                              "library": "phosphor",
+                              "fill": "#346538"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "S9Niph",
+                          "name": "Feedback Entry Copy",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "E5bx8",
+                              "name": "Feedback Entry Title",
+                              "fill": "#151515",
+                              "content": "意见反馈",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 15,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "tsZsE",
+                              "name": "Feedback Entry Subtitle",
+                              "fill": "#787774",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "遇到问题，或有想让我们改进的地方，都可以写给我们。",
+                              "lineHeight": 1.45,
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Y3NpG",
+                      "name": "Feedback Arrow Shell",
+                      "width": 30,
+                      "height": 30,
+                      "fill": "#F7F4EF",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "W59yd5",
+                          "name": "Feedback Arrow",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "caret-right",
+                          "library": "phosphor",
+                          "fill": "#9F5C38"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
               "id": "DWyOL",
               "name": "Logout Block",
               "width": "fill_container",
@@ -18870,7 +19096,7 @@
       "name": "User Profile Notifications Quiet",
       "clip": true,
       "width": 390,
-      "height": 961,
+      "height": 1096,
       "fill": "$bg-primary",
       "layout": "vertical",
       "children": [
@@ -19676,6 +19902,119 @@
             },
             {
               "type": "frame",
+              "id": "vslnw",
+              "name": "Feedback Block",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "UVb20",
+                  "name": "Feedback Entry Card",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "gap": 12,
+                  "padding": 16,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "lpyL5",
+                      "name": "Feedback Entry Left",
+                      "width": "fill_container",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Hsv0i",
+                          "name": "Feedback Icon Shell",
+                          "width": 42,
+                          "height": 42,
+                          "fill": "#EDF3EC",
+                          "cornerRadius": 12,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "n10s1",
+                              "name": "Feedback Icon",
+                              "width": 20,
+                              "height": 20,
+                              "icon": "chat-circle-text",
+                              "library": "phosphor",
+                              "fill": "#346538"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "AGRTX",
+                          "name": "Feedback Entry Copy",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "f93GKy",
+                              "name": "Feedback Entry Title",
+                              "fill": "#151515",
+                              "content": "意见反馈",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 15,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "WYIZH",
+                              "name": "Feedback Entry Subtitle",
+                              "fill": "#787774",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "遇到问题，或有想让我们改进的地方，都可以写给我们。",
+                              "lineHeight": 1.45,
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "vc3Vm",
+                      "name": "Feedback Arrow Shell",
+                      "width": 30,
+                      "height": 30,
+                      "fill": "#F7F4EF",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "lUogr",
+                          "name": "Feedback Arrow",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "caret-right",
+                          "library": "phosphor",
+                          "fill": "#9F5C38"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
               "id": "vI6Bz",
               "name": "Logout Block",
               "width": "fill_container",
@@ -19741,7 +20080,7 @@
       "name": "User Notifications",
       "clip": true,
       "width": 390,
-      "height": 1044,
+      "height": 1240,
       "fill": "#F7F6F3",
       "layout": "vertical",
       "children": [
@@ -19934,7 +20273,7 @@
                   "id": "xgK0F",
                   "name": "Guidance Title",
                   "fill": "#151515",
-                  "content": "还有 2 条未读通知",
+                  "content": "还有 3 条未读通知",
                   "fontFamily": "Noto Sans SC",
                   "fontSize": 18,
                   "fontWeight": "600"
@@ -19989,6 +20328,138 @@
                       "fontFamily": "Noto Sans SC",
                       "fontSize": 11,
                       "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "rN9c9",
+                  "name": "Feedback Received Unread Card",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "JO7rt",
+                      "name": "Specified Important Unread Head Simple",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "Q4Srgf",
+                          "name": "Specified Important Unread Head Simple Dot",
+                          "fill": "#346538",
+                          "width": 8,
+                          "height": 8
+                        },
+                        {
+                          "type": "frame",
+                          "id": "arhuJ",
+                          "name": "Specified Important Unread Head Simple Time Shell",
+                          "fill": "#FBF8F4",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            4,
+                            9
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "eieQJ",
+                              "name": "Specified Important Unread Head Simple Time",
+                              "fill": "#8B857D",
+                              "content": "刚刚",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "axBJT",
+                      "name": "Specified Important Unread Card Copy",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "S3zHwJ",
+                          "name": "Specified Important Unread Card Title",
+                          "fill": "#151515",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "反馈已收到",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "n9w8Di",
+                          "name": "Specified Important Unread Card Summary",
+                          "fill": "#6A635B",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "谢谢你把想法告诉我们，我们会认真阅读，并在后续优化中持续参考。",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "VV9NR",
+                      "name": "Specified Important Unread Card Footer",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "NIVv7",
+                          "name": "Specified Important Unread Card Prompt",
+                          "fill": "#8B857D",
+                          "content": "展开看完整内容",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "w8lQFF",
+                          "name": "Specified Important Unread Card State Chip",
+                          "fill": "#F4E6DE",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            5,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "bT7HS",
+                              "name": "Specified Important Unread Card State Text",
+                              "fill": "#9F5C38",
+                              "content": "未读",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 },
@@ -20534,7 +21005,7 @@
       "name": "User Notifications Modal",
       "clip": true,
       "width": 390,
-      "height": 1044,
+      "height": 1240,
       "fill": "#F7F6F3",
       "layout": "vertical",
       "children": [
@@ -20727,7 +21198,7 @@
                   "id": "d6KRa9",
                   "name": "Guidance Title",
                   "fill": "#151515",
-                  "content": "还有 2 条未读通知",
+                  "content": "还有 3 条未读通知",
                   "fontFamily": "Noto Sans SC",
                   "fontSize": 18,
                   "fontWeight": "600"
@@ -20782,6 +21253,138 @@
                       "fontFamily": "Noto Sans SC",
                       "fontSize": 11,
                       "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "somjB",
+                  "name": "Feedback Received Unread Card",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Fw5UN",
+                      "name": "Specified Important Unread Head Simple",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "Zaq8t",
+                          "name": "Specified Important Unread Head Simple Dot",
+                          "fill": "#346538",
+                          "width": 8,
+                          "height": 8
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Q0AFlj",
+                          "name": "Specified Important Unread Head Simple Time Shell",
+                          "fill": "#FBF8F4",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            4,
+                            9
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "KBlHM",
+                              "name": "Specified Important Unread Head Simple Time",
+                              "fill": "#8B857D",
+                              "content": "刚刚",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "qk6D5",
+                      "name": "Specified Important Unread Card Copy",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Psyfl",
+                          "name": "Specified Important Unread Card Title",
+                          "fill": "#151515",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "反馈已收到",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "CnPXm",
+                          "name": "Specified Important Unread Card Summary",
+                          "fill": "#6A635B",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "谢谢你把想法告诉我们，我们会认真阅读，并在后续优化中持续参考。",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "hU3SO",
+                      "name": "Specified Important Unread Card Footer",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "C1vuf",
+                          "name": "Specified Important Unread Card Prompt",
+                          "fill": "#8B857D",
+                          "content": "展开看完整内容",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "MFsbM",
+                          "name": "Specified Important Unread Card State Chip",
+                          "fill": "#F4E6DE",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            5,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "FBptr",
+                              "name": "Specified Important Unread Card State Text",
+                              "fill": "#9F5C38",
+                              "content": "未读",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 },
@@ -21325,7 +21928,7 @@
           "y": 0,
           "name": "Notification Page Overlay",
           "width": 390,
-          "height": 1044,
+          "height": 1240,
           "fill": "#15151573",
           "layout": "vertical",
           "padding": [
@@ -21339,17 +21942,30 @@
               "id": "E7xh5J",
               "type": "ref",
               "ref": "iQpdt",
-              "name": "Notification Detail Modal",
+              "name": "Feedback Notification Detail Modal",
               "width": 350,
               "descendants": {
                 "hUASU": {
-                  "fill": "#F4E6DE"
+                  "fill": "#EDF3EC"
+                },
+                "ki3lT": {
+                  "fill": "#346538",
+                  "icon": "chat-circle-text"
                 },
                 "BhKLE": {
-                  "content": "重要通知"
+                  "content": "个人消息"
+                },
+                "I5ekm": {
+                  "content": "反馈提交后生成的确认提醒"
                 },
                 "poFcm": {
-                  "content": "你被加入本周末的备菜分工"
+                  "content": "反馈已收到"
+                },
+                "NKdHZ": {
+                  "content": "你的反馈已经提交成功。谢谢你愿意把使用中的感受告诉我们，我们会认真阅读，并在后续优化中持续参考。"
+                },
+                "AhoQR": {
+                  "content": "发布时间 · 刚刚"
                 }
               }
             }
@@ -26616,7 +27232,7 @@
                           "fill": {
                             "type": "image",
                             "enabled": true,
-                            "url": "./images/generated-1781882813016.png",
+                            "url": "images/generated-1781882813016.png",
                             "mode": "fill"
                           },
                           "width": "fill_container",
@@ -26673,7 +27289,7 @@
                           "fill": {
                             "type": "image",
                             "enabled": true,
-                            "url": "./images/generated-1781882813550.png",
+                            "url": "images/generated-1781882813550.png",
                             "mode": "fill"
                           },
                           "width": "fill_container",
@@ -26730,7 +27346,7 @@
                           "fill": {
                             "type": "image",
                             "enabled": true,
-                            "url": "./images/generated-1781882813673.png",
+                            "url": "images/generated-1781882813673.png",
                             "mode": "fill"
                           },
                           "width": "fill_container",
@@ -26796,7 +27412,7 @@
                           "fill": {
                             "type": "image",
                             "enabled": true,
-                            "url": "./images/generated-1781882812556.png",
+                            "url": "images/generated-1781882812556.png",
                             "mode": "fill"
                           },
                           "width": "fill_container",
@@ -26853,7 +27469,7 @@
                           "fill": {
                             "type": "image",
                             "enabled": true,
-                            "url": "./images/generated-1781882813743.png",
+                            "url": "images/generated-1781882813743.png",
                             "mode": "fill"
                           },
                           "width": "fill_container",
@@ -26910,7 +27526,7 @@
                           "fill": {
                             "type": "image",
                             "enabled": true,
-                            "url": "./images/generated-1781882813489.png",
+                            "url": "images/generated-1781882813489.png",
                             "mode": "fill"
                           },
                           "width": "fill_container",
@@ -27006,7 +27622,7 @@
                           "fill": {
                             "type": "image",
                             "enabled": true,
-                            "url": "./images/generated-1781882908724.png",
+                            "url": "images/generated-1781882908724.png",
                             "mode": "fill"
                           },
                           "width": "fill_container",
@@ -27063,7 +27679,7 @@
                           "fill": {
                             "type": "image",
                             "enabled": true,
-                            "url": "./images/generated-1781882908610.png",
+                            "url": "images/generated-1781882908610.png",
                             "mode": "fill"
                           },
                           "width": "fill_container",
@@ -27120,7 +27736,7 @@
                           "fill": {
                             "type": "image",
                             "enabled": true,
-                            "url": "./images/generated-1781882908522.png",
+                            "url": "images/generated-1781882908522.png",
                             "mode": "fill"
                           },
                           "width": "fill_container",
@@ -27186,7 +27802,7 @@
                           "fill": {
                             "type": "image",
                             "enabled": true,
-                            "url": "./images/generated-1781882908645.png",
+                            "url": "images/generated-1781882908645.png",
                             "mode": "fill"
                           },
                           "width": "fill_container",
@@ -27243,7 +27859,7 @@
                           "fill": {
                             "type": "image",
                             "enabled": true,
-                            "url": "./images/generated-1781882970320.png",
+                            "url": "images/generated-1781882970320.png",
                             "mode": "fill"
                           },
                           "width": "fill_container",
@@ -27300,7 +27916,7 @@
                           "fill": {
                             "type": "image",
                             "enabled": true,
-                            "url": "./images/generated-1781882908440.png",
+                            "url": "images/generated-1781882908440.png",
                             "mode": "fill"
                           },
                           "width": "fill_container",
@@ -27325,6 +27941,492 @@
                               "fontWeight": "700"
                             }
                           ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "MSM1y",
+      "x": 13204.373812941696,
+      "y": 0,
+      "name": "User Feedback",
+      "clip": true,
+      "width": 390,
+      "height": 844,
+      "fill": "#F7F6F3",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "hGtA5",
+          "name": "Top Nav",
+          "width": "fill_container",
+          "height": 60,
+          "padding": [
+            14,
+            20,
+            6,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Vd0a8",
+              "name": "Back Shell",
+              "width": 36,
+              "height": 36,
+              "fill": "#FFFFFF",
+              "cornerRadius": 9999,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "unBcs",
+                  "name": "Back Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "caret-left",
+                  "library": "phosphor",
+                  "fill": "#151515"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "bqsYH",
+              "name": "Title Wrap",
+              "layout": "vertical",
+              "gap": 3,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "H0tywo",
+                  "name": "Page Label",
+                  "fill": "#9F5C38",
+                  "content": "个人中心",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "KNaO7",
+                  "name": "Page Title",
+                  "fill": "#151515",
+                  "content": "意见反馈",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "uAsbh",
+              "name": "Top Spacer",
+              "width": 36,
+              "height": 36
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "T9RDzu",
+          "name": "Feedback Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": [
+            12,
+            20,
+            24,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "vwxlI",
+              "name": "Feedback Intro",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 8,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "xqmC0",
+                  "name": "Feedback Intro Title",
+                  "fill": "#151515",
+                  "content": "把真实体验写给我们",
+                  "fontFamily": "Noto Serif SC",
+                  "fontSize": 22,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "RTB8y",
+                  "name": "Feedback Intro Body",
+                  "fill": "#787774",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "无论是遇到的问题，还是想让我们改进的细节，都可以直接写在这里。",
+                  "lineHeight": 1.55,
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "BfC9z",
+              "name": "Feedback Field Card",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "RWDE7",
+                  "name": "Feedback Field Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "BsbxI",
+                      "name": "Feedback Field Label",
+                      "fill": "#151515",
+                      "content": "反馈内容",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "nwXaX",
+                      "name": "Feedback Count",
+                      "fill": "#9F5C38",
+                      "content": "0/500",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "GiXGj",
+                  "name": "Feedback Textarea",
+                  "width": "fill_container",
+                  "height": 260,
+                  "fill": "#FBF8F4",
+                  "cornerRadius": 14,
+                  "stroke": "#F0E7DC",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "layout": "vertical",
+                  "padding": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "XnyTI",
+                      "name": "Feedback Placeholder",
+                      "fill": "#8B857D",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "写下你的想法，或告诉我们哪里不够顺手。",
+                      "lineHeight": 1.55,
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "ICb2l",
+                  "name": "Feedback Helper",
+                  "fill": "#8B857D",
+                  "content": "提交后会在消息中心收到确认提醒。",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "aTUqy",
+              "name": "Feedback Actions",
+              "width": "fill_container",
+              "layout": "vertical",
+              "padding": [
+                2,
+                0,
+                0,
+                0
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "TF6fk",
+                  "name": "Submit Feedback Button",
+                  "width": "fill_container",
+                  "height": 50,
+                  "fill": "#9F5C38",
+                  "cornerRadius": 14,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "XU8CL",
+                      "name": "Submit Feedback Button Text",
+                      "fill": "#FFFFFF",
+                      "content": "提交反馈",
+                      "textAlign": "center",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "sQxtO",
+      "x": 13674.373812941696,
+      "y": 0,
+      "name": "User Feedback Submitted",
+      "clip": true,
+      "width": 390,
+      "height": 844,
+      "fill": "#F7F6F3",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "ryAmn",
+          "name": "Top Nav",
+          "width": "fill_container",
+          "height": 60,
+          "padding": [
+            14,
+            20,
+            6,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "qnKPR",
+              "name": "Back Shell",
+              "width": 36,
+              "height": 36,
+              "fill": "#FFFFFF",
+              "cornerRadius": 9999,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "POHRQ",
+                  "name": "Back Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "caret-left",
+                  "library": "phosphor",
+                  "fill": "#151515"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "HDqQ2",
+              "name": "Title Wrap",
+              "layout": "vertical",
+              "gap": 3,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "g30QId",
+                  "name": "Page Label",
+                  "fill": "#9F5C38",
+                  "content": "提交成功",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "bIho2",
+                  "name": "Page Title",
+                  "fill": "#151515",
+                  "content": "意见反馈",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "otrFT",
+              "name": "Top Spacer",
+              "width": 36,
+              "height": 36
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "BxjTk",
+          "name": "Feedback Success Content",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": [
+            16,
+            20,
+            32,
+            20
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "C3grMl",
+              "name": "Feedback Success Card",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 16,
+              "stroke": "#EFE5DB",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
+              "layout": "vertical",
+              "gap": 18,
+              "padding": 22,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "K1tlq",
+                  "name": "Success Icon Shell",
+                  "width": 58,
+                  "height": 58,
+                  "fill": "#EDF3EC",
+                  "cornerRadius": 18,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "O0lt1e",
+                      "name": "Success Icon",
+                      "width": 28,
+                      "height": 28,
+                      "icon": "check-circle",
+                      "library": "phosphor",
+                      "fill": "#346538"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "I6k6f",
+                  "name": "Success Copy",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ERfYU",
+                      "name": "Success Title",
+                      "fill": "#151515",
+                      "content": "已收到反馈",
+                      "fontFamily": "Noto Serif SC",
+                      "fontSize": 26,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "bNRnG",
+                      "name": "Success Body",
+                      "fill": "#544D45",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "谢谢你把真实体验告诉我们。我们会认真阅读每一条建议，并持续把产品做得更顺手。",
+                      "lineHeight": 1.65,
+                      "textAlign": "center",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "cmt7J",
+                  "name": "Success Actions",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "adK3X",
+                      "name": "Back Profile Button",
+                      "width": "fill_container",
+                      "height": 48,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 14,
+                      "stroke": "#E9E2D8",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "HE6h6",
+                          "name": "Back Profile Button Text",
+                          "fill": "#9F5C38",
+                          "content": "返回个人页",
+                          "textAlign": "center",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 14,
+                          "fontWeight": "600"
                         }
                       ]
                     }

@@ -194,6 +194,26 @@ class NotificationServiceImplTest {
         assertThat(notification.getReadAt()).isNull();
     }
 
+    @Test
+    void sendFeedbackReceivedNotificationInsertsDirectNotification() {
+        notificationService.sendFeedbackReceivedNotification("user-1");
+
+        ArgumentCaptor<UserNotification> notificationCaptor = ArgumentCaptor.forClass(UserNotification.class);
+        verify(userNotificationMapper).insert(notificationCaptor.capture());
+        UserNotification notification = notificationCaptor.getValue();
+        assertThat(notification.getUserId()).isEqualTo("user-1");
+        assertThat(notification.getTitle()).isEqualTo("感谢你的反馈");
+        assertThat(notification.getSummary()).isEqualTo("我们已经收到你的建议，会认真阅读并持续改进 meoi 食堂。");
+        assertThat(notification.getBody()).isEqualTo("谢谢你把真实体验告诉我们。我们会认真阅读每一条建议，并持续把产品做得更顺手。");
+        assertThat(notification.getAudienceType()).isEqualTo("direct");
+        assertThat(notification.getPriority()).isEqualTo("normal");
+        assertThat(notification.getRecipientScope()).isEqualTo("existing_users_only");
+        assertThat(notification.getPublishedAt()).isNotNull();
+        assertThat(notification.getCreatedAt()).isNotNull();
+        assertThat(notification.getUpdatedAt()).isNotNull();
+        assertThat(notification.getReadAt()).isNull();
+    }
+
     private UserNotification notification(String id,
                                           String userId,
                                           String audienceType,

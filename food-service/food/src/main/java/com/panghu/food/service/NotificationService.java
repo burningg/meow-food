@@ -11,4 +11,6 @@ public interface NotificationService {
     void markRead(String notificationId);
 
     void sendVipOpenedSuccessNotification(String userId);
+
+    void sendFeedbackReceivedNotification(String userId);
 }

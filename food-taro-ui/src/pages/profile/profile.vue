@@ -76,6 +76,23 @@
           </article>
         </section>
 
+        <section class="feedback-block">
+          <button class="feedback-entry-card pressable" @tap="openFeedbackPage">
+            <view class="feedback-entry-left">
+              <view class="feedback-icon-shell">
+                <text class="feedback-icon">议</text>
+              </view>
+              <view class="feedback-entry-copy">
+                <text class="feedback-entry-title">意见反馈</text>
+                <text class="feedback-entry-subtitle">遇到问题，或有想让我们改进的地方，都可以写给我们。</text>
+              </view>
+            </view>
+            <view class="feedback-arrow-shell">
+              <text class="feedback-arrow">›</text>
+            </view>
+          </button>
+        </section>
+
         <!-- <section class="invite-section">
           <button class="invite-card pressable" open-type="share">
             <view class="invite-mark">邀</view>
@@ -234,6 +251,10 @@ function openEditProfilePage() {
 
 function openNotificationsPage() {
   push('notifications')
+}
+
+function openFeedbackPage() {
+  push('feedback')
 }
 
 function openVipPage() {
@@ -458,6 +479,88 @@ function formatVipLabel(level?: string) {
 
 .invite-section {
   margin-top: 18px;
+}
+
+.feedback-block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.feedback-entry-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+  border-radius: 12px;
+  background: #fff;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  text-align: left;
+}
+
+.feedback-entry-left {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.feedback-icon-shell {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #edf3ec;
+}
+
+.feedback-icon {
+  color: #346538;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.feedback-entry-copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.feedback-entry-title {
+  color: #151515;
+  font-size: var(--text-md);
+  font-weight: 600;
+}
+
+.feedback-entry-subtitle {
+  color: #787774;
+  font-size: var(--text-xs);
+  line-height: 1.45;
+}
+
+.feedback-arrow-shell {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: #f7f4ef;
+}
+
+.feedback-arrow {
+  color: #9f5c38;
+  font-size: 20px;
+  line-height: 1;
 }
 
 .invite-card {

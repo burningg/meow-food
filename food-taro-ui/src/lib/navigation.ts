@@ -12,6 +12,7 @@ export type RouteName =
   | 'edit-profile'
   | 'edit-avatar'
   | 'notifications'
+  | 'feedback'
   | 'friends'
   | 'friend-requests'
   | 'friend-invite'
@@ -45,6 +46,7 @@ const routePathMap: Record<RouteName, string> = {
   'edit-profile': '/pages/profile/edit-profile',
   'edit-avatar': '/pages/profile/edit-avatar',
   notifications: '/pages/profile/notifications',
+  feedback: '/pages/profile/feedback',
   friends: '/pages/profile/friends',
   'friend-requests': '/pages/profile/friend-requests',
   'friend-invite': '/pages/profile/friend-invite',
