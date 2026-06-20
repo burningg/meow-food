@@ -43,7 +43,7 @@ const config = {
     compile: {
       include: [
         // 微信小程序真机不支持这条依赖链里的现代语法，需要强制降级到可预览的产物。
-        (filename) =>
+        (filename: string) =>
           /node_modules\/(birpc|@vue\/devtools-(api|kit|shared))\//.test(filename),
       ],
     },

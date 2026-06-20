@@ -1,5 +1,5 @@
 <template>
-  <!-- 首页宠物：橘猫厨厨。固定定位，平时趴在左下角，偶尔爬到菜谱卡片上卖萌 -->
+  <!-- 首页宠物：像素小伙伴。固定定位，平时趴在左下角，偶尔爬到菜谱卡片上卖萌 -->
   <view
     class="pet"
     :class="[`is-${state}`, { 'face-left': facing === 'left' }]"
@@ -8,15 +8,15 @@
   >
     <view class="pet-shadow"></view>
 
-    <!-- pet-flip 只负责朝向翻转。逐帧图：当前状态的所有帧都渲染并堆叠，
-         用 v-show 只显示当前帧——所有帧已在 DOM 解码，切帧零闪烁（小程序换 src 首帧会白屏）。 -->
+    <!-- pet-flip 只负责朝向翻转。所有状态图都预渲染，走路切帧时不临时换图，减少小程序端闪白。 -->
     <view class="pet-flip">
       <image
-        v-for="(src, i) in currentFrames"
-        v-show="i === frameIndex"
+        v-for="src in petFrameSources"
+        v-show="src === activePetSvgSrc"
         :key="src"
-        class="pet-sprite"
+        class="pet-figure"
         :src="src"
+        :svg="true"
         mode="aspectFit"
       />
     </view>
@@ -35,8 +35,15 @@
 
 <script setup lang="ts">
 import Taro from '@tarojs/taro'
-import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
-import { PET_FRAMES, type PetAnim } from '@/assets/pet/frames'
+import { computed, onBeforeUnmount, onMounted, reactive } from 'vue'
+import pixelCorgi from '@/assets/pet/pixel-corgi.svg'
+import pixelCorgiLounge from '@/assets/pet/pixel-corgi-lounge.svg'
+import pixelCorgiWalk1 from '@/assets/pet/pixel-corgi-walk-1.svg'
+import pixelCorgiWalk2 from '@/assets/pet/pixel-corgi-walk-2.svg'
+import pixelTabbyCat from '@/assets/pet/pixel-tabby-cat.svg'
+import pixelTabbyCatLounge from '@/assets/pet/pixel-tabby-cat-lounge.svg'
+import pixelTabbyCatWalk1 from '@/assets/pet/pixel-tabby-cat-walk-1.svg'
+import pixelTabbyCatWalk2 from '@/assets/pet/pixel-tabby-cat-walk-2.svg'
 
 const props = withDefaults(
   defineProps<{
@@ -52,21 +59,53 @@ const props = withDefaults(
 const emit = defineEmits<{ (e: 'tap'): void }>()
 
 type PetState = 'idle' | 'walking' | 'lounging' | 'reacting'
+type PetKind = 'cat' | 'dog'
 type Rect = { left: number; top: number; width: number; height: number; bottom: number; right: number }
 
 // 宠物图形的逻辑尺寸（与 CSS 中 .pet 宽高一致，用于居中换算）
 const PET_W = 64
 const PET_H = 72
-// 位移过渡时长，必须和 .pet 的 transition 时长一致
-const WALK_MS = 1050
+// 行走由 JS 拆成小步推进，避免一次性 transition 看起来像滑过去。
+const WALK_STEP_PX = 12
+const WALK_STEP_MS = 125
+const WALK_FRAME_STEP_INTERVAL = 2
+const WALK_MIN_STEPS = 10
+const WALK_MAX_STEPS = 30
 // 底部为 tab-bar 让出的空间
 const BOTTOM_RESERVE = 96
+// 趴菜谱时放在卡片正上方，底部轻轻搭住卡片顶边。
+const CARD_TOP_OVERLAP_Y = 18
+
+const ACTIVE_PET_KIND: PetKind = 'cat'
+const PET_SVG_SRC = {
+  cat: {
+    normal: pixelTabbyCat,
+    lounge: pixelTabbyCatLounge,
+    walk: [pixelTabbyCatWalk1, pixelTabbyCatWalk2],
+  },
+  dog: {
+    normal: pixelCorgi,
+    lounge: pixelCorgiLounge,
+    walk: [pixelCorgiWalk1, pixelCorgiWalk2],
+  },
+} satisfies Record<PetKind, { normal: string; lounge: string; walk: [string, string] }>
+
+// 小程序端可能没有 matchMedia，取不到时默认保留动效。
+const reduceMotion = (() => {
+  try {
+    const matchMedia = (globalThis as { matchMedia?: (query: string) => { matches: boolean } }).matchMedia
+    return matchMedia ? matchMedia('(prefers-reduced-motion: reduce)').matches : false
+  } catch {
+    return false
+  }
+})()
 
 const pet = reactive({
   state: 'idle' as PetState,
   facing: 'right' as 'left' | 'right',
   left: 0,
   top: 0,
+  walkFrameIndex: 0,
   showHearts: false,
 })
 
@@ -75,46 +114,18 @@ const state = computed(() => pet.state)
 const facing = computed(() => pet.facing)
 const showHearts = computed(() => pet.showHearts)
 const petStyle = computed(() => ({ left: `${pet.left}px`, top: `${pet.top}px` }))
-
-// 内部状态机 → 精灵动画名映射
-const STATE_TO_ANIM: Record<PetState, PetAnim> = {
-  idle: 'idle',
-  walking: 'walk',
-  lounging: 'lounge',
-  reacting: 'react',
-}
-const anim = computed<PetAnim>(() => STATE_TO_ANIM[pet.state])
-const currentFrames = computed(() => PET_FRAMES[anim.value].frames)
-const frameIndex = ref(0)
-
-// 是否禁用动效（无障碍）：停在第 0 帧，不启定时器。小程序无此媒体查询，回退为 false。
-const reduceMotion = (() => {
-  try {
-    const mm = (globalThis as { matchMedia?: (q: string) => { matches: boolean } }).matchMedia
-    return mm ? mm('(prefers-reduced-motion: reduce)').matches : false
-  } catch {
-    return false
+const petFrameSources = computed(() => {
+  const source = PET_SVG_SRC[ACTIVE_PET_KIND]
+  return [source.normal, source.lounge, ...source.walk]
+})
+const activePetSvgSrc = computed(() => {
+  const source = PET_SVG_SRC[ACTIVE_PET_KIND]
+  if (pet.state === 'walking') {
+    if (reduceMotion) return source.normal
+    return source.walk[pet.walkFrameIndex % source.walk.length]
   }
-})()
-
-let frameTimer: ReturnType<typeof setInterval> | null = null
-
-// 按当前动画的 fps 重启帧定时器；状态切换时回到第 0 帧
-function restartFrameTimer() {
-  if (frameTimer) {
-    clearInterval(frameTimer)
-    frameTimer = null
-  }
-  frameIndex.value = 0
-  if (reduceMotion) return
-  const { frames, fps } = PET_FRAMES[anim.value]
-  if (frames.length <= 1 || fps <= 0) return
-  frameTimer = setInterval(() => {
-    frameIndex.value = (frameIndex.value + 1) % frames.length
-  }, Math.round(1000 / fps))
-}
-
-watch(anim, restartFrameTimer)
+  return pet.state === 'lounging' ? source.lounge : source.normal
+})
 
 // 左下角主位坐标
 const home = { left: 0, top: 0 }
@@ -144,6 +155,36 @@ function atHome() {
 function moveTo(left: number, top: number) {
   pet.left = left
   pet.top = top
+}
+
+async function walkTo(left: number, top: number, activeToken: number) {
+  const startLeft = pet.left
+  const startTop = pet.top
+  const dx = left - startLeft
+  const dy = top - startTop
+  const distance = Math.sqrt(dx * dx + dy * dy)
+
+  if (distance < 1) {
+    moveTo(left, top)
+    return true
+  }
+
+  pet.walkFrameIndex = 0
+  // 按距离换算步数，并对像素坐标取整，让像素宠物更像一格格走过去。
+  const stepCount = Math.min(WALK_MAX_STEPS, Math.max(WALK_MIN_STEPS, Math.ceil(distance / WALK_STEP_PX)))
+  for (let i = 1; i <= stepCount; i += 1) {
+    if (!alive || activeToken !== token) return false
+    if (!reduceMotion) {
+      pet.walkFrameIndex = Math.floor(i / WALK_FRAME_STEP_INTERVAL) % PET_SVG_SRC[ACTIVE_PET_KIND].walk.length
+    }
+    const progress = i / stepCount
+    moveTo(Math.round(startLeft + dx * progress), Math.round(startTop + dy * progress))
+    await wait(WALK_STEP_MS)
+  }
+
+  pet.walkFrameIndex = 0
+  moveTo(left, top)
+  return alive && activeToken === token
 }
 
 // 取当前可见、且适合趴上去的菜谱卡片矩形
@@ -188,15 +229,14 @@ async function runWanderCycle() {
   }
 
   const target = rects[randInt(0, rects.length)]
+  // 宠物趴在卡片正上方，视觉重心居中，避免挡住下方菜谱文案。
   const targetLeft = target.left + (target.width - PET_W) / 2
-  const targetTop = target.top - PET_H * 0.55
+  const targetTop = target.top - PET_H + CARD_TOP_OVERLAP_Y
 
   // 朝向：目标在右侧则朝右，否则朝左
   pet.facing = targetLeft + PET_W / 2 > home.left + PET_W / 2 ? 'right' : 'left'
   pet.state = 'walking'
-  moveTo(targetLeft, targetTop)
-  await wait(WALK_MS)
-  if (!alive || t !== token) return
+  if (!(await walkTo(targetLeft, targetTop, t))) return
 
   // 趴在卡片上卖萌
   pet.state = 'lounging'
@@ -206,9 +246,7 @@ async function runWanderCycle() {
   // 走回左下角
   pet.facing = 'left'
   pet.state = 'walking'
-  moveTo(home.left, home.top)
-  await wait(WALK_MS)
-  if (!alive || t !== token) return
+  if (!(await walkTo(home.left, home.top, t))) return
 
   pet.state = 'idle'
   scheduleNext()
@@ -237,9 +275,7 @@ async function onTap() {
   if (!atHome()) {
     pet.facing = 'left'
     pet.state = 'walking'
-    moveTo(home.left, home.top)
-    await wait(WALK_MS)
-    if (!alive || t !== token) return
+    if (!(await walkTo(home.left, home.top, t))) return
   }
 
   pet.state = 'idle'
@@ -253,14 +289,12 @@ moveTo(home.left, home.top)
 onMounted(() => {
   computeHome()
   moveTo(home.left, home.top)
-  restartFrameTimer()
   scheduleNext()
 })
 
 onBeforeUnmount(() => {
   alive = false
   if (scheduleTimer) clearTimeout(scheduleTimer)
-  if (frameTimer) clearInterval(frameTimer)
 })
 </script>
 
@@ -270,21 +304,20 @@ onBeforeUnmount(() => {
   z-index: 16;
   width: 64px;
   height: 72px;
-  /* 位移过渡（走路），时长需与 WALK_MS 保持一致 */
-  transition: left 1.05s cubic-bezier(0.45, 0.05, 0.25, 1),
-    top 1.05s cubic-bezier(0.45, 0.05, 0.25, 1);
+  /* 位置由 JS 小步更新，避免整段平滑位移产生“滑行感”。 */
+  transition: none;
   will-change: left, top;
 }
 
 .pet-shadow {
   position: absolute;
-  left: 12px;
+  left: 13px;
   bottom: -2px;
-  width: 40px;
-  height: 9px;
+  width: 38px;
+  height: 8px;
   border-radius: 50%;
-  background: rgba(27, 58, 45, 0.22);
-  filter: blur(2px);
+  background: rgba(159, 92, 56, 0.14);
+  filter: blur(3px);
 }
 
 .pet-flip {
@@ -300,12 +333,16 @@ onBeforeUnmount(() => {
   transform: scaleX(-1);
 }
 
-.pet-sprite {
+.pet-figure {
   position: absolute;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
+  transform-origin: 50% 84%;
+  image-rendering: pixelated;
+  animation: pet-idle 2.2s steps(2, end) infinite;
+  will-change: transform;
 }
 
 /* ---------- Z 与爱心 ---------- */
@@ -352,7 +389,32 @@ onBeforeUnmount(() => {
   animation: pet-heart-float 1.2s ease-out 0.3s forwards;
 }
 
-/* ---------- 各状态动作（逐帧由 JS 驱动 frameIndex，CSS 不再做身体动作） ---------- */
+/* ---------- 各状态动作：CSS 驱动像素宠物本体，位移仍由 JS 状态机控制 ---------- */
+
+.pet.is-walking .pet-figure {
+  animation: pet-walk 0.72s steps(2, end) infinite;
+}
+
+.pet.is-lounging .pet-figure {
+  animation: pet-lounge 2.4s steps(2, end) infinite;
+}
+
+.pet.is-reacting .pet-figure {
+  animation: pet-react 0.6s steps(2, end) 2;
+}
+
+.pet.is-walking .pet-shadow {
+  animation: pet-shadow-walk 0.72s steps(2, end) infinite;
+}
+
+.pet.is-lounging .pet-shadow {
+  transform: scaleX(1.12);
+  opacity: 0.9;
+}
+
+.pet.is-reacting .pet-shadow {
+  animation: pet-shadow-react 0.6s steps(2, end) 2;
+}
 
 /* 趴着时头顶冒 Z（纯特效，保留） */
 .pet.is-lounging .pet-zzz {
@@ -373,6 +435,73 @@ onBeforeUnmount(() => {
   }
 }
 
+@keyframes pet-idle {
+  0%,
+  100% {
+    transform: translateY(0) scaleY(1);
+  }
+  50% {
+    transform: translateY(1px) scaleY(0.98);
+  }
+}
+
+@keyframes pet-walk {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(2deg);
+  }
+}
+
+@keyframes pet-lounge {
+  0%,
+  100% {
+    transform: translateY(1px);
+  }
+  50% {
+    transform: translateY(2px);
+  }
+}
+
+@keyframes pet-react {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  45% {
+    transform: translateY(-10px) scale(1.04);
+  }
+  70% {
+    transform: translateY(1px) scaleY(0.94);
+  }
+}
+
+@keyframes pet-shadow-walk {
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scaleX(0.82);
+    opacity: 0.75;
+  }
+}
+
+@keyframes pet-shadow-react {
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  45% {
+    transform: scaleX(0.72);
+    opacity: 0.62;
+  }
+}
+
 @keyframes pet-heart-float {
   0% {
     opacity: 0;
@@ -388,7 +517,9 @@ onBeforeUnmount(() => {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* 逐帧由 JS 在 reduceMotion 时停在第 0 帧；此处停掉残余特效动画 */
+  /* 动效降级：宠物保持静态，但不影响位置和点击流程。 */
+  .pet .pet-figure,
+  .pet .pet-shadow,
   .pet .pet-zzz,
   .pet .pet-heart {
     animation: none !important;
