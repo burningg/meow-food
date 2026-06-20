@@ -24,8 +24,8 @@ public class VipService {
     private static final int VIP_CIRCLE_LIMIT = 10;
     private static final int NORMAL_MENU_LIMIT = 50;
     private static final int VIP_MENU_LIMIT = 500;
-    private static final int NORMAL_MONTHLY_PLAN_AI_LIMIT = 30;
-    private static final int VIP_MONTHLY_PLAN_AI_LIMIT = 90;
+    private static final int NORMAL_MONTHLY_PLAN_AI_LIMIT = 10;
+    private static final int VIP_MONTHLY_PLAN_AI_LIMIT = 30;
 
     private final UserVipMapper userVipMapper;
 

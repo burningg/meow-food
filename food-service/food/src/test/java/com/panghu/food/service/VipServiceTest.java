@@ -68,6 +68,20 @@ class VipServiceTest {
         UserVip vip = activeVip();
         vip.setIsVip(false);
         vip.setExpiresAt(null);
+        vip.setMonthlyPlanAiUsed(9);
+        when(userVipMapper.selectOne(any(QueryWrapper.class))).thenReturn(vip);
+
+        PlanAiUsageResponse usage = vipService.consumePlanAiUsage("user-1");
+
+        assertThat(usage.getMonthlyLimit()).isEqualTo(10);
+        assertThat(usage.getUsedThisMonth()).isEqualTo(10);
+        assertThat(usage.getRemainingThisMonth()).isZero();
+        verify(userVipMapper).updateById(vip);
+    }
+
+    @Test
+    void consumePlanAiUsageUsesVipMonthlyLimit() {
+        UserVip vip = activeVip();
         vip.setMonthlyPlanAiUsed(29);
         when(userVipMapper.selectOne(any(QueryWrapper.class))).thenReturn(vip);
 
@@ -82,7 +96,7 @@ class VipServiceTest {
     @Test
     void assertCanUsePlanAiRejectsMonthlyLimitExceeded() {
         UserVip vip = activeVip();
-        vip.setMonthlyPlanAiUsed(90);
+        vip.setMonthlyPlanAiUsed(30);
         when(userVipMapper.selectOne(any(QueryWrapper.class))).thenReturn(vip);
 
         assertThatThrownBy(() -> vipService.assertCanUsePlanAi("user-1"))
