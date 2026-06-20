@@ -17,6 +17,8 @@ export type RouteName =
   | 'friend-requests'
   | 'friend-invite'
   | 'vip'
+  | 'pet-adoption'
+  | 'pet-detail'
   | 'plan'
   | 'plan-detail'
   | 'plan-shopping'
@@ -51,6 +53,8 @@ const routePathMap: Record<RouteName, string> = {
   'friend-requests': '/pages/profile/friend-requests',
   'friend-invite': '/pages/profile/friend-invite',
   vip: '/pages/profile/vip',
+  'pet-adoption': '/pages/profile/pet-adoption',
+  'pet-detail': '/pages/profile/pet-detail',
   plan: '/pages/plan/plan',
   'plan-detail': '/pages/plan/plan-detail',
   'plan-shopping': '/pages/plan/plan-shopping',

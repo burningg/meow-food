@@ -65,7 +65,12 @@
     </PullRefreshPage>
 
     <button v-if="authStore.isLoggedIn" class="floating-add" @tap="goToAdd">＋</button>
-    <PetMascot card-selector=".recent-card" />
+    <PetMascot
+      v-if="pet?.claimed"
+      card-selector=".recent-card"
+      :pet-type="pet.petType"
+      @tap="goToPetDetail"
+    />
     <AppTabBar active="home" :show-add="authStore.isLoggedIn" />
     <NotificationModalCard
       :visible="Boolean(importantNotification)"
@@ -89,6 +94,7 @@ import { push, resolveRoute } from '@/lib/navigation'
 import { createHomeShareMessage } from '@/lib/share'
 import { FoodService, type DishSummary, type HomeResponse } from '@/services/food-service'
 import { NotificationService, type NotificationItem } from '@/services/notification-service'
+import { PetService, type PetResponse } from '@/services/pet-service'
 import { useAuthStore } from '@/stores/auth-store'
 
 type VisibleDish = DishSummary & {
@@ -97,6 +103,7 @@ type VisibleDish = DishSummary & {
 
 const foodService = new FoodService()
 const notificationService = new NotificationService()
+const petService = new PetService()
 const authStore = useAuthStore()
 
 const homeData = ref<HomeResponse>({
@@ -109,6 +116,7 @@ const selectedCategoryId = ref('')
 const categoryScrollLeft = ref(0)
 const searchKeyword = ref('')
 const importantNotification = ref<NotificationItem | null>(null)
+const pet = ref<PetResponse | null>(null)
 const shownImportantNotificationId = ref('')
 const displayName = computed(() => authStore.user?.nickname ?? 'meoi')
 const vipChipLabel = computed(() => formatVipLabel(authStore.user?.vip ? authStore.user?.vipLevel : undefined))
@@ -143,11 +151,12 @@ const emptyStateText = computed(() => {
 
 onMounted(async () => {
   await loadHome()
-  await syncImportantNotification()
+  await Promise.all([syncImportantNotification(), syncMyPet()])
 })
 
 useDidShow(async () => {
   await syncImportantNotification()
+  await syncMyPet()
 })
 
 useShareAppMessage(() =>
@@ -184,6 +193,20 @@ async function syncImportantNotification() {
   }
 }
 
+async function syncMyPet() {
+  if (!authStore.isLoggedIn) {
+    pet.value = null
+    return
+  }
+
+  try {
+    const { data } = await petService.getMyPet()
+    pet.value = data.claimed ? data : null
+  } catch {
+    pet.value = null
+  }
+}
+
 function closeImportantNotification() {
   importantNotification.value = null
 }
@@ -207,6 +230,10 @@ function goToLogin() {
 
 function goToProfile() {
   push('profile')
+}
+
+function goToPetDetail() {
+  push('pet-detail')
 }
 
 function selectCategory(categoryId: string) {

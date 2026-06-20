@@ -36,22 +36,17 @@
 <script setup lang="ts">
 import Taro from '@tarojs/taro'
 import { computed, onBeforeUnmount, onMounted, reactive } from 'vue'
-import pixelCorgi from '@/assets/pet/pixel-corgi.svg'
-import pixelCorgiLounge from '@/assets/pet/pixel-corgi-lounge.svg'
-import pixelCorgiWalk1 from '@/assets/pet/pixel-corgi-walk-1.svg'
-import pixelCorgiWalk2 from '@/assets/pet/pixel-corgi-walk-2.svg'
-import pixelTabbyCat from '@/assets/pet/pixel-tabby-cat.svg'
-import pixelTabbyCatLounge from '@/assets/pet/pixel-tabby-cat-lounge.svg'
-import pixelTabbyCatWalk1 from '@/assets/pet/pixel-tabby-cat-walk-1.svg'
-import pixelTabbyCatWalk2 from '@/assets/pet/pixel-tabby-cat-walk-2.svg'
+import { getPetDefinition } from '@/lib/pet'
 
 const props = withDefaults(
   defineProps<{
     // 宠物会爬上去的目标卡片选择器
     cardSelector?: string
+    petType?: string
   }>(),
   {
     cardSelector: '.recent-card',
+    petType: 'tabby_cat',
   },
 )
 
@@ -59,7 +54,6 @@ const props = withDefaults(
 const emit = defineEmits<{ (e: 'tap'): void }>()
 
 type PetState = 'idle' | 'walking' | 'lounging' | 'reacting'
-type PetKind = 'cat' | 'dog'
 type Rect = { left: number; top: number; width: number; height: number; bottom: number; right: number }
 
 // 宠物图形的逻辑尺寸（与 CSS 中 .pet 宽高一致，用于居中换算）
@@ -75,20 +69,6 @@ const WALK_MAX_STEPS = 30
 const BOTTOM_RESERVE = 96
 // 趴菜谱时放在卡片正上方，底部轻轻搭住卡片顶边。
 const CARD_TOP_OVERLAP_Y = 18
-
-const ACTIVE_PET_KIND: PetKind = 'cat'
-const PET_SVG_SRC = {
-  cat: {
-    normal: pixelTabbyCat,
-    lounge: pixelTabbyCatLounge,
-    walk: [pixelTabbyCatWalk1, pixelTabbyCatWalk2],
-  },
-  dog: {
-    normal: pixelCorgi,
-    lounge: pixelCorgiLounge,
-    walk: [pixelCorgiWalk1, pixelCorgiWalk2],
-  },
-} satisfies Record<PetKind, { normal: string; lounge: string; walk: [string, string] }>
 
 // 小程序端可能没有 matchMedia，取不到时默认保留动效。
 const reduceMotion = (() => {
@@ -114,12 +94,13 @@ const state = computed(() => pet.state)
 const facing = computed(() => pet.facing)
 const showHearts = computed(() => pet.showHearts)
 const petStyle = computed(() => ({ left: `${pet.left}px`, top: `${pet.top}px` }))
+const activePetDefinition = computed(() => getPetDefinition(props.petType))
 const petFrameSources = computed(() => {
-  const source = PET_SVG_SRC[ACTIVE_PET_KIND]
+  const source = activePetDefinition.value.assets
   return [source.normal, source.lounge, ...source.walk]
 })
 const activePetSvgSrc = computed(() => {
-  const source = PET_SVG_SRC[ACTIVE_PET_KIND]
+  const source = activePetDefinition.value.assets
   if (pet.state === 'walking') {
     if (reduceMotion) return source.normal
     return source.walk[pet.walkFrameIndex % source.walk.length]
@@ -175,7 +156,7 @@ async function walkTo(left: number, top: number, activeToken: number) {
   for (let i = 1; i <= stepCount; i += 1) {
     if (!alive || activeToken !== token) return false
     if (!reduceMotion) {
-      pet.walkFrameIndex = Math.floor(i / WALK_FRAME_STEP_INTERVAL) % PET_SVG_SRC[ACTIVE_PET_KIND].walk.length
+      pet.walkFrameIndex = Math.floor(i / WALK_FRAME_STEP_INTERVAL) % activePetDefinition.value.assets.walk.length
     }
     const progress = i / stepCount
     moveTo(Math.round(startLeft + dx * progress), Math.round(startTop + dy * progress))

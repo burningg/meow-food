@@ -18918,81 +18918,82 @@
             },
             {
               "type": "frame",
-              "id": "fsmaN",
-              "name": "Feedback Block",
+              "id": "uIcwi",
+              "name": "Pet Feedback Row",
               "width": "fill_container",
-              "layout": "vertical",
               "gap": 12,
               "children": [
                 {
                   "type": "frame",
-                  "id": "rVZLo",
-                  "name": "Feedback Entry Card",
+                  "id": "RLvdx",
+                  "name": "Pet Entry Card",
                   "width": "fill_container",
                   "fill": "#FFFFFF",
                   "cornerRadius": 12,
-                  "gap": 12,
-                  "padding": 16,
+                  "gap": 8,
+                  "padding": 12,
                   "justifyContent": "space_between",
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "frame",
-                      "id": "HaTie",
-                      "name": "Feedback Entry Left",
+                      "id": "nwOmd",
+                      "name": "Pet Entry Left",
                       "width": "fill_container",
                       "gap": 12,
                       "alignItems": "center",
                       "children": [
                         {
                           "type": "frame",
-                          "id": "Ybk72",
-                          "name": "Feedback Icon Shell",
-                          "width": 42,
-                          "height": 42,
-                          "fill": "#EDF3EC",
-                          "cornerRadius": 12,
+                          "id": "lRq8K",
+                          "name": "Pet Icon Shell",
+                          "width": 36,
+                          "height": 36,
+                          "fill": "#FFF0DE",
+                          "cornerRadius": 10,
                           "justifyContent": "center",
                           "alignItems": "center",
                           "children": [
                             {
                               "type": "icon",
-                              "id": "Zq8gk",
-                              "name": "Feedback Icon",
-                              "width": 20,
-                              "height": 20,
-                              "icon": "chat-circle-text",
+                              "id": "gti2P",
+                              "name": "Pet Paw Icon",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "paw-print",
                               "library": "phosphor",
-                              "fill": "#346538"
+                              "fill": "#9F5C38"
                             }
                           ]
                         },
                         {
                           "type": "frame",
-                          "id": "S9Niph",
-                          "name": "Feedback Entry Copy",
+                          "id": "uPush",
+                          "name": "Pet Entry Copy",
                           "width": "fill_container",
                           "layout": "vertical",
-                          "gap": 4,
                           "children": [
                             {
                               "type": "text",
-                              "id": "E5bx8",
-                              "name": "Feedback Entry Title",
+                              "id": "IPXzg",
+                              "name": "Pet Entry Title",
                               "fill": "#151515",
-                              "content": "意见反馈",
+                              "content": "我的宠物",
                               "fontFamily": "Noto Sans SC",
-                              "fontSize": 15,
+                              "fontSize": 14,
                               "fontWeight": "600"
                             },
                             {
                               "type": "text",
-                              "id": "tsZsE",
-                              "name": "Feedback Entry Subtitle",
+                              "id": "SmBVR",
+                              "x": 0,
+                              "y": 26,
+                              "name": "Pet Entry Subtitle",
+                              "enabled": false,
                               "fill": "#787774",
                               "textGrowth": "fixed-width",
-                              "width": "fill_container",
-                              "content": "遇到问题，或有想让我们改进的地方，都可以写给我们。",
+                              "width": 1,
+                              "content": "领取专属宠物，已领取可查看成长详情。",
                               "lineHeight": 1.45,
                               "fontFamily": "Noto Sans SC",
                               "fontSize": 12,
@@ -19004,24 +19005,178 @@
                     },
                     {
                       "type": "frame",
-                      "id": "Y3NpG",
-                      "name": "Feedback Arrow Shell",
-                      "width": 30,
-                      "height": 30,
-                      "fill": "#F7F4EF",
-                      "cornerRadius": 9999,
-                      "justifyContent": "center",
+                      "id": "wLFen",
+                      "name": "Pet Entry Action",
+                      "gap": 8,
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon",
-                          "id": "W59yd5",
-                          "name": "Feedback Arrow",
-                          "width": 15,
-                          "height": 15,
-                          "icon": "caret-right",
-                          "library": "phosphor",
-                          "fill": "#9F5C38"
+                          "type": "frame",
+                          "id": "FHwMa",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Claim Pet Button",
+                          "enabled": false,
+                          "height": 30,
+                          "fill": "#9F5C38",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "BQLlT",
+                              "name": "Claim Pet Button Text",
+                              "fill": "#FFF8EF",
+                              "content": "领取宠物",
+                              "textAlign": "center",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "XAaHE",
+                          "name": "Pet Arrow Shell",
+                          "width": 26,
+                          "height": 26,
+                          "fill": "#F7F4EF",
+                          "cornerRadius": 9999,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "XtQ6S",
+                              "name": "Pet Arrow",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "caret-right",
+                              "library": "phosphor",
+                              "fill": "#9F5C38"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "fsmaN",
+                  "name": "Feedback Block",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "rVZLo",
+                      "name": "Feedback Entry Card",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 12,
+                      "gap": 8,
+                      "padding": 12,
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "HaTie",
+                          "name": "Feedback Entry Left",
+                          "width": "fill_container",
+                          "gap": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "Ybk72",
+                              "name": "Feedback Icon Shell",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "#EDF3EC",
+                              "cornerRadius": 10,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "Zq8gk",
+                                  "name": "Feedback Icon",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "chat-circle-text",
+                                  "library": "phosphor",
+                                  "fill": "#346538"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "S9Niph",
+                              "name": "Feedback Entry Copy",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "E5bx8",
+                                  "name": "Feedback Entry Title",
+                                  "fill": "#151515",
+                                  "content": "意见反馈",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 14,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "tsZsE",
+                                  "x": 0,
+                                  "y": 26,
+                                  "name": "Feedback Entry Subtitle",
+                                  "enabled": false,
+                                  "fill": "#787774",
+                                  "textGrowth": "fixed-width",
+                                  "width": 1,
+                                  "content": "遇到问题，或有想让我们改进的地方，都可以写给我们。",
+                                  "lineHeight": 1.45,
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Y3NpG",
+                          "name": "Feedback Arrow Shell",
+                          "width": 26,
+                          "height": 26,
+                          "fill": "#F7F4EF",
+                          "cornerRadius": 9999,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "W59yd5",
+                              "name": "Feedback Arrow",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "caret-right",
+                              "library": "phosphor",
+                              "fill": "#9F5C38"
+                            }
+                          ]
                         }
                       ]
                     }
@@ -19910,77 +20065,150 @@
               "children": [
                 {
                   "type": "frame",
-                  "id": "UVb20",
-                  "name": "Feedback Entry Card",
+                  "id": "G7fZeY",
+                  "name": "Pet Feedback Row",
                   "width": "fill_container",
-                  "fill": "#FFFFFF",
-                  "cornerRadius": 12,
                   "gap": 12,
-                  "padding": 16,
-                  "justifyContent": "space_between",
-                  "alignItems": "center",
                   "children": [
                     {
                       "type": "frame",
-                      "id": "lpyL5",
-                      "name": "Feedback Entry Left",
+                      "id": "TZxYQ",
+                      "name": "Pet Entry Card",
                       "width": "fill_container",
-                      "gap": 12,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 12,
+                      "gap": 8,
+                      "padding": 12,
+                      "justifyContent": "space_between",
                       "alignItems": "center",
                       "children": [
                         {
                           "type": "frame",
-                          "id": "Hsv0i",
-                          "name": "Feedback Icon Shell",
-                          "width": 42,
-                          "height": 42,
-                          "fill": "#EDF3EC",
-                          "cornerRadius": 12,
-                          "justifyContent": "center",
+                          "id": "vgX6l",
+                          "name": "Pet Entry Left",
+                          "width": "fill_container",
+                          "gap": 12,
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon",
-                              "id": "n10s1",
-                              "name": "Feedback Icon",
-                              "width": 20,
-                              "height": 20,
-                              "icon": "chat-circle-text",
-                              "library": "phosphor",
-                              "fill": "#346538"
+                              "type": "frame",
+                              "id": "HJHyV",
+                              "name": "Pet Icon Shell",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "#FFF0DE",
+                              "cornerRadius": 10,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "eHaV3",
+                                  "name": "Pet Paw Icon",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "paw-print",
+                                  "library": "phosphor",
+                                  "fill": "#9F5C38"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "iOMUj",
+                              "name": "Pet Entry Copy",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "llt1a",
+                                  "name": "Pet Entry Title",
+                                  "fill": "#151515",
+                                  "content": "我的宠物",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 14,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "DybmI",
+                                  "x": 0,
+                                  "y": 26,
+                                  "name": "Pet Entry Subtitle",
+                                  "enabled": false,
+                                  "fill": "#787774",
+                                  "textGrowth": "fixed-width",
+                                  "width": 1,
+                                  "content": "领取专属宠物，已领取可查看成长详情。",
+                                  "lineHeight": 1.45,
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                }
+                              ]
                             }
                           ]
                         },
                         {
                           "type": "frame",
-                          "id": "AGRTX",
-                          "name": "Feedback Entry Copy",
-                          "width": "fill_container",
-                          "layout": "vertical",
-                          "gap": 4,
+                          "id": "XTVat",
+                          "name": "Pet Entry Action",
+                          "gap": 8,
+                          "alignItems": "center",
                           "children": [
                             {
-                              "type": "text",
-                              "id": "f93GKy",
-                              "name": "Feedback Entry Title",
-                              "fill": "#151515",
-                              "content": "意见反馈",
-                              "fontFamily": "Noto Sans SC",
-                              "fontSize": 15,
-                              "fontWeight": "600"
+                              "type": "frame",
+                              "id": "EUFLy",
+                              "x": 0,
+                              "y": 0,
+                              "name": "Claim Pet Button",
+                              "enabled": false,
+                              "height": 30,
+                              "fill": "#9F5C38",
+                              "cornerRadius": 9999,
+                              "padding": [
+                                0,
+                                12
+                              ],
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "uZAVK",
+                                  "name": "Claim Pet Button Text",
+                                  "fill": "#FFF8EF",
+                                  "content": "领取宠物",
+                                  "textAlign": "center",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
                             },
                             {
-                              "type": "text",
-                              "id": "WYIZH",
-                              "name": "Feedback Entry Subtitle",
-                              "fill": "#787774",
-                              "textGrowth": "fixed-width",
-                              "width": "fill_container",
-                              "content": "遇到问题，或有想让我们改进的地方，都可以写给我们。",
-                              "lineHeight": 1.45,
-                              "fontFamily": "Noto Sans SC",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
+                              "type": "frame",
+                              "id": "yEjFl",
+                              "name": "Pet Arrow Shell",
+                              "width": 26,
+                              "height": 26,
+                              "fill": "#F7F4EF",
+                              "cornerRadius": 9999,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "jKXRf",
+                                  "name": "Pet Arrow",
+                                  "width": 15,
+                                  "height": 15,
+                                  "icon": "caret-right",
+                                  "library": "phosphor",
+                                  "fill": "#9F5C38"
+                                }
+                              ]
                             }
                           ]
                         }
@@ -19988,24 +20216,116 @@
                     },
                     {
                       "type": "frame",
-                      "id": "vc3Vm",
-                      "name": "Feedback Arrow Shell",
-                      "width": 30,
-                      "height": 30,
-                      "fill": "#F7F4EF",
-                      "cornerRadius": 9999,
-                      "justifyContent": "center",
-                      "alignItems": "center",
+                      "id": "AHwwh",
+                      "name": "Feedback Block",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 12,
                       "children": [
                         {
-                          "type": "icon",
-                          "id": "lUogr",
-                          "name": "Feedback Arrow",
-                          "width": 15,
-                          "height": 15,
-                          "icon": "caret-right",
-                          "library": "phosphor",
-                          "fill": "#9F5C38"
+                          "type": "frame",
+                          "id": "fmdiW",
+                          "name": "Feedback Entry Card",
+                          "width": "fill_container",
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 12,
+                          "gap": 8,
+                          "padding": 12,
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "wmtE3",
+                              "name": "Feedback Entry Left",
+                              "width": "fill_container",
+                              "gap": 12,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "Wi6jk",
+                                  "name": "Feedback Icon Shell",
+                                  "width": 36,
+                                  "height": 36,
+                                  "fill": "#EDF3EC",
+                                  "cornerRadius": 10,
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "C1AiUs",
+                                      "name": "Feedback Icon",
+                                      "width": 18,
+                                      "height": 18,
+                                      "icon": "chat-circle-text",
+                                      "library": "phosphor",
+                                      "fill": "#346538"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "V2vDz",
+                                  "name": "Feedback Entry Copy",
+                                  "width": "fill_container",
+                                  "layout": "vertical",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "c835f7",
+                                      "name": "Feedback Entry Title",
+                                      "fill": "#151515",
+                                      "content": "意见反馈",
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 14,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "BQ3BD",
+                                      "x": 0,
+                                      "y": 26,
+                                      "name": "Feedback Entry Subtitle",
+                                      "enabled": false,
+                                      "fill": "#787774",
+                                      "textGrowth": "fixed-width",
+                                      "width": 1,
+                                      "content": "遇到问题，或有想让我们改进的地方，都可以写给我们。",
+                                      "lineHeight": 1.45,
+                                      "fontFamily": "Noto Sans SC",
+                                      "fontSize": 12,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "XWgKx",
+                              "name": "Feedback Arrow Shell",
+                              "width": 26,
+                              "height": 26,
+                              "fill": "#F7F4EF",
+                              "cornerRadius": 9999,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "jm5bE",
+                                  "name": "Feedback Arrow",
+                                  "width": 15,
+                                  "height": 15,
+                                  "icon": "caret-right",
+                                  "library": "phosphor",
+                                  "fill": "#9F5C38"
+                                }
+                              ]
+                            }
+                          ]
                         }
                       ]
                     }
@@ -28431,6 +28751,3667 @@
                       ]
                     }
                   ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "PdioL",
+      "x": 14144.373812941696,
+      "y": 0,
+      "name": "Pet Adoption",
+      "clip": true,
+      "width": 390,
+      "height": 844,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "#FFF7EA",
+            "position": 0
+          },
+          {
+            "color": "#F7F6F3",
+            "position": 0.48
+          },
+          {
+            "color": "#EDF3EC",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "gDGE2",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24,
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "flmxy",
+              "name": "Time",
+              "fill": "#5A4333",
+              "content": "9:41",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "AxvQJ",
+              "name": "Status Right",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "lub9q",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "cell-signal-full",
+                  "library": "phosphor",
+                  "fill": "#5A4333"
+                },
+                {
+                  "type": "icon",
+                  "id": "uWWMW",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi-high",
+                  "library": "phosphor",
+                  "fill": "#5A4333"
+                },
+                {
+                  "type": "icon",
+                  "id": "mU9Nm",
+                  "name": "Battery",
+                  "width": 22,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "phosphor",
+                  "fill": "#5A4333"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "MX4ve",
+          "name": "Adoption Content",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            8,
+            20,
+            20,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "veNj2",
+              "name": "Top Nav",
+              "width": "fill_container",
+              "height": 48,
+              "layout": "vertical",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "xR0sV",
+                  "name": "Title Stack",
+                  "layout": "vertical",
+                  "gap": 2,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "vzYRT",
+                      "name": "Title Eyebrow",
+                      "fill": "#346538",
+                      "content": "PET PARTNER",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 10,
+                      "fontWeight": "600",
+                      "letterSpacing": 1.4
+                    },
+                    {
+                      "type": "text",
+                      "id": "c5Kbty",
+                      "name": "Page Title",
+                      "fill": "#151515",
+                      "content": "领一只饭搭子",
+                      "fontFamily": "ZCOOL KuaiLe",
+                      "fontSize": 21,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "MWnG8",
+              "name": "Adoption Hero",
+              "clip": true,
+              "width": "fill_container",
+              "height": 122,
+              "fill": "#FFF8EF",
+              "cornerRadius": 24,
+              "stroke": "#EAD9C4",
+              "strokeWidth": 1,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#8A4E2918",
+                "offset": {
+                  "x": 0,
+                  "y": 14
+                },
+                "blur": 34
+              },
+              "layout": "none",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "HI83D",
+                  "x": 8,
+                  "y": 62,
+                  "name": "Hero Green Glow",
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "radial",
+                    "enabled": true,
+                    "rotation": 0,
+                    "size": {
+                      "width": 1,
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#8DB07D44",
+                        "position": 0
+                      },
+                      {
+                        "color": "#8DB07D00",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "width": 54,
+                  "height": 54
+                },
+                {
+                  "type": "ellipse",
+                  "id": "HicB0",
+                  "x": 228,
+                  "y": 6,
+                  "name": "Hero Gold Glow",
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "radial",
+                    "enabled": true,
+                    "rotation": 0,
+                    "size": {
+                      "width": 1,
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#FFE5A866",
+                        "position": 0
+                      },
+                      {
+                        "color": "#FFE5A800",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "width": 108,
+                  "height": 108
+                },
+                {
+                  "type": "frame",
+                  "id": "gDy61",
+                  "x": 18,
+                  "y": 20,
+                  "name": "Hero Copy",
+                  "width": 226,
+                  "layout": "vertical",
+                  "gap": 7,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "bfHBn",
+                      "name": "Hero Title",
+                      "fill": "#1B3A2D",
+                      "content": "今天开始，饭点有人陪",
+                      "fontFamily": "ZCOOL KuaiLe",
+                      "fontSize": 24,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "S0qcbU",
+                      "name": "Hero Body",
+                      "fill": "#5B4A39",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "选一只合眼缘的小伙伴，再给 TA 起个名字。",
+                      "lineHeight": 1.5,
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "N6EGia",
+                  "x": 302,
+                  "y": 24,
+                  "name": "Paw Mark One",
+                  "fill": "#C8873B",
+                  "content": "✦",
+                  "fontFamily": "ZCOOL KuaiLe",
+                  "fontSize": 22,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "ZBlwj",
+                  "x": 330,
+                  "y": 72,
+                  "name": "Paw Mark Two",
+                  "fill": "#346538",
+                  "content": "♡",
+                  "fontFamily": "ZCOOL KuaiLe",
+                  "fontSize": 20,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "g7ats",
+              "name": "Pet Choice Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "nS421",
+                  "name": "Choice Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "wI8I2",
+                      "name": "Choice Title",
+                      "fill": "#151515",
+                      "content": "选择你的饭搭子",
+                      "fontFamily": "ZCOOL KuaiLe",
+                      "fontSize": 22,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "o4WiD",
+                      "name": "Choice Hint",
+                      "fill": "#9F5C38",
+                      "content": "可切换",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "XNTle",
+                  "name": "Pet Choice Row",
+                  "width": "fill_container",
+                  "height": 210,
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "PoOJL",
+                      "name": "Tabby Cat Choice Card",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "fill": "#EDF3EC",
+                      "cornerRadius": 20,
+                      "stroke": "#346538",
+                      "strokeWidth": 2,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#1B3A2D14",
+                        "offset": {
+                          "x": 0,
+                          "y": 12
+                        },
+                        "blur": 26
+                      },
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 12,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "gF0x4",
+                          "name": "狸花猫 Image Stage",
+                          "clip": true,
+                          "width": "fill_container",
+                          "height": 112,
+                          "fill": "#F7FBF3",
+                          "cornerRadius": 16,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "X3vBkU",
+                              "x": 22,
+                              "y": 58,
+                              "name": "狸花猫 Stage Glow",
+                              "fill": "#DCE7DA",
+                              "width": 92,
+                              "height": 30
+                            },
+                            {
+                              "type": "frame",
+                              "id": "ooUM6",
+                              "x": 8,
+                              "y": 8,
+                              "name": "Selected Badge",
+                              "fill": "#346538",
+                              "cornerRadius": 9999,
+                              "gap": 4,
+                              "padding": [
+                                5,
+                                8
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "Ehafg",
+                                  "name": "Check Icon",
+                                  "width": 12,
+                                  "height": 12,
+                                  "icon": "check",
+                                  "library": "phosphor",
+                                  "fill": "#FFFFFF"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "ZFPEP",
+                                  "name": "Selected Text",
+                                  "fill": "#FFFFFF",
+                                  "content": "已选",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 11,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "M5iam",
+                              "x": 38,
+                              "y": 9,
+                              "name": "Tabby Cat Pixel SVG From Asset",
+                              "width": 87.04,
+                              "height": 97.92,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "rectangle",
+                                  "id": "o7SKra",
+                                  "x": 5.44,
+                                  "y": 38.080000000000005,
+                                  "name": "Tabby Cat Pixel 01",
+                                  "fill": "#FFF7EA",
+                                  "width": 13.600000000000001,
+                                  "height": 19.040000000000003
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "EgLO9",
+                                  "x": 8.16,
+                                  "y": 31.28,
+                                  "name": "Tabby Cat Pixel 02",
+                                  "fill": "#FFF7EA",
+                                  "width": 13.600000000000001,
+                                  "height": 13.600000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "NzlSu",
+                                  "x": 14.96,
+                                  "y": 28.560000000000002,
+                                  "name": "Tabby Cat Pixel 03",
+                                  "fill": "#FFF7EA",
+                                  "width": 13.600000000000001,
+                                  "height": 10.88
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "n4UOW",
+                                  "x": 14.96,
+                                  "y": 44.88,
+                                  "name": "Tabby Cat Pixel 04",
+                                  "fill": "#FFF7EA",
+                                  "width": 54.400000000000006,
+                                  "height": 31.28
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "ChG8a",
+                                  "x": 17.68,
+                                  "y": 42.160000000000004,
+                                  "name": "Tabby Cat Pixel 05",
+                                  "fill": "#FFF7EA",
+                                  "width": 46.24,
+                                  "height": 5.44
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "HNNp6",
+                                  "x": 21.76,
+                                  "y": 69.36,
+                                  "name": "Tabby Cat Pixel 06",
+                                  "fill": "#FFF7EA",
+                                  "width": 16.32,
+                                  "height": 14.96
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "BiU8b",
+                                  "x": 47.6,
+                                  "y": 69.36,
+                                  "name": "Tabby Cat Pixel 07",
+                                  "fill": "#FFF7EA",
+                                  "width": 16.32,
+                                  "height": 14.96
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "CB0JS",
+                                  "x": 44.88,
+                                  "y": 16.32,
+                                  "name": "Tabby Cat Pixel 08",
+                                  "fill": "#FFF7EA",
+                                  "width": 12.24,
+                                  "height": 16.32
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "X4E1J",
+                                  "x": 50.32,
+                                  "y": 9.520000000000001,
+                                  "name": "Tabby Cat Pixel 09",
+                                  "fill": "#FFF7EA",
+                                  "width": 10.88,
+                                  "height": 13.600000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "sbFsu",
+                                  "x": 68,
+                                  "y": 16.32,
+                                  "name": "Tabby Cat Pixel 10",
+                                  "fill": "#FFF7EA",
+                                  "width": 13.600000000000001,
+                                  "height": 17.68
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "flgyH",
+                                  "x": 70.72,
+                                  "y": 9.520000000000001,
+                                  "name": "Tabby Cat Pixel 11",
+                                  "fill": "#FFF7EA",
+                                  "width": 10.88,
+                                  "height": 13.600000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "CKJIf",
+                                  "x": 44.88,
+                                  "y": 23.12,
+                                  "name": "Tabby Cat Pixel 12",
+                                  "fill": "#FFF7EA",
+                                  "width": 36.720000000000006,
+                                  "height": 5.44
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "IFJHA",
+                                  "x": 42.160000000000004,
+                                  "y": 25.840000000000003,
+                                  "name": "Tabby Cat Pixel 13",
+                                  "fill": "#FFF7EA",
+                                  "width": 42.160000000000004,
+                                  "height": 6.800000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "u16ZJy",
+                                  "x": 40.800000000000004,
+                                  "y": 31.28,
+                                  "name": "Tabby Cat Pixel 14",
+                                  "fill": "#FFF7EA",
+                                  "width": 44.88,
+                                  "height": 21.76
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "fcdM2",
+                                  "x": 43.52,
+                                  "y": 53.040000000000006,
+                                  "name": "Tabby Cat Pixel 15",
+                                  "fill": "#FFF7EA",
+                                  "width": 39.440000000000005,
+                                  "height": 6.800000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "sGXC9",
+                                  "x": 48.96,
+                                  "y": 58.480000000000004,
+                                  "name": "Tabby Cat Pixel 16",
+                                  "fill": "#FFF7EA",
+                                  "width": 27.200000000000003,
+                                  "height": 4.08
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "tSArr",
+                                  "x": 9.520000000000001,
+                                  "y": 47.6,
+                                  "name": "Tabby Cat Pixel 17",
+                                  "fill": "#6E5849",
+                                  "width": 10.88,
+                                  "height": 8.16
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "Sjvk2",
+                                  "x": 6.800000000000001,
+                                  "y": 39.440000000000005,
+                                  "name": "Tabby Cat Pixel 18",
+                                  "fill": "#6E5849",
+                                  "width": 8.16,
+                                  "height": 16.32
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "NMtLF",
+                                  "x": 9.520000000000001,
+                                  "y": 32.64,
+                                  "name": "Tabby Cat Pixel 19",
+                                  "fill": "#6E5849",
+                                  "width": 10.88,
+                                  "height": 10.88
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "ALOMH",
+                                  "x": 16.32,
+                                  "y": 29.92,
+                                  "name": "Tabby Cat Pixel 20",
+                                  "fill": "#6E5849",
+                                  "width": 10.88,
+                                  "height": 8.16
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "nTIhV",
+                                  "x": 12.24,
+                                  "y": 48.96,
+                                  "name": "Tabby Cat Pixel 21",
+                                  "fill": "#A68B78",
+                                  "width": 6.800000000000001,
+                                  "height": 4.08
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "WHovn",
+                                  "x": 9.520000000000001,
+                                  "y": 40.800000000000004,
+                                  "name": "Tabby Cat Pixel 22",
+                                  "fill": "#A68B78",
+                                  "width": 2.72,
+                                  "height": 12.24
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "ICI4i",
+                                  "x": 13.600000000000001,
+                                  "y": 34,
+                                  "name": "Tabby Cat Pixel 23",
+                                  "fill": "#A68B78",
+                                  "width": 5.44,
+                                  "height": 6.800000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "xzcd4",
+                                  "x": 17.68,
+                                  "y": 32.64,
+                                  "name": "Tabby Cat Pixel 24",
+                                  "fill": "#A68B78",
+                                  "width": 8.16,
+                                  "height": 4.08
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "zthb7",
+                                  "x": 8.16,
+                                  "y": 43.52,
+                                  "name": "Tabby Cat Pixel 25",
+                                  "fill": "#6B5648",
+                                  "width": 5.44,
+                                  "height": 2.72
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "svG4O",
+                                  "x": 14.96,
+                                  "y": 34,
+                                  "name": "Tabby Cat Pixel 26",
+                                  "fill": "#6B5648",
+                                  "width": 2.72,
+                                  "height": 5.44
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "OzzPj",
+                                  "x": 16.32,
+                                  "y": 46.24,
+                                  "name": "Tabby Cat Pixel 27",
+                                  "fill": "#6E5849",
+                                  "width": 51.68000000000001,
+                                  "height": 28.560000000000002
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "YLDhC",
+                                  "x": 19.040000000000003,
+                                  "y": 43.52,
+                                  "name": "Tabby Cat Pixel 28",
+                                  "fill": "#6E5849",
+                                  "width": 43.52,
+                                  "height": 2.72
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "Bj156",
+                                  "x": 19.040000000000003,
+                                  "y": 48.96,
+                                  "name": "Tabby Cat Pixel 29",
+                                  "fill": "#A68B78",
+                                  "width": 46.24,
+                                  "height": 23.12
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "J8Sr6",
+                                  "x": 23.12,
+                                  "y": 51.68000000000001,
+                                  "name": "Tabby Cat Pixel 30",
+                                  "fill": "#B99B85",
+                                  "width": 36.720000000000006,
+                                  "height": 17.68
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "l1YmzZ",
+                                  "x": 28.560000000000002,
+                                  "y": 57.120000000000005,
+                                  "name": "Tabby Cat Pixel 31",
+                                  "fill": "#E3C7AD",
+                                  "width": 23.12,
+                                  "height": 12.24
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "P1VTOh",
+                                  "x": 21.76,
+                                  "y": 48.96,
+                                  "name": "Tabby Cat Pixel 32",
+                                  "fill": "#D1B29A",
+                                  "width": 6.800000000000001,
+                                  "height": 5.44
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "cTobp",
+                                  "x": 55.760000000000005,
+                                  "y": 51.68000000000001,
+                                  "name": "Tabby Cat Pixel 33",
+                                  "fill": "#8F7463",
+                                  "width": 6.800000000000001,
+                                  "height": 6.800000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "AmAmw",
+                                  "x": 24.48,
+                                  "y": 48.96,
+                                  "name": "Tabby Cat Pixel 34",
+                                  "fill": "#5F4C42",
+                                  "width": 4.08,
+                                  "height": 10.88
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "yd2Um",
+                                  "x": 36.720000000000006,
+                                  "y": 48.96,
+                                  "name": "Tabby Cat Pixel 35",
+                                  "fill": "#5F4C42",
+                                  "width": 4.08,
+                                  "height": 9.520000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "pGoKQ",
+                                  "x": 50.32,
+                                  "y": 48.96,
+                                  "name": "Tabby Cat Pixel 36",
+                                  "fill": "#5F4C42",
+                                  "width": 4.08,
+                                  "height": 10.88
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "mw8US",
+                                  "x": 23.12,
+                                  "y": 70.72,
+                                  "name": "Tabby Cat Pixel 37",
+                                  "fill": "#6E5849",
+                                  "width": 12.24,
+                                  "height": 10.88
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "WyKeR",
+                                  "x": 48.96,
+                                  "y": 70.72,
+                                  "name": "Tabby Cat Pixel 38",
+                                  "fill": "#6E5849",
+                                  "width": 12.24,
+                                  "height": 10.88
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "NUeE8",
+                                  "x": 25.840000000000003,
+                                  "y": 70.72,
+                                  "name": "Tabby Cat Pixel 39",
+                                  "fill": "#B99B85",
+                                  "width": 8.16,
+                                  "height": 6.800000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "L147Ck",
+                                  "x": 51.68000000000001,
+                                  "y": 70.72,
+                                  "name": "Tabby Cat Pixel 40",
+                                  "fill": "#B99B85",
+                                  "width": 8.16,
+                                  "height": 6.800000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "sD1AL",
+                                  "x": 23.12,
+                                  "y": 78.88000000000001,
+                                  "name": "Tabby Cat Pixel 41",
+                                  "fill": "#7B6251",
+                                  "width": 13.600000000000001,
+                                  "height": 4.08
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "Sjdr9",
+                                  "x": 48.96,
+                                  "y": 78.88000000000001,
+                                  "name": "Tabby Cat Pixel 42",
+                                  "fill": "#7B6251",
+                                  "width": 13.600000000000001,
+                                  "height": 4.08
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "M0WTqj",
+                                  "x": 27.200000000000003,
+                                  "y": 77.52000000000001,
+                                  "name": "Tabby Cat Pixel 43",
+                                  "fill": "#E8D1BD",
+                                  "width": 2.72,
+                                  "height": 2.72
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "RKcSX",
+                                  "x": 53.040000000000006,
+                                  "y": 77.52000000000001,
+                                  "name": "Tabby Cat Pixel 44",
+                                  "fill": "#E8D1BD",
+                                  "width": 2.72,
+                                  "height": 2.72
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "LTZA4",
+                                  "x": 46.24,
+                                  "y": 17.68,
+                                  "name": "Tabby Cat Pixel 45",
+                                  "fill": "#6E5849",
+                                  "width": 9.520000000000001,
+                                  "height": 13.600000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "G2Ora",
+                                  "x": 51.68000000000001,
+                                  "y": 10.88,
+                                  "name": "Tabby Cat Pixel 46",
+                                  "fill": "#6E5849",
+                                  "width": 8.16,
+                                  "height": 10.88
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "QnIQR",
+                                  "x": 69.36,
+                                  "y": 17.68,
+                                  "name": "Tabby Cat Pixel 47",
+                                  "fill": "#6E5849",
+                                  "width": 10.88,
+                                  "height": 14.96
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "MmNuj",
+                                  "x": 72.08,
+                                  "y": 10.88,
+                                  "name": "Tabby Cat Pixel 48",
+                                  "fill": "#6E5849",
+                                  "width": 8.16,
+                                  "height": 10.88
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "CgRJF",
+                                  "x": 53.040000000000006,
+                                  "y": 17.68,
+                                  "name": "Tabby Cat Pixel 49",
+                                  "fill": "#F0B6A6",
+                                  "width": 5.44,
+                                  "height": 9.520000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "CKfuT",
+                                  "x": 73.44000000000001,
+                                  "y": 17.68,
+                                  "name": "Tabby Cat Pixel 50",
+                                  "fill": "#F0B6A6",
+                                  "width": 5.44,
+                                  "height": 9.520000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "nCXdd",
+                                  "x": 46.24,
+                                  "y": 24.48,
+                                  "name": "Tabby Cat Pixel 51",
+                                  "fill": "#6E5849",
+                                  "width": 32.64,
+                                  "height": 2.72
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "wjI0x",
+                                  "x": 43.52,
+                                  "y": 27.200000000000003,
+                                  "name": "Tabby Cat Pixel 52",
+                                  "fill": "#6E5849",
+                                  "width": 39.440000000000005,
+                                  "height": 4.08
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "OLaqf",
+                                  "x": 42.160000000000004,
+                                  "y": 31.28,
+                                  "name": "Tabby Cat Pixel 53",
+                                  "fill": "#6E5849",
+                                  "width": 42.160000000000004,
+                                  "height": 21.76
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "ItBou",
+                                  "x": 44.88,
+                                  "y": 53.040000000000006,
+                                  "name": "Tabby Cat Pixel 54",
+                                  "fill": "#6E5849",
+                                  "width": 36.720000000000006,
+                                  "height": 5.44
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "Z5oD3",
+                                  "x": 50.32,
+                                  "y": 58.480000000000004,
+                                  "name": "Tabby Cat Pixel 55",
+                                  "fill": "#6E5849",
+                                  "width": 24.48,
+                                  "height": 1.36
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "bu3Bc",
+                                  "x": 46.24,
+                                  "y": 29.92,
+                                  "name": "Tabby Cat Pixel 56",
+                                  "fill": "#A68B78",
+                                  "width": 35.36,
+                                  "height": 4.08
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "MGDK2",
+                                  "x": 44.88,
+                                  "y": 34,
+                                  "name": "Tabby Cat Pixel 57",
+                                  "fill": "#A68B78",
+                                  "width": 36.720000000000006,
+                                  "height": 19.040000000000003
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "q3vAsC",
+                                  "x": 47.6,
+                                  "y": 53.040000000000006,
+                                  "name": "Tabby Cat Pixel 58",
+                                  "fill": "#A68B78",
+                                  "width": 29.92,
+                                  "height": 2.72
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "esNrh",
+                                  "x": 50.32,
+                                  "y": 32.64,
+                                  "name": "Tabby Cat Pixel 59",
+                                  "fill": "#B99B85",
+                                  "width": 25.840000000000003,
+                                  "height": 20.400000000000002
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "v3OGkK",
+                                  "x": 59.84,
+                                  "y": 29.92,
+                                  "name": "Tabby Cat Pixel 60",
+                                  "fill": "#5F4C42",
+                                  "width": 2.72,
+                                  "height": 10.88
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "teTM7",
+                                  "x": 66.64,
+                                  "y": 29.92,
+                                  "name": "Tabby Cat Pixel 61",
+                                  "fill": "#5F4C42",
+                                  "width": 2.72,
+                                  "height": 10.88
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "xSLwY",
+                                  "x": 53.040000000000006,
+                                  "y": 34,
+                                  "name": "Tabby Cat Pixel 62",
+                                  "fill": "#5F4C42",
+                                  "width": 5.44,
+                                  "height": 2.72
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "A4r3U",
+                                  "x": 72.08,
+                                  "y": 34,
+                                  "name": "Tabby Cat Pixel 63",
+                                  "fill": "#5F4C42",
+                                  "width": 5.44,
+                                  "height": 2.72
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "I24o1",
+                                  "x": 51.68000000000001,
+                                  "y": 39.440000000000005,
+                                  "name": "Tabby Cat Pixel 64",
+                                  "fill": "#221F1D",
+                                  "width": 4.08,
+                                  "height": 5.44
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "KyLal",
+                                  "x": 69.36,
+                                  "y": 39.440000000000005,
+                                  "name": "Tabby Cat Pixel 65",
+                                  "fill": "#221F1D",
+                                  "width": 4.08,
+                                  "height": 5.44
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "W3jEgi",
+                                  "x": 53.040000000000006,
+                                  "y": 40.800000000000004,
+                                  "name": "Tabby Cat Pixel 66",
+                                  "fill": "#FFFFFF",
+                                  "width": 1.36,
+                                  "height": 1.36
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "ioK8A",
+                                  "x": 70.72,
+                                  "y": 40.800000000000004,
+                                  "name": "Tabby Cat Pixel 67",
+                                  "fill": "#FFFFFF",
+                                  "width": 1.36,
+                                  "height": 1.36
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "cFoAw",
+                                  "x": 61.2,
+                                  "y": 44.88,
+                                  "name": "Tabby Cat Pixel 68",
+                                  "fill": "#7B5048",
+                                  "width": 5.44,
+                                  "height": 4.08
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "u2zGgT",
+                                  "x": 57.120000000000005,
+                                  "y": 48.96,
+                                  "name": "Tabby Cat Pixel 69",
+                                  "fill": "#E5C7AD",
+                                  "width": 13.600000000000001,
+                                  "height": 4.08
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "HkaRN",
+                                  "x": 53.040000000000006,
+                                  "y": 47.6,
+                                  "name": "Tabby Cat Pixel 70",
+                                  "fill": "#E9A0A0",
+                                  "width": 5.44,
+                                  "height": 2.72
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "NCSXG",
+                                  "x": 73.44000000000001,
+                                  "y": 47.6,
+                                  "name": "Tabby Cat Pixel 71",
+                                  "fill": "#E9A0A0",
+                                  "width": 5.44,
+                                  "height": 2.72
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "SXWmo",
+                                  "x": 48.96,
+                                  "y": 44.88,
+                                  "name": "Tabby Cat Pixel 72",
+                                  "fill": "#5F4C42",
+                                  "width": 6.800000000000001,
+                                  "height": 1.36
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "D6Llap",
+                                  "x": 72.08,
+                                  "y": 44.88,
+                                  "name": "Tabby Cat Pixel 73",
+                                  "fill": "#5F4C42",
+                                  "width": 8.16,
+                                  "height": 1.36
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "j877E",
+                                  "x": 48.96,
+                                  "y": 50.32,
+                                  "name": "Tabby Cat Pixel 74",
+                                  "fill": "#5F4C42",
+                                  "width": 6.800000000000001,
+                                  "height": 1.36
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "EPadN",
+                                  "x": 72.08,
+                                  "y": 50.32,
+                                  "name": "Tabby Cat Pixel 75",
+                                  "fill": "#5F4C42",
+                                  "width": 8.16,
+                                  "height": 1.36
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "S8GK8n",
+                                  "x": 51.68000000000001,
+                                  "y": 55.760000000000005,
+                                  "name": "Tabby Cat Pixel 76",
+                                  "fill": "#7DA66F",
+                                  "width": 16.32,
+                                  "height": 6.800000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "k68rx",
+                                  "x": 66.64,
+                                  "y": 55.760000000000005,
+                                  "name": "Tabby Cat Pixel 77",
+                                  "fill": "#F4D470",
+                                  "width": 5.44,
+                                  "height": 6.800000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "R6Oai",
+                                  "x": 63.92,
+                                  "y": 58.480000000000004,
+                                  "name": "Tabby Cat Pixel 78",
+                                  "fill": "#3F6D45",
+                                  "width": 4.08,
+                                  "height": 2.72
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "aF973",
+                          "name": "狸花猫 Name",
+                          "fill": "#1B3A2D",
+                          "content": "狸花猫",
+                          "fontFamily": "ZCOOL KuaiLe",
+                          "fontSize": 20,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "FVDSm",
+                          "name": "狸花猫 Desc",
+                          "fill": "#6F756D",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "爱蹭饭桌，也会认真守着你的菜谱。",
+                          "lineHeight": 1.35,
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "bY6Fy",
+                      "name": "Corgi Choice Card",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 20,
+                      "stroke": "#EFE3D1",
+                      "strokeWidth": 1,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#1B3A2D14",
+                        "offset": {
+                          "x": 0,
+                          "y": 12
+                        },
+                        "blur": 26
+                      },
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 12,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "x8Zqwo",
+                          "name": "柯基狗 Image Stage",
+                          "clip": true,
+                          "width": "fill_container",
+                          "height": 112,
+                          "fill": "#FFF8EF",
+                          "cornerRadius": 16,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "CgrCn",
+                              "x": 22,
+                              "y": 58,
+                              "name": "柯基狗 Stage Glow",
+                              "fill": "#DCE7DA",
+                              "width": 92,
+                              "height": 30
+                            },
+                            {
+                              "type": "frame",
+                              "id": "vzKfy",
+                              "x": 38,
+                              "y": 9,
+                              "name": "Corgi Pixel SVG From Asset",
+                              "width": 87.04,
+                              "height": 97.92,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "rectangle",
+                                  "id": "X1E2Ez",
+                                  "x": 8.16,
+                                  "y": 51.68000000000001,
+                                  "name": "Corgi Pixel 01",
+                                  "fill": "#FFF7EA",
+                                  "width": 13.600000000000001,
+                                  "height": 13.600000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "AzVPr",
+                                  "x": 14.96,
+                                  "y": 46.24,
+                                  "name": "Corgi Pixel 02",
+                                  "fill": "#FFF7EA",
+                                  "width": 54.400000000000006,
+                                  "height": 31.28
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "mJpVu",
+                                  "x": 17.68,
+                                  "y": 43.52,
+                                  "name": "Corgi Pixel 03",
+                                  "fill": "#FFF7EA",
+                                  "width": 46.24,
+                                  "height": 5.44
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "bUCUO",
+                                  "x": 21.76,
+                                  "y": 70.72,
+                                  "name": "Corgi Pixel 04",
+                                  "fill": "#FFF7EA",
+                                  "width": 16.32,
+                                  "height": 14.96
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "RWQaX",
+                                  "x": 47.6,
+                                  "y": 70.72,
+                                  "name": "Corgi Pixel 05",
+                                  "fill": "#FFF7EA",
+                                  "width": 16.32,
+                                  "height": 14.96
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "ku0Wp",
+                                  "x": 44.88,
+                                  "y": 14.96,
+                                  "name": "Corgi Pixel 06",
+                                  "fill": "#FFF7EA",
+                                  "width": 13.600000000000001,
+                                  "height": 20.400000000000002
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "A5XPWK",
+                                  "x": 48.96,
+                                  "y": 8.16,
+                                  "name": "Corgi Pixel 07",
+                                  "fill": "#FFF7EA",
+                                  "width": 12.24,
+                                  "height": 13.600000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "N2PV7c",
+                                  "x": 68,
+                                  "y": 14.96,
+                                  "name": "Corgi Pixel 08",
+                                  "fill": "#FFF7EA",
+                                  "width": 14.96,
+                                  "height": 21.76
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "zyxDq",
+                                  "x": 70.72,
+                                  "y": 8.16,
+                                  "name": "Corgi Pixel 09",
+                                  "fill": "#FFF7EA",
+                                  "width": 12.24,
+                                  "height": 14.96
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "FKGN0",
+                                  "x": 44.88,
+                                  "y": 24.48,
+                                  "name": "Corgi Pixel 10",
+                                  "fill": "#FFF7EA",
+                                  "width": 36.720000000000006,
+                                  "height": 5.44
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "N2MWwd",
+                                  "x": 42.160000000000004,
+                                  "y": 27.200000000000003,
+                                  "name": "Corgi Pixel 11",
+                                  "fill": "#FFF7EA",
+                                  "width": 42.160000000000004,
+                                  "height": 6.800000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "Q31B2X",
+                                  "x": 40.800000000000004,
+                                  "y": 32.64,
+                                  "name": "Corgi Pixel 12",
+                                  "fill": "#FFF7EA",
+                                  "width": 44.88,
+                                  "height": 20.400000000000002
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "dkvuN",
+                                  "x": 43.52,
+                                  "y": 53.040000000000006,
+                                  "name": "Corgi Pixel 13",
+                                  "fill": "#FFF7EA",
+                                  "width": 39.440000000000005,
+                                  "height": 6.800000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "kxuyN",
+                                  "x": 48.96,
+                                  "y": 58.480000000000004,
+                                  "name": "Corgi Pixel 14",
+                                  "fill": "#FFF7EA",
+                                  "width": 27.200000000000003,
+                                  "height": 4.08
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "TaxlT",
+                                  "x": 9.520000000000001,
+                                  "y": 53.040000000000006,
+                                  "name": "Corgi Pixel 15",
+                                  "fill": "#8D5B35",
+                                  "width": 10.88,
+                                  "height": 10.88
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "M1FY4w",
+                                  "x": 12.24,
+                                  "y": 55.760000000000005,
+                                  "name": "Corgi Pixel 16",
+                                  "fill": "#D9893B",
+                                  "width": 6.800000000000001,
+                                  "height": 5.44
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "awGHk",
+                                  "x": 16.32,
+                                  "y": 47.6,
+                                  "name": "Corgi Pixel 17",
+                                  "fill": "#8D5B35",
+                                  "width": 51.68000000000001,
+                                  "height": 28.560000000000002
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "HD0BR",
+                                  "x": 19.040000000000003,
+                                  "y": 44.88,
+                                  "name": "Corgi Pixel 18",
+                                  "fill": "#8D5B35",
+                                  "width": 43.52,
+                                  "height": 2.72
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "HlApH",
+                                  "x": 19.040000000000003,
+                                  "y": 50.32,
+                                  "name": "Corgi Pixel 19",
+                                  "fill": "#D9893B",
+                                  "width": 46.24,
+                                  "height": 23.12
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "b5hLj",
+                                  "x": 24.48,
+                                  "y": 51.68000000000001,
+                                  "name": "Corgi Pixel 20",
+                                  "fill": "#E99D4B",
+                                  "width": 36.720000000000006,
+                                  "height": 16.32
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "kuEhq",
+                                  "x": 38.080000000000005,
+                                  "y": 57.120000000000005,
+                                  "name": "Corgi Pixel 21",
+                                  "fill": "#FFF1D7",
+                                  "width": 20.400000000000002,
+                                  "height": 13.600000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "l9O9Cc",
+                                  "x": 20.400000000000002,
+                                  "y": 50.32,
+                                  "name": "Corgi Pixel 22",
+                                  "fill": "#F2B160",
+                                  "width": 6.800000000000001,
+                                  "height": 5.44
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "wQ7on",
+                                  "x": 57.120000000000005,
+                                  "y": 53.040000000000006,
+                                  "name": "Corgi Pixel 23",
+                                  "fill": "#B8612E",
+                                  "width": 6.800000000000001,
+                                  "height": 6.800000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "FSJZB",
+                                  "x": 23.12,
+                                  "y": 72.08,
+                                  "name": "Corgi Pixel 24",
+                                  "fill": "#8D5B35",
+                                  "width": 12.24,
+                                  "height": 10.88
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "mFrYy",
+                                  "x": 48.96,
+                                  "y": 72.08,
+                                  "name": "Corgi Pixel 25",
+                                  "fill": "#8D5B35",
+                                  "width": 12.24,
+                                  "height": 10.88
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "QUWqb",
+                                  "x": 25.840000000000003,
+                                  "y": 72.08,
+                                  "name": "Corgi Pixel 26",
+                                  "fill": "#E99D4B",
+                                  "width": 8.16,
+                                  "height": 6.800000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "HFJfh",
+                                  "x": 51.68000000000001,
+                                  "y": 72.08,
+                                  "name": "Corgi Pixel 27",
+                                  "fill": "#FFF1D7",
+                                  "width": 8.16,
+                                  "height": 6.800000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "Sv9aP",
+                                  "x": 23.12,
+                                  "y": 80.24000000000001,
+                                  "name": "Corgi Pixel 28",
+                                  "fill": "#754A2B",
+                                  "width": 13.600000000000001,
+                                  "height": 4.08
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "OAoxP",
+                                  "x": 48.96,
+                                  "y": 80.24000000000001,
+                                  "name": "Corgi Pixel 29",
+                                  "fill": "#754A2B",
+                                  "width": 13.600000000000001,
+                                  "height": 4.08
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "HLl3h",
+                                  "x": 27.200000000000003,
+                                  "y": 78.88000000000001,
+                                  "name": "Corgi Pixel 30",
+                                  "fill": "#FFF1D7",
+                                  "width": 2.72,
+                                  "height": 2.72
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "IOgnH",
+                                  "x": 53.040000000000006,
+                                  "y": 78.88000000000001,
+                                  "name": "Corgi Pixel 31",
+                                  "fill": "#D9893B",
+                                  "width": 2.72,
+                                  "height": 2.72
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "fvNZS",
+                                  "x": 46.24,
+                                  "y": 16.32,
+                                  "name": "Corgi Pixel 32",
+                                  "fill": "#8D5B35",
+                                  "width": 10.88,
+                                  "height": 17.68
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "j8vgA",
+                                  "x": 50.32,
+                                  "y": 9.520000000000001,
+                                  "name": "Corgi Pixel 33",
+                                  "fill": "#8D5B35",
+                                  "width": 9.520000000000001,
+                                  "height": 10.88
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "l2cOuT",
+                                  "x": 51.68000000000001,
+                                  "y": 20.400000000000002,
+                                  "name": "Corgi Pixel 34",
+                                  "fill": "#F3B575",
+                                  "width": 4.08,
+                                  "height": 10.88
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "jf3y5",
+                                  "x": 69.36,
+                                  "y": 16.32,
+                                  "name": "Corgi Pixel 35",
+                                  "fill": "#8D5B35",
+                                  "width": 12.24,
+                                  "height": 19.040000000000003
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "K3oBIV",
+                                  "x": 72.08,
+                                  "y": 9.520000000000001,
+                                  "name": "Corgi Pixel 36",
+                                  "fill": "#8D5B35",
+                                  "width": 9.520000000000001,
+                                  "height": 12.24
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "f8hIf",
+                                  "x": 73.44000000000001,
+                                  "y": 20.400000000000002,
+                                  "name": "Corgi Pixel 37",
+                                  "fill": "#F3B575",
+                                  "width": 5.44,
+                                  "height": 12.24
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "sgl6g",
+                                  "x": 46.24,
+                                  "y": 25.840000000000003,
+                                  "name": "Corgi Pixel 38",
+                                  "fill": "#8D5B35",
+                                  "width": 32.64,
+                                  "height": 2.72
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "MxIrK",
+                                  "x": 43.52,
+                                  "y": 28.560000000000002,
+                                  "name": "Corgi Pixel 39",
+                                  "fill": "#8D5B35",
+                                  "width": 39.440000000000005,
+                                  "height": 4.08
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "JwRgu",
+                                  "x": 42.160000000000004,
+                                  "y": 32.64,
+                                  "name": "Corgi Pixel 40",
+                                  "fill": "#8D5B35",
+                                  "width": 42.160000000000004,
+                                  "height": 20.400000000000002
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "f3R43f",
+                                  "x": 44.88,
+                                  "y": 53.040000000000006,
+                                  "name": "Corgi Pixel 41",
+                                  "fill": "#8D5B35",
+                                  "width": 36.720000000000006,
+                                  "height": 5.44
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "ADyxl",
+                                  "x": 50.32,
+                                  "y": 58.480000000000004,
+                                  "name": "Corgi Pixel 42",
+                                  "fill": "#8D5B35",
+                                  "width": 24.48,
+                                  "height": 1.36
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "FqMWq",
+                                  "x": 46.24,
+                                  "y": 31.28,
+                                  "name": "Corgi Pixel 43",
+                                  "fill": "#D9893B",
+                                  "width": 35.36,
+                                  "height": 4.08
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "BYRNA",
+                                  "x": 44.88,
+                                  "y": 35.36,
+                                  "name": "Corgi Pixel 44",
+                                  "fill": "#D9893B",
+                                  "width": 36.720000000000006,
+                                  "height": 17.68
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "akjV3",
+                                  "x": 47.6,
+                                  "y": 53.040000000000006,
+                                  "name": "Corgi Pixel 45",
+                                  "fill": "#D9893B",
+                                  "width": 29.92,
+                                  "height": 4.08
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "jypAY",
+                                  "x": 50.32,
+                                  "y": 32.64,
+                                  "name": "Corgi Pixel 46",
+                                  "fill": "#E99D4B",
+                                  "width": 25.840000000000003,
+                                  "height": 20.400000000000002
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "Qmchb",
+                                  "x": 53.040000000000006,
+                                  "y": 53.040000000000006,
+                                  "name": "Corgi Pixel 47",
+                                  "fill": "#E99D4B",
+                                  "width": 19.040000000000003,
+                                  "height": 2.72
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "LF7vP",
+                                  "x": 59.84,
+                                  "y": 32.64,
+                                  "name": "Corgi Pixel 48",
+                                  "fill": "#FFF1D7",
+                                  "width": 12.24,
+                                  "height": 21.76
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "OTT4V",
+                                  "x": 55.760000000000005,
+                                  "y": 34,
+                                  "name": "Corgi Pixel 49",
+                                  "fill": "#FFF1D7",
+                                  "width": 5.44,
+                                  "height": 10.88
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "W8S6G",
+                                  "x": 68,
+                                  "y": 43.52,
+                                  "name": "Corgi Pixel 50",
+                                  "fill": "#FFF1D7",
+                                  "width": 10.88,
+                                  "height": 9.520000000000001
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "psbaQ",
+                                  "x": 51.68000000000001,
+                                  "y": 40.800000000000004,
+                                  "name": "Corgi Pixel 51",
+                                  "fill": "#211D1A",
+                                  "width": 4.08,
+                                  "height": 5.44
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "mBHFD",
+                                  "x": 70.72,
+                                  "y": 40.800000000000004,
+                                  "name": "Corgi Pixel 52",
+                                  "fill": "#211D1A",
+                                  "width": 4.08,
+                                  "height": 5.44
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "uIdPv",
+                                  "x": 53.040000000000006,
+                                  "y": 42.160000000000004,
+                                  "name": "Corgi Pixel 53",
+                                  "fill": "#FFFFFF",
+                                  "width": 1.36,
+                                  "height": 1.36
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "Tbrep",
+                                  "x": 72.08,
+                                  "y": 42.160000000000004,
+                                  "name": "Corgi Pixel 54",
+                                  "fill": "#FFFFFF",
+                                  "width": 1.36,
+                                  "height": 1.36
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "CO5FG",
+                                  "x": 74.80000000000001,
+                                  "y": 46.24,
+                                  "name": "Corgi Pixel 55",
+                                  "fill": "#2E2119",
+                                  "width": 5.44,
+                                  "height": 4.08
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "RNhJY",
+                                  "x": 63.92,
+                                  "y": 50.32,
+                                  "name": "Corgi Pixel 56",
+                                  "fill": "#F28E8E",
+                                  "width": 6.800000000000001,
+                                  "height": 4.08
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "HTCGe",
+                                  "x": 53.040000000000006,
+                                  "y": 48.96,
+                                  "name": "Corgi Pixel 57",
+                                  "fill": "#F0A0A0",
+                                  "width": 5.44,
+                                  "height": 2.72
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "o932h2",
+                                  "x": 73.44000000000001,
+                                  "y": 51.68000000000001,
+                                  "name": "Corgi Pixel 58",
+                                  "fill": "#F0A0A0",
+                                  "width": 5.44,
+                                  "height": 2.72
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "MrorF",
+                                  "x": 38.080000000000005,
+                                  "y": 51.68000000000001,
+                                  "name": "Corgi Pixel 59",
+                                  "fill": "#6F9C63",
+                                  "width": 19.040000000000003,
+                                  "height": 5.44
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "C7jJyw",
+                                  "x": 54.400000000000006,
+                                  "y": 51.68000000000001,
+                                  "name": "Corgi Pixel 60",
+                                  "fill": "#F5D56E",
+                                  "width": 5.44,
+                                  "height": 5.44
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "aaTeO",
+                                  "x": 55.760000000000005,
+                                  "y": 53.040000000000006,
+                                  "name": "Corgi Pixel 61",
+                                  "fill": "#FFFFFF",
+                                  "width": 2.72,
+                                  "height": 2.72
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "Fw2Yg",
+                                  "x": 29.92,
+                                  "y": 57.120000000000005,
+                                  "name": "Corgi Pixel 62",
+                                  "fill": "#FFF1D7",
+                                  "width": 4.08,
+                                  "height": 2.72
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "RQDb4",
+                                  "x": 34,
+                                  "y": 59.84,
+                                  "name": "Corgi Pixel 63",
+                                  "fill": "#FFF1D7",
+                                  "width": 4.08,
+                                  "height": 2.72
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "OmSSb",
+                          "name": "柯基狗 Name",
+                          "fill": "#1B3A2D",
+                          "content": "柯基狗",
+                          "fontFamily": "ZCOOL KuaiLe",
+                          "fontSize": 20,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "j7Fmd",
+                          "name": "柯基狗 Desc",
+                          "fill": "#6F756D",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "短腿冲刺第一名，听见开饭就到。",
+                          "lineHeight": 1.35,
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "F40zl",
+              "name": "Pet Name Card",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 20,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#8A4E2912",
+                "offset": {
+                  "x": 0,
+                  "y": 12
+                },
+                "blur": 26
+              },
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "O5BNN",
+                  "name": "Name Card Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "kEhS8",
+                      "name": "Name Label",
+                      "fill": "#5B4A39",
+                      "content": "给 TA 起个名字",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "buJKR",
+                      "name": "Pencil Icon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "pencil-simple",
+                      "library": "phosphor",
+                      "fill": "#9F5C38"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "DSJB4",
+                  "name": "Name Input",
+                  "width": "fill_container",
+                  "height": 52,
+                  "fill": "#FBF8F4",
+                  "cornerRadius": 16,
+                  "stroke": "#F0E7DC",
+                  "strokeWidth": 1,
+                  "padding": [
+                    0,
+                    14
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "TI0lV",
+                      "name": "Input Value",
+                      "fill": "#151515",
+                      "content": "饭团",
+                      "fontFamily": "ZCOOL KuaiLe",
+                      "fontSize": 23,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "LgFkH",
+                      "name": "Input Placeholder Hint",
+                      "fill": "#8B857D",
+                      "content": "最多 8 个字",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "rhtNk",
+              "name": "Adoption Note",
+              "width": "fill_container",
+              "fill": "#EDF3EC",
+              "cornerRadius": 18,
+              "stroke": "#DCE7DA",
+              "strokeWidth": 1,
+              "gap": 10,
+              "padding": 14,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "Z8qp2",
+                  "name": "Food Note Icon",
+                  "width": 22,
+                  "height": 22,
+                  "icon": "cooking-pot",
+                  "library": "phosphor",
+                  "fill": "#346538"
+                },
+                {
+                  "type": "text",
+                  "id": "mq0Tz",
+                  "name": "Note Text",
+                  "fill": "#2F3437",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "领取后可以在宠物详情页喂饭、记录心情和查看成长。",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "K3D1k",
+              "name": "Confirm Adoption Button",
+              "width": "fill_container",
+              "height": 52,
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 135,
+                "size": {
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "#9F5C38",
+                    "position": 0
+                  },
+                  {
+                    "color": "#C8873B",
+                    "position": 1
+                  }
+                ]
+              },
+              "cornerRadius": 9999,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#A46A1F33",
+                "offset": {
+                  "x": 0,
+                  "y": 10
+                },
+                "blur": 24
+              },
+              "gap": 8,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "g0IOoH",
+                  "name": "Confirm Button Text",
+                  "fill": "#FFFFFF",
+                  "content": "确认领取",
+                  "textAlign": "center",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 15,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "icon",
+                  "id": "Cyq54",
+                  "name": "Confirm Button Icon",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "arrow-right",
+                  "library": "phosphor",
+                  "fill": "#FFFFFF"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "yXFHM",
+      "x": 14614.373812941696,
+      "y": 0,
+      "name": "Pet Detail",
+      "clip": true,
+      "width": 390,
+      "height": 844,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "#FFF7EA",
+            "position": 0
+          },
+          {
+            "color": "#F7F6F3",
+            "position": 0.44
+          },
+          {
+            "color": "#EDF3EC",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "ttTp5",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24,
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "U02dzx",
+              "name": "Time",
+              "fill": "#5A4333",
+              "content": "9:41",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "cVlSu",
+              "name": "Status Right",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "l0bcJ2",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "cell-signal-full",
+                  "library": "phosphor",
+                  "fill": "#5A4333"
+                },
+                {
+                  "type": "icon",
+                  "id": "YyaVN",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi-high",
+                  "library": "phosphor",
+                  "fill": "#5A4333"
+                },
+                {
+                  "type": "icon",
+                  "id": "x0YN1",
+                  "name": "Battery",
+                  "width": 22,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "phosphor",
+                  "fill": "#5A4333"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "dGOmW",
+          "name": "Pet Detail Content",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "vhpRV",
+              "x": 20,
+              "y": 46.783290150290185,
+              "name": "Pet Hero Card",
+              "clip": true,
+              "width": "fill_container(350)",
+              "height": 252,
+              "fill": "#FFF8EF",
+              "cornerRadius": 28,
+              "stroke": "#EAD9C4",
+              "strokeWidth": 1,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#8A4E2920",
+                "offset": {
+                  "x": 0,
+                  "y": 18
+                },
+                "blur": 42
+              },
+              "layout": "none",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "wzL8B",
+                  "x": 0,
+                  "y": 126,
+                  "name": "Hero Sage Glow",
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "radial",
+                    "enabled": true,
+                    "rotation": 0,
+                    "size": {
+                      "width": 1,
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#8DB07D44",
+                        "position": 0
+                      },
+                      {
+                        "color": "#8DB07D00",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "width": 126,
+                  "height": 126
+                },
+                {
+                  "type": "ellipse",
+                  "id": "nStAU",
+                  "x": 182,
+                  "y": 0,
+                  "name": "Hero Honey Glow",
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "radial",
+                    "enabled": true,
+                    "rotation": 0,
+                    "size": {
+                      "width": 1,
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#FFE5A866",
+                        "position": 0
+                      },
+                      {
+                        "color": "#FFE5A800",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "width": 168,
+                  "height": 168
+                },
+                {
+                  "type": "ellipse",
+                  "id": "f5EBA",
+                  "x": 78,
+                  "y": 184,
+                  "name": "Soft Pet Shadow",
+                  "fill": "#DCE7DA",
+                  "width": 198,
+                  "height": 38
+                },
+                {
+                  "type": "frame",
+                  "id": "XPGcW",
+                  "x": 101,
+                  "y": 52,
+                  "name": "Lounge Tabby Cat Pixel SVG From Asset",
+                  "width": 144,
+                  "height": 162,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "Q6tF5",
+                      "x": 11.25,
+                      "y": 78.75,
+                      "name": "Lounge Tabby Cat Pixel 01",
+                      "fill": "#FFF7EA",
+                      "width": 94.5,
+                      "height": 38.25
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "jvU4A",
+                      "x": 20.25,
+                      "y": 69.75,
+                      "name": "Lounge Tabby Cat Pixel 02",
+                      "fill": "#FFF7EA",
+                      "width": 81,
+                      "height": 18
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "lYHJf",
+                      "x": 18,
+                      "y": 110.25,
+                      "name": "Lounge Tabby Cat Pixel 03",
+                      "fill": "#FFF7EA",
+                      "width": 33.75,
+                      "height": 15.75
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "KDvUg",
+                      "x": 65.25,
+                      "y": 110.25,
+                      "name": "Lounge Tabby Cat Pixel 04",
+                      "fill": "#FFF7EA",
+                      "width": 29.25,
+                      "height": 15.75
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "WYn4d",
+                      "x": 4.5,
+                      "y": 85.5,
+                      "name": "Lounge Tabby Cat Pixel 05",
+                      "fill": "#FFF7EA",
+                      "width": 22.5,
+                      "height": 18
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "gmeUH",
+                      "x": 13.5,
+                      "y": 81,
+                      "name": "Lounge Tabby Cat Pixel 06",
+                      "fill": "#6E5849",
+                      "width": 90,
+                      "height": 33.75
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "lIGbp",
+                      "x": 22.5,
+                      "y": 72,
+                      "name": "Lounge Tabby Cat Pixel 07",
+                      "fill": "#6E5849",
+                      "width": 76.5,
+                      "height": 11.25
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "ug3Px",
+                      "x": 22.5,
+                      "y": 85.5,
+                      "name": "Lounge Tabby Cat Pixel 08",
+                      "fill": "#A68B78",
+                      "width": 74.25,
+                      "height": 24.75
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "vUJ8R",
+                      "x": 33.75,
+                      "y": 87.75,
+                      "name": "Lounge Tabby Cat Pixel 09",
+                      "fill": "#B99B85",
+                      "width": 54,
+                      "height": 20.25
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "XY1US",
+                      "x": 49.5,
+                      "y": 94.5,
+                      "name": "Lounge Tabby Cat Pixel 10",
+                      "fill": "#E3C7AD",
+                      "width": 31.5,
+                      "height": 13.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "OpZEn",
+                      "x": 29.25,
+                      "y": 81,
+                      "name": "Lounge Tabby Cat Pixel 11",
+                      "fill": "#D1B29A",
+                      "width": 11.25,
+                      "height": 9
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "m3HIu7",
+                      "x": 85.5,
+                      "y": 85.5,
+                      "name": "Lounge Tabby Cat Pixel 12",
+                      "fill": "#8F7463",
+                      "width": 11.25,
+                      "height": 11.25
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "E7P79p",
+                      "x": 33.75,
+                      "y": 81,
+                      "name": "Lounge Tabby Cat Pixel 13",
+                      "fill": "#5F4C42",
+                      "width": 6.75,
+                      "height": 18
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "S2im2L",
+                      "x": 56.25,
+                      "y": 81,
+                      "name": "Lounge Tabby Cat Pixel 14",
+                      "fill": "#5F4C42",
+                      "width": 6.75,
+                      "height": 18
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "tzKQT",
+                      "x": 78.75,
+                      "y": 83.25,
+                      "name": "Lounge Tabby Cat Pixel 15",
+                      "fill": "#5F4C42",
+                      "width": 6.75,
+                      "height": 15.75
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "h6650",
+                      "x": 20.25,
+                      "y": 112.5,
+                      "name": "Lounge Tabby Cat Pixel 16",
+                      "fill": "#6E5849",
+                      "width": 31.5,
+                      "height": 11.25
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "NEaGn",
+                      "x": 29.25,
+                      "y": 112.5,
+                      "name": "Lounge Tabby Cat Pixel 17",
+                      "fill": "#B99B85",
+                      "width": 18,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "thye5",
+                      "x": 20.25,
+                      "y": 123.75,
+                      "name": "Lounge Tabby Cat Pixel 18",
+                      "fill": "#7B6251",
+                      "width": 33.75,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "m81Ev",
+                      "x": 33.75,
+                      "y": 121.5,
+                      "name": "Lounge Tabby Cat Pixel 19",
+                      "fill": "#E8D1BD",
+                      "width": 2.25,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "znhjM",
+                      "x": 67.5,
+                      "y": 112.5,
+                      "name": "Lounge Tabby Cat Pixel 20",
+                      "fill": "#6E5849",
+                      "width": 29.25,
+                      "height": 11.25
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "yqolA",
+                      "x": 72,
+                      "y": 112.5,
+                      "name": "Lounge Tabby Cat Pixel 21",
+                      "fill": "#B99B85",
+                      "width": 20.25,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "ZkaUE",
+                      "x": 67.5,
+                      "y": 123.75,
+                      "name": "Lounge Tabby Cat Pixel 22",
+                      "fill": "#7B6251",
+                      "width": 33.75,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "tSWR2",
+                      "x": 78.75,
+                      "y": 121.5,
+                      "name": "Lounge Tabby Cat Pixel 23",
+                      "fill": "#E8D1BD",
+                      "width": 2.25,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "FW8eT",
+                      "x": 87.75,
+                      "y": 121.5,
+                      "name": "Lounge Tabby Cat Pixel 24",
+                      "fill": "#E8D1BD",
+                      "width": 2.25,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "M26F4G",
+                      "x": 9,
+                      "y": 87.75,
+                      "name": "Lounge Tabby Cat Pixel 25",
+                      "fill": "#6E5849",
+                      "width": 18,
+                      "height": 13.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "w61BW",
+                      "x": 2.25,
+                      "y": 83.25,
+                      "name": "Lounge Tabby Cat Pixel 26",
+                      "fill": "#6E5849",
+                      "width": 15.75,
+                      "height": 11.25
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "GyWIO",
+                      "x": 0,
+                      "y": 78.75,
+                      "name": "Lounge Tabby Cat Pixel 27",
+                      "fill": "#A68B78",
+                      "width": 9,
+                      "height": 9
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "A1y4q9",
+                      "x": 4.5,
+                      "y": 83.25,
+                      "name": "Lounge Tabby Cat Pixel 28",
+                      "fill": "#E3C7AD",
+                      "width": 6.75,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "GoIjq",
+                      "x": 74.25,
+                      "y": 27,
+                      "name": "Lounge Tabby Cat Pixel 29",
+                      "fill": "#FFF7EA",
+                      "width": 20.25,
+                      "height": 27
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "K3CKz",
+                      "x": 83.25,
+                      "y": 15.75,
+                      "name": "Lounge Tabby Cat Pixel 30",
+                      "fill": "#FFF7EA",
+                      "width": 18,
+                      "height": 22.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "e7QHJJ",
+                      "x": 112.5,
+                      "y": 27,
+                      "name": "Lounge Tabby Cat Pixel 31",
+                      "fill": "#FFF7EA",
+                      "width": 22.5,
+                      "height": 29.25
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "Y2Ih6E",
+                      "x": 117,
+                      "y": 15.75,
+                      "name": "Lounge Tabby Cat Pixel 32",
+                      "fill": "#FFF7EA",
+                      "width": 18,
+                      "height": 22.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "IywAl",
+                      "x": 74.25,
+                      "y": 38.25,
+                      "name": "Lounge Tabby Cat Pixel 33",
+                      "fill": "#FFF7EA",
+                      "width": 60.75,
+                      "height": 9
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "iiNSb",
+                      "x": 69.75,
+                      "y": 42.75,
+                      "name": "Lounge Tabby Cat Pixel 34",
+                      "fill": "#FFF7EA",
+                      "width": 69.75,
+                      "height": 11.25
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "vCGTx",
+                      "x": 67.5,
+                      "y": 51.75,
+                      "name": "Lounge Tabby Cat Pixel 35",
+                      "fill": "#FFF7EA",
+                      "width": 74.25,
+                      "height": 36
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "y6R86",
+                      "x": 72,
+                      "y": 87.75,
+                      "name": "Lounge Tabby Cat Pixel 36",
+                      "fill": "#FFF7EA",
+                      "width": 65.25,
+                      "height": 11.25
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "dqEJ4",
+                      "x": 81,
+                      "y": 96.75,
+                      "name": "Lounge Tabby Cat Pixel 37",
+                      "fill": "#FFF7EA",
+                      "width": 45,
+                      "height": 6.75
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "u4pna8",
+                      "x": 76.5,
+                      "y": 29.25,
+                      "name": "Lounge Tabby Cat Pixel 38",
+                      "fill": "#6E5849",
+                      "width": 15.75,
+                      "height": 22.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "jmKou",
+                      "x": 85.5,
+                      "y": 18,
+                      "name": "Lounge Tabby Cat Pixel 39",
+                      "fill": "#6E5849",
+                      "width": 13.5,
+                      "height": 18
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "dHefm",
+                      "x": 114.75,
+                      "y": 29.25,
+                      "name": "Lounge Tabby Cat Pixel 40",
+                      "fill": "#6E5849",
+                      "width": 18,
+                      "height": 24.75
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "hLY7Q",
+                      "x": 119.25,
+                      "y": 18,
+                      "name": "Lounge Tabby Cat Pixel 41",
+                      "fill": "#6E5849",
+                      "width": 13.5,
+                      "height": 18
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "btXrI",
+                      "x": 87.75,
+                      "y": 29.25,
+                      "name": "Lounge Tabby Cat Pixel 42",
+                      "fill": "#F0B6A6",
+                      "width": 9,
+                      "height": 15.75
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "VfC6u",
+                      "x": 121.5,
+                      "y": 29.25,
+                      "name": "Lounge Tabby Cat Pixel 43",
+                      "fill": "#F0B6A6",
+                      "width": 9,
+                      "height": 15.75
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "jmK0B",
+                      "x": 76.5,
+                      "y": 40.5,
+                      "name": "Lounge Tabby Cat Pixel 44",
+                      "fill": "#6E5849",
+                      "width": 54,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "ITVTK",
+                      "x": 72,
+                      "y": 45,
+                      "name": "Lounge Tabby Cat Pixel 45",
+                      "fill": "#6E5849",
+                      "width": 65.25,
+                      "height": 6.75
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "e2D8BS",
+                      "x": 69.75,
+                      "y": 51.75,
+                      "name": "Lounge Tabby Cat Pixel 46",
+                      "fill": "#6E5849",
+                      "width": 69.75,
+                      "height": 36
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "cR0n2",
+                      "x": 74.25,
+                      "y": 87.75,
+                      "name": "Lounge Tabby Cat Pixel 47",
+                      "fill": "#6E5849",
+                      "width": 60.75,
+                      "height": 9
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "Yct2w",
+                      "x": 83.25,
+                      "y": 96.75,
+                      "name": "Lounge Tabby Cat Pixel 48",
+                      "fill": "#6E5849",
+                      "width": 40.5,
+                      "height": 2.25
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "qkvDp",
+                      "x": 76.5,
+                      "y": 49.5,
+                      "name": "Lounge Tabby Cat Pixel 49",
+                      "fill": "#A68B78",
+                      "width": 58.5,
+                      "height": 6.75
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "EuH4X",
+                      "x": 74.25,
+                      "y": 56.25,
+                      "name": "Lounge Tabby Cat Pixel 50",
+                      "fill": "#A68B78",
+                      "width": 60.75,
+                      "height": 31.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "B4rhN",
+                      "x": 78.75,
+                      "y": 87.75,
+                      "name": "Lounge Tabby Cat Pixel 51",
+                      "fill": "#A68B78",
+                      "width": 49.5,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "jea9Q",
+                      "x": 83.25,
+                      "y": 54,
+                      "name": "Lounge Tabby Cat Pixel 52",
+                      "fill": "#B99B85",
+                      "width": 42.75,
+                      "height": 33.75
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "tytwj",
+                      "x": 99,
+                      "y": 49.5,
+                      "name": "Lounge Tabby Cat Pixel 53",
+                      "fill": "#5F4C42",
+                      "width": 4.5,
+                      "height": 18
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "q2Xd8",
+                      "x": 110.25,
+                      "y": 49.5,
+                      "name": "Lounge Tabby Cat Pixel 54",
+                      "fill": "#5F4C42",
+                      "width": 4.5,
+                      "height": 18
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "k1NN5K",
+                      "x": 87.75,
+                      "y": 56.25,
+                      "name": "Lounge Tabby Cat Pixel 55",
+                      "fill": "#5F4C42",
+                      "width": 9,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "j0Gmw",
+                      "x": 119.25,
+                      "y": 56.25,
+                      "name": "Lounge Tabby Cat Pixel 56",
+                      "fill": "#5F4C42",
+                      "width": 9,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "yxvsL",
+                      "x": 85.5,
+                      "y": 65.25,
+                      "name": "Lounge Tabby Cat Pixel 57",
+                      "fill": "#221F1D",
+                      "width": 6.75,
+                      "height": 9
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "ibwcI",
+                      "x": 114.75,
+                      "y": 65.25,
+                      "name": "Lounge Tabby Cat Pixel 58",
+                      "fill": "#221F1D",
+                      "width": 6.75,
+                      "height": 9
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "tVgSG",
+                      "x": 87.75,
+                      "y": 67.5,
+                      "name": "Lounge Tabby Cat Pixel 59",
+                      "fill": "#FFFFFF",
+                      "width": 2.25,
+                      "height": 2.25
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "qeVq8",
+                      "x": 117,
+                      "y": 67.5,
+                      "name": "Lounge Tabby Cat Pixel 60",
+                      "fill": "#FFFFFF",
+                      "width": 2.25,
+                      "height": 2.25
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "oqa7B",
+                      "x": 101.25,
+                      "y": 74.25,
+                      "name": "Lounge Tabby Cat Pixel 61",
+                      "fill": "#7B5048",
+                      "width": 9,
+                      "height": 6.75
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "D3Lc4E",
+                      "x": 94.5,
+                      "y": 81,
+                      "name": "Lounge Tabby Cat Pixel 62",
+                      "fill": "#E5C7AD",
+                      "width": 22.5,
+                      "height": 6.75
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "RoVft",
+                      "x": 87.75,
+                      "y": 78.75,
+                      "name": "Lounge Tabby Cat Pixel 63",
+                      "fill": "#E9A0A0",
+                      "width": 9,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "y04CaP",
+                      "x": 121.5,
+                      "y": 78.75,
+                      "name": "Lounge Tabby Cat Pixel 64",
+                      "fill": "#E9A0A0",
+                      "width": 9,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "YNAaF",
+                      "x": 81,
+                      "y": 74.25,
+                      "name": "Lounge Tabby Cat Pixel 65",
+                      "fill": "#5F4C42",
+                      "width": 11.25,
+                      "height": 2.25
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "v4LSy",
+                      "x": 119.25,
+                      "y": 74.25,
+                      "name": "Lounge Tabby Cat Pixel 66",
+                      "fill": "#5F4C42",
+                      "width": 13.5,
+                      "height": 2.25
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "YXGLQ",
+                      "x": 81,
+                      "y": 83.25,
+                      "name": "Lounge Tabby Cat Pixel 67",
+                      "fill": "#5F4C42",
+                      "width": 11.25,
+                      "height": 2.25
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "FxQWz",
+                      "x": 119.25,
+                      "y": 83.25,
+                      "name": "Lounge Tabby Cat Pixel 68",
+                      "fill": "#5F4C42",
+                      "width": 13.5,
+                      "height": 2.25
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "f43mZx",
+                      "x": 85.5,
+                      "y": 92.25,
+                      "name": "Lounge Tabby Cat Pixel 69",
+                      "fill": "#7DA66F",
+                      "width": 27,
+                      "height": 11.25
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "hFQRm",
+                      "x": 110.25,
+                      "y": 92.25,
+                      "name": "Lounge Tabby Cat Pixel 70",
+                      "fill": "#F4D470",
+                      "width": 9,
+                      "height": 11.25
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "WMhdb",
+                      "x": 105.75,
+                      "y": 96.75,
+                      "name": "Lounge Tabby Cat Pixel 71",
+                      "fill": "#3F6D45",
+                      "width": 6.75,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "XmdWD",
+                      "x": 85.5,
+                      "y": 65.25,
+                      "name": "Lounge Tabby Cat Pixel 72",
+                      "fill": "#B99B85",
+                      "width": 6.75,
+                      "height": 9
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "tK5YA",
+                      "x": 114.75,
+                      "y": 65.25,
+                      "name": "Lounge Tabby Cat Pixel 73",
+                      "fill": "#B99B85",
+                      "width": 6.75,
+                      "height": 9
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "B2bAK",
+                      "x": 85.5,
+                      "y": 69.75,
+                      "name": "Lounge Tabby Cat Pixel 74",
+                      "fill": "#221F1D",
+                      "width": 9,
+                      "height": 2.25
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "MOjaS",
+                      "x": 114.75,
+                      "y": 69.75,
+                      "name": "Lounge Tabby Cat Pixel 75",
+                      "fill": "#221F1D",
+                      "width": 9,
+                      "height": 2.25
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "GlEzz",
+                      "x": 94.5,
+                      "y": 103.5,
+                      "name": "Lounge Tabby Cat Pixel 76",
+                      "fill": "#6E5849",
+                      "width": 33.75,
+                      "height": 6.75
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "A5T5JE",
+                      "x": 96.75,
+                      "y": 110.25,
+                      "name": "Lounge Tabby Cat Pixel 77",
+                      "fill": "#6E5849",
+                      "width": 13.5,
+                      "height": 13.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "Q6W0R4",
+                      "x": 117,
+                      "y": 110.25,
+                      "name": "Lounge Tabby Cat Pixel 78",
+                      "fill": "#6E5849",
+                      "width": 13.5,
+                      "height": 13.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "ZKV7t",
+                      "x": 99,
+                      "y": 112.5,
+                      "name": "Lounge Tabby Cat Pixel 79",
+                      "fill": "#B99B85",
+                      "width": 9,
+                      "height": 6.75
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "u1wfYS",
+                      "x": 119.25,
+                      "y": 112.5,
+                      "name": "Lounge Tabby Cat Pixel 80",
+                      "fill": "#B99B85",
+                      "width": 9,
+                      "height": 6.75
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "UFOXv",
+                      "x": 94.5,
+                      "y": 123.75,
+                      "name": "Lounge Tabby Cat Pixel 81",
+                      "fill": "#7B6251",
+                      "width": 18,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "zWQsB",
+                      "x": 114.75,
+                      "y": 123.75,
+                      "name": "Lounge Tabby Cat Pixel 82",
+                      "fill": "#7B6251",
+                      "width": 18,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "c2ZJWp",
+                      "x": 101.25,
+                      "y": 121.5,
+                      "name": "Lounge Tabby Cat Pixel 83",
+                      "fill": "#E8D1BD",
+                      "width": 2.25,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "C2fD0T",
+                      "x": 121.5,
+                      "y": 121.5,
+                      "name": "Lounge Tabby Cat Pixel 84",
+                      "fill": "#E8D1BD",
+                      "width": 2.25,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "SfYKu",
+                      "x": 49.5,
+                      "y": 74.25,
+                      "name": "Lounge Tabby Cat Pixel 85",
+                      "fill": "#D1B29A",
+                      "width": 31.5,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "XUQBe",
+                      "x": 24.75,
+                      "y": 105.75,
+                      "name": "Lounge Tabby Cat Pixel 86",
+                      "fill": "#8F7463",
+                      "width": 58.5,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "BIN83",
+                      "x": 9,
+                      "y": 90,
+                      "name": "Lounge Tabby Cat Pixel 87",
+                      "fill": "#A68B78",
+                      "width": 6.75,
+                      "height": 4.5
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "pWuVF",
+                      "x": 0,
+                      "y": 74.25,
+                      "name": "Lounge Tabby Cat Pixel 88",
+                      "fill": "#6E5849",
+                      "width": 6.75,
+                      "height": 4.5
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "QIXWG",
+                  "x": 47,
+                  "y": 42,
+                  "name": "Hero Sparkle One",
+                  "fill": "#C8873B",
+                  "content": "✦",
+                  "fontFamily": "ZCOOL KuaiLe",
+                  "fontSize": 24,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "l7rfS",
+                  "x": 18,
+                  "y": 18,
+                  "name": "Pet Name Panel",
+                  "width": 160,
+                  "layout": "vertical",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ftBI1",
+                      "name": "Pet Name",
+                      "fill": "#1B3A2D",
+                      "content": "饭团",
+                      "fontFamily": "ZCOOL KuaiLe",
+                      "fontSize": 30,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "T2UeT6",
+                      "name": "Breed Pill",
+                      "fill": "#EDF3EC",
+                      "cornerRadius": 9999,
+                      "gap": 6,
+                      "padding": [
+                        6,
+                        10
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "LT9cs",
+                          "name": "Breed Heart Icon",
+                          "width": 13,
+                          "height": 13,
+                          "icon": "heart",
+                          "library": "phosphor",
+                          "fill": "#346538"
+                        },
+                        {
+                          "type": "text",
+                          "id": "fGCFy",
+                          "name": "Breed Text",
+                          "fill": "#346538",
+                          "content": "狸花猫 · 陪伴第 3 天",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "IyMoc",
+                  "x": 18,
+                  "y": 204,
+                  "name": "Pet Whisper Bubble",
+                  "width": 314,
+                  "height": 34,
+                  "fill": "#FFFFFFCC",
+                  "cornerRadius": 9999,
+                  "stroke": "#EFE3D1",
+                  "strokeWidth": 1,
+                  "gap": 8,
+                  "padding": [
+                    0,
+                    12
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ZsbnJ",
+                      "name": "Whisper Sparkle",
+                      "fill": "#C8873B",
+                      "content": "✦",
+                      "fontFamily": "ZCOOL KuaiLe",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "L52tD8",
+                      "name": "Pet Whisper Text",
+                      "fill": "#5B4A39",
+                      "content": "今天想趴在菜谱边，等你开饭。",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 12,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "DoiLP",
+              "x": 20,
+              "y": 336,
+              "name": "Pet Stats Row",
+              "width": "fill_container(350)",
+              "height": 76,
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "I9XBe",
+                  "name": "Days Stat Card",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 18,
+                  "stroke": "#EFE3D1",
+                  "strokeWidth": 1,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1B3A2D10",
+                    "offset": {
+                      "x": 0,
+                      "y": 10
+                    },
+                    "blur": 20
+                  },
+                  "layout": "vertical",
+                  "gap": 6,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "L2csXJ",
+                      "name": "陪伴 Value",
+                      "fill": "#1B3A2D",
+                      "content": "3 天",
+                      "fontFamily": "ZCOOL KuaiLe",
+                      "fontSize": 21,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ZGhTZ",
+                      "name": "陪伴 Label",
+                      "fill": "#787774",
+                      "content": "陪伴",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 11,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "wrnyb",
+                  "name": "Mood Stat Card",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 18,
+                  "stroke": "#EFE3D1",
+                  "strokeWidth": 1,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1B3A2D10",
+                    "offset": {
+                      "x": 0,
+                      "y": 10
+                    },
+                    "blur": 20
+                  },
+                  "layout": "vertical",
+                  "gap": 6,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "yUspa",
+                      "name": "心情 Value",
+                      "fill": "#9F5C38",
+                      "content": "开心",
+                      "fontFamily": "ZCOOL KuaiLe",
+                      "fontSize": 21,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "qzDGa",
+                      "name": "心情 Label",
+                      "fill": "#787774",
+                      "content": "心情",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 11,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "YJ8kW",
+                  "name": "Fullness Stat Card",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 18,
+                  "stroke": "#EFE3D1",
+                  "strokeWidth": 1,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#1B3A2D10",
+                    "offset": {
+                      "x": 0,
+                      "y": 10
+                    },
+                    "blur": 20
+                  },
+                  "layout": "vertical",
+                  "gap": 6,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "V1Uc5",
+                      "name": "饱腹 Value",
+                      "fill": "#346538",
+                      "content": "86%",
+                      "fontFamily": "ZCOOL KuaiLe",
+                      "fontSize": 21,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "RXvPS",
+                      "name": "饱腹 Label",
+                      "fill": "#787774",
+                      "content": "饱腹",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 11,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "OCzAU",
+              "x": 20,
+              "y": 440.0605364950578,
+              "name": "Today Story Card",
+              "width": "fill_container(350)",
+              "fill": "#FFFFFF",
+              "cornerRadius": 22,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#8A4E2912",
+                "offset": {
+                  "x": 0,
+                  "y": 12
+                },
+                "blur": 26
+              },
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "anHYy",
+                  "name": "Story Head",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "K1XpdU",
+                      "name": "Story Title",
+                      "fill": "#151515",
+                      "content": "今日小事",
+                      "fontFamily": "ZCOOL KuaiLe",
+                      "fontSize": 21,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "WQ5r7",
+                      "name": "Story Time",
+                      "fill": "#9F5C38",
+                      "content": "刚刚",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "H6kNnZ",
+                  "name": "Story Body",
+                  "fill": "#2F3437",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "饭团把小鱼干藏在菜单夹里，还认真巡视了一遍你收藏的晚餐菜谱。",
+                  "lineHeight": 1.55,
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "DrF0T",
+              "x": 20,
+              "y": 645,
+              "name": "Go Recipe Button",
+              "width": "fill_container(350)",
+              "height": 50,
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 135,
+                "size": {
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "#9F5C38",
+                    "position": 0
+                  },
+                  {
+                    "color": "#C8873B",
+                    "position": 1
+                  }
+                ]
+              },
+              "cornerRadius": 9999,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#A46A1F33",
+                "offset": {
+                  "x": 0,
+                  "y": 10
+                },
+                "blur": 24
+              },
+              "gap": 8,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "czFFT",
+                  "name": "Go Recipe Button Text",
+                  "fill": "#FFFFFF",
+                  "content": "带饭团去逛菜谱",
+                  "textAlign": "center",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 15,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "icon",
+                  "id": "uSwKF",
+                  "name": "Go Recipe Button Icon",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "arrow-right",
+                  "library": "phosphor",
+                  "fill": "#FFFFFF"
                 }
               ]
             }

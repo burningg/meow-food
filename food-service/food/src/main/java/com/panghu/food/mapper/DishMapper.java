@@ -6,7 +6,9 @@ import com.panghu.food.dto.DishSummaryResponse;
 import com.panghu.food.entity.Dish;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -28,4 +30,7 @@ public interface DishMapper extends BaseMapper<Dish> {
     List<DishSummaryResponse> selectAllActive();
 
     List<DishSummaryResponse> selectByIds(@Param("ids") List<String> ids);
+
+    @Select("SELECT MAX(created_at) FROM dish WHERE owner_user_id = #{ownerUserId} AND status = 1")
+    LocalDateTime selectLatestCreatedAtByOwnerUserId(@Param("ownerUserId") String ownerUserId);
 }

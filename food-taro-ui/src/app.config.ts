@@ -10,7 +10,19 @@ export default defineAppConfig({
   subPackages: [
     {
       root: 'pages/profile',
-      pages: ['profile', 'edit-profile', 'edit-avatar', 'notifications', 'feedback', 'friends', 'friend-requests', 'friend-invite', 'vip'],
+      pages: [
+        'profile',
+        'edit-profile',
+        'edit-avatar',
+        'notifications',
+        'feedback',
+        'friends',
+        'friend-requests',
+        'friend-invite',
+        'vip',
+        'pet-adoption',
+        'pet-detail',
+      ],
     },
     {
       root: 'pages/plan',

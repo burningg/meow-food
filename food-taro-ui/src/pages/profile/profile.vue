@@ -77,14 +77,36 @@
         </section>
 
         <section class="feedback-block">
+          <button class="pet-entry-card pressable" @tap="openPetPage">
+            <view class="pet-entry-left">
+              <view class="pet-icon-shell">
+                <view class="pet-paw-icon">
+                  <view class="paw-toe paw-toe-1"></view>
+                  <view class="paw-toe paw-toe-2"></view>
+                  <view class="paw-toe paw-toe-3"></view>
+                  <view class="paw-pad-main"></view>
+                </view>
+              </view>
+              <view class="pet-entry-copy">
+                <text class="pet-entry-title">我的宠物</text>
+              </view>
+            </view>
+            <view class="feedback-arrow-shell">
+              <text class="feedback-arrow">›</text>
+            </view>
+          </button>
+
           <button class="feedback-entry-card pressable" @tap="openFeedbackPage">
             <view class="feedback-entry-left">
               <view class="feedback-icon-shell">
-                <text class="feedback-icon">议</text>
+                <view class="feedback-bubble-icon">
+                  <view class="feedback-bubble-line line-1"></view>
+                  <view class="feedback-bubble-line line-2"></view>
+                  <view class="feedback-bubble-tail"></view>
+                </view>
               </view>
               <view class="feedback-entry-copy">
                 <text class="feedback-entry-title">意见反馈</text>
-                <text class="feedback-entry-subtitle">遇到问题，或有想让我们改进的地方，都可以写给我们。</text>
               </view>
             </view>
             <view class="feedback-arrow-shell">
@@ -125,6 +147,7 @@ import { Message } from '@/lib/feedback'
 import { openPrimaryRoute, push, replace } from '@/lib/navigation'
 import { createHomeShareMessage } from '@/lib/share'
 import { NotificationService } from '@/services/notification-service'
+import { PetService, type PetResponse } from '@/services/pet-service'
 import { SocialService, type BuddyCircleSummary, type ProfileResponse } from '@/services/social-service'
 import { useAuthStore } from '@/stores/auth-store'
 import type { MenuVisibility } from '@/services/auth-service'
@@ -132,8 +155,10 @@ import type { MenuVisibility } from '@/services/auth-service'
 const authStore = useAuthStore()
 const socialService = new SocialService()
 const notificationService = new NotificationService()
+const petService = new PetService()
 const profile = ref<ProfileResponse | null>(null)
 const circles = ref<BuddyCircleSummary[]>([])
+const pet = ref<PetResponse | null>(null)
 const draftVisibility = ref<Exclude<MenuVisibility, 'inherit'>>('public')
 const draftCircleIds = ref<string[]>([])
 const savingVisibility = ref(false)
@@ -143,6 +168,7 @@ const displayName = computed(() => profile.value?.user.nickname || authStore.use
 const displayAvatar = computed(() => profile.value?.user.avatar || authStore.user?.avatar || '')
 const displayBio = computed(() => profile.value?.user.bio?.trim() || authStore.user?.bio?.trim() || '还没有留下简介')
 const isVipActive = computed(() => Boolean(profile.value?.vipInfo?.vip || authStore.user?.vip))
+const hasPet = computed(() => Boolean(pet.value?.claimed))
 const vipChipLabel = computed(() => {
   if (!isVipActive.value) return '开通VIP'
   return formatVipLabel(profile.value?.vipInfo?.vipLevel || authStore.user?.vipLevel)
@@ -172,10 +198,11 @@ useShareAppMessage(() =>
 
 async function loadProfilePageData() {
   try {
-    const [profileResult, circlesResult, notificationResult] = await Promise.allSettled([
+    const [profileResult, circlesResult, notificationResult, petResult] = await Promise.allSettled([
       socialService.getProfile(),
       socialService.getCircles(),
       notificationService.getBootstrap(),
+      petService.getMyPet(),
     ])
     if (profileResult.status === 'fulfilled') {
       profile.value = profileResult.value.data
@@ -193,6 +220,11 @@ async function loadProfilePageData() {
       hasUnreadNotification.value = notificationResult.value.data.hasUnread
     } else {
       hasUnreadNotification.value = false
+    }
+    if (petResult.status === 'fulfilled') {
+      pet.value = petResult.value.data
+    } else {
+      pet.value = null
     }
   } catch (error: any) {
     Message.error(error?.response?.data?.message || '个人资料加载失败')
@@ -255,6 +287,10 @@ function openNotificationsPage() {
 
 function openFeedbackPage() {
   push('feedback')
+}
+
+function openPetPage() {
+  push(hasPet.value ? 'pet-detail' : 'pet-adoption')
 }
 
 function openVipPage() {
@@ -483,25 +519,27 @@ function formatVipLabel(level?: string) {
 
 .feedback-block {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 12px;
   margin-top: 18px;
 }
 
-.feedback-entry-card {
+.feedback-entry-card,
+.pet-entry-card {
   display: flex;
+  flex: 1 1 0;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  gap: 12px;
+  min-width: 0;
+  gap: 8px;
   border-radius: 12px;
   background: #fff;
-  padding: 16px;
-  box-shadow: var(--shadow);
+  padding: 12px;
   text-align: left;
 }
 
-.feedback-entry-left {
+.feedback-entry-left,
+.pet-entry-left {
   display: flex;
   flex: 1;
   align-items: center;
@@ -509,24 +547,24 @@ function formatVipLabel(level?: string) {
   min-width: 0;
 }
 
-.feedback-icon-shell {
+.feedback-icon-shell,
+.pet-icon-shell {
   display: flex;
   flex: 0 0 auto;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   background: #edf3ec;
 }
 
-.feedback-icon {
-  color: #346538;
-  font-size: 16px;
-  font-weight: 800;
+.pet-icon-shell {
+  background: #fff0de;
 }
 
-.feedback-entry-copy {
+.feedback-entry-copy,
+.pet-entry-copy {
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -534,16 +572,93 @@ function formatVipLabel(level?: string) {
   min-width: 0;
 }
 
-.feedback-entry-title {
+.feedback-entry-title,
+.pet-entry-title {
   color: #151515;
-  font-size: var(--text-md);
+  font-size: 14px;
   font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
 }
 
-.feedback-entry-subtitle {
-  color: #787774;
-  font-size: var(--text-xs);
-  line-height: 1.45;
+.pet-paw-icon {
+  position: relative;
+  width: 18px;
+  height: 18px;
+}
+
+.paw-toe,
+.paw-pad-main {
+  position: absolute;
+  background: #9f5c38;
+}
+
+.paw-toe {
+  width: 4px;
+  height: 5px;
+  border-radius: 999px;
+}
+
+.paw-toe-1 {
+  left: 2px;
+  top: 3px;
+  transform: rotate(-24deg);
+}
+
+.paw-toe-2 {
+  left: 7px;
+  top: 1px;
+}
+
+.paw-toe-3 {
+  right: 2px;
+  top: 3px;
+  transform: rotate(24deg);
+}
+
+.paw-pad-main {
+  left: 5px;
+  bottom: 3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 6px 6px 7px 7px;
+}
+
+.feedback-bubble-icon {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border: 1.6px solid #346538;
+  border-radius: 999px;
+}
+
+.feedback-bubble-line {
+  position: absolute;
+  left: 5px;
+  width: 8px;
+  height: 1.6px;
+  border-radius: 999px;
+  background: #346538;
+}
+
+.feedback-bubble-line.line-1 {
+  top: 6px;
+}
+
+.feedback-bubble-line.line-2 {
+  top: 10px;
+}
+
+.feedback-bubble-tail {
+  position: absolute;
+  left: 3px;
+  bottom: 1px;
+  width: 5px;
+  height: 5px;
+  border-left: 1.6px solid #346538;
+  border-bottom: 1.6px solid #346538;
+  background: #edf3ec;
+  transform: rotate(-18deg);
 }
 
 .feedback-arrow-shell {
@@ -551,8 +666,8 @@ function formatVipLabel(level?: string) {
   flex: 0 0 auto;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: 26px;
+  height: 26px;
   border-radius: 999px;
   background: #f7f4ef;
 }
@@ -561,6 +676,39 @@ function formatVipLabel(level?: string) {
   color: #9f5c38;
   font-size: 20px;
   line-height: 1;
+}
+
+@media screen and (max-width: 350px) {
+  .feedback-block {
+    gap: 8px;
+  }
+
+  .feedback-entry-card,
+  .pet-entry-card {
+    gap: 6px;
+    padding: 10px;
+  }
+
+  .feedback-entry-left,
+  .pet-entry-left {
+    gap: 8px;
+  }
+
+  .feedback-icon-shell,
+  .pet-icon-shell {
+    width: 32px;
+    height: 32px;
+  }
+
+  .feedback-arrow-shell {
+    width: 22px;
+    height: 22px;
+  }
+
+  .feedback-entry-title,
+  .pet-entry-title {
+    font-size: 13px;
+  }
 }
 
 .invite-card {
