@@ -323,7 +323,7 @@ public class DishAiService {
         builder.append("{\"title\":\"计划标题\",\"petText\":\"宠物口吻的一句有趣建议\",\"suggestionText\":\"整体搭配说明\",\"healthText\":\"健康建议说明\",\"recipes\":[{\"dishId\":\"候选菜谱ID\",\"reason\":\"推荐理由\"}]}。");
         builder.append("请推荐 ").append(dishCount).append(" 道菜。餐次：").append(mealTypeLabel).append("。日期：").append(planDate).append("。");
         builder.append("健康建议：").append(healthAdvice).append("。");
-        builder.append("优先规则：根据最近 30 次圈子计划里的高频 dishId、菜品名、类别和食材判断历史口味；但是最好不要和最近两天的菜谱重复；历史出现次数越高越优先，同时保留少量新鲜变化，避免完全照搬。");
+        builder.append("优先规则：根据最近 30 次圈子计划里的高频 dishId、菜品名、类别和食材判断历史口味；但是最好不要和最近两天的菜谱重复；历史出现次数越高相对优先，同时保留新鲜变化，避免完全照搬。");
         builder.append("每个 recipes 项都必须有 reason，说明它为什么符合历史口味、餐次或健康建议。");
         builder.append("最近 30 次圈子计划：").append(JSON.toJSONString(histories)).append("。");
         builder.append("候选菜谱：").append(JSON.toJSONString(candidates.stream()
