@@ -131,6 +131,20 @@ CREATE TABLE `user_feedback` (
   CONSTRAINT `fk_user_feedback_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户反馈表';
 
+CREATE TABLE `knowledge_article` (
+  `id` varchar(36) NOT NULL COMMENT '知识ID(UUID)',
+  `title` varchar(120) NOT NULL COMMENT '题目',
+  `category` varchar(50) NOT NULL COMMENT '分类',
+  `image_url` varchar(500) DEFAULT NULL COMMENT '封面图URL',
+  `body_nodes_json` text NOT NULL COMMENT '正文rich-text nodes JSON，使用通用HTML标签兼容小程序和其他端',
+  `status` tinyint NOT NULL DEFAULT '1' COMMENT '状态：0-下架，1-发布',
+  `published_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '发布时间',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_knowledge_status_published` (`status`,`published_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='饮食知识表';
+
 CREATE TABLE `dish` (
   `id` varchar(36) NOT NULL COMMENT '菜品ID(UUID)',
   `owner_user_id` varchar(36) NOT NULL COMMENT '所属用户ID(UUID)',
@@ -337,6 +351,10 @@ INSERT INTO `user_notification` (`id`, `user_id`, `title`, `summary`, `body`, `a
 ('1c08f7de-4a53-4301-a6b8-11d9f1d50002', NULL, '六月厨房清洁日提醒', '本周五晚 8 点会统一做公共厨房清洁，记得把暂存食材贴好名字。', '本周五晚 8 点会统一做公共厨房清洁，记得把暂存食材贴好名字，易串味食材请提前封好。', 'broadcast', 'normal', '2026-06-06 14:20:00', NULL),
 ('1c08f7de-4a53-4301-a6b8-11d9f1d50003', NULL, '端午假期配送时段说明', '假期期间生鲜配送会顺延半天，急用食材建议提前一天完成下单。', '端午假期期间生鲜配送会顺延半天，急用食材建议提前一天完成下单，避免影响周末备菜安排。', 'broadcast', 'normal', '2026-06-05 19:40:00', NULL),
 ('1c08f7de-4a53-4301-a6b8-11d9f1d50004', '6f1b2b8d-3ef7-4b7d-9eb2-6d9e8e4b1a01', '你收藏的夜宵清单已整理完成', '系统已经把你最近收藏的夜宵菜单归入同一份清单，晚上想做时会更好找。', '系统已经把你最近收藏的夜宵菜单归入同一份清单，晚上想做时会更好找，也方便下次继续补充。', 'direct', 'normal', '2026-06-03 11:05:00', '2026-06-03 11:20:00');
+
+INSERT INTO `knowledge_article` (`id`, `title`, `category`, `image_url`, `body_nodes_json`, `status`, `published_at`) VALUES
+('e8f0d8b6-4f9b-46f8-9b6f-1a2b3c4d5e02', '肉蔻是什么，适合放在哪些菜里', '香料', 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=900&q=80', '[{"name":"p","children":[{"type":"text","text":"肉蔻通常指肉豆蔻，是肉豆蔻树种仁制成的香料。它的气味温暖，带一点木质、坚果和甜香，适合给厚重菜肴收一层柔和的尾味。"}]},{"name":"p","children":[{"type":"text","text":"用它调味时不需要多，一点点现磨粉末就能让炖肉、奶油汤、土豆泥、南瓜、肉酱和烘焙甜点更圆润。中式炖煮里，也可以和桂皮、丁香少量搭配。"}]},{"name":"ul","children":[{"name":"li","children":[{"type":"text","text":"少量现磨：香气更清楚，也更容易控制味道。"}]},{"name":"li","children":[{"type":"text","text":"晚些加入：长时间高温会让香气变钝，出锅前少量补一点更稳。"}]},{"name":"li","children":[{"type":"text","text":"只作调味：不要把肉蔻当作保健品大量食用，特殊身体情况先遵医嘱。"}]}]},{"name":"p","children":[{"type":"text","text":"如果第一次尝试，可以从一小撮开始。闻起来刚刚有暖香，但吃不出明显药味，就是比较舒服的量。"}]}]', 1, CURRENT_TIMESTAMP),
+('e8f0d8b6-4f9b-46f8-9b6f-1a2b3c4d5e01', '晚餐太晚，怎么吃更舒服', '饮食习惯', 'https://images.unsplash.com/photo-1673166569003-c2ae73ac8550?auto=format&fit=crop&w=900&q=80', '[{"name":"p","children":[{"type":"text","text":"不必把晚餐变成一场自我约束。把份量、速度和睡前间隔调轻一点，身体会更容易进入休息。"}]},{"name":"p","children":[{"type":"text","text":"如果今天吃得比较晚，可以把主食减半，保留蛋白质和蔬菜。这样既不会空着肚子睡觉，也能减少胃部负担。"}]},{"name":"ul","children":[{"name":"li","children":[{"type":"text","text":"慢一点：每口多嚼几下，给身体一点接收饱腹感的时间。"}]},{"name":"li","children":[{"type":"text","text":"少一点：少放重油和甜饮，把味道留给清淡的汤或温水。"}]},{"name":"li","children":[{"type":"text","text":"暖一点：选择温热、好消化的食物，减少冰饮和过辣刺激。"}]}]},{"name":"p","children":[{"type":"text","text":"饭后慢走20分钟，睡前不再加甜饮。让身体慢慢收尾，比强行忍饿更稳定。"}]}]', 1, DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 DAY));
 
 INSERT INTO `user_notification_broadcast_read` (`id`, `notification_id`, `user_id`, `read_at`) VALUES
 ('1c08f7de-4a53-4301-a6b8-11d9f1d50011', '1c08f7de-4a53-4301-a6b8-11d9f1d50003', '6f1b2b8d-3ef7-4b7d-9eb2-6d9e8e4b1a01', '2026-06-05 20:10:00');

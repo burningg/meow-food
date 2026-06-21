@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panghu.food.mapper.KnowledgeArticleMapper">
+    <resultMap id="KnowledgeArticleMap" type="com.panghu.food.entity.KnowledgeArticle">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="category" property="category" />
+        <result column="image_url" property="imageUrl" />
+        <result column="body_nodes_json" property="bodyNodesJson" />
+        <result column="status" property="status" />
+        <result column="published_at" property="publishedAt" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+    </resultMap>
+
+    <sql id="KnowledgeArticleColumns">
+        id,
+        title,
+        category,
+        image_url,
+        body_nodes_json,
+        status,
+        published_at,
+        created_at,
+        updated_at
+    </sql>
+
+    <select id="selectPublishedByPage" resultMap="KnowledgeArticleMap">
+        SELECT
+        <include refid="KnowledgeArticleColumns" />
+        FROM knowledge_article
+        WHERE status = 1
+          AND published_at &lt;= NOW()
+        ORDER BY published_at DESC, created_at DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="selectPublishedById" resultMap="KnowledgeArticleMap">
+        SELECT
+        <include refid="KnowledgeArticleColumns" />
+        FROM knowledge_article
+        WHERE id = #{id}
+          AND status = 1
+          AND published_at &lt;= NOW()
+        LIMIT 1
+    </select>
+</mapper>

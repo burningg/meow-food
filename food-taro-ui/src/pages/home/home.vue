@@ -1,6 +1,6 @@
 <template>
   <view class="home-page-root">
-    <PullRefreshPage @refresh="loadHome">
+    <PullRefreshPage @refresh="refreshHomePage">
       <view class="page-shell home-page">
         <section class="hero">
           <view>
@@ -12,6 +12,30 @@
             </view>
             <button class="avatar" @tap="goToProfile">{{ displayName.slice(0, 1) }}</button>
           </view>
+        </section>
+
+        <section v-if="latestKnowledge" class="knowledge-section">
+          <view class="knowledge-section-head">
+            <text class="knowledge-section-title">饮食小知识</text>
+            <button class="knowledge-more-button" @tap="goToKnowledgeArchive">
+              <text>更多</text>
+              <text class="knowledge-more-arrow">›</text>
+            </button>
+          </view>
+
+          <button class="knowledge-feature-card" @tap="goToKnowledgeDetail(latestKnowledge.id)">
+            <image
+              v-if="latestKnowledge.imageUrl"
+              class="knowledge-card-image"
+              :src="latestKnowledge.imageUrl"
+              mode="aspectFill"
+            />
+            <view class="knowledge-card-meta">
+              <text class="knowledge-tag">{{ latestKnowledge.category }}</text>
+              <text class="knowledge-time">{{ formatKnowledgeDate(latestKnowledge.publishedAt) }}</text>
+            </view>
+            <text class="knowledge-card-title">{{ latestKnowledge.title }}</text>
+          </button>
         </section>
 
         <section class="search-bar">
@@ -34,6 +58,7 @@
             </button>
           </view>
         </scroll-view>
+
 
         <section class="section-block">
           <view class="section-head">
@@ -93,6 +118,7 @@ import { Message } from '@/lib/feedback'
 import { push, resolveRoute } from '@/lib/navigation'
 import { createHomeShareMessage } from '@/lib/share'
 import { FoodService, type DishSummary, type HomeResponse } from '@/services/food-service'
+import { KnowledgeService, type KnowledgeArticleSummary } from '@/services/knowledge-service'
 import { NotificationService, type NotificationItem } from '@/services/notification-service'
 import { PetService, type PetResponse } from '@/services/pet-service'
 import { useAuthStore } from '@/stores/auth-store'
@@ -102,6 +128,7 @@ type VisibleDish = DishSummary & {
 }
 
 const foodService = new FoodService()
+const knowledgeService = new KnowledgeService()
 const notificationService = new NotificationService()
 const petService = new PetService()
 const authStore = useAuthStore()
@@ -115,6 +142,7 @@ const homeData = ref<HomeResponse>({
 const selectedCategoryId = ref('')
 const categoryScrollLeft = ref(0)
 const searchKeyword = ref('')
+const latestKnowledge = ref<KnowledgeArticleSummary | null>(null)
 const importantNotification = ref<NotificationItem | null>(null)
 const pet = ref<PetResponse | null>(null)
 const shownImportantNotificationId = ref('')
@@ -150,7 +178,7 @@ const emptyStateText = computed(() => {
 })
 
 onMounted(async () => {
-  await loadHome()
+  await refreshHomePage()
   await Promise.all([syncImportantNotification(), syncMyPet()])
 })
 
@@ -172,6 +200,19 @@ async function loadHome() {
   } catch (error) {
     Message.error('首页数据加载失败')
   }
+}
+
+async function loadLatestKnowledge() {
+  try {
+    const { data } = await knowledgeService.queryHistory({ page: 1, size: 1 })
+    latestKnowledge.value = data.items[0] || null
+  } catch {
+    latestKnowledge.value = null
+  }
+}
+
+async function refreshHomePage() {
+  await Promise.all([loadHome(), loadLatestKnowledge()])
 }
 
 async function syncImportantNotification() {
@@ -236,6 +277,20 @@ function goToPetDetail() {
   push('pet-detail')
 }
 
+function goToKnowledgeArchive() {
+  push('knowledge-archive')
+}
+
+function goToKnowledgeDetail(id: string) {
+  push({ name: 'knowledge-detail', params: { id } })
+}
+
+function formatKnowledgeDate(value: string) {
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return value
+  return `${date.getMonth() + 1}-${date.getDate()}`
+}
+
 function selectCategory(categoryId: string) {
   selectedCategoryId.value = categoryId
   void centerSelectedCategory()
@@ -291,6 +346,8 @@ function formatVipLabel(level?: string) {
 
 .hero,
 .section-head,
+.knowledge-section-head,
+.knowledge-card-meta,
 .recent-copy,
 .search-bar,
 .empty-state {
@@ -298,7 +355,9 @@ function formatVipLabel(level?: string) {
 }
 
 .hero,
-.section-head {
+.section-head,
+.knowledge-section-head,
+.knowledge-card-meta {
   align-items: center;
   justify-content: space-between;
 }
@@ -408,6 +467,90 @@ function formatVipLabel(level?: string) {
   border-radius: 22px;
   background: var(--bg-card);
   box-shadow: var(--shadow);
+}
+
+.knowledge-section {
+  margin-bottom: 16px;
+}
+
+.knowledge-section-title {
+  color: var(--text-main);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.knowledge-more-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 30px;
+  border-radius: 999px;
+  background: #eef5ea;
+  padding: 0 11px;
+  color: #2d6b3f;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.knowledge-more-arrow {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.knowledge-feature-card {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 12px;
+  border-radius: 22px;
+  background: #fffdf7;
+  padding: 16px;
+  text-align: left;
+  box-shadow: inset 0 0 0 1px #e7eadb, 0 12px 26px rgba(27, 58, 45, 0.06);
+}
+
+.knowledge-card-image {
+  width: 100%;
+  height: 78px;
+  border-radius: 18px;
+  background: #e8e5e0;
+}
+
+.knowledge-tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 26px;
+  border-radius: 999px;
+  background: #eaf3e5;
+  padding: 4px 10px;
+  color: #2d6b3f;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.knowledge-time,
+.knowledge-card-preview {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.knowledge-card-title {
+  color: var(--text-main);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.knowledge-card-preview {
+  display: -webkit-box;
+  overflow: hidden;
+  line-height: 1.6;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .section-title {

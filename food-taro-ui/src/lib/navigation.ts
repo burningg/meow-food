@@ -27,6 +27,8 @@ export type RouteName =
   | 'create-circle'
   | 'circle-members'
   | 'circle-share-invite'
+  | 'knowledge-archive'
+  | 'knowledge-detail'
 
 const primaryRouteNames: RouteName[] = ['home', 'plan', 'circles', 'profile']
 
@@ -63,6 +65,8 @@ const routePathMap: Record<RouteName, string> = {
   'create-circle': '/pages/circles/create-circle',
   'circle-members': '/pages/circles/circle-members',
   'circle-share-invite': '/pages/circles/circle-share-invite',
+  'knowledge-archive': '/pages/knowledge/archive',
+  'knowledge-detail': '/pages/knowledge/detail',
 }
 
 function encodeQuery(query: Record<string, string | number | undefined>) {
@@ -83,7 +87,8 @@ export function resolveRoute(location: RouteLocation | RouteName) {
     target.name === 'plan-shopping' ||
     target.name === 'user-menu' ||
     target.name === 'circles' ||
-    target.name === 'circle-members'
+    target.name === 'circle-members' ||
+    target.name === 'knowledge-detail'
   ) {
     query.id = params.id
   }

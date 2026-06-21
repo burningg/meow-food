@@ -36,6 +36,10 @@ export default defineAppConfig({
       root: 'pages/circles',
       pages: ['circles', 'create-circle', 'circle-members', 'circle-share-invite'],
     },
+    {
+      root: 'pages/knowledge',
+      pages: ['archive', 'detail'],
+    },
   ],
   window: {
     backgroundTextStyle: 'light',
