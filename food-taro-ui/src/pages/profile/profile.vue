@@ -10,7 +10,7 @@
               <view class="user-copy">
                 <view class="hero-title">
                   <text class="hero-title-name">{{ displayName }}</text>
-                  <text class="hero-title-suffix"> 的美味空间</text>
+                  <text class="hero-title-suffix"> 的食堂</text>
                   <view :class="['vip-chip', { 'vip-chip-muted': !isVipActive }]" @tap="openVipPage">
                     <text class="vip-chip-label">{{ vipChipLabel }}</text>
                   </view>
@@ -19,11 +19,13 @@
               </view>
             </view>
             <view class="hero-actions">
-              <button class="ghost-circle notification-button" @tap="openNotificationsPage">
+              <view class="ghost-circle hero-settings-button" @tap="openSettingsPage">
+                <image class="ghost-circle-image" :src="slidersHorizontalIcon" mode="aspectFit" />
+              </view>
+              <view class="ghost-circle notification-button" @tap="openNotificationsPage">
                 <image class="ghost-circle-image" :src="bellIcon" mode="aspectFit" />
                 <view v-if="hasUnreadNotification" class="notification-dot"></view>
-              </button>
-              <button class="ghost-circle" @tap="openEditProfilePage">✎</button>
+              </view>
             </view>
           </view>
 
@@ -99,11 +101,7 @@
           <button class="feedback-entry-card pressable" @tap="openFeedbackPage">
             <view class="feedback-entry-left">
               <view class="feedback-icon-shell">
-                <view class="feedback-bubble-icon">
-                  <view class="feedback-bubble-line line-1"></view>
-                  <view class="feedback-bubble-line line-2"></view>
-                  <view class="feedback-bubble-tail"></view>
-                </view>
+                <image class="feedback-icon-image" :src="chatCircleTextIcon" mode="aspectFit" />
               </view>
               <view class="feedback-entry-copy">
                 <text class="feedback-entry-title">意见反馈</text>
@@ -140,6 +138,8 @@
 import { computed, onMounted, ref } from 'vue'
 import { useDidShow, useShareAppMessage } from '@tarojs/taro'
 import bellIcon from '@/assets/action-icons/bell.svg'
+import chatCircleTextIcon from '@/assets/action-icons/chat-circle-text.svg'
+import slidersHorizontalIcon from '@/assets/action-icons/sliders-horizontal.svg'
 import AppTabBar from '@/components/AppTabBar.vue'
 import PullRefreshPage from '@/components/PullRefreshPage.vue'
 import { requireAuth } from '@/lib/auth'
@@ -277,12 +277,12 @@ async function saveVisibility() {
   }
 }
 
-function openEditProfilePage() {
-  push('edit-profile')
-}
-
 function openNotificationsPage() {
   push('notifications')
+}
+
+function openSettingsPage() {
+  push('settings')
 }
 
 function openFeedbackPage() {
@@ -429,6 +429,11 @@ function formatVipLabel(level?: string) {
 
 .hero-actions {
   gap: 10px;
+  align-items: center;
+}
+
+.hero-settings-button {
+  background: #fff;
 }
 
 .ghost-circle-image {
@@ -587,6 +592,11 @@ function formatVipLabel(level?: string) {
   height: 18px;
 }
 
+.feedback-icon-image {
+  width: 18px;
+  height: 18px;
+}
+
 .paw-toe,
 .paw-pad-main {
   position: absolute;
@@ -622,43 +632,6 @@ function formatVipLabel(level?: string) {
   width: 8px;
   height: 8px;
   border-radius: 6px 6px 7px 7px;
-}
-
-.feedback-bubble-icon {
-  position: relative;
-  width: 18px;
-  height: 18px;
-  border: 1.6px solid #346538;
-  border-radius: 999px;
-}
-
-.feedback-bubble-line {
-  position: absolute;
-  left: 5px;
-  width: 8px;
-  height: 1.6px;
-  border-radius: 999px;
-  background: #346538;
-}
-
-.feedback-bubble-line.line-1 {
-  top: 6px;
-}
-
-.feedback-bubble-line.line-2 {
-  top: 10px;
-}
-
-.feedback-bubble-tail {
-  position: absolute;
-  left: 3px;
-  bottom: 1px;
-  width: 5px;
-  height: 5px;
-  border-left: 1.6px solid #346538;
-  border-bottom: 1.6px solid #346538;
-  background: #edf3ec;
-  transform: rotate(-18deg);
 }
 
 .feedback-arrow-shell {

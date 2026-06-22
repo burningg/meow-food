@@ -14,4 +14,6 @@ public class ProfileResponse {
     private List<String> defaultMenuCircleIds = new ArrayList<>();
     private String lastSelectedCircleId;
     private VipInfoResponse vipInfo;
+    private Boolean showKnowledgeOnHome;
+    private Boolean showPetOnHome;
 }

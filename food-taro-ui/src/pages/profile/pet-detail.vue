@@ -9,7 +9,7 @@
         <view class="detail-glow detail-glow-green"></view>
         <view class="detail-glow detail-glow-gold"></view>
         <view class="pet-soft-shadow"></view>
-        <image class="detail-pet-image" :src="petDefinition.assets.lounge" :svg="true" mode="aspectFit" />
+        <image class="detail-pet-image" :src="petDefinition.assets.normal" :svg="true" mode="aspectFit" />
         <view class="pet-name-panel">
           <text class="detail-pet-name">{{ pet.name }}</text>
           <view class="breed-pill">

@@ -1,6 +1,7 @@
 package com.panghu.food.web;
 
 import com.panghu.food.dto.AuthUserResponse;
+import com.panghu.food.dto.ProfileHomePreferencesUpdateRequest;
 import com.panghu.food.dto.ProfileResponse;
 import com.panghu.food.dto.ProfileLastSelectedCircleUpdateRequest;
 import com.panghu.food.dto.ProfileUpdateRequest;
@@ -31,6 +32,11 @@ public class ProfileController {
     @PutMapping("/visibility")
     public ResponseEntity<AuthUserResponse> updateVisibility(@RequestBody ProfileVisibilityUpdateRequest request) {
         return ResponseEntity.ok(socialService.updateDefaultVisibility(request));
+    }
+
+    @PutMapping("/home-preferences")
+    public ResponseEntity<AuthUserResponse> updateHomePreferences(@RequestBody ProfileHomePreferencesUpdateRequest request) {
+        return ResponseEntity.ok(socialService.updateHomePreferences(request));
     }
 
     @PutMapping("/last-selected-circle")

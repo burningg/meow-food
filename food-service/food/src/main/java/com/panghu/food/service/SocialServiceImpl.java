@@ -76,6 +76,8 @@ public class SocialServiceImpl implements SocialService {
         response.setDefaultMenuCircleIds(menuVisibilitySupport.getDefaultMenuCircleIds(userId));
         response.setLastSelectedCircleId(settings.getLastSelectedCircleId());
         response.setVipInfo(vipService.getVipInfo(userId));
+        response.setShowKnowledgeOnHome(enabledByDefault(settings.getShowKnowledgeOnHome()));
+        response.setShowPetOnHome(enabledByDefault(settings.getShowPetOnHome()));
         return response;
     }
 
@@ -125,6 +127,17 @@ public class SocialServiceImpl implements SocialService {
         settings.setDefaultMenuVisibility(visibility);
         userProfileSettingsMapper.updateById(settings);
         replaceDefaultVisibilityCircles(userId, VisibilityUtils.VISIBILITY_CIRCLE.equals(visibility) ? circleIds : Collections.emptyList());
+        return authService.getCurrentUser();
+    }
+
+    @Override
+    @Transactional
+    public AuthUserResponse updateHomePreferences(ProfileHomePreferencesUpdateRequest request) {
+        String userId = AuthContext.requireUserId();
+        UserProfileSettings settings = getSettings(userId);
+        settings.setShowKnowledgeOnHome(request == null || enabledByDefault(request.getShowKnowledgeOnHome()));
+        settings.setShowPetOnHome(request == null || enabledByDefault(request.getShowPetOnHome()));
+        userProfileSettingsMapper.updateById(settings);
         return authService.getCurrentUser();
     }
 
@@ -1121,9 +1134,15 @@ public class SocialServiceImpl implements SocialService {
             settings.setUserId(userId);
             settings.setDefaultMenuVisibility(VisibilityUtils.DEFAULT_PROFILE_VISIBILITY);
             settings.setAllowFriendFeed(true);
+            settings.setShowKnowledgeOnHome(true);
+            settings.setShowPetOnHome(true);
             userProfileSettingsMapper.insert(settings);
         }
         return settings;
+    }
+
+    private boolean enabledByDefault(Boolean value) {
+        return value == null || value;
     }
 
     private boolean canViewDish(DishSummaryResponse dish, String viewerUserId, boolean circleMode) {

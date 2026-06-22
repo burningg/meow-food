@@ -160,6 +160,8 @@ public class AuthServiceImpl implements AuthService {
             settings.setUserId(userId);
             settings.setDefaultMenuVisibility(VisibilityUtils.DEFAULT_PROFILE_VISIBILITY);
             settings.setAllowFriendFeed(true);
+            settings.setShowKnowledgeOnHome(true);
+            settings.setShowPetOnHome(true);
             userProfileSettingsMapper.insert(settings);
         }
         return settings;
@@ -177,7 +179,13 @@ public class AuthServiceImpl implements AuthService {
         response.setDefaultMenuCircleIds(menuVisibilitySupport.getDefaultMenuCircleIds(user.getId()));
         response.setVip(vipInfo.getVip());
         response.setVipLevel(vipInfo.getVipLevel());
+        response.setShowKnowledgeOnHome(enabledByDefault(settings.getShowKnowledgeOnHome()));
+        response.setShowPetOnHome(enabledByDefault(settings.getShowPetOnHome()));
         return response;
+    }
+
+    private boolean enabledByDefault(Boolean value) {
+        return value == null || value;
     }
 
     private boolean isBlank(String value) {

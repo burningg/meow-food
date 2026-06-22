@@ -35,18 +35,21 @@
 
 <script setup lang="ts">
 import Taro from '@tarojs/taro'
-import { computed, onBeforeUnmount, onMounted, reactive } from 'vue'
+import { computed, onBeforeUnmount, onMounted, reactive, watch } from 'vue'
 import { getPetDefinition } from '@/lib/pet'
 
 const props = withDefaults(
   defineProps<{
-    // 宠物会爬上去的目标卡片选择器
+    // 宠物会爬上去的目标卡片选择器，支持逗号分隔，便于同时覆盖菜谱卡和知识卡
     cardSelector?: string
     petType?: string
+    // 父页面滚动时递增该值，宠物会中断当前动作并回左下角
+    scrollSignal?: number
   }>(),
   {
     cardSelector: '.recent-card',
     petType: 'tabby_cat',
+    scrollSignal: 0,
   },
 )
 
@@ -65,6 +68,8 @@ const WALK_STEP_MS = 125
 const WALK_FRAME_STEP_INTERVAL = 2
 const WALK_MIN_STEPS = 10
 const WALK_MAX_STEPS = 30
+// 用户刚滑动过时，暂停新一轮漫游，避免宠物刚回角落又马上爬上卡片。
+const SCROLL_SETTLE_MS = 1500
 // 底部为 tab-bar 让出的空间
 const BOTTOM_RESERVE = 96
 // 趴菜谱时放在卡片正上方，底部轻轻搭住卡片顶边。
@@ -94,6 +99,7 @@ const state = computed(() => pet.state)
 const facing = computed(() => pet.facing)
 const showHearts = computed(() => pet.showHearts)
 const petStyle = computed(() => ({ left: `${pet.left}px`, top: `${pet.top}px` }))
+const cardSelectors = computed(() => props.cardSelector.split(',').map((selector) => selector.trim()).filter(Boolean))
 const activePetDefinition = computed(() => getPetDefinition(props.petType))
 const petFrameSources = computed(() => {
   const source = activePetDefinition.value.assets
@@ -115,6 +121,8 @@ let alive = true
 // token 用于让旧的异步流程作废：任何新动作都会 +1，旧流程 await 后发现对不上就退出
 let token = 0
 let scheduleTimer: ReturnType<typeof setTimeout> | null = null
+let scrollReturning = false
+let lastScrollAt = 0
 
 const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms))
 const randInt = (min: number, max: number) => Math.floor(min + Math.random() * (max - min))
@@ -136,6 +144,12 @@ function atHome() {
 function moveTo(left: number, top: number) {
   pet.left = left
   pet.top = top
+}
+
+function settleAtHome() {
+  pet.facing = 'right'
+  pet.walkFrameIndex = 0
+  pet.state = 'idle'
 }
 
 async function walkTo(left: number, top: number, activeToken: number) {
@@ -168,19 +182,28 @@ async function walkTo(left: number, top: number, activeToken: number) {
   return alive && activeToken === token
 }
 
-// 取当前可见、且适合趴上去的菜谱卡片矩形
+// 取当前可见、且适合趴上去的卡片矩形
 function getVisibleCardRects(): Promise<Rect[]> {
   return new Promise((resolve) => {
-    Taro.createSelectorQuery()
-      .selectAll(props.cardSelector)
-      .boundingClientRect()
-      .exec((res) => {
-        const list = (res && (res[0] as unknown)) as Rect[] | undefined
-        const rects = Array.isArray(list) ? list : []
-        const winH = Taro.getWindowInfo().windowHeight
-        // 只保留在视口内、不贴边、不被底部栏遮挡的卡片
-        resolve(rects.filter((r) => r && r.width > 0 && r.top > 50 && r.bottom < winH - BOTTOM_RESERVE))
-      })
+    const selectors = cardSelectors.value
+    if (!selectors.length) {
+      resolve([])
+      return
+    }
+
+    const query = Taro.createSelectorQuery()
+    selectors.forEach((selector) => {
+      query.selectAll(selector).boundingClientRect()
+    })
+    query.exec((res) => {
+      const rects: Rect[] = []
+      for (const item of res || []) {
+        if (Array.isArray(item)) rects.push(...(item as Rect[]))
+      }
+      const winH = Taro.getWindowInfo().windowHeight
+      // 只保留在视口内、不贴边、不被底部栏遮挡的卡片
+      resolve(rects.filter((r) => r && r.width > 0 && r.top > 50 && r.bottom < winH - BOTTOM_RESERVE))
+    })
   })
 }
 
@@ -195,22 +218,32 @@ function takeToken() {
 
 // 安排下一次漫游（低频，避免打扰）
 function scheduleNext() {
+  if (!alive) return
   if (scheduleTimer) clearTimeout(scheduleTimer)
   scheduleTimer = setTimeout(runWanderCycle, randInt(18000, 30000))
 }
 
-// 一次完整漫游：走到某张卡片 → 趴一会儿 → 走回角落
+// 一次完整漫游：走到某张卡片 → 趴着等待用户滚动或点击收回
 async function runWanderCycle() {
+  if (Date.now() - lastScrollAt < SCROLL_SETTLE_MS) {
+    scheduleNext()
+    return
+  }
+
   const t = takeToken()
   const rects = await getVisibleCardRects()
   if (!alive || t !== token) return
+  if (Date.now() - lastScrollAt < SCROLL_SETTLE_MS) {
+    scheduleNext()
+    return
+  }
   if (!rects.length) {
     scheduleNext()
     return
   }
 
   const target = rects[randInt(0, rects.length)]
-  // 宠物趴在卡片正上方，视觉重心居中，避免挡住下方菜谱文案。
+  // 宠物趴在卡片正上方，视觉重心居中，避免挡住下方卡片文案。
   const targetLeft = target.left + (target.width - PET_W) / 2
   const targetTop = target.top - PET_H + CARD_TOP_OVERLAP_Y
 
@@ -219,18 +252,37 @@ async function runWanderCycle() {
   pet.state = 'walking'
   if (!(await walkTo(targetLeft, targetTop, t))) return
 
-  // 趴在卡片上卖萌
+  // 趴在卡片上卖萌；不自动回家，避免用户没滑动时宠物自己离开卡片。
   pet.state = 'lounging'
-  await wait(randInt(6000, 10000))
-  if (!alive || t !== token) return
+}
 
-  // 走回左下角
+// 页面滚动会改变卡片在视口中的位置，宠物趴在卡片上时要收回左下角。
+async function returnHomeAfterScroll() {
+  lastScrollAt = Date.now()
+  if (!alive || scrollReturning) return
+  if (pet.state === 'idle' && atHome()) return
+
+  const t = takeToken()
+  pet.showHearts = false
+
+  if (atHome()) {
+    settleAtHome()
+    scheduleNext()
+    return
+  }
+
+  scrollReturning = true
   pet.facing = 'left'
   pet.state = 'walking'
-  if (!(await walkTo(home.left, home.top, t))) return
 
-  pet.state = 'idle'
-  scheduleNext()
+  try {
+    if (!(await walkTo(home.left, home.top, t))) return
+    if (!alive || t !== token) return
+    settleAtHome()
+    scheduleNext()
+  } finally {
+    scrollReturning = false
+  }
 }
 
 // 点击宠物：开心反应（蹦跳 + 爱心），随后回主位待机
@@ -259,7 +311,7 @@ async function onTap() {
     if (!(await walkTo(home.left, home.top, t))) return
   }
 
-  pet.state = 'idle'
+  settleAtHome()
   scheduleNext()
 }
 
@@ -270,8 +322,16 @@ moveTo(home.left, home.top)
 onMounted(() => {
   computeHome()
   moveTo(home.left, home.top)
+  settleAtHome()
   scheduleNext()
 })
+
+watch(
+  () => props.scrollSignal,
+  () => {
+    void returnHomeAfterScroll()
+  },
+)
 
 onBeforeUnmount(() => {
   alive = false

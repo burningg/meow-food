@@ -16,4 +16,6 @@ public class AuthUserResponse {
     private List<String> defaultMenuCircleIds = new ArrayList<>();
     private Boolean vip;
     private String vipLevel;
+    private Boolean showKnowledgeOnHome;
+    private Boolean showPetOnHome;
 }

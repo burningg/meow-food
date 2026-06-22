@@ -15,6 +15,7 @@ export default defineAppConfig({
         'edit-profile',
         'edit-avatar',
         'notifications',
+        'settings',
         'feedback',
         'friends',
         'friend-requests',

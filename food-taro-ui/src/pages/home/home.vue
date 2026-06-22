@@ -1,6 +1,6 @@
 <template>
   <view class="home-page-root">
-    <PullRefreshPage @refresh="refreshHomePage">
+    <PullRefreshPage @refresh="refreshHomePage" @scroll="handleHomeScroll">
       <view class="page-shell home-page">
         <section class="hero">
           <view>
@@ -14,7 +14,7 @@
           </view>
         </section>
 
-        <section v-if="latestKnowledge" class="knowledge-section">
+        <section v-if="showKnowledgeOnHome && latestKnowledge" class="knowledge-section">
           <view class="knowledge-section-head">
             <text class="knowledge-section-title">饮食小知识</text>
             <button class="knowledge-more-button" @tap="goToKnowledgeArchive">
@@ -91,9 +91,10 @@
 
     <button v-if="authStore.isLoggedIn" class="floating-add" @tap="goToAdd">＋</button>
     <PetMascot
-      v-if="pet?.claimed"
-      card-selector=".recent-card"
+      v-if="showPetOnHome && pet?.claimed"
+      card-selector=".recent-card, .knowledge-feature-card"
       :pet-type="pet.petType"
+      :scroll-signal="petScrollSignal"
       @tap="goToPetDetail"
     />
     <AppTabBar active="home" :show-add="authStore.isLoggedIn" />
@@ -145,9 +146,12 @@ const searchKeyword = ref('')
 const latestKnowledge = ref<KnowledgeArticleSummary | null>(null)
 const importantNotification = ref<NotificationItem | null>(null)
 const pet = ref<PetResponse | null>(null)
+const petScrollSignal = ref(0)
 const shownImportantNotificationId = ref('')
 const displayName = computed(() => authStore.user?.nickname ?? 'meoi')
 const vipChipLabel = computed(() => formatVipLabel(authStore.user?.vip ? authStore.user?.vipLevel : undefined))
+const showKnowledgeOnHome = computed(() => !authStore.isLoggedIn || authStore.user?.showKnowledgeOnHome !== false)
+const showPetOnHome = computed(() => authStore.isLoggedIn && authStore.user?.showPetOnHome !== false)
 const showEmptyLoginButton = computed(() => !authStore.isLoggedIn && !searchKeyword.value.trim() && !homeData.value.recentDishes.length)
 const showEmptyAddButton = computed(() => authStore.isLoggedIn && !searchKeyword.value.trim() && !homeData.value.recentDishes.length)
 const filteredDishes = computed<VisibleDish[]>(() => {
@@ -183,8 +187,7 @@ onMounted(async () => {
 })
 
 useDidShow(async () => {
-  await syncImportantNotification()
-  await syncMyPet()
+  await Promise.all([syncImportantNotification(), syncMyPet(), loadLatestKnowledge()])
 })
 
 useShareAppMessage(() =>
@@ -203,6 +206,11 @@ async function loadHome() {
 }
 
 async function loadLatestKnowledge() {
+  if (!showKnowledgeOnHome.value) {
+    latestKnowledge.value = null
+    return
+  }
+
   try {
     const { data } = await knowledgeService.queryHistory({ page: 1, size: 1 })
     latestKnowledge.value = data.items[0] || null
@@ -235,7 +243,7 @@ async function syncImportantNotification() {
 }
 
 async function syncMyPet() {
-  if (!authStore.isLoggedIn) {
+  if (!showPetOnHome.value) {
     pet.value = null
     return
   }
@@ -250,6 +258,10 @@ async function syncMyPet() {
 
 function closeImportantNotification() {
   importantNotification.value = null
+}
+
+function handleHomeScroll() {
+  petScrollSignal.value += 1
 }
 
 function goToDetail(id: string) {
@@ -540,8 +552,8 @@ function formatVipLabel(level?: string) {
 
 .knowledge-card-title {
   color: var(--text-main);
-  font-size: 20px;
-  font-weight: 800;
+  font-size: 16px;
+  font-weight: 600;
   line-height: 1.25;
 }
 

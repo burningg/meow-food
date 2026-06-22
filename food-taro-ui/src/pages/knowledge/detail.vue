@@ -15,7 +15,6 @@
         <button class="article-share-button" open-type="share">分享</button>
       </view>
       <text class="article-title">{{ article.title }}</text>
-      <text class="article-lead">{{ article.bodyPreview }}</text>
       <rich-text class="article-rich-text" :nodes="article.bodyNodes" />
     </article>
 
@@ -97,7 +96,7 @@ function formatKnowledgeDate(value: string) {
 
 .article-hero-image {
   width: 100%;
-  height: 220px;
+  height: 180px;
   border-radius: 20px;
   background: #e8e5e0;
 }

@@ -169,6 +169,8 @@ export interface ProfileResponse {
   defaultMenuCircleIds: string[]
   lastSelectedCircleId?: string
   vipInfo: VipInfo
+  showKnowledgeOnHome: boolean
+  showPetOnHome: boolean
 }
 
 export interface ProfileUpdatePayload {
@@ -188,6 +190,10 @@ export class SocialService {
 
   updateVisibility(defaultMenuVisibility: Exclude<MenuVisibility, 'inherit'>, defaultMenuCircleIds: string[] = []) {
     return http.put<AuthUser>('/api/profile/visibility', { defaultMenuVisibility, defaultMenuCircleIds })
+  }
+
+  updateHomePreferences(payload: { showKnowledgeOnHome: boolean; showPetOnHome: boolean }) {
+    return http.put<AuthUser>('/api/profile/home-preferences', payload)
   }
 
   updateLastSelectedCircle(lastSelectedCircleId?: string) {

@@ -12,6 +12,8 @@ export interface AuthUser {
   defaultMenuCircleIds: string[]
   vip: boolean
   vipLevel?: string
+  showKnowledgeOnHome: boolean
+  showPetOnHome: boolean
 }
 
 export interface LoginRequest {

@@ -43,8 +43,5 @@ public class FeedbackServiceImpl implements FeedbackService {
         feedback.setCreatedAt(now);
         feedback.setUpdatedAt(now);
         userFeedbackMapper.insert(feedback);
-
-        // 反馈和确认消息同事务提交，避免用户提交成功后看不到消息中心提醒。
-        notificationService.sendFeedbackReceivedNotification(userId);
     }
 }

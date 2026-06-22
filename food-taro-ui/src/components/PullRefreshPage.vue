@@ -10,6 +10,7 @@
     refresher-default-style="none"
     refresher-background="transparent"
     :refresher-triggered="refreshing"
+    @scroll="handleScroll"
     @refresherpulling="handlePulling"
     @refresherrefresh="handleRefresh"
     @refresherrestore="handleRestore"
@@ -58,6 +59,8 @@ const props = withDefaults(defineProps<{
   contentClass: '',
 })
 
+const emit = defineEmits<{ (e: 'scroll'): void }>()
+
 const attrs = useAttrs() as {
   onRefresh?: RefreshListener | RefreshListener[]
 }
@@ -87,6 +90,10 @@ const mainPawStyle = computed(() => ({
 function handlePulling(event: RefresherPullingEvent) {
   if (refreshing.value) return
   pullDistance.value = Math.max(event.detail?.dy || 0, 0)
+}
+
+function handleScroll() {
+  emit('scroll')
 }
 
 async function handleRefresh() {

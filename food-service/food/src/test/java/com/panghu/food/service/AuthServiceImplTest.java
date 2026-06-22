@@ -1,6 +1,7 @@
 package com.panghu.food.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.panghu.food.auth.AuthContext;
 import com.panghu.food.auth.JwtTokenUtil;
 import com.panghu.food.component.WechatComponent;
 import com.panghu.food.dto.AuthLoginResponse;
@@ -14,6 +15,7 @@ import com.panghu.food.mapper.BuddyCircleMapper;
 import com.panghu.food.mapper.BuddyCircleMemberMapper;
 import com.panghu.food.mapper.UserAccountMapper;
 import com.panghu.food.mapper.UserProfileSettingsMapper;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -43,6 +45,11 @@ class AuthServiceImplTest {
             menuVisibilitySupport,
             buddyCircleMapper,
             buddyCircleMemberMapper);
+
+    @AfterEach
+    void tearDown() {
+        AuthContext.clear();
+    }
 
     @Test
     void registerCreatesDefaultCircleForNewUser() {
@@ -83,6 +90,29 @@ class AuthServiceImplTest {
         assertThat(response.getUser()).isNotNull();
         assertThat(response.getUser().getAccount()).isEqualTo("alice");
         assertThat(response.getUser().getNickname()).isEqualTo("alice");
+        assertThat(response.getUser().getShowKnowledgeOnHome()).isTrue();
+        assertThat(response.getUser().getShowPetOnHome()).isTrue();
+    }
+
+    @Test
+    void getCurrentUserCreatesDefaultHomePreferences() {
+        AuthContext.setUserId("user-1");
+        UserAccount user = new UserAccount();
+        user.setId("user-1");
+        user.setAccount("alice");
+        user.setNickname("alice");
+
+        when(userAccountMapper.selectById("user-1")).thenReturn(user);
+        when(userProfileSettingsMapper.selectById("user-1")).thenReturn(null);
+        when(vipService.getVipInfo("user-1")).thenReturn(vipInfo());
+        when(menuVisibilitySupport.getDefaultMenuCircleIds("user-1")).thenReturn(java.util.List.of());
+
+        assertThat(authService.getCurrentUser().getShowKnowledgeOnHome()).isTrue();
+
+        ArgumentCaptor<UserProfileSettings> settingsCaptor = ArgumentCaptor.forClass(UserProfileSettings.class);
+        verify(userProfileSettingsMapper).insert(settingsCaptor.capture());
+        assertThat(settingsCaptor.getValue().getShowKnowledgeOnHome()).isTrue();
+        assertThat(settingsCaptor.getValue().getShowPetOnHome()).isTrue();
     }
 
     private UserProfileSettings existingSettings(String userId) {
@@ -90,6 +120,8 @@ class AuthServiceImplTest {
         settings.setUserId(userId);
         settings.setDefaultMenuVisibility(VisibilityUtils.DEFAULT_PROFILE_VISIBILITY);
         settings.setAllowFriendFeed(true);
+        settings.setShowKnowledgeOnHome(true);
+        settings.setShowPetOnHome(true);
         return settings;
     }
 

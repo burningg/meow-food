@@ -14,5 +14,7 @@ public class UserProfileSettings {
     private String defaultMenuVisibility;
     private String lastSelectedCircleId;
     private Boolean allowFriendFeed;
+    private Boolean showKnowledgeOnHome;
+    private Boolean showPetOnHome;
     private LocalDateTime updatedAt;
 }

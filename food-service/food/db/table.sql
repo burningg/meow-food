@@ -27,6 +27,8 @@ CREATE TABLE `user_profile_settings` (
   `default_menu_visibility` varchar(20) NOT NULL DEFAULT 'public' COMMENT '默认菜单可见范围',
   `last_selected_circle_id` varchar(36) DEFAULT NULL COMMENT '上次选中的圈子ID',
   `allow_friend_feed` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否允许进入好友动态',
+  `show_knowledge_on_home` tinyint(1) NOT NULL DEFAULT '1' COMMENT '首页是否显示饮食小知识',
+  `show_pet_on_home` tinyint(1) NOT NULL DEFAULT '1' COMMENT '首页是否显示宠物',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`user_id`),
   CONSTRAINT `fk_profile_settings_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)

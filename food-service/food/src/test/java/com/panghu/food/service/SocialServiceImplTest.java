@@ -1,6 +1,7 @@
 package com.panghu.food.service;
 
 import com.panghu.food.auth.AuthContext;
+import com.panghu.food.dto.AuthUserResponse;
 import com.panghu.food.dto.BuddyCircleDetailResponse;
 import com.panghu.food.dto.BuddyCircleCreateRequest;
 import com.panghu.food.dto.BuddyCircleMemberResponse;
@@ -8,7 +9,10 @@ import com.panghu.food.dto.DishSummaryResponse;
 import com.panghu.food.dto.FeedItemResponse;
 import com.panghu.food.dto.FriendInvitationResponse;
 import com.panghu.food.dto.FriendItemResponse;
+import com.panghu.food.dto.ProfileHomePreferencesUpdateRequest;
+import com.panghu.food.dto.ProfileResponse;
 import com.panghu.food.dto.UserMenuAccessResponse;
+import com.panghu.food.dto.VipInfoResponse;
 import com.panghu.food.entity.ActivityFeed;
 import com.panghu.food.entity.BuddyCircle;
 import com.panghu.food.entity.BuddyCircleMember;
@@ -33,6 +37,7 @@ import com.panghu.food.mapper.UserProfileSettingsMapper;
 import com.panghu.food.mapper.UserVipMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -89,6 +94,51 @@ class SocialServiceImplTest {
     @AfterEach
     void tearDown() {
         AuthContext.clear();
+    }
+
+    @Test
+    void getProfileDefaultsHomePreferencesToVisible() {
+        AuthContext.setUserId("owner");
+        UserProfileSettings settings = settings("owner");
+        settings.setShowKnowledgeOnHome(null);
+        settings.setShowPetOnHome(null);
+
+        when(userProfileSettingsMapper.selectById("owner")).thenReturn(settings);
+        when(authService.getCurrentUser()).thenReturn(new AuthUserResponse());
+        when(vipService.getVipInfo("owner")).thenReturn(vipInfo());
+        when(menuVisibilitySupport.getDefaultMenuCircleIds("owner")).thenReturn(List.of());
+        when(friendRelationMapper.selectCount(any())).thenReturn(0L);
+        when(dishMapper.selectCount(any())).thenReturn(0L);
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(0L);
+
+        ProfileResponse response = socialService.getProfile();
+
+        assertThat(response.getShowKnowledgeOnHome()).isTrue();
+        assertThat(response.getShowPetOnHome()).isTrue();
+    }
+
+    @Test
+    void updateHomePreferencesPersistsSwitches() {
+        AuthContext.setUserId("owner");
+        UserProfileSettings settings = settings("owner");
+        ProfileHomePreferencesUpdateRequest request = new ProfileHomePreferencesUpdateRequest();
+        request.setShowKnowledgeOnHome(false);
+        request.setShowPetOnHome(true);
+        AuthUserResponse updatedUser = new AuthUserResponse();
+        updatedUser.setShowKnowledgeOnHome(false);
+        updatedUser.setShowPetOnHome(true);
+
+        when(userProfileSettingsMapper.selectById("owner")).thenReturn(settings);
+        when(authService.getCurrentUser()).thenReturn(updatedUser);
+
+        AuthUserResponse response = socialService.updateHomePreferences(request);
+
+        ArgumentCaptor<UserProfileSettings> settingsCaptor = ArgumentCaptor.forClass(UserProfileSettings.class);
+        verify(userProfileSettingsMapper).updateById(settingsCaptor.capture());
+        assertThat(settingsCaptor.getValue().getShowKnowledgeOnHome()).isFalse();
+        assertThat(settingsCaptor.getValue().getShowPetOnHome()).isTrue();
+        assertThat(response.getShowKnowledgeOnHome()).isFalse();
+        assertThat(response.getShowPetOnHome()).isTrue();
     }
 
     @Test
@@ -576,7 +626,15 @@ class SocialServiceImplTest {
         UserProfileSettings settings = new UserProfileSettings();
         settings.setUserId(userId);
         settings.setDefaultMenuVisibility("friends");
+        settings.setShowKnowledgeOnHome(true);
+        settings.setShowPetOnHome(true);
         return settings;
+    }
+
+    private VipInfoResponse vipInfo() {
+        VipInfoResponse response = new VipInfoResponse();
+        response.setVip(false);
+        return response;
     }
 
     private UserVip activeVip(String userId) {

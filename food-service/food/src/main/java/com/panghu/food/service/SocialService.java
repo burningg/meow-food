@@ -11,6 +11,8 @@ public interface SocialService {
 
     AuthUserResponse updateDefaultVisibility(ProfileVisibilityUpdateRequest request);
 
+    AuthUserResponse updateHomePreferences(ProfileHomePreferencesUpdateRequest request);
+
     void updateLastSelectedCircle(ProfileLastSelectedCircleUpdateRequest request);
 
     List<FriendItemResponse> getFriends();
