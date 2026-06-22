@@ -519,8 +519,9 @@ function parseDateKey(value: string) {
   top: 18px;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 5px;
-  max-width: calc(50% - 28px);
+  max-width: 70%;
 }
 
 .detail-pet-name,
@@ -544,10 +545,10 @@ function parseDateKey(value: string) {
 }
 
 .pet-name-row {
-  width: 100%;
   gap: 8px;
   min-width: 0;
-  flex-wrap: nowrap;
+  max-width: 100%;
+  flex-wrap: wrap;
 }
 
 .pet-name-edit-card {
@@ -642,6 +643,7 @@ function parseDateKey(value: string) {
 
 .breed-pill {
   gap: 6px;
+  max-width: 100%;
   border-radius: 999px;
   background: #edf3ec;
   padding: 6px 10px;
