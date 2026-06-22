@@ -520,7 +520,7 @@ function parseDateKey(value: string) {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  max-width: calc(100% - 36px);
+  max-width: calc(50% - 28px);
 }
 
 .detail-pet-name,
@@ -530,6 +530,13 @@ function parseDateKey(value: string) {
   font-weight: 800;
 }
 
+.detail-pet-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .pet-name-row,
 .pet-name-edit-actions {
   display: flex;
@@ -537,8 +544,10 @@ function parseDateKey(value: string) {
 }
 
 .pet-name-row {
+  width: 100%;
   gap: 8px;
-  flex-wrap: wrap;
+  min-width: 0;
+  flex-wrap: nowrap;
 }
 
 .pet-name-edit-card {

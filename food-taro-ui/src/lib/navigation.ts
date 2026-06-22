@@ -9,6 +9,7 @@ export type RouteName =
   | 'dish-detail'
   | 'edit-dish'
   | 'profile'
+  | 'default-visibility'
   | 'edit-profile'
   | 'edit-avatar'
   | 'notifications'
@@ -48,6 +49,7 @@ const routePathMap: Record<RouteName, string> = {
   'dish-detail': '/pages/dish/dish-detail',
   'edit-dish': '/pages/dish/add-dish',
   profile: '/pages/profile/profile',
+  'default-visibility': '/pages/profile/default-visibility',
   'edit-profile': '/pages/profile/edit-profile',
   'edit-avatar': '/pages/profile/edit-avatar',
   notifications: '/pages/profile/notifications',

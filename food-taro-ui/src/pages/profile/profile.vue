@@ -41,46 +41,9 @@
           </view>
         </section>
 
-        <section class="section-card">
-          <view class="section-head">
-            <text class="eyebrow">默认权限</text>
-          </view>
-          <article class="visibility-card">
-            <button
-              v-for="option in visibilityOptions"
-              :key="option.value"
-              :class="['visibility-row', { active: draftVisibility === option.value }]"
-              @tap="selectVisibility(option.value)"
-            >
-              <view>
-                <text class="visibility-title">{{ option.label }}</text>
-                <text class="visibility-desc">{{ option.desc }}</text>
-              </view>
-              <text class="visibility-dot"></text>
-            </button>
-            <view v-if="draftVisibility === 'circle'" class="circle-picker-card">
-              <view class="circle-picker-head">
-                <text class="visibility-title">默认开放圈子</text>
-                <text class="visibility-desc">{{ draftCircleIds.length }} 个已选</text>
-              </view>
-              <view v-if="circles.length" class="circle-chip-list">
-                <button
-                  v-for="circle in circles"
-                  :key="circle.id"
-                  :class="['circle-chip', { active: draftCircleIds.includes(circle.id) }]"
-                  @tap="toggleCircle(circle.id)"
-                >
-                  {{ circle.name }}
-                </button>
-              </view>
-              <text v-else class="visibility-desc">你还没有加入圈子，暂时不能把默认权限设为指定圈子。</text>
-            </view>
-          </article>
-        </section>
-
-        <section class="feedback-block">
-          <button class="pet-entry-card pressable" @tap="openPetPage">
-            <view class="pet-entry-left">
+        <section class="quick-entry-block">
+          <button class="entry-card pressable" @tap="openPetPage">
+            <view class="entry-left">
               <view class="pet-icon-shell">
                 <view class="pet-paw-icon">
                   <view class="paw-toe paw-toe-1"></view>
@@ -89,26 +52,43 @@
                   <view class="paw-pad-main"></view>
                 </view>
               </view>
-              <view class="pet-entry-copy">
-                <text class="pet-entry-title">我的宠物</text>
+              <view class="entry-copy">
+                <text class="entry-title">我的宠物</text>
+                <text class="entry-desc">{{ hasPet ? '查看宠物状态和成长详情' : '领取专属宠物，开启饭点陪伴' }}</text>
               </view>
             </view>
-            <view class="feedback-arrow-shell">
-              <text class="feedback-arrow">›</text>
+            <view class="entry-arrow-shell">
+              <text class="entry-arrow">›</text>
             </view>
           </button>
 
-          <button class="feedback-entry-card pressable" @tap="openFeedbackPage">
-            <view class="feedback-entry-left">
-              <view class="feedback-icon-shell">
-                <image class="feedback-icon-image" :src="chatCircleTextIcon" mode="aspectFit" />
+          <button class="entry-card pressable" @tap="openDefaultVisibilityPage">
+            <view class="entry-left">
+              <view class="default-visibility-icon-shell">
+                <image class="entry-icon-image" :src="slidersHorizontalIcon" mode="aspectFit" />
               </view>
-              <view class="feedback-entry-copy">
-                <text class="feedback-entry-title">意见反馈</text>
+              <view class="entry-copy">
+                <text class="entry-title">默认权限</text>
+                <text class="entry-desc">设置新菜谱默认向谁开放，也可以按圈子细分</text>
               </view>
             </view>
-            <view class="feedback-arrow-shell">
-              <text class="feedback-arrow">›</text>
+            <view class="entry-arrow-shell">
+              <text class="entry-arrow">›</text>
+            </view>
+          </button>
+
+          <button class="entry-card pressable" @tap="openFeedbackPage">
+            <view class="entry-left">
+              <view class="feedback-icon-shell">
+                <image class="entry-icon-image" :src="chatCircleTextIcon" mode="aspectFit" />
+              </view>
+              <view class="entry-copy">
+                <text class="entry-title">意见反馈</text>
+                <text class="entry-desc">遇到问题，或有想让我们改进的地方，都可以写给我们</text>
+              </view>
+            </view>
+            <view class="entry-arrow-shell">
+              <text class="entry-arrow">›</text>
             </view>
           </button>
         </section>
@@ -148,20 +128,15 @@ import { openPrimaryRoute, push, replace } from '@/lib/navigation'
 import { createHomeShareMessage } from '@/lib/share'
 import { NotificationService } from '@/services/notification-service'
 import { PetService, type PetResponse } from '@/services/pet-service'
-import { SocialService, type BuddyCircleSummary, type ProfileResponse } from '@/services/social-service'
+import { SocialService, type ProfileResponse } from '@/services/social-service'
 import { useAuthStore } from '@/stores/auth-store'
-import type { MenuVisibility } from '@/services/auth-service'
 
 const authStore = useAuthStore()
 const socialService = new SocialService()
 const notificationService = new NotificationService()
 const petService = new PetService()
 const profile = ref<ProfileResponse | null>(null)
-const circles = ref<BuddyCircleSummary[]>([])
 const pet = ref<PetResponse | null>(null)
-const draftVisibility = ref<Exclude<MenuVisibility, 'inherit'>>('public')
-const draftCircleIds = ref<string[]>([])
-const savingVisibility = ref(false)
 const hasUnreadNotification = ref(false)
 
 const displayName = computed(() => profile.value?.user.nickname || authStore.user?.nickname || 'meoi')
@@ -173,12 +148,6 @@ const vipChipLabel = computed(() => {
   if (!isVipActive.value) return '开通VIP'
   return formatVipLabel(profile.value?.vipInfo?.vipLevel || authStore.user?.vipLevel)
 })
-
-const visibilityOptions: Array<{ value: Exclude<MenuVisibility, 'inherit'>; label: string; desc: string }> = [
-  { value: 'private', label: '仅自己可见', desc: '只在你自己的菜单空间展示' },
-  { value: 'public', label: '圈内公开', desc: '对你所在全部圈子的成员开放' },
-  { value: 'circle', label: '指定圈子', desc: '仅对你选中的圈子成员开放' },
-]
 
 onMounted(async () => {
   if (!(await requireAuth('profile'))) return
@@ -198,23 +167,15 @@ useShareAppMessage(() =>
 
 async function loadProfilePageData() {
   try {
-    const [profileResult, circlesResult, notificationResult, petResult] = await Promise.allSettled([
+    const [profileResult, notificationResult, petResult] = await Promise.allSettled([
       socialService.getProfile(),
-      socialService.getCircles(),
       notificationService.getBootstrap(),
       petService.getMyPet(),
     ])
     if (profileResult.status === 'fulfilled') {
       profile.value = profileResult.value.data
-      draftVisibility.value = profileResult.value.data.defaultMenuVisibility
-      draftCircleIds.value = [...profileResult.value.data.defaultMenuCircleIds]
     } else {
       throw profileResult.reason
-    }
-    if (circlesResult.status === 'fulfilled') {
-      circles.value = circlesResult.value.data
-    } else {
-      circles.value = []
     }
     if (notificationResult.status === 'fulfilled') {
       hasUnreadNotification.value = notificationResult.value.data.hasUnread
@@ -236,47 +197,6 @@ async function refreshProfile() {
   await authStore.restore()
 }
 
-async function selectVisibility(value: Exclude<MenuVisibility, 'inherit'>) {
-  if (savingVisibility.value) return
-  draftVisibility.value = value
-  await saveVisibility()
-}
-
-async function toggleCircle(circleId: string) {
-  if (!circleId || savingVisibility.value) return
-  if (draftCircleIds.value.includes(circleId)) {
-    draftCircleIds.value = draftCircleIds.value.filter((id) => id !== circleId)
-  } else {
-    draftCircleIds.value = [...draftCircleIds.value, circleId]
-  }
-  await saveVisibility()
-}
-
-async function saveVisibility() {
-  if (draftVisibility.value === 'circle' && !draftCircleIds.value.length) {
-    Message.warning('请选择至少一个默认圈子')
-    return
-  }
-  savingVisibility.value = true
-  try {
-    await socialService.updateVisibility(
-      draftVisibility.value,
-      draftVisibility.value === 'circle' ? draftCircleIds.value : [],
-    )
-    Message.success('菜单默认可见范围已更新')
-    await loadProfilePageData()
-    await authStore.restore()
-  } catch (error: any) {
-    Message.error(error?.response?.data?.message || '权限更新失败，请稍后重试')
-    if (profile.value) {
-      draftVisibility.value = profile.value.defaultMenuVisibility
-      draftCircleIds.value = [...profile.value.defaultMenuCircleIds]
-    }
-  } finally {
-    savingVisibility.value = false
-  }
-}
-
 function openNotificationsPage() {
   push('notifications')
 }
@@ -287,6 +207,10 @@ function openSettingsPage() {
 
 function openFeedbackPage() {
   push('feedback')
+}
+
+function openDefaultVisibilityPage() {
+  push('default-visibility')
 }
 
 function openPetPage() {
@@ -328,7 +252,7 @@ function formatVipLabel(level?: string) {
 }
 
 .hero-card,
-.section-card {
+.entry-card {
   border-radius: 22px;
   background: #fff;
   box-shadow: var(--shadow);
@@ -342,13 +266,11 @@ function formatVipLabel(level?: string) {
 .hero-top,
 .user-row,
 .stats-row,
-.hero-actions,
-.visibility-row {
+.hero-actions {
   display: flex;
 }
 
-.hero-top,
-.visibility-row {
+.hero-top {
   justify-content: space-between;
 }
 
@@ -395,9 +317,7 @@ function formatVipLabel(level?: string) {
 
 .hero-title-suffix,
 .bio,
-.stats-row text,
-.visibility-desc,
-.eyebrow {
+.stats-row text {
   color: var(--text-muted);
   margin-left: 3px;
 }
@@ -477,10 +397,6 @@ function formatVipLabel(level?: string) {
   font-weight: 800;
 }
 
-.section-card {
-  padding: 18px;
-}
-
 .vip-chip {
   display: flex;
   align-items: center;
@@ -522,29 +438,25 @@ function formatVipLabel(level?: string) {
   margin-top: 18px;
 }
 
-.feedback-block {
+.quick-entry-block {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 12px;
   margin-top: 18px;
 }
 
-.feedback-entry-card,
-.pet-entry-card {
+.entry-card {
   display: flex;
-  flex: 1 1 0;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
   min-width: 0;
   gap: 8px;
-  border-radius: 12px;
-  background: #fff;
   padding: 12px;
   text-align: left;
 }
 
-.feedback-entry-left,
-.pet-entry-left {
+.entry-left {
   display: flex;
   flex: 1;
   align-items: center;
@@ -553,7 +465,8 @@ function formatVipLabel(level?: string) {
 }
 
 .feedback-icon-shell,
-.pet-icon-shell {
+.pet-icon-shell,
+.default-visibility-icon-shell {
   display: flex;
   flex: 0 0 auto;
   align-items: center;
@@ -568,8 +481,11 @@ function formatVipLabel(level?: string) {
   background: #fff0de;
 }
 
-.feedback-entry-copy,
-.pet-entry-copy {
+.default-visibility-icon-shell {
+  background: #fff0de;
+}
+
+.entry-copy {
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -577,13 +493,17 @@ function formatVipLabel(level?: string) {
   min-width: 0;
 }
 
-.feedback-entry-title,
-.pet-entry-title {
+.entry-title {
   color: #151515;
   font-size: 14px;
   font-weight: 600;
   line-height: 1.3;
-  white-space: nowrap;
+}
+
+.entry-desc {
+  color: #787774;
+  font-size: 12px;
+  line-height: 1.45;
 }
 
 .pet-paw-icon {
@@ -592,7 +512,7 @@ function formatVipLabel(level?: string) {
   height: 18px;
 }
 
-.feedback-icon-image {
+.entry-icon-image {
   width: 18px;
   height: 18px;
 }
@@ -634,7 +554,7 @@ function formatVipLabel(level?: string) {
   border-radius: 6px 6px 7px 7px;
 }
 
-.feedback-arrow-shell {
+.entry-arrow-shell {
   display: flex;
   flex: 0 0 auto;
   align-items: center;
@@ -645,41 +565,35 @@ function formatVipLabel(level?: string) {
   background: #f7f4ef;
 }
 
-.feedback-arrow {
+.entry-arrow {
   color: #9f5c38;
   font-size: 20px;
   line-height: 1;
 }
 
 @media screen and (max-width: 350px) {
-  .feedback-block {
-    gap: 8px;
-  }
-
-  .feedback-entry-card,
-  .pet-entry-card {
+  .entry-card {
     gap: 6px;
     padding: 10px;
   }
 
-  .feedback-entry-left,
-  .pet-entry-left {
+  .entry-left {
     gap: 8px;
   }
 
   .feedback-icon-shell,
-  .pet-icon-shell {
+  .pet-icon-shell,
+  .default-visibility-icon-shell {
     width: 32px;
     height: 32px;
   }
 
-  .feedback-arrow-shell {
+  .entry-arrow-shell {
     width: 22px;
     height: 22px;
   }
 
-  .feedback-entry-title,
-  .pet-entry-title {
+  .entry-title {
     font-size: 13px;
   }
 }
@@ -738,89 +652,6 @@ function formatVipLabel(level?: string) {
   padding: 6px 10px;
   font-size: 12px;
   font-weight: 800;
-}
-
-.visibility-card {
-  margin-top: 12px;
-  border-radius: 18px;
-  overflow: hidden;
-}
-
-.visibility-row {
-  width: 100%;
-  align-items: center;
-  padding: 14px 0;
-  border-top: 1px solid var(--line);
-  text-align: left;
-}
-
-.visibility-row:first-child {
-  border-top: none;
-}
-
-.visibility-title,
-.visibility-desc {
-  display: block;
-}
-
-.visibility-title {
-  color: var(--text-main);
-  font-weight: 800;
-}
-
-.visibility-desc {
-  margin-top: 4px;
-  font-size: var(--text-sm);
-}
-
-.visibility-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 999px;
-  border: 2px solid #e0d7ca;
-}
-
-.visibility-row.active .visibility-dot {
-  border-color: var(--accent);
-  background: var(--accent);
-}
-
-.circle-picker-card {
-  margin-top: 14px;
-  border-radius: 16px;
-  background: #f7f4ef;
-  padding: 14px;
-}
-
-.circle-picker-head,
-.circle-chip-list {
-  display: flex;
-}
-
-.circle-picker-head {
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.circle-chip-list {
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.circle-chip {
-  border-radius: 999px;
-  background: #ebe4d8;
-  color: #6e6253;
-  padding: 8px 12px;
-  font-size: var(--text-xs);
-  font-weight: 800;
-}
-
-.circle-chip.active {
-  background: #9f5c38;
-  color: #fff;
 }
 
 .logout-section {

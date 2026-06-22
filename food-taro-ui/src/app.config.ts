@@ -13,6 +13,7 @@ export default defineAppConfig({
       pages: [
         'profile',
         'edit-profile',
+        'default-visibility',
         'edit-avatar',
         'notifications',
         'settings',

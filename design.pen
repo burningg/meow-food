@@ -18698,423 +18698,10 @@
           "children": [
             {
               "type": "frame",
-              "id": "Y8Hi7F",
-              "name": "Visibility Block",
+              "id": "uIcwi",
+              "name": "Quick Entry Stack",
               "width": "fill_container",
               "layout": "vertical",
-              "gap": 12,
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "Pok7I",
-                  "name": "Section Head",
-                  "width": "fill_container",
-                  "justifyContent": "space_between",
-                  "alignItems": "end",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "Q2Zw7Z",
-                      "name": "Section Title Stack",
-                      "layout": "vertical",
-                      "gap": 2,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "JSfCd",
-                          "name": "Section Eyebrow",
-                          "fill": "$text-muted",
-                          "content": "菜单权限",
-                          "fontFamily": "$font-body",
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "letterSpacing": 0.5
-                        },
-                        {
-                          "type": "text",
-                          "id": "dY0D9",
-                          "name": "Section Title",
-                          "fill": "$text-primary",
-                          "content": "菜单可见范围",
-                          "fontFamily": "$font-heading",
-                          "fontSize": 20,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "text",
-                      "id": "Ed6p0",
-                      "name": "Section Link",
-                      "fill": "$accent-primary",
-                      "content": "编辑",
-                      "fontFamily": "$font-body",
-                      "fontSize": 12,
-                      "fontWeight": "normal"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "tlcoV",
-                  "name": "Visibility Card",
-                  "width": 350,
-                  "fill": "#FFFFFF",
-                  "cornerRadius": 12,
-                  "layout": "vertical",
-                  "gap": 14,
-                  "padding": 16,
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "jnYUT",
-                      "name": "Visibility Desc",
-                      "fill": "#2F3437",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
-                      "content": "你可以决定哪些圈子能看到你的菜单。默认权限会作为新菜谱的初始权限。",
-                      "lineHeight": 1.5,
-                      "fontFamily": "Noto Sans SC",
-                      "fontSize": 13,
-                      "fontWeight": "normal"
-                    },
-                    {
-                      "type": "frame",
-                      "id": "PKb0J",
-                      "name": "Visibility List",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 12,
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "V3qsc",
-                          "name": "Visibility Row Public",
-                          "width": "fill_container",
-                          "justifyContent": "space_between",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "frame",
-                              "id": "ToNXi",
-                              "name": "Visibility Copy Public",
-                              "width": "fill_container",
-                              "layout": "vertical",
-                              "gap": 3,
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "VcwnM",
-                                  "name": "Visibility Name Public",
-                                  "fill": "#151515",
-                                  "content": "圈内公开",
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 14,
-                                  "fontWeight": "600"
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "dU5QF",
-                                  "name": "Visibility Meta Public",
-                                  "fill": "#787774",
-                                  "textGrowth": "fixed-width",
-                                  "width": "fill_container",
-                                  "content": "只要对方已经加入任意圈子，就能看到你的菜单。",
-                                  "lineHeight": 1.5,
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 12,
-                                  "fontWeight": "normal"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "frame",
-                              "id": "Z6gzQ",
-                              "name": "Visibility Dot Public",
-                              "width": 10,
-                              "height": 10,
-                              "fill": "#151515",
-                              "cornerRadius": 9999
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "I3Br1N",
-                          "name": "Visibility Divider 1",
-                          "width": "fill_container",
-                          "height": 1,
-                          "fill": "#ECE5DC"
-                        },
-                        {
-                          "type": "frame",
-                          "id": "ZGGsp",
-                          "name": "Visibility Row Circle",
-                          "width": "fill_container",
-                          "justifyContent": "space_between",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "frame",
-                              "id": "bD5cB",
-                              "name": "Visibility Copy Circle",
-                              "width": "fill_container",
-                              "layout": "vertical",
-                              "gap": 3,
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "V0GfR5",
-                                  "name": "Visibility Name Circle",
-                                  "fill": "#151515",
-                                  "content": "指定圈子",
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 14,
-                                  "fontWeight": "normal"
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "ycRW5",
-                                  "name": "Visibility Meta Circle",
-                                  "fill": "#787774",
-                                  "textGrowth": "fixed-width",
-                                  "width": "fill_container",
-                                  "content": "仅对你选中的圈子成员开放，可随时调整。",
-                                  "lineHeight": 1.5,
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 12,
-                                  "fontWeight": "normal"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "text",
-                              "id": "tA2Cu",
-                              "name": "Visibility State Circle",
-                              "fill": "#9F5C38",
-                              "content": "可切换",
-                              "fontFamily": "Noto Sans SC",
-                              "fontSize": 11,
-                              "fontWeight": "600"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "Ju2AZ",
-                          "name": "Visibility Divider 2",
-                          "width": "fill_container",
-                          "height": 1,
-                          "fill": "#ECE5DC"
-                        },
-                        {
-                          "type": "frame",
-                          "id": "g6Ic3Q",
-                          "name": "Visibility Row Private",
-                          "width": "fill_container",
-                          "justifyContent": "space_between",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "frame",
-                              "id": "h9SxQs",
-                              "name": "Visibility Copy Private",
-                              "width": "fill_container",
-                              "layout": "vertical",
-                              "gap": 3,
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "uasQQ",
-                                  "name": "Visibility Name Private",
-                                  "fill": "#151515",
-                                  "content": "仅自己可见",
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 14,
-                                  "fontWeight": "normal"
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "M97NNL",
-                                  "name": "Visibility Meta Private",
-                                  "fill": "#787774",
-                                  "textGrowth": "fixed-width",
-                                  "width": "fill_container",
-                                  "content": "只在你自己的菜单空间展示。",
-                                  "lineHeight": 1.5,
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 12,
-                                  "fontWeight": "normal"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "text",
-                              "id": "z4kP8",
-                              "name": "Visibility State Private",
-                              "fill": "#9F5C38",
-                              "content": "可切换",
-                              "fontFamily": "Noto Sans SC",
-                              "fontSize": 11,
-                              "fontWeight": "600"
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "TNOwd",
-                      "name": "Circle Picker Card",
-                      "width": "fill_container",
-                      "fill": "#F7F4EF",
-                      "cornerRadius": 12,
-                      "layout": "vertical",
-                      "gap": 12,
-                      "padding": 14,
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "Y8aFT",
-                          "name": "Circle Picker Head",
-                          "width": "fill_container",
-                          "justifyContent": "space_between",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "YdBLY",
-                              "name": "Circle Picker Title",
-                              "fill": "#151515",
-                              "content": "默认开放圈子",
-                              "fontFamily": "Noto Sans SC",
-                              "fontSize": 14,
-                              "fontWeight": "600"
-                            },
-                            {
-                              "type": "text",
-                              "id": "ggqxc",
-                              "name": "Circle Picker Meta",
-                              "fill": "#787774",
-                              "content": "2 个已选",
-                              "fontFamily": "Noto Sans SC",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "aET5r",
-                          "name": "Circle Picker Chips",
-                          "width": "fill_container",
-                          "gap": 8,
-                          "children": [
-                            {
-                              "type": "frame",
-                              "id": "F4LAR",
-                              "name": "Circle Chip Weekend",
-                              "fill": "#9F5C38",
-                              "cornerRadius": 9999,
-                              "padding": [
-                                8,
-                                12
-                              ],
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "zrcdK",
-                                  "name": "Circle Chip Weekend Text",
-                                  "fill": "#FFFFFF",
-                                  "content": "周末饭搭子",
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 12,
-                                  "fontWeight": "600"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "frame",
-                              "id": "dMfga",
-                              "name": "Circle Chip Light",
-                              "fill": "#E9E2D8",
-                              "cornerRadius": 9999,
-                              "padding": [
-                                8,
-                                12
-                              ],
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "g8ez0",
-                                  "name": "Circle Chip Light Text",
-                                  "fill": "#6C6257",
-                                  "content": "轻食研究所",
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 12,
-                                  "fontWeight": "600"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "frame",
-                              "id": "cNK2s",
-                              "name": "Circle Chip Night",
-                              "fill": "#E9E2D8",
-                              "cornerRadius": 9999,
-                              "padding": [
-                                8,
-                                12
-                              ],
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "a1zQbV",
-                                  "name": "Circle Chip Night Text",
-                                  "fill": "#6C6257",
-                                  "content": "深夜小灶",
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 12,
-                                  "fontWeight": "600"
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "gMcQe",
-                          "name": "Save Visibility Button",
-                          "width": "fill_container",
-                          "height": 46,
-                          "fill": "#9F5C38",
-                          "cornerRadius": 14,
-                          "justifyContent": "center",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "Y2f9hl",
-                              "name": "Save Visibility Button Text",
-                              "fill": "#FFF8EF",
-                              "content": "保存默认权限",
-                              "fontFamily": "Noto Sans SC",
-                              "fontSize": 14,
-                              "fontWeight": "600"
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "uIcwi",
-              "name": "Pet Feedback Row",
-              "width": "fill_container",
               "gap": 12,
               "children": [
                 {
@@ -19263,114 +18850,203 @@
                 },
                 {
                   "type": "frame",
-                  "id": "fsmaN",
-                  "name": "Feedback Block",
+                  "id": "Dz9xC",
+                  "name": "Default Visibility Entry Card",
                   "width": "fill_container",
-                  "layout": "vertical",
-                  "gap": 12,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "gap": 8,
+                  "padding": 12,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
                   "children": [
                     {
                       "type": "frame",
-                      "id": "rVZLo",
-                      "name": "Feedback Entry Card",
+                      "id": "w3wEp",
+                      "name": "Feedback Entry Left",
                       "width": "fill_container",
-                      "fill": "#FFFFFF",
-                      "cornerRadius": 12,
-                      "gap": 8,
-                      "padding": 12,
-                      "justifyContent": "space_between",
+                      "gap": 12,
                       "alignItems": "center",
                       "children": [
                         {
                           "type": "frame",
-                          "id": "HaTie",
-                          "name": "Feedback Entry Left",
-                          "width": "fill_container",
-                          "gap": 12,
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "frame",
-                              "id": "Ybk72",
-                              "name": "Feedback Icon Shell",
-                              "width": 36,
-                              "height": 36,
-                              "fill": "#EDF3EC",
-                              "cornerRadius": 10,
-                              "justifyContent": "center",
-                              "alignItems": "center",
-                              "children": [
-                                {
-                                  "type": "icon",
-                                  "id": "Zq8gk",
-                                  "name": "Feedback Icon",
-                                  "width": 18,
-                                  "height": 18,
-                                  "icon": "chat-circle-text",
-                                  "library": "phosphor",
-                                  "fill": "#346538"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "frame",
-                              "id": "S9Niph",
-                              "name": "Feedback Entry Copy",
-                              "width": "fill_container",
-                              "layout": "vertical",
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "E5bx8",
-                                  "name": "Feedback Entry Title",
-                                  "fill": "#151515",
-                                  "content": "意见反馈",
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 14,
-                                  "fontWeight": "600"
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "tsZsE",
-                                  "x": 0,
-                                  "y": 26,
-                                  "name": "Feedback Entry Subtitle",
-                                  "enabled": false,
-                                  "fill": "#787774",
-                                  "textGrowth": "fixed-width",
-                                  "width": 1,
-                                  "content": "遇到问题，或有想让我们改进的地方，都可以写给我们。",
-                                  "lineHeight": 1.45,
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 12,
-                                  "fontWeight": "normal"
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "Y3NpG",
-                          "name": "Feedback Arrow Shell",
-                          "width": 26,
-                          "height": 26,
-                          "fill": "#F7F4EF",
-                          "cornerRadius": 9999,
+                          "id": "r6toxV",
+                          "name": "Feedback Icon Shell",
+                          "width": 36,
+                          "height": 36,
+                          "fill": "#FFF0DE",
+                          "cornerRadius": 10,
                           "justifyContent": "center",
                           "alignItems": "center",
                           "children": [
                             {
                               "type": "icon",
-                              "id": "W59yd5",
-                              "name": "Feedback Arrow",
-                              "width": 15,
-                              "height": 15,
-                              "icon": "caret-right",
+                              "id": "tsIaI",
+                              "name": "Feedback Icon",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "sliders-horizontal",
                               "library": "phosphor",
                               "fill": "#9F5C38"
                             }
                           ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "HHZI3",
+                          "name": "Feedback Entry Copy",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "nFMdU",
+                              "name": "Feedback Entry Title",
+                              "fill": "#151515",
+                              "content": "默认权限",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "wWKO5",
+                              "name": "Feedback Entry Subtitle",
+                              "fill": "#787774",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "设置新菜谱默认向谁开放，也可以按圈子细分。",
+                              "lineHeight": 1.45,
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "G0J9X",
+                      "name": "Feedback Arrow Shell",
+                      "width": 26,
+                      "height": 26,
+                      "fill": "#F7F4EF",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "pXJvT",
+                          "name": "Feedback Arrow",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "caret-right",
+                          "library": "phosphor",
+                          "fill": "#9F5C38"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "rVZLo",
+                  "name": "Feedback Entry Card",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "gap": 8,
+                  "padding": 12,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "HaTie",
+                      "name": "Feedback Entry Left",
+                      "width": "fill_container",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Ybk72",
+                          "name": "Feedback Icon Shell",
+                          "width": 36,
+                          "height": 36,
+                          "fill": "#EDF3EC",
+                          "cornerRadius": 10,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "Zq8gk",
+                              "name": "Feedback Icon",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "chat-circle-text",
+                              "library": "phosphor",
+                              "fill": "#346538"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "S9Niph",
+                          "name": "Feedback Entry Copy",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "E5bx8",
+                              "name": "Feedback Entry Title",
+                              "fill": "#151515",
+                              "content": "意见反馈",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "tsZsE",
+                              "name": "Feedback Entry Subtitle",
+                              "fill": "#787774",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "遇到问题，或有想让我们改进的地方，都可以写给我们。",
+                              "lineHeight": 1.45,
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Y3NpG",
+                      "name": "Feedback Arrow Shell",
+                      "width": 26,
+                      "height": 26,
+                      "fill": "#F7F4EF",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "W59yd5",
+                          "name": "Feedback Arrow",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "caret-right",
+                          "library": "phosphor",
+                          "fill": "#9F5C38"
                         }
                       ]
                     }
@@ -19837,572 +19513,186 @@
           "children": [
             {
               "type": "frame",
-              "id": "im7yY",
-              "name": "Visibility Block",
+              "id": "vslnw",
+              "name": "Quick Entry Stack",
               "width": "fill_container",
               "layout": "vertical",
               "gap": 12,
               "children": [
                 {
                   "type": "frame",
-                  "id": "EHLZW",
-                  "name": "Section Head",
+                  "id": "fmdiW",
+                  "name": "Feedback Entry Card",
                   "width": "fill_container",
-                  "justifyContent": "space_between",
-                  "alignItems": "end",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "GnHDr",
-                      "name": "Section Title Stack",
-                      "layout": "vertical",
-                      "gap": 2,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "G5ofN",
-                          "name": "Section Eyebrow",
-                          "fill": "$text-muted",
-                          "content": "菜单权限",
-                          "fontFamily": "$font-body",
-                          "fontSize": 11,
-                          "fontWeight": "500",
-                          "letterSpacing": 0.5
-                        },
-                        {
-                          "type": "text",
-                          "id": "Gc6ve",
-                          "name": "Section Title",
-                          "fill": "$text-primary",
-                          "content": "菜单可见范围",
-                          "fontFamily": "$font-heading",
-                          "fontSize": 20,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "text",
-                      "id": "uSzry",
-                      "name": "Section Link",
-                      "fill": "$accent-primary",
-                      "content": "编辑",
-                      "fontFamily": "$font-body",
-                      "fontSize": 12,
-                      "fontWeight": "normal"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "x66zf",
-                  "name": "Visibility Card",
-                  "width": 350,
                   "fill": "#FFFFFF",
                   "cornerRadius": 12,
-                  "layout": "vertical",
-                  "gap": 14,
-                  "padding": 16,
+                  "gap": 8,
+                  "padding": 12,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
                   "children": [
                     {
-                      "type": "text",
-                      "id": "x7Q1yI",
-                      "name": "Visibility Desc",
-                      "fill": "#2F3437",
-                      "textGrowth": "fixed-width",
-                      "width": "fill_container",
-                      "content": "你可以决定哪些圈子能看到你的菜单。默认权限会作为新菜谱的初始权限。",
-                      "lineHeight": 1.5,
-                      "fontFamily": "Noto Sans SC",
-                      "fontSize": 13,
-                      "fontWeight": "normal"
-                    },
-                    {
                       "type": "frame",
-                      "id": "KpPQL",
-                      "name": "Visibility List",
+                      "id": "wmtE3",
+                      "name": "Feedback Entry Left",
                       "width": "fill_container",
-                      "layout": "vertical",
                       "gap": 12,
+                      "alignItems": "center",
                       "children": [
                         {
                           "type": "frame",
-                          "id": "M6tBK0",
-                          "name": "Visibility Row Public",
-                          "width": "fill_container",
-                          "justifyContent": "space_between",
+                          "id": "Wi6jk",
+                          "name": "Feedback Icon Shell",
+                          "width": 36,
+                          "height": 36,
+                          "fill": "#EDF3EC",
+                          "cornerRadius": 10,
+                          "justifyContent": "center",
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "frame",
-                              "id": "H8LtUI",
-                              "name": "Visibility Copy Public",
-                              "width": "fill_container",
-                              "layout": "vertical",
-                              "gap": 3,
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "FMCbt",
-                                  "name": "Visibility Name Public",
-                                  "fill": "#151515",
-                                  "content": "圈内公开",
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 14,
-                                  "fontWeight": "600"
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "CZqfj",
-                                  "name": "Visibility Meta Public",
-                                  "fill": "#787774",
-                                  "textGrowth": "fixed-width",
-                                  "width": "fill_container",
-                                  "content": "只要对方已经加入任意圈子，就能看到你的菜单。",
-                                  "lineHeight": 1.5,
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 12,
-                                  "fontWeight": "normal"
-                                }
-                              ]
-                            },
+                              "type": "icon",
+                              "id": "C1AiUs",
+                              "name": "Feedback Icon",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "chat-circle-text",
+                              "library": "phosphor",
+                              "fill": "#346538"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "V2vDz",
+                          "name": "Feedback Entry Copy",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "children": [
                             {
-                              "type": "frame",
-                              "id": "F4bgEX",
-                              "name": "Visibility Dot Public",
-                              "width": 10,
-                              "height": 10,
+                              "type": "text",
+                              "id": "c835f7",
+                              "name": "Feedback Entry Title",
                               "fill": "#151515",
-                              "cornerRadius": 9999
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "GZ9n9",
-                          "name": "Visibility Divider 1",
-                          "width": "fill_container",
-                          "height": 1,
-                          "fill": "#ECE5DC"
-                        },
-                        {
-                          "type": "frame",
-                          "id": "bHBk3",
-                          "name": "Visibility Row Circle",
-                          "width": "fill_container",
-                          "justifyContent": "space_between",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "frame",
-                              "id": "unJPm",
-                              "name": "Visibility Copy Circle",
-                              "width": "fill_container",
-                              "layout": "vertical",
-                              "gap": 3,
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "sr8Ep",
-                                  "name": "Visibility Name Circle",
-                                  "fill": "#151515",
-                                  "content": "指定圈子",
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 14,
-                                  "fontWeight": "normal"
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "fvAL7",
-                                  "name": "Visibility Meta Circle",
-                                  "fill": "#787774",
-                                  "textGrowth": "fixed-width",
-                                  "width": "fill_container",
-                                  "content": "仅对你选中的圈子成员开放，可随时调整。",
-                                  "lineHeight": 1.5,
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 12,
-                                  "fontWeight": "normal"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "text",
-                              "id": "slQM4",
-                              "name": "Visibility State Circle",
-                              "fill": "#9F5C38",
-                              "content": "可切换",
-                              "fontFamily": "Noto Sans SC",
-                              "fontSize": 11,
-                              "fontWeight": "600"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "l9mhCA",
-                          "name": "Visibility Divider 2",
-                          "width": "fill_container",
-                          "height": 1,
-                          "fill": "#ECE5DC"
-                        },
-                        {
-                          "type": "frame",
-                          "id": "QstG2",
-                          "name": "Visibility Row Private",
-                          "width": "fill_container",
-                          "justifyContent": "space_between",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "frame",
-                              "id": "FHevJ",
-                              "name": "Visibility Copy Private",
-                              "width": "fill_container",
-                              "layout": "vertical",
-                              "gap": 3,
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "T9wFS5",
-                                  "name": "Visibility Name Private",
-                                  "fill": "#151515",
-                                  "content": "仅自己可见",
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 14,
-                                  "fontWeight": "normal"
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "ETqdR",
-                                  "name": "Visibility Meta Private",
-                                  "fill": "#787774",
-                                  "textGrowth": "fixed-width",
-                                  "width": "fill_container",
-                                  "content": "只在你自己的菜单空间展示。",
-                                  "lineHeight": 1.5,
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 12,
-                                  "fontWeight": "normal"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "text",
-                              "id": "Hi2rq",
-                              "name": "Visibility State Private",
-                              "fill": "#9F5C38",
-                              "content": "可切换",
-                              "fontFamily": "Noto Sans SC",
-                              "fontSize": 11,
-                              "fontWeight": "600"
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "OG6pm",
-                      "name": "Circle Picker Card",
-                      "width": "fill_container",
-                      "fill": "#F7F4EF",
-                      "cornerRadius": 12,
-                      "layout": "vertical",
-                      "gap": 12,
-                      "padding": 14,
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "NSOvh",
-                          "name": "Circle Picker Head",
-                          "width": "fill_container",
-                          "justifyContent": "space_between",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "uPJok",
-                              "name": "Circle Picker Title",
-                              "fill": "#151515",
-                              "content": "默认开放圈子",
+                              "content": "意见反馈",
                               "fontFamily": "Noto Sans SC",
                               "fontSize": 14,
                               "fontWeight": "600"
                             },
                             {
                               "type": "text",
-                              "id": "B6ndlY",
-                              "name": "Circle Picker Meta",
+                              "id": "BQ3BD",
+                              "name": "Feedback Entry Subtitle",
                               "fill": "#787774",
-                              "content": "2 个已选",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "遇到问题，或有想让我们改进的地方，都可以写给我们。",
+                              "lineHeight": 1.45,
                               "fontFamily": "Noto Sans SC",
                               "fontSize": 12,
                               "fontWeight": "normal"
                             }
                           ]
-                        },
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "XWgKx",
+                      "name": "Feedback Arrow Shell",
+                      "width": 26,
+                      "height": 26,
+                      "fill": "#F7F4EF",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
                         {
-                          "type": "frame",
-                          "id": "EMLEj",
-                          "name": "Circle Picker Chips",
-                          "width": "fill_container",
-                          "gap": 8,
-                          "children": [
-                            {
-                              "type": "frame",
-                              "id": "AElUv",
-                              "name": "Circle Chip Weekend",
-                              "fill": "#9F5C38",
-                              "cornerRadius": 9999,
-                              "padding": [
-                                8,
-                                12
-                              ],
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "uHx72",
-                                  "name": "Circle Chip Weekend Text",
-                                  "fill": "#FFFFFF",
-                                  "content": "周末饭搭子",
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 12,
-                                  "fontWeight": "600"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "frame",
-                              "id": "bjC0G",
-                              "name": "Circle Chip Light",
-                              "fill": "#E9E2D8",
-                              "cornerRadius": 9999,
-                              "padding": [
-                                8,
-                                12
-                              ],
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "XTTua",
-                                  "name": "Circle Chip Light Text",
-                                  "fill": "#6C6257",
-                                  "content": "轻食研究所",
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 12,
-                                  "fontWeight": "600"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "frame",
-                              "id": "k33xHM",
-                              "name": "Circle Chip Night",
-                              "fill": "#E9E2D8",
-                              "cornerRadius": 9999,
-                              "padding": [
-                                8,
-                                12
-                              ],
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "LyeWP",
-                                  "name": "Circle Chip Night Text",
-                                  "fill": "#6C6257",
-                                  "content": "深夜小灶",
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 12,
-                                  "fontWeight": "600"
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "G54zYI",
-                          "name": "Save Visibility Button",
-                          "width": "fill_container",
-                          "height": 46,
-                          "fill": "#9F5C38",
-                          "cornerRadius": 14,
-                          "justifyContent": "center",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "VvQqi",
-                              "name": "Save Visibility Button Text",
-                              "fill": "#FFF8EF",
-                              "content": "保存默认权限",
-                              "fontFamily": "Noto Sans SC",
-                              "fontSize": 14,
-                              "fontWeight": "600"
-                            }
-                          ]
+                          "type": "icon",
+                          "id": "jm5bE",
+                          "name": "Feedback Arrow",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "caret-right",
+                          "library": "phosphor",
+                          "fill": "#9F5C38"
                         }
                       ]
                     }
                   ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "vslnw",
-              "name": "Feedback Block",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 12,
-              "children": [
+                },
                 {
                   "type": "frame",
-                  "id": "G7fZeY",
-                  "name": "Pet Feedback Row",
+                  "id": "y9U6l",
+                  "name": "Default Visibility Entry Card",
                   "width": "fill_container",
-                  "gap": 12,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "gap": 8,
+                  "padding": 12,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
                   "children": [
                     {
                       "type": "frame",
-                      "id": "TZxYQ",
-                      "name": "Pet Entry Card",
+                      "id": "Kh8jH",
+                      "name": "Feedback Entry Left",
                       "width": "fill_container",
-                      "fill": "#FFFFFF",
-                      "cornerRadius": 12,
-                      "gap": 8,
-                      "padding": 12,
-                      "justifyContent": "space_between",
+                      "gap": 12,
                       "alignItems": "center",
                       "children": [
                         {
                           "type": "frame",
-                          "id": "vgX6l",
-                          "name": "Pet Entry Left",
-                          "width": "fill_container",
-                          "gap": 12,
+                          "id": "coji1",
+                          "name": "Feedback Icon Shell",
+                          "width": 36,
+                          "height": 36,
+                          "fill": "#FFF0DE",
+                          "cornerRadius": 10,
+                          "justifyContent": "center",
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "frame",
-                              "id": "HJHyV",
-                              "name": "Pet Icon Shell",
-                              "width": 36,
-                              "height": 36,
-                              "fill": "#FFF0DE",
-                              "cornerRadius": 10,
-                              "justifyContent": "center",
-                              "alignItems": "center",
-                              "children": [
-                                {
-                                  "type": "icon",
-                                  "id": "eHaV3",
-                                  "name": "Pet Paw Icon",
-                                  "width": 18,
-                                  "height": 18,
-                                  "icon": "paw-print",
-                                  "library": "phosphor",
-                                  "fill": "#9F5C38"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "frame",
-                              "id": "iOMUj",
-                              "name": "Pet Entry Copy",
-                              "width": "fill_container",
-                              "layout": "vertical",
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "llt1a",
-                                  "name": "Pet Entry Title",
-                                  "fill": "#151515",
-                                  "content": "我的宠物",
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 14,
-                                  "fontWeight": "600"
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "DybmI",
-                                  "x": 0,
-                                  "y": 26,
-                                  "name": "Pet Entry Subtitle",
-                                  "enabled": false,
-                                  "fill": "#787774",
-                                  "textGrowth": "fixed-width",
-                                  "width": 1,
-                                  "content": "领取专属宠物，已领取可查看成长详情。",
-                                  "lineHeight": 1.45,
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 12,
-                                  "fontWeight": "normal"
-                                }
-                              ]
+                              "type": "icon",
+                              "id": "yOR1G",
+                              "name": "Feedback Icon",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "sliders-horizontal",
+                              "library": "phosphor",
+                              "fill": "#9F5C38"
                             }
                           ]
                         },
                         {
                           "type": "frame",
-                          "id": "XTVat",
-                          "name": "Pet Entry Action",
-                          "gap": 8,
-                          "alignItems": "center",
+                          "id": "Ol3jW",
+                          "name": "Feedback Entry Copy",
+                          "width": "fill_container",
+                          "layout": "vertical",
                           "children": [
                             {
-                              "type": "frame",
-                              "id": "EUFLy",
-                              "x": 0,
-                              "y": 0,
-                              "name": "Claim Pet Button",
-                              "enabled": false,
-                              "height": 30,
-                              "fill": "#9F5C38",
-                              "cornerRadius": 9999,
-                              "padding": [
-                                0,
-                                12
-                              ],
-                              "justifyContent": "center",
-                              "alignItems": "center",
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "uZAVK",
-                                  "name": "Claim Pet Button Text",
-                                  "fill": "#FFF8EF",
-                                  "content": "领取宠物",
-                                  "textAlign": "center",
-                                  "fontFamily": "Noto Sans SC",
-                                  "fontSize": 12,
-                                  "fontWeight": "600"
-                                }
-                              ]
+                              "type": "text",
+                              "id": "itinW",
+                              "name": "Feedback Entry Title",
+                              "fill": "#151515",
+                              "content": "默认权限",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 14,
+                              "fontWeight": "600"
                             },
                             {
-                              "type": "frame",
-                              "id": "yEjFl",
-                              "name": "Pet Arrow Shell",
-                              "width": 26,
-                              "height": 26,
-                              "fill": "#F7F4EF",
-                              "cornerRadius": 9999,
-                              "justifyContent": "center",
-                              "alignItems": "center",
-                              "children": [
-                                {
-                                  "type": "icon",
-                                  "id": "jKXRf",
-                                  "name": "Pet Arrow",
-                                  "width": 15,
-                                  "height": 15,
-                                  "icon": "caret-right",
-                                  "library": "phosphor",
-                                  "fill": "#9F5C38"
-                                }
-                              ]
+                              "type": "text",
+                              "id": "g7iAl",
+                              "name": "Feedback Entry Subtitle",
+                              "fill": "#787774",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "设置新菜谱默认向谁开放，也可以按圈子细分。",
+                              "lineHeight": 1.45,
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
                             }
                           ]
                         }
@@ -20410,116 +19700,24 @@
                     },
                     {
                       "type": "frame",
-                      "id": "AHwwh",
-                      "name": "Feedback Block",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 12,
+                      "id": "gqt9z",
+                      "name": "Feedback Arrow Shell",
+                      "width": 26,
+                      "height": 26,
+                      "fill": "#F7F4EF",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
                       "children": [
                         {
-                          "type": "frame",
-                          "id": "fmdiW",
-                          "name": "Feedback Entry Card",
-                          "width": "fill_container",
-                          "fill": "#FFFFFF",
-                          "cornerRadius": 12,
-                          "gap": 8,
-                          "padding": 12,
-                          "justifyContent": "space_between",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "frame",
-                              "id": "wmtE3",
-                              "name": "Feedback Entry Left",
-                              "width": "fill_container",
-                              "gap": 12,
-                              "alignItems": "center",
-                              "children": [
-                                {
-                                  "type": "frame",
-                                  "id": "Wi6jk",
-                                  "name": "Feedback Icon Shell",
-                                  "width": 36,
-                                  "height": 36,
-                                  "fill": "#EDF3EC",
-                                  "cornerRadius": 10,
-                                  "justifyContent": "center",
-                                  "alignItems": "center",
-                                  "children": [
-                                    {
-                                      "type": "icon",
-                                      "id": "C1AiUs",
-                                      "name": "Feedback Icon",
-                                      "width": 18,
-                                      "height": 18,
-                                      "icon": "chat-circle-text",
-                                      "library": "phosphor",
-                                      "fill": "#346538"
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "frame",
-                                  "id": "V2vDz",
-                                  "name": "Feedback Entry Copy",
-                                  "width": "fill_container",
-                                  "layout": "vertical",
-                                  "children": [
-                                    {
-                                      "type": "text",
-                                      "id": "c835f7",
-                                      "name": "Feedback Entry Title",
-                                      "fill": "#151515",
-                                      "content": "意见反馈",
-                                      "fontFamily": "Noto Sans SC",
-                                      "fontSize": 14,
-                                      "fontWeight": "600"
-                                    },
-                                    {
-                                      "type": "text",
-                                      "id": "BQ3BD",
-                                      "x": 0,
-                                      "y": 26,
-                                      "name": "Feedback Entry Subtitle",
-                                      "enabled": false,
-                                      "fill": "#787774",
-                                      "textGrowth": "fixed-width",
-                                      "width": 1,
-                                      "content": "遇到问题，或有想让我们改进的地方，都可以写给我们。",
-                                      "lineHeight": 1.45,
-                                      "fontFamily": "Noto Sans SC",
-                                      "fontSize": 12,
-                                      "fontWeight": "normal"
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
-                            {
-                              "type": "frame",
-                              "id": "XWgKx",
-                              "name": "Feedback Arrow Shell",
-                              "width": 26,
-                              "height": 26,
-                              "fill": "#F7F4EF",
-                              "cornerRadius": 9999,
-                              "justifyContent": "center",
-                              "alignItems": "center",
-                              "children": [
-                                {
-                                  "type": "icon",
-                                  "id": "jm5bE",
-                                  "name": "Feedback Arrow",
-                                  "width": 15,
-                                  "height": 15,
-                                  "icon": "caret-right",
-                                  "library": "phosphor",
-                                  "fill": "#9F5C38"
-                                }
-                              ]
-                            }
-                          ]
+                          "type": "icon",
+                          "id": "SIOeF",
+                          "name": "Feedback Arrow",
+                          "width": 15,
+                          "height": 15,
+                          "icon": "caret-right",
+                          "library": "phosphor",
+                          "fill": "#9F5C38"
                         }
                       ]
                     }
@@ -35792,6 +34990,569 @@
                           "icon": "caret-right",
                           "library": "phosphor",
                           "fill": "#7A9E7E"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "rNHFI",
+      "x": 16494.373812941696,
+      "y": 0,
+      "name": "Default Visibility Settings",
+      "clip": true,
+      "width": 390,
+      "height": 920,
+      "fill": "#F7F6F3",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "y0zg8E",
+          "name": "Status Bar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24,
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "uncRR",
+              "name": "Time",
+              "fill": "$text-primary",
+              "content": "9:41",
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "R7HG5b",
+              "name": "Status Right",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "mA1EV",
+                  "name": "Signal",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "cell-signal-full",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "gvyaJ",
+                  "name": "Wifi",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "wifi-high",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                },
+                {
+                  "type": "icon",
+                  "id": "M90OeY",
+                  "name": "Battery",
+                  "width": 22,
+                  "height": 16,
+                  "icon": "battery-full",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "iu0TM",
+          "name": "Top Nav",
+          "width": "fill_container",
+          "height": 60,
+          "padding": [
+            14,
+            20,
+            6,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Db5lY",
+              "name": "Back Shell",
+              "width": 36,
+              "height": 36,
+              "fill": "#FFFFFF",
+              "cornerRadius": 9999,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "dXM8s",
+                  "name": "Back Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "caret-left",
+                  "library": "phosphor",
+                  "fill": "#151515"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "P9Cv0u",
+              "name": "Title Wrap",
+              "layout": "vertical",
+              "gap": 3,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "qHROJ",
+                  "name": "Page Label",
+                  "fill": "#9F5C38",
+                  "content": "个人中心",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "YGxlP",
+                  "name": "Page Title",
+                  "fill": "#151515",
+                  "content": "默认权限",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "E5TiC",
+              "name": "Top Spacer",
+              "width": 36,
+              "height": 36
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "tQiCf",
+          "name": "Visibility Settings Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": [
+            12,
+            20,
+            24,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "PtdIw",
+              "name": "Visibility Intro Card",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 8,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "UKp9V",
+                  "name": "Visibility Intro Title",
+                  "fill": "#151515",
+                  "content": "决定新菜谱默认向谁开放",
+                  "fontFamily": "Noto Serif SC",
+                  "fontSize": 22,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "YP8Ne",
+                  "name": "Visibility Intro Body",
+                  "fill": "#787774",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "这里的选择会作为你发布新菜谱时的默认权限。你也可以按圈子细分开放范围。",
+                  "lineHeight": 1.55,
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Crx0L",
+              "name": "Visibility Settings Card",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 14,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "i8f9d8",
+                  "name": "Visibility Desc",
+                  "fill": "#2F3437",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "你可以决定哪些圈子能看到你的菜单。默认权限会作为新菜谱的初始权限。",
+                  "lineHeight": 1.5,
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "wa4sM",
+                  "name": "Visibility List",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "zjz4M",
+                      "name": "Visibility Row Public",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "H5aam",
+                          "name": "Visibility Copy Public",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 3,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "GT2P9",
+                              "name": "Visibility Name Public",
+                              "fill": "#151515",
+                              "content": "圈内公开",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "l6cOBb",
+                              "name": "Visibility Meta Public",
+                              "fill": "#787774",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "只要对方已经加入任意圈子，就能看到你的菜单。",
+                              "lineHeight": 1.5,
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "vRrAy",
+                          "name": "Visibility Dot Public",
+                          "width": 10,
+                          "height": 10,
+                          "fill": "#151515",
+                          "cornerRadius": 9999
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Jwxfw",
+                      "name": "Visibility Divider 1",
+                      "width": "fill_container",
+                      "height": 1,
+                      "fill": "#ECE5DC"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "wj2H8",
+                      "name": "Visibility Row Circle",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "zo0O2",
+                          "name": "Visibility Copy Circle",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 3,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "R3a1n4",
+                              "name": "Visibility Name Circle",
+                              "fill": "#151515",
+                              "content": "指定圈子",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "LI1kw",
+                              "name": "Visibility Meta Circle",
+                              "fill": "#787774",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "仅对你选中的圈子成员开放，可随时调整。",
+                              "lineHeight": 1.5,
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "Y3aq3",
+                          "name": "Visibility State Circle",
+                          "fill": "#9F5C38",
+                          "content": "可切换",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "RXO1y",
+                      "name": "Visibility Divider 2",
+                      "width": "fill_container",
+                      "height": 1,
+                      "fill": "#ECE5DC"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "AVtPF",
+                      "name": "Visibility Row Private",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "XLcEA",
+                          "name": "Visibility Copy Private",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 3,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "ieHOn",
+                              "name": "Visibility Name Private",
+                              "fill": "#151515",
+                              "content": "仅自己可见",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "H1zPSM",
+                              "name": "Visibility Meta Private",
+                              "fill": "#787774",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "只在你自己的菜单空间展示。",
+                              "lineHeight": 1.5,
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "vyNFN",
+                          "name": "Visibility State Private",
+                          "fill": "#9F5C38",
+                          "content": "可切换",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "a5OZ8X",
+                  "name": "Circle Picker Card",
+                  "width": "fill_container",
+                  "fill": "#F7F4EF",
+                  "cornerRadius": 12,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 14,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "btO1r",
+                      "name": "Circle Picker Head",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Z8Te3",
+                          "name": "Circle Picker Title",
+                          "fill": "#151515",
+                          "content": "默认开放圈子",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Xz9M7",
+                          "name": "Circle Picker Meta",
+                          "fill": "#787774",
+                          "content": "2 个已选",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "T0HiQ",
+                      "name": "Circle Picker Chips",
+                      "width": "fill_container",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "H7Q8k",
+                          "name": "Circle Chip Weekend",
+                          "fill": "#9F5C38",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            8,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "nY5Ka",
+                              "name": "Circle Chip Weekend Text",
+                              "fill": "#FFFFFF",
+                              "content": "周末饭搭子",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "MfNeE",
+                          "name": "Circle Chip Light",
+                          "fill": "#E9E2D8",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            8,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Gsdnk",
+                              "name": "Circle Chip Light Text",
+                              "fill": "#6C6257",
+                              "content": "轻食研究所",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ksP9F",
+                          "name": "Circle Chip Night",
+                          "fill": "#E9E2D8",
+                          "cornerRadius": 9999,
+                          "padding": [
+                            8,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "CXqRV",
+                              "name": "Circle Chip Night Text",
+                              "fill": "#6C6257",
+                              "content": "深夜小灶",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "H9byx",
+                      "name": "Save Visibility Button",
+                      "width": "fill_container",
+                      "height": 46,
+                      "fill": "#9F5C38",
+                      "cornerRadius": 14,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "H43YHS",
+                          "name": "Save Visibility Button Text",
+                          "fill": "#FFF8EF",
+                          "content": "保存默认权限",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 14,
+                          "fontWeight": "600"
                         }
                       ]
                     }
