@@ -21,6 +21,10 @@ export interface PetClaimRequest {
   name: string
 }
 
+export interface PetRenameRequest {
+  name: string
+}
+
 export class PetService {
   getMyPet() {
     return http.get<PetResponse>('/api/pets/me')
@@ -28,5 +32,9 @@ export class PetService {
 
   claimPet(data: PetClaimRequest) {
     return http.post<PetResponse>('/api/pets/claim', data)
+  }
+
+  renamePet(data: PetRenameRequest) {
+    return http.post<PetResponse>('/api/pets/rename', data)
   }
 }

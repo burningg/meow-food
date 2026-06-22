@@ -43,7 +43,7 @@
 
         <section class="section-card">
           <view class="section-head">
-            <text class="eyebrow">权限</text>
+            <text class="eyebrow">默认权限</text>
           </view>
           <article class="visibility-card">
             <button

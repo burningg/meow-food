@@ -11,7 +11,33 @@
         <view class="pet-soft-shadow"></view>
         <image class="detail-pet-image" :src="petDefinition.assets.normal" :svg="true" mode="aspectFit" />
         <view class="pet-name-panel">
-          <text class="detail-pet-name">{{ pet.name }}</text>
+          <template v-if="editingName">
+            <view class="pet-name-edit-card">
+              <input
+                v-model.trim="petNameDraft"
+                class="pet-name-edit-input"
+                maxlength="8"
+                :placeholder="pet.name || petDefinition.defaultName"
+                placeholder-class="pet-name-edit-placeholder"
+              />
+              <view class="pet-name-edit-actions">
+                <button class="pet-name-action ghost" :disabled="nameSaving" @tap="cancelNameEdit">
+                  <text class="pet-name-action-text ghost">取消</text>
+                </button>
+                <button class="pet-name-action primary" :disabled="nameSaving" @tap="savePetName">
+                  <text class="pet-name-action-text primary">{{ nameSaving ? '保存中...' : '保存' }}</text>
+                </button>
+              </view>
+            </view>
+          </template>
+          <template v-else>
+            <view class="pet-name-row">
+              <text class="detail-pet-name">{{ pet.name }}</text>
+              <button class="pet-name-edit-trigger" @tap="startNameEdit">
+                <text class="pet-name-edit-trigger-text">修改名称</text>
+              </button>
+            </view>
+          </template>
           <view class="breed-pill">
             <text class="breed-text">{{ pet.petTypeName || petDefinition.label }}</text>
           </view>
@@ -193,6 +219,9 @@ const socialService = new SocialService()
 const DEFAULT_HEALTH_ADVICE = '荤素搭配'
 const pet = ref<PetResponse | null>(null)
 const loading = ref(true)
+const editingName = ref(false)
+const nameSaving = ref(false)
+const petNameDraft = ref('')
 const plannerVisible = ref(false)
 const plannerOptionsLoading = ref(false)
 const plannerOptionsLoaded = ref(false)
@@ -251,6 +280,9 @@ async function loadPet() {
   try {
     const { data } = await petService.getMyPet()
     pet.value = data
+    // 每次重新拉取宠物信息时同步草稿，避免保存后或页面回显时显示旧名字。
+    petNameDraft.value = data.name || ''
+    editingName.value = false
     if (!data.claimed) {
       await replace('pet-adoption')
     }
@@ -258,6 +290,47 @@ async function loadPet() {
     Message.error(error?.response?.data?.message || '宠物状态加载失败')
   } finally {
     loading.value = false
+  }
+}
+
+function startNameEdit() {
+  petNameDraft.value = pet.value?.name || ''
+  editingName.value = true
+}
+
+function cancelNameEdit() {
+  if (nameSaving.value) return
+  petNameDraft.value = pet.value?.name || ''
+  editingName.value = false
+}
+
+async function savePetName() {
+  const name = petNameDraft.value.trim()
+  if (!name) {
+    Message.error('请给宠物起个名字')
+    return
+  }
+  if (Array.from(name).length > 8) {
+    Message.error('宠物名字最多 8 个字')
+    return
+  }
+  if (!pet.value?.id || nameSaving.value) return
+  if (name === pet.value.name) {
+    editingName.value = false
+    return
+  }
+
+  nameSaving.value = true
+  try {
+    const { data } = await petService.renamePet({ name })
+    pet.value = data
+    petNameDraft.value = data.name || ''
+    editingName.value = false
+    Message.success('宠物名称已更新')
+  } catch (error: any) {
+    Message.error(error?.response?.data?.message || '宠物名称保存失败')
+  } finally {
+    nameSaving.value = false
   }
 }
 
@@ -447,6 +520,7 @@ function parseDateKey(value: string) {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  max-width: calc(100% - 36px);
 }
 
 .detail-pet-name,
@@ -454,6 +528,98 @@ function parseDateKey(value: string) {
   color: #1b3a2d;
   font-size: 30px;
   font-weight: 800;
+}
+
+.pet-name-row,
+.pet-name-edit-actions {
+  display: flex;
+  align-items: center;
+}
+
+.pet-name-row {
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pet-name-edit-card {
+  display: flex;
+  width: min(220px, calc(100vw - 72px));
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pet-name-edit-input {
+  width: 100%;
+  height: 38px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 0 12px;
+  box-sizing: border-box;
+  color: #1b3a2d;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.pet-name-edit-placeholder {
+  color: #94a097;
+}
+
+.pet-name-edit-actions {
+  gap: 8px;
+}
+
+.pet-name-edit-trigger,
+.pet-name-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.pet-name-edit-trigger {
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(52, 101, 56, 0.12);
+  padding: 0 10px;
+}
+
+.pet-name-edit-trigger-text {
+  color: #346538;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.pet-name-action {
+  flex: 1;
+  height: 32px;
+  border-radius: 999px;
+}
+
+.pet-name-action.ghost {
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.pet-name-action.primary {
+  background: #346538;
+}
+
+.pet-name-action[disabled] {
+  opacity: 0.6;
+}
+
+.pet-name-action-text {
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.pet-name-action-text.ghost {
+  color: #5b4a39;
+}
+
+.pet-name-action-text.primary {
+  color: #fff;
 }
 
 .breed-pill,

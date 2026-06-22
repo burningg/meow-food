@@ -3,6 +3,7 @@ package com.panghu.food.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.panghu.food.auth.AuthContext;
 import com.panghu.food.dto.PetClaimRequest;
+import com.panghu.food.dto.PetRenameRequest;
 import com.panghu.food.dto.PetResponse;
 import com.panghu.food.entity.UserPet;
 import com.panghu.food.exception.ApiException;
@@ -107,13 +108,7 @@ public class PetServiceImpl implements PetService {
             throw new ApiException(HttpStatus.BAD_REQUEST, "暂不支持这个宠物");
         }
 
-        String name = normalizeName(request == null ? null : request.getName());
-        if (name.isEmpty()) {
-            throw new ApiException(HttpStatus.BAD_REQUEST, "请给宠物起个名字");
-        }
-        if (name.codePointCount(0, name.length()) > 8) {
-            throw new ApiException(HttpStatus.BAD_REQUEST, "宠物名字最多 8 个字");
-        }
+        String name = validateName(request == null ? null : request.getName());
 
         LocalDateTime now = LocalDateTime.now(clock);
         UserPet pet = new UserPet();
@@ -124,6 +119,21 @@ public class PetServiceImpl implements PetService {
         pet.setCreatedAt(now);
         pet.setUpdatedAt(now);
         userPetMapper.insert(pet);
+        return buildPetResponse(userId, pet);
+    }
+
+    @Override
+    @Transactional
+    public PetResponse renamePet(PetRenameRequest request) {
+        String userId = AuthContext.requireUserId();
+        UserPet pet = findUserPet(userId);
+        if (pet == null) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "你还没有领取宠物");
+        }
+
+        pet.setName(validateName(request == null ? null : request.getName()));
+        pet.setUpdatedAt(LocalDateTime.now(clock));
+        userPetMapper.updateById(pet);
         return buildPetResponse(userId, pet);
     }
 
@@ -195,6 +205,17 @@ public class PetServiceImpl implements PetService {
 
     private String normalizeName(String value) {
         return value == null ? "" : value.trim();
+    }
+
+    private String validateName(String value) {
+        String name = normalizeName(value);
+        if (name.isEmpty()) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "请给宠物起个名字");
+        }
+        if (name.codePointCount(0, name.length()) > 8) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "宠物名字最多 8 个字");
+        }
+        return name;
     }
 
     private record PetDefinition(String name) {

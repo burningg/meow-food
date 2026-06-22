@@ -2,6 +2,7 @@ package com.panghu.food.service;
 
 import com.panghu.food.auth.AuthContext;
 import com.panghu.food.dto.PetClaimRequest;
+import com.panghu.food.dto.PetRenameRequest;
 import com.panghu.food.dto.PetResponse;
 import com.panghu.food.entity.UserPet;
 import com.panghu.food.exception.ApiException;
@@ -23,6 +24,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.when;
 
 class PetServiceImplTest {
@@ -149,6 +151,49 @@ class PetServiceImplTest {
                 "owner",
                 LocalDate.of(2026, 6, 6),
                 LocalDate.of(2026, 6, 20));
+    }
+
+    @Test
+    void renamePetUpdatesName() {
+        AuthContext.setUserId("owner");
+        when(userPetMapper.selectOne(any())).thenReturn(pet("pet-1", "owner", "tabby_cat", "饭团"));
+        when(circlePlanMapper.countRecipesCreatedByUserInPlanDateRange(any(), any(), any())).thenReturn(0L);
+
+        PetRenameRequest request = new PetRenameRequest();
+        request.setName("年糕");
+
+        PetResponse response = petService.renamePet(request);
+
+        assertThat(response.getName()).isEqualTo("年糕");
+        verify(userPetMapper).updateById(any(UserPet.class));
+    }
+
+    @Test
+    void renamePetRejectsWhenUserHasNoPet() {
+        AuthContext.setUserId("owner");
+        when(userPetMapper.selectOne(any())).thenReturn(null);
+
+        PetRenameRequest request = new PetRenameRequest();
+        request.setName("年糕");
+
+        assertThatThrownBy(() -> petService.renamePet(request))
+                .isInstanceOf(ApiException.class)
+                .hasMessageContaining("你还没有领取宠物");
+        verify(userPetMapper, never()).updateById(any(UserPet.class));
+    }
+
+    @Test
+    void renamePetRejectsTooLongName() {
+        AuthContext.setUserId("owner");
+        when(userPetMapper.selectOne(any())).thenReturn(pet("pet-1", "owner", "tabby_cat", "饭团"));
+
+        PetRenameRequest request = new PetRenameRequest();
+        request.setName("一二三四五六七八九");
+
+        assertThatThrownBy(() -> petService.renamePet(request))
+                .isInstanceOf(ApiException.class)
+                .hasMessageContaining("宠物名字最多 8 个字");
+        verify(userPetMapper, never()).updateById(any(UserPet.class));
     }
 
     private UserPet pet(String id, String userId, String petType, String name) {

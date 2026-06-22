@@ -1,6 +1,7 @@
 package com.panghu.food.web;
 
 import com.panghu.food.dto.PetClaimRequest;
+import com.panghu.food.dto.PetRenameRequest;
 import com.panghu.food.dto.PetResponse;
 import com.panghu.food.service.PetService;
 import org.springframework.http.ResponseEntity;
@@ -27,5 +28,10 @@ public class PetController {
     @PostMapping("/claim")
     public ResponseEntity<PetResponse> claimPet(@RequestBody PetClaimRequest request) {
         return ResponseEntity.ok(petService.claimPet(request));
+    }
+
+    @PostMapping("/rename")
+    public ResponseEntity<PetResponse> renamePet(@RequestBody PetRenameRequest request) {
+        return ResponseEntity.ok(petService.renamePet(request));
     }
 }

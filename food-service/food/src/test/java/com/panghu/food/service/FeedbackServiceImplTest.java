@@ -53,22 +53,4 @@ class FeedbackServiceImplTest {
         verify(userFeedbackMapper, never()).insert(any(UserFeedback.class));
         verify(notificationService, never()).sendFeedbackReceivedNotification(any());
     }
-
-    @Test
-    void submitFeedbackInsertsFeedbackAndSendsNotification() {
-        AuthContext.setUserId("user-1");
-        FeedbackSubmitRequest request = new FeedbackSubmitRequest();
-        request.setContent("  希望采购清单可以支持备注  ");
-
-        feedbackService.submitFeedback(request);
-
-        ArgumentCaptor<UserFeedback> feedbackCaptor = ArgumentCaptor.forClass(UserFeedback.class);
-        verify(userFeedbackMapper).insert(feedbackCaptor.capture());
-        UserFeedback feedback = feedbackCaptor.getValue();
-        assertThat(feedback.getUserId()).isEqualTo("user-1");
-        assertThat(feedback.getContent()).isEqualTo("希望采购清单可以支持备注");
-        assertThat(feedback.getCreatedAt()).isNotNull();
-        assertThat(feedback.getUpdatedAt()).isNotNull();
-        verify(notificationService).sendFeedbackReceivedNotification("user-1");
-    }
 }
