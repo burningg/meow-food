@@ -12,6 +12,7 @@ import com.panghu.food.dto.PlanDayPlansResponse;
 import com.panghu.food.dto.PlanDetailResponse;
 import com.panghu.food.dto.PlanMonthResponse;
 import com.panghu.food.dto.PlanRecipesUpdateRequest;
+import com.panghu.food.dto.PlanRecipeCandidatesResponse;
 import com.panghu.food.dto.PlanShoppingItemResponse;
 import com.panghu.food.dto.PlanShoppingItemSourceResponse;
 import com.panghu.food.dto.PlanShoppingListResponse;
@@ -56,6 +57,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -110,7 +112,13 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
-    public PlanMonthResponse getPlans(String month) {
+    public PlanMonthResponse getPlans(String month, String sharedPlanId, String shareToken) {
+        String normalizedSharedPlanId = normalizeOptionalId(sharedPlanId);
+        String normalizedShareToken = normalizeOptionalId(shareToken);
+        if (normalizedSharedPlanId != null && normalizedShareToken != null) {
+            return buildSharedPlanMonth(normalizedSharedPlanId, normalizedShareToken, month);
+        }
+
         String currentUserId = AuthContext.requireUserId();
         YearMonth targetMonth = parseMonth(month);
         List<String> circleIds = getMemberCircleIds(currentUserId);
@@ -131,7 +139,9 @@ public class PlanServiceImpl implements PlanService {
         PlanSummaryContext summaryContext = loadPlanSummaryContext(plans);
         Map<LocalDate, List<PlanSummaryResponse>> byDate = new LinkedHashMap<>();
         for (CirclePlan plan : plans) {
-            byDate.computeIfAbsent(plan.getPlanDate(), key -> new ArrayList<>()).add(buildPlanSummary(plan, summaryContext));
+            BuddyCircle circle = summaryContext.circlesById().get(plan.getCircleId());
+            PlanAccessContext accessContext = buildMemberAccessContext(plan, circle, currentUserId);
+            byDate.computeIfAbsent(plan.getPlanDate(), key -> new ArrayList<>()).add(buildPlanSummary(plan, summaryContext, accessContext));
         }
         response.setDays(byDate.entrySet().stream().map(entry -> {
             PlanDayPlansResponse day = new PlanDayPlansResponse();
@@ -158,11 +168,12 @@ public class PlanServiceImpl implements PlanService {
         plan.setPlanDate(planDate);
         plan.setTitle(normalizeTitle(request.getTitle()));
         plan.setCreatorUserId(currentUserId);
+        plan.setShareToken(generateShareToken());
         plan.setShoppingStatus(CirclePlan.SHOPPING_STATUS_NOT_STARTED);
         plan.setCreatedAt(LocalDateTime.now());
         plan.setUpdatedAt(LocalDateTime.now());
         circlePlanMapper.insert(plan);
-        return buildPlanDetail(plan, circle);
+        return buildPlanDetail(plan, circle, buildMemberAccessContext(plan, circle, currentUserId));
     }
 
     @Override
@@ -240,18 +251,19 @@ public class PlanServiceImpl implements PlanService {
         plan.setPlanDate(planDate);
         plan.setTitle(normalizeTitle(request == null ? null : request.getTitle()));
         plan.setCreatorUserId(currentUserId);
+        plan.setShareToken(generateShareToken());
         plan.setShoppingStatus(CirclePlan.SHOPPING_STATUS_NOT_STARTED);
         plan.setCreatedAt(LocalDateTime.now());
         plan.setUpdatedAt(LocalDateTime.now());
         circlePlanMapper.insert(plan);
         insertPlanRecipes(plan.getId(), dishIds, currentUserId);
-        return buildPlanDetail(plan, circle);
+        return buildPlanDetail(plan, circle, buildMemberAccessContext(plan, circle, currentUserId));
     }
 
     @Override
-    public PlanDetailResponse getPlanDetail(String planId) {
-        PlanContext context = requirePlanContext(planId, AuthContext.requireUserId());
-        return buildPlanDetail(context.plan(), context.circle());
+    public PlanDetailResponse getPlanDetail(String planId, String shareToken) {
+        PlanAccessContext context = requirePlanAccess(planId, shareToken);
+        return buildPlanDetail(context.plan(), context.circle(), context);
     }
 
     @Override
@@ -269,9 +281,44 @@ public class PlanServiceImpl implements PlanService {
 
     @Override
     @Transactional
-    public PlanDetailResponse addRecipes(String planId, PlanRecipesUpdateRequest request) {
+    public PlanRecipeCandidatesResponse getRecipeCandidates(String planId, String shareToken) {
+        String currentUserId = AuthContext.getUserId();
+        PlanAccessContext context = requirePlanAccess(planId, shareToken);
+        List<DishSummaryResponse> candidates;
+        String sourceLabel;
+        if (context.viewerIsCircleMember()) {
+            candidates = loadCircleVisibleDishes(context.circle().getId(), currentUserId);
+            sourceLabel = "圈内共享菜谱";
+        } else if (currentUserId != null) {
+            candidates = loadViewerOwnedDishes(currentUserId);
+            sourceLabel = "我的菜谱";
+        } else {
+            // 分享访客未登录时也能先浏览待选菜单，真正加入计划时再要求登录。
+            candidates = loadCircleVisibleDishes(context.circle().getId(), null);
+            sourceLabel = "圈内共享菜谱";
+        }
+        Set<String> existingDishIds = loadPlanRecipeRelations(context.plan().getId()).stream()
+                .map(CirclePlanRecipe::getDishId)
+                .collect(Collectors.toSet());
+
+        PlanRecipeCandidatesResponse response = new PlanRecipeCandidatesResponse();
+        response.setViewerCanAddRecipes(context.viewerCanAddRecipes());
+        response.setViewerIsCircleMember(context.viewerIsCircleMember());
+        response.setSourceLabel(sourceLabel);
+        response.setRecipes(candidates.stream()
+                .filter(item -> !existingDishIds.contains(item.getId()))
+                .collect(Collectors.toList()));
+        return response;
+    }
+
+    @Override
+    @Transactional
+    public PlanDetailResponse addRecipes(String planId, PlanRecipesUpdateRequest request, String shareToken) {
         String currentUserId = AuthContext.requireUserId();
-        PlanContext context = requirePlanContext(planId, currentUserId);
+        PlanAccessContext context = requirePlanAccess(planId, shareToken);
+        if (!context.viewerCanAddRecipes()) {
+            throw new ApiException(HttpStatus.FORBIDDEN, "当前分享仅支持查看");
+        }
         List<String> dishIds = normalizeIds(request == null ? null : request.getDishIds());
         if (dishIds.isEmpty()) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "请至少选择一道菜谱");
@@ -289,7 +336,9 @@ public class PlanServiceImpl implements PlanService {
                 .collect(Collectors.toList());
         Map<String, DishSummaryResponse> candidateById = pendingDishIds.isEmpty()
                 ? Collections.emptyMap()
-                : loadCircleVisibleDishes(context.circle().getId(), currentUserId).stream()
+                : (context.viewerIsCircleMember()
+                ? loadCircleVisibleDishes(context.circle().getId(), currentUserId)
+                : loadViewerOwnedDishes(currentUserId)).stream()
                 .collect(Collectors.toMap(DishSummaryResponse::getId, item -> item));
 
         for (String dishId : dishIds) {
@@ -309,7 +358,7 @@ public class PlanServiceImpl implements PlanService {
         }
 
         synchronizeShoppingListIfExists(context.plan(), currentUserId);
-        return buildPlanDetail(context.plan(), context.circle());
+        return buildPlanDetail(context.plan(), context.circle(), context);
     }
 
     @Override
@@ -339,7 +388,7 @@ public class PlanServiceImpl implements PlanService {
             recipe.setSort(i + 1);
             circlePlanRecipeMapper.updateById(recipe);
         }
-        return buildPlanDetail(context.plan(), context.circle());
+        return buildPlanDetail(context.plan(), context.circle(), buildMemberAccessContext(context.plan(), context.circle(), currentUserId));
     }
 
     @Override
@@ -353,7 +402,7 @@ public class PlanServiceImpl implements PlanService {
                 .eq("plan_id", context.plan().getId())
                 .eq("dish_id", normalizedDishId));
         synchronizeShoppingListIfExists(context.plan(), currentUserId);
-        return buildPlanDetail(context.plan(), context.circle());
+        return buildPlanDetail(context.plan(), context.circle(), buildMemberAccessContext(context.plan(), context.circle(), currentUserId));
     }
 
     @Override
@@ -530,7 +579,7 @@ public class PlanServiceImpl implements PlanService {
         }
     }
 
-    private PlanDetailResponse buildPlanDetail(CirclePlan plan, BuddyCircle circle) {
+    private PlanDetailResponse buildPlanDetail(CirclePlan plan, BuddyCircle circle, PlanAccessContext accessContext) {
         PlanDetailResponse response = new PlanDetailResponse();
         response.setId(plan.getId());
         response.setTitle(plan.getTitle());
@@ -540,6 +589,12 @@ public class PlanServiceImpl implements PlanService {
         UserAccount creator = userAccountMapper.selectById(plan.getCreatorUserId());
         response.setCreatorUserId(plan.getCreatorUserId());
         response.setCreatorNickname(creator == null ? "" : creator.getNickname());
+        response.setShareToken(plan.getShareToken());
+        response.setSharedView(accessContext.sharedView());
+        response.setViewerCanDelete(accessContext.viewerCanDelete());
+        response.setViewerCanAddRecipes(accessContext.viewerCanAddRecipes());
+        response.setViewerCanManageRecipes(accessContext.viewerCanManageRecipes());
+        response.setViewerCanUseShopping(accessContext.viewerCanUseShopping());
         List<DishSummaryResponse> recipes = loadPlanRecipes(plan.getId());
         response.setRecipes(recipes);
 
@@ -553,10 +608,10 @@ public class PlanServiceImpl implements PlanService {
     }
 
     private PlanSummaryResponse buildPlanSummary(CirclePlan plan) {
-        return buildPlanSummary(plan, loadPlanSummaryContext(List.of(plan)));
+        return buildPlanSummary(plan, loadPlanSummaryContext(List.of(plan)), buildReadOnlyAccessContext(plan));
     }
 
-    private PlanSummaryResponse buildPlanSummary(CirclePlan plan, PlanSummaryContext context) {
+    private PlanSummaryResponse buildPlanSummary(CirclePlan plan, PlanSummaryContext context, PlanAccessContext accessContext) {
         PlanSummaryResponse response = new PlanSummaryResponse();
         response.setId(plan.getId());
         response.setTitle(plan.getTitle());
@@ -567,6 +622,12 @@ public class PlanServiceImpl implements PlanService {
         response.setCreatorUserId(plan.getCreatorUserId());
         UserAccount creator = context.usersById().get(plan.getCreatorUserId());
         response.setCreatorNickname(creator == null ? "" : creator.getNickname());
+        response.setShareToken(plan.getShareToken());
+        response.setSharedView(accessContext.sharedView());
+        response.setViewerCanDelete(accessContext.viewerCanDelete());
+        response.setViewerCanAddRecipes(accessContext.viewerCanAddRecipes());
+        response.setViewerCanManageRecipes(accessContext.viewerCanManageRecipes());
+        response.setViewerCanUseShopping(accessContext.viewerCanUseShopping());
         response.setRecipeCount(context.recipeCountByPlanId().getOrDefault(plan.getId(), 0L).intValue());
 
         ShoppingSummary shoppingSummary = context.shoppingSummaryByPlanId()
@@ -915,6 +976,16 @@ public class PlanServiceImpl implements PlanService {
                 .collect(Collectors.toList());
     }
 
+    private List<DishSummaryResponse> loadViewerOwnedDishes(String viewerUserId) {
+        List<DishSummaryResponse> dishes = dishMapper.selectByOwnerUserId(viewerUserId);
+        menuVisibilitySupport.hydrateSummaries(dishes);
+        hydrateIngredientNames(dishes);
+        return dishes.stream()
+                .sorted(Comparator.comparing(DishSummaryResponse::getCreatedAt,
+                        Comparator.nullsLast(Comparator.reverseOrder())))
+                .collect(Collectors.toList());
+    }
+
     private void hydrateIngredientNames(List<DishSummaryResponse> dishes) {
         List<String> dishIds = dishes.stream()
                 .map(DishSummaryResponse::getId)
@@ -989,6 +1060,84 @@ public class PlanServiceImpl implements PlanService {
         return CirclePlan.SHOPPING_STATUS_PARTIALLY_PURCHASED;
     }
 
+    private PlanMonthResponse buildSharedPlanMonth(String planId, String shareToken, String month) {
+        PlanAccessContext context = requirePlanAccess(planId, shareToken);
+        YearMonth targetMonth = parseMonth(month);
+        PlanMonthResponse response = new PlanMonthResponse();
+        response.setMonth(targetMonth.toString());
+        if (context.plan().getPlanDate() == null || !YearMonth.from(context.plan().getPlanDate()).equals(targetMonth)) {
+            return response;
+        }
+
+        PlanSummaryContext summaryContext = loadPlanSummaryContext(List.of(context.plan()));
+        PlanDayPlansResponse day = new PlanDayPlansResponse();
+        day.setDate(context.plan().getPlanDate());
+        day.setPlans(List.of(buildPlanSummary(context.plan(), summaryContext, context)));
+        response.setDays(List.of(day));
+        return response;
+    }
+
+    private PlanAccessContext requirePlanAccess(String planId, String shareToken) {
+        CirclePlan plan = circlePlanMapper.selectById(planId);
+        if (plan == null) {
+            throw new ApiException(HttpStatus.NOT_FOUND, "计划不存在");
+        }
+        BuddyCircle circle = buddyCircleMapper.selectById(plan.getCircleId());
+        if (circle == null) {
+            throw new ApiException(HttpStatus.NOT_FOUND, "搭子圈不存在");
+        }
+
+        String currentUserId = AuthContext.getUserId();
+        boolean viewerIsCircleMember = isCircleMember(circle.getId(), currentUserId);
+        if (viewerIsCircleMember) {
+            return buildMemberAccessContext(plan, circle, currentUserId);
+        }
+
+        String normalizedShareToken = normalizeOptionalId(shareToken);
+        if (normalizedShareToken == null || !Objects.equals(normalizedShareToken, plan.getShareToken())) {
+            throw new ApiException(HttpStatus.FORBIDDEN, "暂无访问权限");
+        }
+
+        boolean viewerCanAddRecipes = currentUserId != null;
+        return new PlanAccessContext(
+                plan,
+                circle,
+                true,
+                false,
+                viewerCanAddRecipes,
+                false,
+                false,
+                currentUserId,
+                false);
+    }
+
+    private PlanAccessContext buildMemberAccessContext(CirclePlan plan, BuddyCircle circle, String currentUserId) {
+        boolean creator = currentUserId != null && Objects.equals(plan.getCreatorUserId(), currentUserId);
+        return new PlanAccessContext(
+                plan,
+                circle,
+                false,
+                creator,
+                true,
+                true,
+                true,
+                currentUserId,
+                true);
+    }
+
+    private PlanAccessContext buildReadOnlyAccessContext(CirclePlan plan) {
+        return new PlanAccessContext(
+                plan,
+                null,
+                false,
+                false,
+                false,
+                false,
+                false,
+                null,
+                false);
+    }
+
     private PlanContext requirePlanContext(String planId, String userId) {
         CirclePlan plan = circlePlanMapper.selectById(planId);
         if (plan == null) {
@@ -1010,6 +1159,15 @@ public class PlanServiceImpl implements PlanService {
             throw new ApiException(HttpStatus.FORBIDDEN, "你还不在这个搭子圈里");
         }
         return circle;
+    }
+
+    private boolean isCircleMember(String circleId, String userId) {
+        if (userId == null || userId.isBlank()) {
+            return false;
+        }
+        return buddyCircleMemberMapper.selectCount(new QueryWrapper<BuddyCircleMember>()
+                .eq("circle_id", circleId)
+                .eq("user_id", userId)) > 0;
     }
 
     private List<String> getMemberCircleIds(String userId) {
@@ -1078,6 +1236,13 @@ public class PlanServiceImpl implements PlanService {
         return value.trim();
     }
 
+    private String normalizeOptionalId(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            return null;
+        }
+        return value.trim();
+    }
+
     private String normalizeAiTitle(String title, String mealTypeLabel, LocalDate planDate) {
         String normalized = normalizeOptional(title, formatShortDate(planDate) + " " + mealTypeLabel + "排菜");
         if (normalized.length() <= 40) {
@@ -1098,6 +1263,10 @@ public class PlanServiceImpl implements PlanService {
             throw new ApiException(HttpStatus.BAD_REQUEST, message);
         }
         return value.trim();
+    }
+
+    private String generateShareToken() {
+        return UUID.randomUUID().toString().replace("-", "");
     }
 
     private List<String> normalizeIds(Collection<String> ids) {
@@ -1141,6 +1310,18 @@ public class PlanServiceImpl implements PlanService {
     }
 
     private record PlanContext(CirclePlan plan, BuddyCircle circle) {
+    }
+
+    private record PlanAccessContext(
+            CirclePlan plan,
+            BuddyCircle circle,
+            boolean sharedView,
+            boolean viewerCanDelete,
+            boolean viewerCanAddRecipes,
+            boolean viewerCanManageRecipes,
+            boolean viewerCanUseShopping,
+            String viewerUserId,
+            boolean viewerIsCircleMember) {
     }
 
     private record PlanSummaryContext(

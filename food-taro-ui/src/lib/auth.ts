@@ -3,7 +3,7 @@ import { currentPageUrl, replace, type RouteName } from './navigation'
 
 let restored = false
 
-export async function requireAuth(currentRoute: RouteName) {
+export async function requireAuth(currentRoute: RouteName, redirectPath = currentPageUrl()) {
   const authStore = useAuthStore()
   if (!restored) {
     restored = true
@@ -13,7 +13,7 @@ export async function requireAuth(currentRoute: RouteName) {
     await replace({
       name: 'login',
       query: {
-        redirect: currentPageUrl(),
+        redirect: redirectPath,
         from: currentRoute,
       },
     })

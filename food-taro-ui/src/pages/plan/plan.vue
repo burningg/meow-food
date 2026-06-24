@@ -9,6 +9,7 @@
           </view>
           <view class="week-switch">
             <button
+              v-if="!sharedView"
               class="plan-nav-action week-add-button"
               @tap="openCreateSheet"
             >
@@ -105,13 +106,14 @@
                       @tap.stop
                     >
                       <button
-                        v-if="plan.recipeCount > 1 && !isRecipeSortMode(plan.id)"
+                        v-if="plan.viewerCanManageRecipes && plan.recipeCount > 1 && !isRecipeSortMode(plan.id)"
                         class="plan-card-menu-action"
                         @tap.stop="startRecipeSortFromMenu(plan.id)"
                       >
                         排序
                       </button>
                       <button
+                        v-if="plan.viewerCanDelete"
                         class="plan-card-menu-action delete"
                         :disabled="deletingPlanId === plan.id"
                         @tap.stop="deletePlan(plan)"
@@ -135,7 +137,7 @@
                       >已选 {{ expandedRecipes(plan.id).length }} 道</text
                     >
                     <button
-                      v-if="isRecipeSortMode(plan.id)"
+                      v-if="plan.viewerCanManageRecipes && isRecipeSortMode(plan.id)"
                       class="checked-recipe-sort-button"
                       :disabled="savingRecipeSortPlanId === plan.id"
                       @tap.stop="toggleRecipeSortMode(plan.id)"
@@ -214,6 +216,7 @@
                     >
                       <view class="checked-recipe-action">
                         <button
+                          v-if="plan.viewerCanManageRecipes"
                           class="checked-recipe-remove"
                           :disabled="
                             removingRecipeKey ===
@@ -278,10 +281,10 @@
                   >
                 </view>
 
-                <button class="plan-secondary-button" @tap="goAddRecipes(plan)">
+                <button v-if="plan.viewerCanAddRecipes" class="plan-secondary-button" @tap="goAddRecipes(plan)">
                   添加菜谱
                 </button>
-                <button class="plan-primary-button" @tap="openShopping(plan)">
+                <button v-if="plan.viewerCanUseShopping" class="plan-primary-button" @tap="openShopping(plan)">
                   采购清单
                 </button>
               </view>
@@ -293,7 +296,7 @@
               >{{ selectedDateTitle }}还没有计划</text
             >
             <text class="plan-empty-desc"
-              >点右上角新建一条，让圈内成员一起补菜谱和采购清单。</text
+              >{{ sharedView ? '这条分享计划还没有内容。' : '点右上角新建一条，让圈内成员一起补菜谱和采购清单。' }}</text
             >
           </view>
         </section>
@@ -400,7 +403,7 @@ type WeekDateItem = {
 };
 
 const weekdayLabels = ["一", "二", "三", "四", "五", "六", "日"];
-const routeParams = getRouteParams<{ date?: string; planId?: string }>();
+const routeParams = getRouteParams<{ date?: string; planId?: string; sharedPlanId?: string; shareToken?: string }>();
 const initialDate = parseDateKey(routeParams.date) || new Date();
 const planService = new PlanService();
 const socialService = new SocialService();
@@ -414,6 +417,9 @@ const initialExpandedPlanId = routeParams.planId || "";
 const expandedPlanId = ref(initialExpandedPlanId);
 const hasAppliedInitialExpand = ref(false);
 const currentUserId = ref("");
+const sharedPlanId = ref(routeParams.sharedPlanId || "");
+const shareToken = ref(routeParams.shareToken || "");
+const sharedView = computed(() => Boolean(sharedPlanId.value && shareToken.value));
 const selectedCircleId = ref("");
 const draftTitle = ref(buildDefaultPlanTitle(formatDateKey(initialDate)));
 const creating = ref(false);
@@ -494,7 +500,7 @@ const weekLabel = computed(() => {
 });
 
 onMounted(async () => {
-  if (!(await requireAuth("plan"))) return;
+  if (!sharedView.value && !(await requireAuth("plan"))) return;
   await loadInitial();
 });
 
@@ -541,6 +547,10 @@ watch(
 
 async function loadInitial() {
   try {
+    if (sharedView.value) {
+      await loadSharedPlan();
+      return;
+    }
     const [{ data: circlesData }, { data: profileData }] = await Promise.all([
       socialService.getCircles(),
       socialService.getProfile(),
@@ -559,6 +569,33 @@ async function loadInitial() {
   }
 }
 
+async function loadSharedPlan() {
+  const planId = sharedPlanId.value;
+  if (!planId || !shareToken.value) {
+    Message.error("分享链接已失效");
+    return;
+  }
+  const { data } = await planService.getPlanDetail(planId, shareToken.value);
+  detailCache.value = {
+    ...detailCache.value,
+    [planId]: data,
+  };
+  currentUserId.value = data.viewerCanDelete ? data.creatorUserId : "";
+  selectedDateKey.value = data.planDate;
+  viewedWeekStart.value = startOfWeek(parseDateKey(data.planDate) || new Date());
+  expandedPlanId.value = planId;
+  hasAppliedInitialExpand.value = true;
+  const monthKey = data.planDate.slice(0, 7);
+  const { data: monthData } = await planService.getPlans(monthKey, {
+    sharedPlanId: planId,
+    shareToken: shareToken.value,
+  });
+  monthCache.value = {
+    ...monthCache.value,
+    [monthKey]: monthData.days,
+  };
+}
+
 async function refreshWeek() {
   void finishRecipeSortMode(false);
   expandedPlanId.value = "";
@@ -575,7 +612,15 @@ async function loadWeek(force = false) {
 
 async function loadMonth(monthKey: string, force = false) {
   if (!force && monthCache.value[monthKey]) return;
-  const { data } = await planService.getPlans(monthKey);
+  const { data } = await planService.getPlans(
+    monthKey,
+    sharedView.value
+      ? {
+          sharedPlanId: sharedPlanId.value,
+          shareToken: shareToken.value,
+        }
+      : undefined,
+  );
   monthCache.value = {
     ...monthCache.value,
     [monthKey]: data.days,
@@ -584,7 +629,7 @@ async function loadMonth(monthKey: string, force = false) {
 
 async function ensurePlanDetail(planId: string, force = false) {
   if (!force && detailCache.value[planId]) return detailCache.value[planId];
-  const { data } = await planService.getPlanDetail(planId);
+  const { data } = await planService.getPlanDetail(planId, sharedView.value ? shareToken.value : undefined);
   detailCache.value = {
     ...detailCache.value,
     [planId]: data,
@@ -593,6 +638,7 @@ async function ensurePlanDetail(planId: string, force = false) {
 }
 
 function openCreateSheet() {
+  if (sharedView.value) return;
   closePlanMenu();
   draftTitle.value = buildDefaultPlanTitle(selectedDateKey.value);
   createSheetVisible.value = true;
@@ -603,6 +649,7 @@ function closeCreateSheet() {
 }
 
 function changeWeek(offset: number) {
+  if (sharedView.value) return;
   closePlanMenu();
   void finishRecipeSortMode(false);
   const currentSelectedDate = parseDateKey(selectedDateKey.value) || new Date();
@@ -615,6 +662,7 @@ function changeWeek(offset: number) {
 }
 
 function selectDate(key: string) {
+  if (sharedView.value) return;
   closePlanMenu();
   void finishRecipeSortMode(false);
   selectedDateKey.value = key;
@@ -812,11 +860,16 @@ function goAddRecipes(plan: PlanSummary) {
     params: { id: plan.id },
     query: {
       date: plan.planDate,
+      shareToken: plan.sharedView ? plan.shareToken : undefined,
     },
   });
 }
 
 async function openShopping(plan: PlanSummary) {
+  if (!plan.viewerCanUseShopping) {
+    Message.info("共享查看模式下暂不支持采购操作");
+    return;
+  }
   closePlanMenu();
   void finishRecipeSortMode(false);
   try {

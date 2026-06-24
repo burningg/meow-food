@@ -15,10 +15,16 @@ public class PlanDetailResponse {
     private String circleName;
     private String creatorUserId;
     private String creatorNickname;
+    private String shareToken;
     private String shoppingStatus;
     private boolean shoppingStarted;
     private int shoppingRestartCount;
     private int shoppingTotalItemCount;
     private int shoppingPurchasedItemCount;
+    private boolean sharedView;
+    private boolean viewerCanDelete;
+    private boolean viewerCanAddRecipes;
+    private boolean viewerCanManageRecipes;
+    private boolean viewerCanUseShopping;
     private List<DishSummaryResponse> recipes = new ArrayList<>();
 }

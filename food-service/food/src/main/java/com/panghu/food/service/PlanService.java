@@ -7,10 +7,11 @@ import com.panghu.food.dto.PlanAiArrangementResponse;
 import com.panghu.food.dto.PlanDetailResponse;
 import com.panghu.food.dto.PlanMonthResponse;
 import com.panghu.food.dto.PlanRecipesUpdateRequest;
+import com.panghu.food.dto.PlanRecipeCandidatesResponse;
 import com.panghu.food.dto.PlanShoppingListResponse;
 
 public interface PlanService {
-    PlanMonthResponse getPlans(String month);
+    PlanMonthResponse getPlans(String month, String sharedPlanId, String shareToken);
 
     PlanDetailResponse createPlan(PlanCreateRequest request);
 
@@ -18,11 +19,13 @@ public interface PlanService {
 
     PlanDetailResponse confirmAiArrangement(PlanAiArrangementConfirmRequest request);
 
-    PlanDetailResponse getPlanDetail(String planId);
+    PlanDetailResponse getPlanDetail(String planId, String shareToken);
 
     void deletePlan(String planId);
 
-    PlanDetailResponse addRecipes(String planId, PlanRecipesUpdateRequest request);
+    PlanRecipeCandidatesResponse getRecipeCandidates(String planId, String shareToken);
+
+    PlanDetailResponse addRecipes(String planId, PlanRecipesUpdateRequest request, String shareToken);
 
     PlanDetailResponse sortRecipes(String planId, PlanRecipesUpdateRequest request);
 

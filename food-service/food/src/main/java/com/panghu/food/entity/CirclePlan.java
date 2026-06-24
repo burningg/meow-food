@@ -22,6 +22,7 @@ public class CirclePlan {
     private LocalDate planDate;
     private String title;
     private String creatorUserId;
+    private String shareToken;
     private String shoppingStatus;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

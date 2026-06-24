@@ -4,12 +4,14 @@ CREATE TABLE `circle_plan` (
   `plan_date` date NOT NULL COMMENT '计划日期',
   `title` varchar(100) NOT NULL COMMENT '计划标题',
   `creator_user_id` varchar(36) NOT NULL COMMENT '创建人用户ID(UUID)',
+  `share_token` varchar(64) DEFAULT NULL COMMENT '计划分享令牌',
   `shopping_status` varchar(32) NOT NULL DEFAULT 'NOT_STARTED' COMMENT '采购状态: NOT_STARTED/NOT_PURCHASED/PARTIALLY_PURCHASED/PURCHASED',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx_circle_plan_circle_date` (`circle_id`,`plan_date`),
-  KEY `idx_circle_plan_creator` (`creator_user_id`)
+  KEY `idx_circle_plan_creator` (`creator_user_id`),
+  UNIQUE KEY `uk_circle_plan_share_token` (`share_token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='圈子计划表';
 
 CREATE TABLE `circle_plan_recipe` (

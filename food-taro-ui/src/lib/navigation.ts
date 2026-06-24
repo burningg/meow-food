@@ -80,6 +80,18 @@ function encodeQuery(query: Record<string, string | number | undefined>) {
     .join('&')
 }
 
+function decodeQuery(queryText: string) {
+  const query: Record<string, string> = {}
+  queryText
+    .split('&')
+    .filter(Boolean)
+    .forEach((entry) => {
+      const [rawKey, rawValue = ''] = entry.split('=')
+      query[decodeURIComponent(rawKey)] = decodeURIComponent(rawValue)
+    })
+  return query
+}
+
 export function resolveRoute(location: RouteLocation | RouteName) {
   const target = typeof location === 'string' ? { name: location } : location
   const params = target.params || {}
@@ -165,7 +177,7 @@ export function currentPageUrl() {
 
 export function navigateByLegacyPath(path: string, fallback: RouteName = 'home') {
   if (!path) return replace(fallback)
-  if (path.startsWith('/pages/')) return replaceByUrl(path)
+  if (path.startsWith('/pages/')) return navigateByMiniProgramPath(path, fallback)
   if (path === '/' || path === '/home') return openPrimaryRoute('home')
   if (path === '/login') return replace('login')
   if (path === '/register') return replace('register')
@@ -190,6 +202,57 @@ export function navigateByLegacyPath(path: string, fallback: RouteName = 'home')
   return replace(fallback)
 }
 
-function replaceByUrl(url: string) {
-  return Taro.redirectTo({ url })
+function navigateByMiniProgramPath(path: string, fallback: RouteName) {
+  const [pathname, queryText = ''] = path.split('?')
+  const query = decodeQuery(queryText)
+
+  // 小程序真实页面路径需要恢复成对应页面跳转，避免丢失 tabBar 行为和详情参数。
+  if (pathname === routePathMap.home) return openPrimaryRoute('home')
+  if (pathname === routePathMap.profile) return openPrimaryRoute('profile')
+  if (pathname === routePathMap.plan) return openPrimaryRoute({ name: 'plan', query })
+  if (pathname === routePathMap.circles) {
+    return openPrimaryRoute({
+      name: 'circles',
+      params: query.id ? { id: query.id } : undefined,
+      query,
+    })
+  }
+  if (pathname === routePathMap.login) return replace({ name: 'login', query })
+  if (pathname === routePathMap.register) return replace({ name: 'register', query })
+  if (pathname === routePathMap['add-dish']) {
+    if (query.mode === 'edit' && query.id) {
+      return replace({ name: 'edit-dish', params: { id: query.id } })
+    }
+    return push('add-dish')
+  }
+  if (pathname === routePathMap['dish-detail'] && query.id) {
+    return replace({ name: 'dish-detail', params: { id: query.id }, query })
+  }
+  if (pathname === routePathMap['plan-detail'] && query.id) {
+    return replace({ name: 'plan-detail', params: { id: query.id }, query })
+  }
+  if (pathname === routePathMap['plan-shopping'] && query.id) {
+    return replace({ name: 'plan-shopping', params: { id: query.id }, query })
+  }
+  if (pathname === routePathMap['user-menu'] && query.id) {
+    return replace({ name: 'user-menu', params: { id: query.id }, query })
+  }
+  if (pathname === routePathMap['circle-members'] && query.id) {
+    return replace({ name: 'circle-members', params: { id: query.id }, query })
+  }
+  if (pathname === routePathMap['circle-share-invite'] && query.circleId && query.inviterId) {
+    return replace({
+      name: 'circle-share-invite',
+      params: {
+        circleId: query.circleId,
+        inviterId: query.inviterId,
+      },
+      query,
+    })
+  }
+  if (pathname === routePathMap['knowledge-detail'] && query.id) {
+    return replace({ name: 'knowledge-detail', params: { id: query.id }, query })
+  }
+
+  return replace(fallback)
 }

@@ -7,6 +7,7 @@ import com.panghu.food.dto.PlanCreateRequest;
 import com.panghu.food.dto.PlanDetailResponse;
 import com.panghu.food.dto.PlanMonthResponse;
 import com.panghu.food.dto.PlanRecipesUpdateRequest;
+import com.panghu.food.dto.PlanRecipeCandidatesResponse;
 import com.panghu.food.dto.PlanShoppingListResponse;
 import com.panghu.food.service.PlanService;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,10 @@ public class PlanController {
     }
 
     @GetMapping
-    public ResponseEntity<PlanMonthResponse> getPlans(@RequestParam(required = false) String month) {
-        return ResponseEntity.ok(planService.getPlans(month));
+    public ResponseEntity<PlanMonthResponse> getPlans(@RequestParam(required = false) String month,
+                                                      @RequestParam(required = false) String sharedPlanId,
+                                                      @RequestParam(required = false) String shareToken) {
+        return ResponseEntity.ok(planService.getPlans(month, sharedPlanId, shareToken));
     }
 
     @PostMapping
@@ -42,8 +45,9 @@ public class PlanController {
     }
 
     @GetMapping("/{planId}")
-    public ResponseEntity<PlanDetailResponse> getPlanDetail(@PathVariable String planId) {
-        return ResponseEntity.ok(planService.getPlanDetail(planId));
+    public ResponseEntity<PlanDetailResponse> getPlanDetail(@PathVariable String planId,
+                                                            @RequestParam(required = false) String shareToken) {
+        return ResponseEntity.ok(planService.getPlanDetail(planId, shareToken));
     }
 
     @DeleteMapping("/{planId}")
@@ -54,8 +58,15 @@ public class PlanController {
 
     @PostMapping("/{planId}/recipes")
     public ResponseEntity<PlanDetailResponse> addRecipes(@PathVariable String planId,
-                                                         @RequestBody PlanRecipesUpdateRequest request) {
-        return ResponseEntity.ok(planService.addRecipes(planId, request));
+                                                         @RequestBody PlanRecipesUpdateRequest request,
+                                                         @RequestParam(required = false) String shareToken) {
+        return ResponseEntity.ok(planService.addRecipes(planId, request, shareToken));
+    }
+
+    @GetMapping("/{planId}/recipe-candidates")
+    public ResponseEntity<PlanRecipeCandidatesResponse> getRecipeCandidates(@PathVariable String planId,
+                                                                            @RequestParam(required = false) String shareToken) {
+        return ResponseEntity.ok(planService.getRecipeCandidates(planId, shareToken));
     }
 
     @PutMapping("/{planId}/recipes/sort")

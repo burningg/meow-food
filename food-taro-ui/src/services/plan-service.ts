@@ -57,11 +57,17 @@ export interface PlanSummary {
   circleName: string
   creatorUserId: string
   creatorNickname: string
+  shareToken?: string
   recipeCount: number
   shoppingStatus: PlanShoppingStatus
   shoppingStarted: boolean
   shoppingTotalItemCount: number
   shoppingPurchasedItemCount: number
+  sharedView: boolean
+  viewerCanDelete: boolean
+  viewerCanAddRecipes: boolean
+  viewerCanManageRecipes: boolean
+  viewerCanUseShopping: boolean
 }
 
 export interface PlanDayPlans {
@@ -82,11 +88,24 @@ export interface PlanDetail {
   circleName: string
   creatorUserId: string
   creatorNickname: string
+  shareToken?: string
   shoppingStatus: PlanShoppingStatus
   shoppingStarted: boolean
   shoppingRestartCount: number
   shoppingTotalItemCount: number
   shoppingPurchasedItemCount: number
+  sharedView: boolean
+  viewerCanDelete: boolean
+  viewerCanAddRecipes: boolean
+  viewerCanManageRecipes: boolean
+  viewerCanUseShopping: boolean
+  recipes: PlanRecipe[]
+}
+
+export interface PlanRecipeCandidatesResponse {
+  viewerCanAddRecipes: boolean
+  viewerIsCircleMember: boolean
+  sourceLabel: string
   recipes: PlanRecipe[]
 }
 
@@ -124,8 +143,14 @@ export interface PlanShoppingList {
 }
 
 export class PlanService {
-  getPlans(month: string) {
-    return http.get<PlanMonthResponse>('/api/plans', { params: { month } })
+  getPlans(month: string, options?: { sharedPlanId?: string; shareToken?: string }) {
+    return http.get<PlanMonthResponse>('/api/plans', {
+      params: {
+        month,
+        sharedPlanId: options?.sharedPlanId,
+        shareToken: options?.shareToken,
+      },
+    })
   }
 
   createPlan(payload: { circleId: string; planDate: string; title: string }) {
@@ -140,16 +165,26 @@ export class PlanService {
     return http.post<PlanDetail>('/api/plans/ai-arrangements/confirm', payload)
   }
 
-  getPlanDetail(planId: string) {
-    return http.get<PlanDetail>(`/api/plans/${planId}`)
+  getPlanDetail(planId: string, shareToken?: string) {
+    return http.get<PlanDetail>(`/api/plans/${planId}`, {
+      params: shareToken ? { shareToken } : undefined,
+    })
   }
 
   deletePlan(planId: string) {
     return http.delete<void>(`/api/plans/${planId}`)
   }
 
-  addRecipes(planId: string, dishIds: string[]) {
-    return http.post<PlanDetail>(`/api/plans/${planId}/recipes`, { dishIds })
+  getRecipeCandidates(planId: string, shareToken?: string) {
+    return http.get<PlanRecipeCandidatesResponse>(`/api/plans/${planId}/recipe-candidates`, {
+      params: shareToken ? { shareToken } : undefined,
+    })
+  }
+
+  addRecipes(planId: string, dishIds: string[], shareToken?: string) {
+    return http.post<PlanDetail>(`/api/plans/${planId}/recipes`, { dishIds }, {
+      params: shareToken ? { shareToken } : undefined,
+    })
   }
 
   sortRecipes(planId: string, dishIds: string[]) {

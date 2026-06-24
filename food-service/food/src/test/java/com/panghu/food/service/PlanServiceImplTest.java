@@ -8,6 +8,7 @@ import com.panghu.food.dto.PlanAiArrangementResponse;
 import com.panghu.food.dto.PlanCreateRequest;
 import com.panghu.food.dto.PlanDetailResponse;
 import com.panghu.food.dto.PlanRecipesUpdateRequest;
+import com.panghu.food.dto.PlanRecipeCandidatesResponse;
 import com.panghu.food.dto.PlanShoppingListResponse;
 import com.panghu.food.dto.PlanAiUsageResponse;
 import com.panghu.food.entity.BuddyCircle;
@@ -255,9 +256,31 @@ class PlanServiceImplTest {
         when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
         when(buddyCircleMemberMapper.selectCount(any())).thenReturn(0L);
 
-        assertThatThrownBy(() -> planService.getPlanDetail("plan-1"))
+        assertThatThrownBy(() -> planService.getPlanDetail("plan-1", null))
                 .isInstanceOf(ApiException.class)
-                .hasMessageContaining("你还不在这个搭子圈里");
+                .hasMessageContaining("暂无访问权限");
+    }
+
+    @Test
+    void getPlanDetailAllowsAnonymousViewerWithShareToken() {
+        CirclePlan plan = plan("plan-1", "circle-1", "creator");
+        plan.setShareToken("share-1");
+        DishSummaryResponse dish = dishSummary("dish-1", "creator", LocalDateTime.of(2026, 6, 1, 10, 0));
+
+        when(circlePlanMapper.selectById("plan-1")).thenReturn(plan);
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(circlePlanRecipeMapper.selectList(any())).thenReturn(List.of(recipe("plan-1", "dish-1")));
+        when(dishMapper.selectByIds(any())).thenReturn(List.of(dish));
+        when(dishIngredientMapper.selectList(any())).thenReturn(List.of());
+        when(circlePlanShoppingListMapper.selectOne(any())).thenReturn(null);
+        when(userAccountMapper.selectById("creator")).thenReturn(user("creator", "创建者"));
+        when(userAccountMapper.selectBatchIds(any())).thenReturn(List.of());
+
+        PlanDetailResponse response = planService.getPlanDetail("plan-1", "share-1");
+
+        assertThat(response.isSharedView()).isTrue();
+        assertThat(response.isViewerCanAddRecipes()).isFalse();
+        assertThat(response.isViewerCanDelete()).isFalse();
     }
 
     @Test
@@ -283,7 +306,7 @@ class PlanServiceImplTest {
         PlanRecipesUpdateRequest request = new PlanRecipesUpdateRequest();
         request.setDishIds(List.of("dish-1"));
 
-        PlanDetailResponse response = planService.addRecipes("plan-1", request);
+        PlanDetailResponse response = planService.addRecipes("plan-1", request, null);
 
         assertThat(response.getRecipes()).hasSize(1);
         assertThat(response.getRecipes().get(0).getAddedByNickname()).isEqualTo("胖虎");
@@ -326,12 +349,60 @@ class PlanServiceImplTest {
         PlanRecipesUpdateRequest request = new PlanRecipesUpdateRequest();
         request.setDishIds(List.of("dish-2"));
 
-        planService.addRecipes("plan-1", request);
+        planService.addRecipes("plan-1", request, null);
 
         assertThat(storedRecipes).hasSize(2);
         assertThat(storedRecipes.get(1).getDishId()).isEqualTo("dish-2");
         assertThat(storedRecipes.get(1).getSort()).isEqualTo(3);
         verify(circlePlanRecipeMapper).insert(any(CirclePlanRecipe.class));
+    }
+
+    @Test
+    void sharedViewerCanOnlySeeOwnRecipeCandidatesWhenNotCircleMember() {
+        AuthContext.setUserId("guest");
+        CirclePlan plan = plan("plan-1", "circle-1", "creator");
+        plan.setShareToken("share-1");
+        DishSummaryResponse ownDish = dishSummary("dish-2", "guest", LocalDateTime.of(2026, 6, 2, 10, 0));
+
+        when(circlePlanMapper.selectById("plan-1")).thenReturn(plan);
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(0L);
+        when(circlePlanRecipeMapper.selectList(any())).thenReturn(List.of());
+        when(dishMapper.selectByOwnerUserId("guest")).thenReturn(List.of(ownDish));
+        doNothing().when(menuVisibilitySupport).hydrateSummaries(anyList());
+        when(dishIngredientMapper.selectList(any())).thenReturn(List.of());
+
+        PlanRecipeCandidatesResponse response = planService.getRecipeCandidates("plan-1", "share-1");
+
+        assertThat(response.isViewerCanAddRecipes()).isTrue();
+        assertThat(response.isViewerIsCircleMember()).isFalse();
+        assertThat(response.getSourceLabel()).isEqualTo("我的菜谱");
+        assertThat(response.getRecipes()).extracting(DishSummaryResponse::getId).containsExactly("dish-2");
+    }
+
+    @Test
+    void sharedGuestCanBrowseRecipeCandidatesBeforeLogin() {
+        CirclePlan plan = plan("plan-1", "circle-1", "creator");
+        plan.setShareToken("share-1");
+        DishSummaryResponse sharedDish = dishSummary("dish-3", "creator", LocalDateTime.of(2026, 6, 3, 10, 0));
+        sharedDish.setEffectiveVisibility("circle");
+        sharedDish.setEffectiveCircleIds(List.of("circle-1"));
+
+        when(circlePlanMapper.selectById("plan-1")).thenReturn(plan);
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(0L);
+        when(buddyCircleMemberMapper.selectList(any())).thenReturn(List.of(member("circle-1", "creator")));
+        when(circlePlanRecipeMapper.selectList(any())).thenReturn(List.of());
+        when(dishMapper.selectAllActive()).thenReturn(List.of(sharedDish));
+        doNothing().when(menuVisibilitySupport).hydrateSummaries(anyList());
+        when(dishIngredientMapper.selectList(any())).thenReturn(List.of());
+
+        PlanRecipeCandidatesResponse response = planService.getRecipeCandidates("plan-1", "share-1");
+
+        assertThat(response.isViewerCanAddRecipes()).isFalse();
+        assertThat(response.isViewerIsCircleMember()).isFalse();
+        assertThat(response.getSourceLabel()).isEqualTo("圈内共享菜谱");
+        assertThat(response.getRecipes()).extracting(DishSummaryResponse::getId).containsExactly("dish-3");
     }
 
     @Test
