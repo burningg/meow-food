@@ -132,6 +132,27 @@
         ORDER BY d.updated_at DESC, d.created_at DESC
     </select>
 
+    <select id="selectByOwnerUserIds" resultMap="DishSummaryMap">
+        SELECT
+        <include refid="DishSummaryColumns" />
+        FROM dish d
+        LEFT JOIN category c ON d.category_id = c.id
+        LEFT JOIN user u ON d.owner_user_id = u.id
+        WHERE d.status = 1
+        <choose>
+            <when test="ownerUserIds != null and ownerUserIds.size > 0">
+                AND d.owner_user_id IN
+                <foreach collection="ownerUserIds" item="ownerUserId" open="(" separator="," close=")">
+                    #{ownerUserId}
+                </foreach>
+            </when>
+            <otherwise>
+                AND 1 = 0
+            </otherwise>
+        </choose>
+        ORDER BY d.updated_at DESC, d.created_at DESC
+    </select>
+
     <select id="selectVisibleByOwnerUserIdAndCircleId" resultMap="DishSummaryMap">
         SELECT
         <include refid="DishSummaryColumns" />

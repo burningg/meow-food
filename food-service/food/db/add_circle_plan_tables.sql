@@ -23,7 +23,8 @@ CREATE TABLE `circle_plan_recipe` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_circle_plan_recipe` (`plan_id`,`dish_id`),
-  KEY `idx_circle_plan_recipe_dish` (`dish_id`)
+  KEY `idx_circle_plan_recipe_dish` (`dish_id`),
+  KEY `idx_circle_plan_recipe_added_by` (`added_by_user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='圈子计划菜谱关联表';
 
 CREATE TABLE `circle_plan_shopping_list` (

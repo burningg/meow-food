@@ -115,32 +115,62 @@ public class PlanServiceImpl implements PlanService {
     public PlanMonthResponse getPlans(String month, String sharedPlanId, String shareToken) {
         String normalizedSharedPlanId = normalizeOptionalId(sharedPlanId);
         String normalizedShareToken = normalizeOptionalId(shareToken);
+        PlanAccessContext sharedContext = null;
         if (normalizedSharedPlanId != null && normalizedShareToken != null) {
-            return buildSharedPlanMonth(normalizedSharedPlanId, normalizedShareToken, month);
+            sharedContext = requirePlanAccess(normalizedSharedPlanId, normalizedShareToken);
+            if (AuthContext.getUserId() == null) {
+                return buildSharedPlanMonth(sharedContext, month);
+            }
         }
 
         String currentUserId = AuthContext.requireUserId();
         YearMonth targetMonth = parseMonth(month);
         List<String> circleIds = getMemberCircleIds(currentUserId);
+        Map<String, CirclePlan> plansById = new LinkedHashMap<>();
 
         PlanMonthResponse response = new PlanMonthResponse();
         response.setMonth(targetMonth.toString());
-        if (circleIds.isEmpty()) {
-            return response;
+        if (!circleIds.isEmpty()) {
+            circlePlanMapper.selectList(new QueryWrapper<CirclePlan>()
+                    .in("circle_id", circleIds)
+                    .between("plan_date", targetMonth.atDay(1), targetMonth.atEndOfMonth())
+                    .orderByAsc("plan_date")
+                    .orderByAsc("created_at")
+                    .orderByAsc("id"))
+                    .forEach(plan -> plansById.put(plan.getId(), plan));
+        }
+        // 访客通过分享添加过菜谱后，即使不是圈成员，也应在自己的计划页继续看到这条参与过的计划。
+        List<CirclePlan> participantPlans = circlePlanMapper.selectPlansAddedByUserInPlanDateRange(
+                currentUserId,
+                targetMonth.atDay(1),
+                targetMonth.atEndOfMonth());
+        if (participantPlans != null) {
+            participantPlans.forEach(plan -> plansById.putIfAbsent(plan.getId(), plan));
         }
 
-        List<CirclePlan> plans = circlePlanMapper.selectList(new QueryWrapper<CirclePlan>()
-                .in("circle_id", circleIds)
-                .between("plan_date", targetMonth.atDay(1), targetMonth.atEndOfMonth())
-                .orderByAsc("plan_date")
-                .orderByAsc("created_at")
-                .orderByAsc("id"));
+        final PlanAccessContext effectiveSharedContext = sharedContext;
+        if (effectiveSharedContext != null
+                && effectiveSharedContext.plan().getPlanDate() != null
+                && YearMonth.from(effectiveSharedContext.plan().getPlanDate()).equals(targetMonth)
+                && !plansById.containsKey(effectiveSharedContext.plan().getId())) {
+            plansById.put(effectiveSharedContext.plan().getId(), effectiveSharedContext.plan());
+        }
+        List<CirclePlan> plans = new ArrayList<>(plansById.values());
+        plans.sort(Comparator
+                .comparing(CirclePlan::getPlanDate, Comparator.nullsLast(Comparator.naturalOrder()))
+                .thenComparing(CirclePlan::getCreatedAt, Comparator.nullsLast(Comparator.naturalOrder()))
+                .thenComparing(CirclePlan::getId, Comparator.nullsLast(Comparator.naturalOrder())));
+        if (plans.isEmpty()) {
+            return response;
+        }
 
         PlanSummaryContext summaryContext = loadPlanSummaryContext(plans);
         Map<LocalDate, List<PlanSummaryResponse>> byDate = new LinkedHashMap<>();
         for (CirclePlan plan : plans) {
             BuddyCircle circle = summaryContext.circlesById().get(plan.getCircleId());
-            PlanAccessContext accessContext = buildMemberAccessContext(plan, circle, currentUserId);
+            PlanAccessContext accessContext = effectiveSharedContext != null && Objects.equals(plan.getId(), effectiveSharedContext.plan().getId())
+                    ? effectiveSharedContext
+                    : buildPlanListAccessContext(plan, circle, currentUserId, circleIds);
             byDate.computeIfAbsent(plan.getPlanDate(), key -> new ArrayList<>()).add(buildPlanSummary(plan, summaryContext, accessContext));
         }
         response.setDays(byDate.entrySet().stream().map(entry -> {
@@ -286,17 +316,10 @@ public class PlanServiceImpl implements PlanService {
         PlanAccessContext context = requirePlanAccess(planId, shareToken);
         List<DishSummaryResponse> candidates;
         String sourceLabel;
-        if (context.viewerIsCircleMember()) {
-            candidates = loadCircleVisibleDishes(context.circle().getId(), currentUserId);
-            sourceLabel = "圈内共享菜谱";
-        } else if (currentUserId != null) {
-            candidates = loadViewerOwnedDishes(currentUserId);
-            sourceLabel = "我的菜谱";
-        } else {
-            // 分享访客未登录时也能先浏览待选菜单，真正加入计划时再要求登录。
-            candidates = loadCircleVisibleDishes(context.circle().getId(), null);
-            sourceLabel = "圈内共享菜谱";
-        }
+        // 分享访问者登录前后都保持同一份圈内可见候选，避免登录后候选列表突然收窄。
+        String candidateViewerUserId = context.viewerIsCircleMember() ? currentUserId : null;
+        candidates = loadCircleVisibleDishes(context.circle().getId(), candidateViewerUserId);
+        sourceLabel = "圈内共享菜谱";
         Set<String> existingDishIds = loadPlanRecipeRelations(context.plan().getId()).stream()
                 .map(CirclePlanRecipe::getDishId)
                 .collect(Collectors.toSet());
@@ -336,9 +359,9 @@ public class PlanServiceImpl implements PlanService {
                 .collect(Collectors.toList());
         Map<String, DishSummaryResponse> candidateById = pendingDishIds.isEmpty()
                 ? Collections.emptyMap()
-                : (context.viewerIsCircleMember()
-                ? loadCircleVisibleDishes(context.circle().getId(), currentUserId)
-                : loadViewerOwnedDishes(currentUserId)).stream()
+                // 分享访问者提交时也按圈内可见菜谱校验，和候选列表保持一致。
+                : loadCircleVisibleDishes(context.circle().getId(),
+                        context.viewerIsCircleMember() ? currentUserId : null).stream()
                 .collect(Collectors.toMap(DishSummaryResponse::getId, item -> item));
 
         for (String dishId : dishIds) {
@@ -960,27 +983,20 @@ public class PlanServiceImpl implements PlanService {
                         .orderByAsc("id"))
                 .stream()
                 .map(BuddyCircleMember::getUserId)
+                .filter(Objects::nonNull)
+                .filter(userId -> !userId.isBlank())
+                .distinct()
                 .collect(Collectors.toList());
         if (memberIds.isEmpty()) {
             return Collections.emptyList();
         }
 
-        List<DishSummaryResponse> dishes = dishMapper.selectAllActive();
+        // 先按圈成员 owner 缩小查询范围，避免候选菜谱从全站菜谱里内存过滤。
+        List<DishSummaryResponse> dishes = dishMapper.selectByOwnerUserIds(memberIds);
         menuVisibilitySupport.hydrateSummaries(dishes);
         hydrateIngredientNames(dishes);
         return dishes.stream()
-                .filter(item -> memberIds.contains(item.getOwnerUserId()))
                 .filter(item -> isVisibleInCircleContext(item, viewerUserId, circleId))
-                .sorted(Comparator.comparing(DishSummaryResponse::getCreatedAt,
-                        Comparator.nullsLast(Comparator.reverseOrder())))
-                .collect(Collectors.toList());
-    }
-
-    private List<DishSummaryResponse> loadViewerOwnedDishes(String viewerUserId) {
-        List<DishSummaryResponse> dishes = dishMapper.selectByOwnerUserId(viewerUserId);
-        menuVisibilitySupport.hydrateSummaries(dishes);
-        hydrateIngredientNames(dishes);
-        return dishes.stream()
                 .sorted(Comparator.comparing(DishSummaryResponse::getCreatedAt,
                         Comparator.nullsLast(Comparator.reverseOrder())))
                 .collect(Collectors.toList());
@@ -1060,8 +1076,7 @@ public class PlanServiceImpl implements PlanService {
         return CirclePlan.SHOPPING_STATUS_PARTIALLY_PURCHASED;
     }
 
-    private PlanMonthResponse buildSharedPlanMonth(String planId, String shareToken, String month) {
-        PlanAccessContext context = requirePlanAccess(planId, shareToken);
+    private PlanMonthResponse buildSharedPlanMonth(PlanAccessContext context, String month) {
         YearMonth targetMonth = parseMonth(month);
         PlanMonthResponse response = new PlanMonthResponse();
         response.setMonth(targetMonth.toString());
@@ -1091,6 +1106,9 @@ public class PlanServiceImpl implements PlanService {
         boolean viewerIsCircleMember = isCircleMember(circle.getId(), currentUserId);
         if (viewerIsCircleMember) {
             return buildMemberAccessContext(plan, circle, currentUserId);
+        }
+        if (hasAddedRecipeToPlan(plan.getId(), currentUserId)) {
+            return buildSharedParticipantAccessContext(plan, circle, currentUserId);
         }
 
         String normalizedShareToken = normalizeOptionalId(shareToken);
@@ -1123,6 +1141,26 @@ public class PlanServiceImpl implements PlanService {
                 true,
                 currentUserId,
                 true);
+    }
+
+    private PlanAccessContext buildPlanListAccessContext(CirclePlan plan, BuddyCircle circle, String currentUserId, List<String> memberCircleIds) {
+        if (memberCircleIds.contains(plan.getCircleId())) {
+            return buildMemberAccessContext(plan, circle, currentUserId);
+        }
+        return buildSharedParticipantAccessContext(plan, circle, currentUserId);
+    }
+
+    private PlanAccessContext buildSharedParticipantAccessContext(CirclePlan plan, BuddyCircle circle, String currentUserId) {
+        return new PlanAccessContext(
+                plan,
+                circle,
+                true,
+                false,
+                currentUserId != null,
+                false,
+                false,
+                currentUserId,
+                false);
     }
 
     private PlanAccessContext buildReadOnlyAccessContext(CirclePlan plan) {
@@ -1168,6 +1206,15 @@ public class PlanServiceImpl implements PlanService {
         return buddyCircleMemberMapper.selectCount(new QueryWrapper<BuddyCircleMember>()
                 .eq("circle_id", circleId)
                 .eq("user_id", userId)) > 0;
+    }
+
+    private boolean hasAddedRecipeToPlan(String planId, String userId) {
+        if (userId == null || userId.isBlank()) {
+            return false;
+        }
+        return circlePlanRecipeMapper.selectCount(new QueryWrapper<CirclePlanRecipe>()
+                .eq("plan_id", planId)
+                .eq("added_by_user_id", userId)) > 0;
     }
 
     private List<String> getMemberCircleIds(String userId) {

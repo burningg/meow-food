@@ -1,41 +1,20 @@
 <template>
   <view class="plan-detail-page">
     <view v-if="detail" class="page-shell detail-shell">
-      <view class="detail-sticky-top">
-        <view class="detail-top-nav">
-          <view class="detail-top-nav-inner">
-            <text class="detail-top-nav-title">计划详情</text>
-            <view class="detail-top-nav-actions">
-              <button
-                v-if="canEditRecipes"
-                class="detail-save-button"
-                :disabled="submitting || !newSelectedDishIds.length"
-                @tap="submitSelectedRecipes"
-              >
-                {{ submitting ? '保存中...' : '保存' }}
-              </button>
-              <button
-                class="detail-share-button"
-                open-type="share"
-              >
-                分享计划
-              </button>
-            </view>
-          </view>
-        </view>
-      </view>
-
       <section class="detail-hero">
         <view class="detail-hero-copy">
-          <text class="detail-hero-eyebrow">计划详情</text>
           <text class="detail-hero-title">{{ detail.title }}</text>
           <text class="detail-hero-meta">
             {{ detail.planDate }} · {{ detail.circleName }} · {{ detail.creatorNickname }}创建
           </text>
         </view>
-        <view class="detail-hero-chip">
-          <text class="detail-hero-chip-text">{{ shoppingStatusLabel }}</text>
-        </view>
+        <button
+          class="detail-share-button"
+          open-type="share"
+          aria-label="分享计划"
+        >
+          ↗
+        </button>
       </section>
 
       <section class="detail-summary">
@@ -47,17 +26,12 @@
           <text class="detail-stat-label">采购状态</text>
           <text class="detail-stat-value">{{ detail.shoppingStarted ? '已开始' : '未开始' }}</text>
         </view>
-        <view class="detail-stat-card">
-          <text class="detail-stat-label">共享查看</text>
-          <text class="detail-stat-value">{{ detail.sharedView ? '是' : '否' }}</text>
-        </view>
       </section>
 
       <view class="detail-section">
         <view class="detail-section-head">
           <view>
             <text class="detail-section-title">选择菜谱</text>
-            <text class="detail-section-subtitle">{{ candidateHeaderText }}</text>
           </view>
         </view>
 
@@ -127,6 +101,16 @@
           暂时没有可选择的菜谱
         </view>
       </view>
+
+      <view v-if="canEditRecipes" class="detail-save-bar">
+        <button
+          class="detail-save-button"
+          :disabled="submitting || !newSelectedDishIds.length"
+          @tap="submitSelectedRecipes"
+        >
+          {{ submitting ? '保存中...' : '保存' }}
+        </button>
+      </view>
     </view>
 
     <view v-else class="page-shell detail-loading">正在加载计划详情...</view>
@@ -171,12 +155,7 @@ const displayMenus = computed<PlanRecipe[]>(() => {
     ...candidateRecipes.value.filter((menu) => !addedIds.has(menu.id)),
   ]
 })
-const candidateHeaderText = computed(() => {
-  if (loadingCandidates.value) {
-    return '正在同步可见菜谱'
-  }
-  return `${candidateSubtitle.value || '可见菜谱'} · ${filteredMenus.value.length} / ${displayMenus.value.length} 道`
-})
+
 
 const categoryItems = computed(() => {
   const categoryMap = new Map<string, { id: string; name: string }>()
@@ -353,7 +332,7 @@ async function submitSelectedRecipes() {
 }
 
 .detail-shell {
-  padding: 20px 20px 36px;
+  padding: 20px 20px calc(112px + env(safe-area-inset-bottom));
 }
 
 .detail-sticky-top {
@@ -389,13 +368,6 @@ async function submitSelectedRecipes() {
   font-weight: 700;
 }
 
-.detail-top-nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-left: auto;
-}
-
 .detail-save-button,
 .detail-share-button,
 .detail-category-pill {
@@ -405,15 +377,28 @@ async function submitSelectedRecipes() {
   text-align: center;
 }
 
+.detail-save-bar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  z-index: 30;
+  width: min(390px, 100vw);
+  padding: 12px 20px calc(18px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  background: rgba(247, 246, 243, 0.96);
+  box-shadow: 0 -12px 24px rgba(27, 58, 45, 0.08);
+  backdrop-filter: blur(12px);
+}
+
 .detail-save-button {
-  min-width: 64px;
-  height: 36px;
-  padding: 0 16px;
-  border-radius: 999px;
+  width: 100%;
+  min-height: 50px;
+  border-radius: 16px;
   background: #9f5c38;
   color: #ffffff;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
+  line-height: 50px;
 }
 
 .detail-save-button[disabled] {
@@ -421,14 +406,15 @@ async function submitSelectedRecipes() {
 }
 
 .detail-share-button {
-  min-width: 76px;
-  height: 36px;
-  padding: 0 16px;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
   border-radius: 999px;
   background: #edf3ec;
   color: #1b3a2d;
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 700;
+  line-height: 32px;
 }
 
 .detail-candidate-empty {
@@ -453,6 +439,12 @@ async function submitSelectedRecipes() {
   justify-content: space-between;
 }
 
+.detail-candidate-bottom {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
 .detail-hero,
 .detail-summary,
 .detail-section,
@@ -464,9 +456,9 @@ async function submitSelectedRecipes() {
 }
 
 .detail-hero {
-  gap: 16px;
-  margin-bottom: 16px;
-  padding: 20px;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding: 14px 16px;
 }
 
 .detail-hero-copy {
@@ -474,7 +466,7 @@ async function submitSelectedRecipes() {
   flex: 1;
   min-width: 0;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 }
 
 .detail-hero-eyebrow {
@@ -486,15 +478,15 @@ async function submitSelectedRecipes() {
 
 .detail-hero-title {
   color: var(--text-main);
-  font-size: 24px;
+  font-size: 21px;
   font-weight: 800;
   line-height: 1.2;
 }
 
 .detail-hero-meta {
   color: var(--text-muted);
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: 12px;
+  line-height: 1.35;
 }
 
 .detail-hero-chip {
@@ -516,15 +508,15 @@ async function submitSelectedRecipes() {
 }
 
 .detail-summary {
-  gap: 12px;
-  margin-bottom: 16px;
-  padding: 16px;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 10px;
 }
 
 .detail-stat-card {
   flex: 1;
-  padding: 14px;
-  border-radius: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
   background: #f7f6f3;
 }
 
@@ -541,13 +533,13 @@ async function submitSelectedRecipes() {
 
 .detail-stat-label {
   color: var(--text-muted);
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .detail-stat-value {
-  margin-top: 6px;
+  margin-top: 3px;
   color: var(--text-main);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 800;
 }
 
@@ -714,15 +706,22 @@ async function submitSelectedRecipes() {
 }
 
 .detail-owner-chip {
+  display: flex;
+  max-width: calc(100% - 40px);
+  align-items: center;
+  justify-content: center;
   padding: 6px 10px;
   border-radius: 999px;
   background: #f4eee7;
 }
 
 .detail-owner-chip-text {
+  overflow: hidden;
   color: #5a4333;
   font-size: 11px;
   font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .detail-candidate-radio {
