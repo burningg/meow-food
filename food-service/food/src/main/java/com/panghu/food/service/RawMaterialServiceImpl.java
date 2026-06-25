@@ -1,5 +1,7 @@
 package com.panghu.food.service;
 
+import com.panghu.food.dto.RawMaterialMatchRow;
+import com.panghu.food.dto.RawMaterialResponse;
 import com.panghu.food.entity.RawMaterial;
 import com.panghu.food.mapper.RawMaterialMapper;
 import org.slf4j.Logger;
@@ -67,6 +69,34 @@ public class RawMaterialServiceImpl implements RawMaterialService {
         }
     }
 
+    @Override
+    public List<RawMaterialResponse> findMatchedRawMaterials(List<String> ingredientNames) {
+        List<String> names = normalizeNames(ingredientNames);
+        if (names.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<RawMaterialMatchRow> rows = rawMaterialMapper.selectMatchedMaterials(names);
+        Set<String> nameSet = new HashSet<>(names);
+        Map<String, RawMaterialResponse> materialByIngredientName = new LinkedHashMap<>();
+        for (RawMaterialMatchRow row : rows) {
+            if (row == null || row.getQueryName() == null) {
+                continue;
+            }
+            String queryName = row.getQueryName().trim();
+            if (!nameSet.contains(queryName) || materialByIngredientName.containsKey(queryName)) {
+                continue;
+            }
+            materialByIngredientName.put(queryName, toResponse(queryName, row));
+        }
+
+        // 按前端传入的食材顺序返回，方便页面直接映射到原食材行。
+        return names.stream()
+                .map(materialByIngredientName::get)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
+
     private List<String> normalizeNames(List<String> ingredientNames) {
         if (ingredientNames == null) {
             return new ArrayList<>();
@@ -96,5 +126,23 @@ public class RawMaterialServiceImpl implements RawMaterialService {
             materialByName.put(name, material);
         }
         return new ArrayList<>(materialByName.values());
+    }
+
+    private RawMaterialResponse toResponse(String ingredientName, RawMaterialMatchRow row) {
+        RawMaterialResponse response = new RawMaterialResponse();
+        response.setIngredientName(ingredientName);
+        response.setName(row.getName());
+        response.setCommonNames(row.getCommonNames());
+        response.setSteamTime(row.getSteamTime());
+        response.setBoilTime(row.getBoilTime());
+        response.setFryTime(row.getFryTime());
+        response.setBakeTime(row.getBakeTime());
+        response.setStirFryTime(row.getStirFryTime());
+        response.setDefaultHeatTemperature(row.getDefaultHeatTemperature());
+        response.setAllergenFlag(row.getAllergenFlag());
+        response.setNutritionInfo(row.getNutritionInfo());
+        response.setSubstituteIngredients(row.getSubstituteIngredients());
+        response.setCategory(row.getCategory());
+        return response;
     }
 }

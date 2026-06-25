@@ -34,6 +34,35 @@
         )
     </select>
 
+    <select id="selectMatchedMaterials" resultType="com.panghu.food.dto.RawMaterialMatchRow">
+        SELECT
+            query_names.name AS queryName,
+            material.name AS name,
+            material.common_names AS commonNames,
+            material.steam_time AS steamTime,
+            material.boil_time AS boilTime,
+            material.fry_time AS fryTime,
+            material.bake_time AS bakeTime,
+            material.stir_fry_time AS stirFryTime,
+            material.default_heat_temperature AS defaultHeatTemperature,
+            material.allergen_flag AS allergenFlag,
+            material.nutrition_info AS nutritionInfo,
+            material.substitute_ingredients AS substituteIngredients,
+            material.category AS category
+        FROM (
+        <foreach collection="names" item="name" separator=" UNION ALL ">
+            SELECT #{name} AS name
+        </foreach>
+        ) query_names
+        INNER JOIN raw_material material
+            ON material.name = query_names.name
+            OR FIND_IN_SET(query_names.name, material.common_names) > 0
+        ORDER BY
+            query_names.name,
+            CASE WHEN material.name = query_names.name THEN 0 ELSE 1 END,
+            material.name
+    </select>
+
     <insert id="insertIgnoreBatch">
         INSERT IGNORE INTO raw_material (
             id,

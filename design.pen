@@ -1,5 +1,5 @@
 {
-  "version": "2.13",
+  "version": "2.14",
   "children": [
     {
       "type": "frame",
@@ -1618,258 +1618,517 @@
               "name": "Ingredients Section",
               "width": "fill_container",
               "layout": "vertical",
-              "gap": 12,
+              "gap": 10,
               "children": [
                 {
-                  "type": "text",
-                  "id": "v10A4O",
-                  "name": "Ingredients Title",
-                  "fill": "$text-primary",
-                  "content": "食材清单",
-                  "fontFamily": "$font-heading",
-                  "fontSize": 18,
-                  "fontWeight": "normal"
+                  "type": "frame",
+                  "id": "GsP8R",
+                  "name": "Ingredients Header",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "x03cw",
+                      "name": "Ingredients Title",
+                      "fill": "$text-primary",
+                      "content": "食材清单",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 18,
+                      "fontWeight": "normal"
+                    }
+                  ]
                 },
                 {
                   "type": "frame",
-                  "id": "K0fDTz",
+                  "id": "qI8cv",
                   "name": "Ingredient 羊蝎子",
                   "width": "fill_container",
+                  "fill": "#FBF8F4",
+                  "cornerRadius": 10,
+                  "stroke": "#EFE3D1",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
                   "padding": [
-                    8,
-                    0
+                    10,
+                    12
                   ],
                   "justifyContent": "space_between",
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "frame",
-                      "id": "W8MbtK",
-                      "name": "Ing Left",
+                      "id": "NHDO9",
+                      "name": "Ingredient Left 羊蝎子",
                       "gap": 10,
                       "alignItems": "center",
                       "children": [
                         {
                           "type": "frame",
-                          "id": "KNdhX",
-                          "name": "Ing Dot",
+                          "id": "lyrd4",
+                          "name": "Ingredient Dot 羊蝎子",
                           "width": 6,
                           "height": 6,
                           "fill": "$accent-secondary",
-                          "cornerRadius": 9999
+                          "cornerRadius": "$radius-pill"
                         },
                         {
                           "type": "text",
-                          "id": "cyW0f",
-                          "name": "Ing Name",
+                          "id": "JO0iS",
+                          "name": "Ingredient Name 羊蝎子",
                           "fill": "$text-body",
                           "content": "羊蝎子",
                           "fontFamily": "$font-body",
                           "fontSize": 14,
-                          "fontWeight": "normal"
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "EtYvr",
+                          "name": "Archive Chip 羊蝎子",
+                          "fill": "#EDF3EC",
+                          "cornerRadius": "$radius-pill",
+                          "padding": [
+                            3,
+                            8
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "P93Qq6",
+                              "name": "Archive Chip Text 羊蝎子",
+                              "fill": "$accent-secondary",
+                              "content": "档案",
+                              "fontFamily": "$font-body",
+                              "fontSize": 10,
+                              "fontWeight": "600"
+                            }
+                          ]
                         }
                       ]
                     },
                     {
-                      "type": "text",
-                      "id": "H9MPsd",
-                      "name": "Ing Amount",
-                      "fill": "$text-muted",
-                      "content": "1000g",
-                      "fontFamily": "$font-data",
-                      "fontSize": 13,
-                      "fontWeight": "normal"
+                      "type": "frame",
+                      "id": "mIHwb",
+                      "name": "Ingredient Action 羊蝎子",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "tRdMa",
+                          "name": "Ingredient Amount 羊蝎子",
+                          "fill": "$text-muted",
+                          "content": "1000g",
+                          "fontFamily": "$font-data",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "wINVQ",
+                          "name": "Ingredient Info Shell 羊蝎子",
+                          "width": 26,
+                          "height": 26,
+                          "fill": "#F2E9E2",
+                          "cornerRadius": "$radius-pill",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "V0Qil",
+                              "name": "Ingredient Info Arrow 羊蝎子",
+                              "width": 14,
+                              "height": 14,
+                              "icon": "caret-right",
+                              "library": "phosphor",
+                              "fill": "$accent-primary"
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 },
                 {
                   "type": "frame",
-                  "id": "uU4gG",
+                  "id": "UY1Tj",
                   "name": "Ingredient 大葱",
                   "width": "fill_container",
+                  "fill": "#FBF8F4",
+                  "cornerRadius": 10,
+                  "stroke": "#EFE3D1",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
                   "padding": [
-                    8,
-                    0
+                    10,
+                    12
                   ],
                   "justifyContent": "space_between",
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "frame",
-                      "id": "Tp3ho",
-                      "name": "Ing Left",
+                      "id": "A1T1MJ",
+                      "name": "Ingredient Left 大葱",
                       "gap": 10,
                       "alignItems": "center",
                       "children": [
                         {
                           "type": "frame",
-                          "id": "E6Hj51",
-                          "name": "Ing Dot",
+                          "id": "GtoNM",
+                          "name": "Ingredient Dot 大葱",
                           "width": 6,
                           "height": 6,
                           "fill": "$accent-secondary",
-                          "cornerRadius": 9999
+                          "cornerRadius": "$radius-pill"
                         },
                         {
                           "type": "text",
-                          "id": "yssDb",
-                          "name": "Ing Name",
+                          "id": "G79O1y",
+                          "name": "Ingredient Name 大葱",
                           "fill": "$text-body",
                           "content": "大葱",
                           "fontFamily": "$font-body",
                           "fontSize": 14,
-                          "fontWeight": "normal"
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "MrAz5",
+                          "name": "Archive Chip 大葱",
+                          "fill": "#EDF3EC",
+                          "cornerRadius": "$radius-pill",
+                          "padding": [
+                            3,
+                            8
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "nDd9g",
+                              "name": "Archive Chip Text 大葱",
+                              "fill": "$accent-secondary",
+                              "content": "档案",
+                              "fontFamily": "$font-body",
+                              "fontSize": 10,
+                              "fontWeight": "600"
+                            }
+                          ]
                         }
                       ]
                     },
                     {
-                      "type": "text",
-                      "id": "N0bZn",
-                      "name": "Ing Amount",
-                      "fill": "$text-muted",
-                      "content": "2根",
-                      "fontFamily": "$font-data",
-                      "fontSize": 13,
-                      "fontWeight": "normal"
+                      "type": "frame",
+                      "id": "ZU68m",
+                      "name": "Ingredient Action 大葱",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "IH8MZ",
+                          "name": "Ingredient Amount 大葱",
+                          "fill": "$text-muted",
+                          "content": "2根",
+                          "fontFamily": "$font-data",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "aj0wv",
+                          "name": "Ingredient Info Shell 大葱",
+                          "width": 26,
+                          "height": 26,
+                          "fill": "#F2E9E2",
+                          "cornerRadius": "$radius-pill",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "pg8Ka",
+                              "name": "Ingredient Info Arrow 大葱",
+                              "width": 14,
+                              "height": 14,
+                              "icon": "caret-right",
+                              "library": "phosphor",
+                              "fill": "$accent-primary"
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 },
                 {
                   "type": "frame",
-                  "id": "kpu3e",
+                  "id": "b6EOZp",
                   "name": "Ingredient 生姜",
                   "width": "fill_container",
+                  "fill": "#FBF8F4",
+                  "cornerRadius": 10,
+                  "stroke": "#EFE3D1",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
                   "padding": [
-                    8,
-                    0
+                    10,
+                    12
                   ],
                   "justifyContent": "space_between",
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "frame",
-                      "id": "uCBxf",
-                      "name": "Ing Left",
+                      "id": "t8vgSU",
+                      "name": "Ingredient Left 生姜",
                       "gap": 10,
                       "alignItems": "center",
                       "children": [
                         {
                           "type": "frame",
-                          "id": "jLADa",
-                          "name": "Ing Dot",
+                          "id": "QPNQo",
+                          "name": "Ingredient Dot 生姜",
                           "width": 6,
                           "height": 6,
                           "fill": "$accent-secondary",
-                          "cornerRadius": 9999
+                          "cornerRadius": "$radius-pill"
                         },
                         {
                           "type": "text",
-                          "id": "fkR8d",
-                          "name": "Ing Name",
+                          "id": "QgvUY",
+                          "name": "Ingredient Name 生姜",
                           "fill": "$text-body",
                           "content": "生姜",
                           "fontFamily": "$font-body",
                           "fontSize": 14,
-                          "fontWeight": "normal"
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "YGUKw",
+                          "name": "Archive Chip 生姜",
+                          "fill": "#EDF3EC",
+                          "cornerRadius": "$radius-pill",
+                          "padding": [
+                            3,
+                            8
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "jILsS",
+                              "name": "Archive Chip Text 生姜",
+                              "fill": "$accent-secondary",
+                              "content": "档案",
+                              "fontFamily": "$font-body",
+                              "fontSize": 10,
+                              "fontWeight": "600"
+                            }
+                          ]
                         }
                       ]
                     },
                     {
-                      "type": "text",
-                      "id": "GjX28",
-                      "name": "Ing Amount",
-                      "fill": "$text-muted",
-                      "content": "30g",
-                      "fontFamily": "$font-data",
-                      "fontSize": 13,
-                      "fontWeight": "normal"
+                      "type": "frame",
+                      "id": "QWdlX",
+                      "name": "Ingredient Action 生姜",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "J4MHXX",
+                          "name": "Ingredient Amount 生姜",
+                          "fill": "$text-muted",
+                          "content": "30g",
+                          "fontFamily": "$font-data",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "UsOD7",
+                          "name": "Ingredient Info Shell 生姜",
+                          "width": 26,
+                          "height": 26,
+                          "fill": "#F2E9E2",
+                          "cornerRadius": "$radius-pill",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "aOgk9",
+                              "name": "Ingredient Info Arrow 生姜",
+                              "width": 14,
+                              "height": 14,
+                              "icon": "caret-right",
+                              "library": "phosphor",
+                              "fill": "$accent-primary"
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 },
                 {
                   "type": "frame",
-                  "id": "DlSrM",
+                  "id": "lEk09",
                   "name": "Ingredient 八角",
                   "width": "fill_container",
+                  "fill": "#FBF8F4",
+                  "cornerRadius": 10,
+                  "stroke": "#EFE3D1",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
                   "padding": [
-                    8,
-                    0
+                    10,
+                    12
                   ],
                   "justifyContent": "space_between",
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "frame",
-                      "id": "ujNid",
-                      "name": "Ing Left",
+                      "id": "FLB9M",
+                      "name": "Ingredient Left 八角",
                       "gap": 10,
                       "alignItems": "center",
                       "children": [
                         {
                           "type": "frame",
-                          "id": "I93ziy",
-                          "name": "Ing Dot",
+                          "id": "v66YLu",
+                          "name": "Ingredient Dot 八角",
                           "width": 6,
                           "height": 6,
                           "fill": "$accent-secondary",
-                          "cornerRadius": 9999
+                          "cornerRadius": "$radius-pill"
                         },
                         {
                           "type": "text",
-                          "id": "Y2Vjh",
-                          "name": "Ing Name",
+                          "id": "d1Cv9t",
+                          "name": "Ingredient Name 八角",
                           "fill": "$text-body",
                           "content": "八角",
                           "fontFamily": "$font-body",
                           "fontSize": 14,
-                          "fontWeight": "normal"
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "mfl83",
+                          "name": "Archive Chip 八角",
+                          "fill": "#EDF3EC",
+                          "cornerRadius": "$radius-pill",
+                          "padding": [
+                            3,
+                            8
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "W3GKfH",
+                              "name": "Archive Chip Text 八角",
+                              "fill": "$accent-secondary",
+                              "content": "档案",
+                              "fontFamily": "$font-body",
+                              "fontSize": 10,
+                              "fontWeight": "600"
+                            }
+                          ]
                         }
                       ]
                     },
                     {
-                      "type": "text",
-                      "id": "mWLHv",
-                      "name": "Ing Amount",
-                      "fill": "$text-muted",
-                      "content": "3颗",
-                      "fontFamily": "$font-data",
-                      "fontSize": 13,
-                      "fontWeight": "normal"
+                      "type": "frame",
+                      "id": "I5vn55",
+                      "name": "Ingredient Action 八角",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "vLvL5",
+                          "name": "Ingredient Amount 八角",
+                          "fill": "$text-muted",
+                          "content": "3颗",
+                          "fontFamily": "$font-data",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "hWudO",
+                          "name": "Ingredient Info Shell 八角",
+                          "width": 26,
+                          "height": 26,
+                          "fill": "#F2E9E2",
+                          "cornerRadius": "$radius-pill",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "hgCd0",
+                              "name": "Ingredient Info Arrow 八角",
+                              "width": 14,
+                              "height": 14,
+                              "icon": "caret-right",
+                              "library": "phosphor",
+                              "fill": "$accent-primary"
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 },
                 {
                   "type": "frame",
-                  "id": "S4a5gR",
+                  "id": "fklqU",
                   "name": "Ingredient 干辣椒",
                   "width": "fill_container",
+                  "fill": "#00000000",
                   "padding": [
                     8,
-                    0
+                    12
                   ],
                   "justifyContent": "space_between",
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "frame",
-                      "id": "NP6Pd",
-                      "name": "Ing Left",
+                      "id": "w5Gps",
+                      "name": "Ingredient Left 干辣椒",
                       "gap": 10,
                       "alignItems": "center",
                       "children": [
                         {
                           "type": "frame",
-                          "id": "E51fZ",
-                          "name": "Ing Dot",
+                          "id": "YpnLk",
+                          "name": "Ingredient Dot 干辣椒",
                           "width": 6,
                           "height": 6,
-                          "fill": "$accent-secondary",
-                          "cornerRadius": 9999
+                          "fill": "#B9B2A8",
+                          "cornerRadius": "$radius-pill"
                         },
                         {
                           "type": "text",
-                          "id": "GcWwe",
-                          "name": "Ing Name",
+                          "id": "H0VIo0",
+                          "name": "Ingredient Name 干辣椒",
                           "fill": "$text-body",
                           "content": "干辣椒",
                           "fontFamily": "$font-body",
@@ -1880,8 +2139,8 @@
                     },
                     {
                       "type": "text",
-                      "id": "raHWW",
-                      "name": "Ing Amount",
+                      "id": "t6LcIj",
+                      "name": "Ingredient Amount 干辣椒",
                       "fill": "$text-muted",
                       "content": "5个",
                       "fontFamily": "$font-data",
@@ -1892,36 +2151,37 @@
                 },
                 {
                   "type": "frame",
-                  "id": "DCJwd",
+                  "id": "FWU8E",
                   "name": "Ingredient 豆瓣酱",
                   "width": "fill_container",
+                  "fill": "#00000000",
                   "padding": [
                     8,
-                    0
+                    12
                   ],
                   "justifyContent": "space_between",
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "frame",
-                      "id": "iEsE1",
-                      "name": "Ing Left",
+                      "id": "i8qK4Z",
+                      "name": "Ingredient Left 豆瓣酱",
                       "gap": 10,
                       "alignItems": "center",
                       "children": [
                         {
                           "type": "frame",
-                          "id": "FoHBE",
-                          "name": "Ing Dot",
+                          "id": "cfyNa",
+                          "name": "Ingredient Dot 豆瓣酱",
                           "width": 6,
                           "height": 6,
-                          "fill": "$accent-secondary",
-                          "cornerRadius": 9999
+                          "fill": "#B9B2A8",
+                          "cornerRadius": "$radius-pill"
                         },
                         {
                           "type": "text",
-                          "id": "DF1xr",
-                          "name": "Ing Name",
+                          "id": "q46EP",
+                          "name": "Ingredient Name 豆瓣酱",
                           "fill": "$text-body",
                           "content": "豆瓣酱",
                           "fontFamily": "$font-body",
@@ -1932,8 +2192,8 @@
                     },
                     {
                       "type": "text",
-                      "id": "RxWHg",
-                      "name": "Ing Amount",
+                      "id": "o2cJ8L",
+                      "name": "Ingredient Amount 豆瓣酱",
                       "fill": "$text-muted",
                       "content": "2勺",
                       "fontFamily": "$font-data",
@@ -35563,6 +35823,1876 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "kaHol",
+      "x": 3137,
+      "y": 0,
+      "name": "Recipe Detail Ingredient Info",
+      "clip": true,
+      "width": 390,
+      "fill": "$bg-primary",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "qnLBt",
+          "name": "Image Spacer",
+          "width": "fill_container",
+          "height": 260
+        },
+        {
+          "type": "frame",
+          "id": "w25RX",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 0,
+          "name": "Hero Image",
+          "metadata": {
+            "type": "unsplash",
+            "username": "jiaweizhao",
+            "link": "https://unsplash.com/@jiaweizhao",
+            "author": "Jiawei Zhao"
+          },
+          "width": 390,
+          "height": 280,
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "https://images.unsplash.com/photo-1689122708012-d229e7a688de?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Nzk5MzM0ODd8&ixlib=rb-4.1.0&q=80&w=1080",
+            "mode": "fill"
+          }
+        },
+        {
+          "type": "frame",
+          "id": "YDicn",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 0,
+          "name": "Nav Overlay",
+          "width": 390,
+          "padding": [
+            50,
+            20,
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Ff6Y2",
+              "name": "Back Button",
+              "width": 36,
+              "height": 36,
+              "fill": "#FFFFFF99",
+              "cornerRadius": 9999,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "z1RCO",
+                  "name": "Back Arrow",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "arrow-left",
+                  "library": "phosphor",
+                  "fill": "$text-primary"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Q9ZiRp",
+              "name": "Fav Button",
+              "width": 36,
+              "height": 36,
+              "fill": "#FFFFFF99",
+              "cornerRadius": 9999,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "b9XMW",
+                  "name": "Fav Heart",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "heart",
+                  "library": "phosphor",
+                  "fill": "$accent-primary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "j9FY8z",
+          "name": "Content Card",
+          "width": "fill_container",
+          "fill": "$bg-card",
+          "cornerRadius": [
+            20,
+            20,
+            0,
+            0
+          ],
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#0000000d",
+            "offset": {
+              "x": 0,
+              "y": -4
+            },
+            "blur": 16
+          },
+          "layout": "vertical",
+          "gap": 20,
+          "padding": [
+            24,
+            20,
+            20,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "T2vIf5",
+              "name": "Title Row",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "X7TuH",
+                  "name": "Dish Name",
+                  "fill": "$text-primary",
+                  "content": "羊蝎子火锅",
+                  "fontFamily": "$font-heading",
+                  "fontSize": 26,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "x17EGR",
+                  "name": "Category Badge",
+                  "fill": "$accent-secondary-light",
+                  "cornerRadius": "$radius-pill",
+                  "padding": [
+                    4,
+                    10
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "QXq0N",
+                      "name": "Badge Text",
+                      "fill": "$accent-secondary",
+                      "content": "肉类",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "kamYS",
+              "name": "Info Row",
+              "width": "fill_container",
+              "padding": [
+                16,
+                0
+              ],
+              "justifyContent": "space_around",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "hDIpl",
+                  "name": "Info Time",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "MgyfW",
+                      "name": "Clock Icon",
+                      "width": 22,
+                      "height": 22,
+                      "icon": "clock",
+                      "library": "phosphor",
+                      "fill": "$accent-primary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "yXQQn",
+                      "name": "Time Value",
+                      "fill": "$text-primary",
+                      "content": "45 min",
+                      "fontFamily": "$font-data",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "pYbDG",
+                      "name": "Time Label",
+                      "fill": "$text-muted",
+                      "content": "烹饪时间",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "s5ILn",
+                  "name": "Info Difficulty",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "S3KD6o",
+                      "name": "Fire Icon",
+                      "width": 22,
+                      "height": 22,
+                      "icon": "fire",
+                      "library": "phosphor",
+                      "fill": "$accent-primary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "W4GP7s",
+                      "name": "Diff Value",
+                      "fill": "$text-primary",
+                      "content": "中等",
+                      "fontFamily": "$font-data",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "muL7Q",
+                      "name": "Diff Label",
+                      "fill": "$text-muted",
+                      "content": "难度",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ed3p5",
+                  "name": "Info Servings",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "kF437",
+                      "name": "People Icon",
+                      "width": 22,
+                      "height": 22,
+                      "icon": "users",
+                      "library": "phosphor",
+                      "fill": "$accent-primary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "LfCFx",
+                      "name": "Serve Value",
+                      "fill": "$text-primary",
+                      "content": "4 人",
+                      "fontFamily": "$font-data",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "S9BDc",
+                      "name": "Serve Label",
+                      "fill": "$text-muted",
+                      "content": "份量",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "A4vXg9",
+              "name": "Divider 1",
+              "width": "fill_container",
+              "height": 1,
+              "fill": "$border-light"
+            },
+            {
+              "type": "frame",
+              "id": "uS9UX",
+              "name": "Ingredients Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "CQa0O",
+                  "name": "Ingredients Header",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Gz1hu",
+                      "name": "Ingredients Title",
+                      "fill": "$text-primary",
+                      "content": "食材清单",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 18,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "dxaxb",
+                      "name": "Ingredient Archive Count",
+                      "fill": "$accent-secondary-light",
+                      "cornerRadius": "$radius-pill",
+                      "gap": 5,
+                      "padding": [
+                        5,
+                        10
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "LQXrC",
+                          "name": "Archive Database Icon",
+                          "width": 13,
+                          "height": 13,
+                          "icon": "database",
+                          "library": "phosphor",
+                          "fill": "$accent-secondary"
+                        },
+                        {
+                          "type": "text",
+                          "id": "VPeKP",
+                          "name": "Archive Count Text",
+                          "fill": "$accent-secondary",
+                          "content": "4 项有档案",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "R8Qvdm",
+                  "name": "Ingredient 羊蝎子",
+                  "width": "fill_container",
+                  "fill": "#FBF8F4",
+                  "cornerRadius": 10,
+                  "stroke": "#EFE3D1",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "padding": [
+                    10,
+                    12
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "CaPtN",
+                      "name": "Ingredient Left 羊蝎子",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "SeCyc",
+                          "name": "Ingredient Dot 羊蝎子",
+                          "width": 6,
+                          "height": 6,
+                          "fill": "$accent-secondary",
+                          "cornerRadius": "$radius-pill"
+                        },
+                        {
+                          "type": "text",
+                          "id": "umJ2g",
+                          "name": "Ingredient Name 羊蝎子",
+                          "fill": "$text-body",
+                          "content": "羊蝎子",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "KU7IZ",
+                          "name": "Archive Chip 羊蝎子",
+                          "fill": "#EDF3EC",
+                          "cornerRadius": "$radius-pill",
+                          "padding": [
+                            3,
+                            8
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "dxBVb",
+                              "name": "Archive Chip Text 羊蝎子",
+                              "fill": "$accent-secondary",
+                              "content": "档案",
+                              "fontFamily": "$font-body",
+                              "fontSize": 10,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "R8vsS",
+                      "name": "Ingredient Action 羊蝎子",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "H3n4Ch",
+                          "name": "Ingredient Amount 羊蝎子",
+                          "fill": "$text-muted",
+                          "content": "1000g",
+                          "fontFamily": "$font-data",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ZRXH3",
+                          "name": "Ingredient Info Shell 羊蝎子",
+                          "width": 26,
+                          "height": 26,
+                          "fill": "#F2E9E2",
+                          "cornerRadius": "$radius-pill",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "TPGGQ",
+                              "name": "Ingredient Info Arrow 羊蝎子",
+                              "width": 14,
+                              "height": 14,
+                              "icon": "caret-right",
+                              "library": "phosphor",
+                              "fill": "$accent-primary"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "A2V3S6",
+                  "name": "Ingredient 大葱",
+                  "width": "fill_container",
+                  "fill": "#FBF8F4",
+                  "cornerRadius": 10,
+                  "stroke": "#EFE3D1",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "padding": [
+                    10,
+                    12
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "dkOTf",
+                      "name": "Ingredient Left 大葱",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "NQVfP",
+                          "name": "Ingredient Dot 大葱",
+                          "width": 6,
+                          "height": 6,
+                          "fill": "$accent-secondary",
+                          "cornerRadius": "$radius-pill"
+                        },
+                        {
+                          "type": "text",
+                          "id": "h2qgOT",
+                          "name": "Ingredient Name 大葱",
+                          "fill": "$text-body",
+                          "content": "大葱",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "PlX65",
+                          "name": "Archive Chip 大葱",
+                          "fill": "#EDF3EC",
+                          "cornerRadius": "$radius-pill",
+                          "padding": [
+                            3,
+                            8
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "aH6DA",
+                              "name": "Archive Chip Text 大葱",
+                              "fill": "$accent-secondary",
+                              "content": "档案",
+                              "fontFamily": "$font-body",
+                              "fontSize": 10,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "q340wF",
+                      "name": "Ingredient Action 大葱",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "VgRuY",
+                          "name": "Ingredient Amount 大葱",
+                          "fill": "$text-muted",
+                          "content": "2根",
+                          "fontFamily": "$font-data",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "r2gRvK",
+                          "name": "Ingredient Info Shell 大葱",
+                          "width": 26,
+                          "height": 26,
+                          "fill": "#F2E9E2",
+                          "cornerRadius": "$radius-pill",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "knBeQ",
+                              "name": "Ingredient Info Arrow 大葱",
+                              "width": 14,
+                              "height": 14,
+                              "icon": "caret-right",
+                              "library": "phosphor",
+                              "fill": "$accent-primary"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "KHcRV",
+                  "name": "Ingredient 生姜",
+                  "width": "fill_container",
+                  "fill": "#FBF8F4",
+                  "cornerRadius": 10,
+                  "stroke": "#EFE3D1",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "padding": [
+                    10,
+                    12
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "VDjH2",
+                      "name": "Ingredient Left 生姜",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "fediR",
+                          "name": "Ingredient Dot 生姜",
+                          "width": 6,
+                          "height": 6,
+                          "fill": "$accent-secondary",
+                          "cornerRadius": "$radius-pill"
+                        },
+                        {
+                          "type": "text",
+                          "id": "ll8Nd",
+                          "name": "Ingredient Name 生姜",
+                          "fill": "$text-body",
+                          "content": "生姜",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "dzS37",
+                          "name": "Archive Chip 生姜",
+                          "fill": "#EDF3EC",
+                          "cornerRadius": "$radius-pill",
+                          "padding": [
+                            3,
+                            8
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Y5DrQ",
+                              "name": "Archive Chip Text 生姜",
+                              "fill": "$accent-secondary",
+                              "content": "档案",
+                              "fontFamily": "$font-body",
+                              "fontSize": 10,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "X2iYp8",
+                      "name": "Ingredient Action 生姜",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "xR12f",
+                          "name": "Ingredient Amount 生姜",
+                          "fill": "$text-muted",
+                          "content": "30g",
+                          "fontFamily": "$font-data",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "m4Fx1",
+                          "name": "Ingredient Info Shell 生姜",
+                          "width": 26,
+                          "height": 26,
+                          "fill": "#F2E9E2",
+                          "cornerRadius": "$radius-pill",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "gnqyz",
+                              "name": "Ingredient Info Arrow 生姜",
+                              "width": 14,
+                              "height": 14,
+                              "icon": "caret-right",
+                              "library": "phosphor",
+                              "fill": "$accent-primary"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "SBxxj",
+                  "name": "Ingredient 八角",
+                  "width": "fill_container",
+                  "fill": "#FBF8F4",
+                  "cornerRadius": 10,
+                  "stroke": "#EFE3D1",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "padding": [
+                    10,
+                    12
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "c2A7l",
+                      "name": "Ingredient Left 八角",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "nTQrj",
+                          "name": "Ingredient Dot 八角",
+                          "width": 6,
+                          "height": 6,
+                          "fill": "$accent-secondary",
+                          "cornerRadius": "$radius-pill"
+                        },
+                        {
+                          "type": "text",
+                          "id": "e9vvbp",
+                          "name": "Ingredient Name 八角",
+                          "fill": "$text-body",
+                          "content": "八角",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "c3sxc",
+                          "name": "Archive Chip 八角",
+                          "fill": "#EDF3EC",
+                          "cornerRadius": "$radius-pill",
+                          "padding": [
+                            3,
+                            8
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "hQFMC",
+                              "name": "Archive Chip Text 八角",
+                              "fill": "$accent-secondary",
+                              "content": "档案",
+                              "fontFamily": "$font-body",
+                              "fontSize": 10,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "kc59J",
+                      "name": "Ingredient Action 八角",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "GvyZV",
+                          "name": "Ingredient Amount 八角",
+                          "fill": "$text-muted",
+                          "content": "3颗",
+                          "fontFamily": "$font-data",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "OzVZv",
+                          "name": "Ingredient Info Shell 八角",
+                          "width": 26,
+                          "height": 26,
+                          "fill": "#F2E9E2",
+                          "cornerRadius": "$radius-pill",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "mHZjU",
+                              "name": "Ingredient Info Arrow 八角",
+                              "width": 14,
+                              "height": 14,
+                              "icon": "caret-right",
+                              "library": "phosphor",
+                              "fill": "$accent-primary"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "pTbr3",
+                  "name": "Ingredient 干辣椒",
+                  "width": "fill_container",
+                  "fill": "#00000000",
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "FQp3E",
+                      "name": "Ingredient Left 干辣椒",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "OKYlh",
+                          "name": "Ingredient Dot 干辣椒",
+                          "width": 6,
+                          "height": 6,
+                          "fill": "#B9B2A8",
+                          "cornerRadius": "$radius-pill"
+                        },
+                        {
+                          "type": "text",
+                          "id": "SbQTn",
+                          "name": "Ingredient Name 干辣椒",
+                          "fill": "$text-body",
+                          "content": "干辣椒",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "ia53G",
+                      "name": "Ingredient Amount 干辣椒",
+                      "fill": "$text-muted",
+                      "content": "5个",
+                      "fontFamily": "$font-data",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "vHC87",
+                  "name": "Ingredient 豆瓣酱",
+                  "width": "fill_container",
+                  "fill": "#00000000",
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "CP7Ni",
+                      "name": "Ingredient Left 豆瓣酱",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "WOZGU",
+                          "name": "Ingredient Dot 豆瓣酱",
+                          "width": 6,
+                          "height": 6,
+                          "fill": "#B9B2A8",
+                          "cornerRadius": "$radius-pill"
+                        },
+                        {
+                          "type": "text",
+                          "id": "RzLqA",
+                          "name": "Ingredient Name 豆瓣酱",
+                          "fill": "$text-body",
+                          "content": "豆瓣酱",
+                          "fontFamily": "$font-body",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "nWA3O",
+                      "name": "Ingredient Amount 豆瓣酱",
+                      "fill": "$text-muted",
+                      "content": "2勺",
+                      "fontFamily": "$font-data",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "OQ8IP",
+              "name": "Divider 2",
+              "width": "fill_container",
+              "height": 1,
+              "fill": "$border-light"
+            },
+            {
+              "type": "frame",
+              "id": "KKeV0",
+              "name": "Steps Section",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 14,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "VlFtI",
+                  "name": "Steps Title",
+                  "fill": "$text-primary",
+                  "content": "烹饪步骤",
+                  "fontFamily": "$font-heading",
+                  "fontSize": 18,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "m1DWW",
+                  "name": "Step 1",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "tHorH",
+                      "name": "Step Num 1",
+                      "width": 24,
+                      "height": 24,
+                      "fill": "$accent-primary",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "UuDlH",
+                          "name": "Num Text",
+                          "fill": "#FFFFFF",
+                          "content": "1",
+                          "fontFamily": "$font-data",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "Buo9M",
+                      "name": "Step Text 1",
+                      "fill": "$text-body",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "羊蝎子冷水下锅焯水，去除血沫后捞出备用",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "DS934",
+                  "name": "Step 2",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "eLpgu",
+                      "name": "Step Num 2",
+                      "width": 24,
+                      "height": 24,
+                      "fill": "$accent-primary",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ajSgf",
+                          "name": "Num Text",
+                          "fill": "#FFFFFF",
+                          "content": "2",
+                          "fontFamily": "$font-data",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "BMoCI",
+                      "name": "Step Text 2",
+                      "fill": "$text-body",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "锅中放油，爆香葱姜蒜、八角、干辣椒",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "H5eVA",
+                  "name": "Step 3",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "G3ijO",
+                      "name": "Step Num 3",
+                      "width": 24,
+                      "height": 24,
+                      "fill": "$accent-primary",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "N5pSHw",
+                          "name": "Num Text",
+                          "fill": "#FFFFFF",
+                          "content": "3",
+                          "fontFamily": "$font-data",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "LQgLr",
+                      "name": "Step Text 3",
+                      "fill": "$text-body",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "加入豆瓣酱炒出红油，放入羊蝎子翻炒",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Xztgt",
+                  "name": "Step 4",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "a1BfXD",
+                      "name": "Step Num 4",
+                      "width": 24,
+                      "height": 24,
+                      "fill": "$accent-primary",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "hVVcX",
+                          "name": "Num Text",
+                          "fill": "#FFFFFF",
+                          "content": "4",
+                          "fontFamily": "$font-data",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "B1xRaJ",
+                      "name": "Step Text 4",
+                      "fill": "$text-body",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "加入热水没过食材，大火烧开后转小火炖煮40分钟",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "YiZYx",
+          "name": "Bottom Bar",
+          "width": "fill_container",
+          "gap": 12,
+          "padding": [
+            12,
+            20,
+            20,
+            20
+          ],
+          "justifyContent": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "s89KC",
+              "name": "Cook Button",
+              "width": "fill_container",
+              "height": 50,
+              "fill": "$accent-primary",
+              "cornerRadius": "$radius-inner",
+              "gap": 8,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "TXAOt",
+                  "name": "Cook Icon",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "cooking-pot",
+                  "library": "phosphor",
+                  "fill": "#FFFFFF"
+                },
+                {
+                  "type": "text",
+                  "id": "IgXx6",
+                  "name": "Cook Text",
+                  "fill": "#FFFFFF",
+                  "content": "开始烹饪",
+                  "fontFamily": "$font-body",
+                  "fontSize": 15,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "I7hhn",
+              "name": "Share Button",
+              "width": "fill_container",
+              "height": 50,
+              "fill": "#F2E9E2",
+              "cornerRadius": 10,
+              "stroke": "#D8C3B6",
+              "strokeWidth": 1,
+              "gap": 8,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "aQYJ1",
+                  "name": "Share Icon",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "share-network",
+                  "library": "phosphor",
+                  "fill": "#9F5C38"
+                },
+                {
+                  "type": "text",
+                  "id": "U0KpGp",
+                  "name": "Share Text",
+                  "fill": "#9F5C38",
+                  "content": "分享菜谱",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 15,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "yEknH",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 0,
+          "name": "Ingredient Info Overlay",
+          "width": 390,
+          "height": 1143,
+          "fill": "#15151566",
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "I9ULu0",
+              "layoutPosition": "absolute",
+              "x": 0,
+              "y": 330,
+              "name": "Ingredient Archive Bottom Sheet",
+              "width": 390,
+              "fill": "#FFFFFF",
+              "cornerRadius": [
+                24,
+                24,
+                0,
+                0
+              ],
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#8A4E291A",
+                "offset": {
+                  "x": 0,
+                  "y": -10
+                },
+                "blur": 36
+              },
+              "layout": "vertical",
+              "gap": 12,
+              "padding": [
+                12,
+                20,
+                24,
+                20
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": "$radius-pill",
+                  "id": "ztrfx",
+                  "name": "Sheet Handle",
+                  "fill": "#E6DBCF",
+                  "width": 42,
+                  "height": 4
+                },
+                {
+                  "type": "frame",
+                  "id": "NNFha",
+                  "name": "Ingredient Archive Header",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "p30Vo3",
+                      "name": "Ingredient Archive Title Stack",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "S2JrM",
+                          "name": "Raw Material Category Chip",
+                          "fill": "$accent-secondary-light",
+                          "cornerRadius": "$radius-pill",
+                          "gap": 5,
+                          "padding": [
+                            5,
+                            10
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "Mghy4",
+                              "name": "Raw Material Category Icon",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "tag",
+                              "library": "phosphor",
+                              "fill": "$accent-secondary"
+                            },
+                            {
+                              "type": "text",
+                              "id": "V30c6Q",
+                              "name": "Raw Material Category Text",
+                              "fill": "$accent-secondary",
+                              "content": "分类：肉",
+                              "fontFamily": "$font-body",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "OcG5y",
+                          "name": "Raw Material Name",
+                          "fill": "$text-primary",
+                          "content": "羊蝎子",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 26,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "QGowL",
+                  "name": "Raw Material Common Names",
+                  "width": "fill_container",
+                  "fill": "#FBF8F4",
+                  "cornerRadius": 16,
+                  "stroke": "#F0E7DC",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 6,
+                  "padding": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "gOp5f",
+                      "name": "Common Names Label",
+                      "fill": "$text-muted",
+                      "content": "常见名 / 学名 / 缩写",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "XOttN",
+                      "name": "Common Names Value",
+                      "fill": "$text-body",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "羊蝎子, 羊脊骨, lamb spine",
+                      "lineHeight": 1.45,
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "RJdRa",
+                  "name": "Raw Material Cooking Capsule",
+                  "width": "fill_container",
+                  "fill": "#FBF7F1",
+                  "cornerRadius": 18,
+                  "stroke": "#EFE3D1",
+                  "strokeWidth": 1,
+                  "gap": 8,
+                  "padding": [
+                    8,
+                    10
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "xgoeW",
+                      "name": "Heat Capsule Mark",
+                      "width": 54,
+                      "height": 50,
+                      "fill": "#F2E9E2",
+                      "cornerRadius": 14,
+                      "layout": "vertical",
+                      "gap": 3,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "KMoaR",
+                          "name": "Heat Capsule Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "fire",
+                          "library": "phosphor",
+                          "fill": "$accent-primary"
+                        },
+                        {
+                          "type": "text",
+                          "id": "f8u4jP",
+                          "name": "Heat Capsule Value",
+                          "fill": "$accent-primary",
+                          "content": "中小火",
+                          "fontFamily": "$font-body",
+                          "fontSize": 10,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "kqO89",
+                      "name": "Cooking Capsule Methods",
+                      "width": "fill_container",
+                      "gap": 5,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "oqKKv",
+                          "name": "Steam Capsule Token",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 3,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "E0PCP",
+                              "name": "Steam Capsule Mark",
+                              "width": 22,
+                              "height": 22,
+                              "fill": "#EDF3EC",
+                              "cornerRadius": "$radius-pill",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "osV7H",
+                                  "name": "Steam Capsule Glyph",
+                                  "fill": "$accent-secondary",
+                                  "content": "蒸",
+                                  "fontFamily": "$font-body",
+                                  "fontSize": 10,
+                                  "fontWeight": "800"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "n0kLE",
+                              "name": "Steam Capsule Time",
+                              "fill": "$text-primary",
+                              "content": "45min",
+                              "fontFamily": "$font-data",
+                              "fontSize": 9,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "xWGPI",
+                          "name": "Boil Capsule Token",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 3,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "S7fvo",
+                              "name": "Boil Capsule Mark",
+                              "width": 22,
+                              "height": 22,
+                              "fill": "#EDF3EC",
+                              "cornerRadius": "$radius-pill",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "kKuCd",
+                                  "name": "Boil Capsule Glyph",
+                                  "fill": "$accent-secondary",
+                                  "content": "煮",
+                                  "fontFamily": "$font-body",
+                                  "fontSize": 10,
+                                  "fontWeight": "800"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "dqsle",
+                              "name": "Boil Capsule Time",
+                              "fill": "$text-primary",
+                              "content": "40min",
+                              "fontFamily": "$font-data",
+                              "fontSize": 9,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "hWX8q",
+                          "name": "Fry Capsule Token",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 3,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "mgRpE",
+                              "name": "Fry Capsule Mark",
+                              "width": 22,
+                              "height": 22,
+                              "fill": "#F2E9E2",
+                              "cornerRadius": "$radius-pill",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "y44AHs",
+                                  "name": "Fry Capsule Glyph",
+                                  "fill": "$accent-primary",
+                                  "content": "炸",
+                                  "fontFamily": "$font-body",
+                                  "fontSize": 10,
+                                  "fontWeight": "800"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "J2XI1",
+                              "name": "Fry Capsule Time",
+                              "fill": "$text-muted",
+                              "content": "不建议",
+                              "fontFamily": "$font-body",
+                              "fontSize": 9,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "vFkcx",
+                          "name": "Bake Capsule Token",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 3,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "Z9pgxH",
+                              "name": "Bake Capsule Mark",
+                              "width": 22,
+                              "height": 22,
+                              "fill": "#FFF4DB",
+                              "cornerRadius": "$radius-pill",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "R3k4J",
+                                  "name": "Bake Capsule Glyph",
+                                  "fill": "#8E5C19",
+                                  "content": "烤",
+                                  "fontFamily": "$font-body",
+                                  "fontSize": 10,
+                                  "fontWeight": "800"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "fO8lS",
+                              "name": "Bake Capsule Time",
+                              "fill": "$text-primary",
+                              "content": "35min",
+                              "fontFamily": "$font-data",
+                              "fontSize": 9,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "IWIbX",
+                          "name": "Stir Fry Capsule Token",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 3,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "mBE3Z",
+                              "name": "Stir Fry Capsule Mark",
+                              "width": 22,
+                              "height": 22,
+                              "fill": "#F2E9E2",
+                              "cornerRadius": "$radius-pill",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "jZsmj",
+                                  "name": "Stir Fry Capsule Glyph",
+                                  "fill": "$accent-primary",
+                                  "content": "炒",
+                                  "fontFamily": "$font-body",
+                                  "fontSize": 10,
+                                  "fontWeight": "800"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "k60iPc",
+                              "name": "Stir Fry Capsule Time",
+                              "fill": "$text-primary",
+                              "content": "8min",
+                              "fontFamily": "$font-data",
+                              "fontSize": 9,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "GJO7Z",
+                  "name": "Raw Material Signal Stack",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "qCjNn",
+                      "name": "Allergen Signal Island",
+                      "width": "fill_container",
+                      "fill": "#FFF8EF",
+                      "cornerRadius": 18,
+                      "stroke": "#EAD9C4",
+                      "strokeWidth": 1,
+                      "gap": 10,
+                      "padding": [
+                        10,
+                        12
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "qfDcJ",
+                          "name": "Allergen Mark",
+                          "width": 34,
+                          "height": 34,
+                          "fill": "#9F5C38",
+                          "cornerRadius": "$radius-pill",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "QhXV8",
+                              "name": "Allergen Text Mark",
+                              "fill": "#FFFFFF",
+                              "content": "敏",
+                              "fontFamily": "$font-body",
+                              "fontSize": 14,
+                              "fontWeight": "800"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "zsRoC",
+                          "name": "Allergen Signal Value",
+                          "fill": "$text-primary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "羊肉过敏者慎食",
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tpreW",
+                      "name": "Nutrition Signal Island",
+                      "width": "fill_container",
+                      "fill": "#EDF3EC",
+                      "cornerRadius": 18,
+                      "stroke": "#DCE7DA",
+                      "strokeWidth": 1,
+                      "gap": 10,
+                      "padding": [
+                        10,
+                        12
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "oudpN",
+                          "name": "Nutrition Mark",
+                          "width": 34,
+                          "height": 34,
+                          "fill": "$accent-secondary",
+                          "cornerRadius": "$radius-pill",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "BePbj",
+                              "name": "Nutrition Text Mark",
+                              "fill": "#FFFFFF",
+                              "content": "营",
+                              "fontFamily": "$font-body",
+                              "fontSize": 14,
+                              "fontWeight": "800"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "rAQpB",
+                          "name": "Nutrition Signal Value",
+                          "fill": "#1B3A2D",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "富含蛋白质、脂肪和钙质，适合炖煮后温热食用。",
+                          "lineHeight": 1.45,
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Hc8Vb",
+                      "name": "Substitute Signal Island",
+                      "width": "fill_container",
+                      "fill": "#F7F4EF",
+                      "cornerRadius": 18,
+                      "stroke": "#EFE3D1",
+                      "strokeWidth": 1,
+                      "gap": 10,
+                      "padding": [
+                        10,
+                        12
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "cLWsj",
+                          "name": "Substitute Mark",
+                          "width": 34,
+                          "height": 34,
+                          "fill": "#6F5C4A",
+                          "cornerRadius": "$radius-pill",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "QXLK1",
+                              "name": "Substitute Text Mark",
+                              "fill": "#FFFFFF",
+                              "content": "替",
+                              "fontFamily": "$font-body",
+                              "fontSize": 14,
+                              "fontWeight": "800"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "K8QpSW",
+                          "name": "Substitute Signal Value",
+                          "fill": "$text-body",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "可用羊排、牛脊骨或排骨替代。",
+                          "lineHeight": 1.45,
+                          "fontFamily": "$font-body",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "variables": {
@@ -35626,5 +37756,6 @@
       "type": "color",
       "value": "#151515"
     }
-  }
+  },
+  "fileToken": "1afd2efb-a38e-4ea4-833c-45f1e492185c"
 }

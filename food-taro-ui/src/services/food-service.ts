@@ -17,6 +17,22 @@ export interface IngredientItem {
   sort?: number
 }
 
+export interface RawMaterialInfo {
+  ingredientName: string
+  name: string
+  commonNames: string
+  steamTime: string
+  boilTime: string
+  fryTime: string
+  bakeTime: string
+  stirFryTime: string
+  defaultHeatTemperature: string
+  allergenFlag: string
+  nutritionInfo: string
+  substituteIngredients: string
+  category: string
+}
+
 export interface StepItem {
   stepNo?: number
   content: string
@@ -123,6 +139,10 @@ export class FoodService {
 
   getDishDetail(id: string) {
     return http.get<DishDetail>(`/api/dishes/${id}`)
+  }
+
+  matchRawMaterials(names: string[]) {
+    return http.post<RawMaterialInfo[]>('/api/raw-materials/match', { names })
   }
 
   deleteDish(id: string) {

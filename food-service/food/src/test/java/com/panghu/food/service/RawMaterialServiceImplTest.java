@@ -1,5 +1,7 @@
 package com.panghu.food.service;
 
+import com.panghu.food.dto.RawMaterialMatchRow;
+import com.panghu.food.dto.RawMaterialResponse;
 import com.panghu.food.entity.RawMaterial;
 import com.panghu.food.mapper.RawMaterialMapper;
 import org.junit.jupiter.api.Test;
@@ -72,6 +74,33 @@ class RawMaterialServiceImplTest {
         verify(rawMaterialMapper, never()).insertIgnoreBatch(org.mockito.ArgumentMatchers.any());
     }
 
+    @Test
+    void findMatchedRawMaterialsDeduplicatesAndKeepsInputOrder() {
+        when(rawMaterialMapper.selectMatchedMaterials(List.of("蒜", "牛肉"))).thenReturn(List.of(
+                matchRow("牛肉", "牛肉"),
+                matchRow("蒜", "大蒜")
+        ));
+
+        List<RawMaterialResponse> result = rawMaterialService.findMatchedRawMaterials(
+                Arrays.asList(" 蒜 ", "牛肉", "蒜", "", null));
+
+        assertThat(result).hasSize(2);
+        assertThat(result.get(0).getIngredientName()).isEqualTo("蒜");
+        assertThat(result.get(0).getName()).isEqualTo("大蒜");
+        assertThat(result.get(0).getCommonNames()).contains("蒜别名");
+        assertThat(result.get(1).getIngredientName()).isEqualTo("牛肉");
+        verify(rawMaterialMapper).selectMatchedMaterials(List.of("蒜", "牛肉"));
+        verifyNoInteractions(dishAiService);
+    }
+
+    @Test
+    void findMatchedRawMaterialsSkipsQueryWhenInputIsEmpty() {
+        List<RawMaterialResponse> result = rawMaterialService.findMatchedRawMaterials(Arrays.asList(" ", null));
+
+        assertThat(result).isEmpty();
+        verifyNoInteractions(rawMaterialMapper, dishAiService);
+    }
+
     private RawMaterial material(String name) {
         RawMaterial material = new RawMaterial();
         material.setName(name);
@@ -87,5 +116,23 @@ class RawMaterialServiceImplTest {
         material.setSubstituteIngredients("可用羊肉");
         material.setCategory("肉");
         return material;
+    }
+
+    private RawMaterialMatchRow matchRow(String queryName, String name) {
+        RawMaterialMatchRow row = new RawMaterialMatchRow();
+        row.setQueryName(queryName);
+        row.setName(name);
+        row.setCommonNames(name + "," + queryName + "别名," + name + "学名");
+        row.setSteamTime("约20分钟");
+        row.setBoilTime("约40分钟");
+        row.setFryTime("约5分钟");
+        row.setBakeTime("约25分钟");
+        row.setStirFryTime("约4分钟");
+        row.setDefaultHeatTemperature("中火");
+        row.setAllergenFlag("无常见过敏原");
+        row.setNutritionInfo("富含蛋白质");
+        row.setSubstituteIngredients("可用羊肉");
+        row.setCategory("肉");
+        return row;
     }
 }
