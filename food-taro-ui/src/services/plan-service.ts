@@ -191,8 +191,10 @@ export class PlanService {
     return http.put<PlanDetail>(`/api/plans/${planId}/recipes/sort`, { dishIds })
   }
 
-  removeRecipe(planId: string, dishId: string) {
-    return http.delete<PlanDetail>(`/api/plans/${planId}/recipes/${dishId}`)
+  removeRecipe(planId: string, dishId: string, shareToken?: string) {
+    return http.delete<PlanDetail>(`/api/plans/${planId}/recipes/${dishId}`, {
+      params: shareToken ? { shareToken } : undefined,
+    })
   }
 
   startShoppingList(planId: string) {

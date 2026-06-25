@@ -29,7 +29,7 @@ public interface PlanService {
 
     PlanDetailResponse sortRecipes(String planId, PlanRecipesUpdateRequest request);
 
-    PlanDetailResponse removeRecipe(String planId, String dishId);
+    PlanDetailResponse removeRecipe(String planId, String dishId, String shareToken);
 
     PlanShoppingListResponse startShoppingList(String planId);
 

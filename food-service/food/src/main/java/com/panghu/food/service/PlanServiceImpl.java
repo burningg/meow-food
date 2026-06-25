@@ -416,16 +416,25 @@ public class PlanServiceImpl implements PlanService {
 
     @Override
     @Transactional
-    public PlanDetailResponse removeRecipe(String planId, String dishId) {
+    public PlanDetailResponse removeRecipe(String planId, String dishId, String shareToken) {
         String currentUserId = AuthContext.requireUserId();
-        PlanContext context = requirePlanContext(planId, currentUserId);
+        PlanAccessContext context = requirePlanAccess(planId, shareToken);
         String normalizedDishId = normalizeRequired(dishId, "菜谱不存在");
+
+        if (!context.viewerCanManageRecipes()) {
+            CirclePlanRecipe recipe = circlePlanRecipeMapper.selectOne(new QueryWrapper<CirclePlanRecipe>()
+                    .eq("plan_id", context.plan().getId())
+                    .eq("dish_id", normalizedDishId));
+            if (recipe != null && !Objects.equals(recipe.getAddedByUserId(), currentUserId)) {
+                throw new ApiException(HttpStatus.FORBIDDEN, "只能移除自己加入的菜谱");
+            }
+        }
 
         circlePlanRecipeMapper.delete(new QueryWrapper<CirclePlanRecipe>()
                 .eq("plan_id", context.plan().getId())
                 .eq("dish_id", normalizedDishId));
         synchronizeShoppingListIfExists(context.plan(), currentUserId);
-        return buildPlanDetail(context.plan(), context.circle(), buildMemberAccessContext(context.plan(), context.circle(), currentUserId));
+        return buildPlanDetail(context.plan(), context.circle(), context);
     }
 
     @Override

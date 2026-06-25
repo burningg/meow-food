@@ -77,8 +77,9 @@ public class PlanController {
 
     @DeleteMapping("/{planId}/recipes/{dishId}")
     public ResponseEntity<PlanDetailResponse> removeRecipe(@PathVariable String planId,
-                                                           @PathVariable String dishId) {
-        return ResponseEntity.ok(planService.removeRecipe(planId, dishId));
+                                                           @PathVariable String dishId,
+                                                           @RequestParam(required = false) String shareToken) {
+        return ResponseEntity.ok(planService.removeRecipe(planId, dishId, shareToken));
     }
 
     @PostMapping("/{planId}/shopping-list/start")

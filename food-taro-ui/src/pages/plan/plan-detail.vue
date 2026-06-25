@@ -75,7 +75,7 @@
             v-for="menu in filteredMenus"
             :key="menu.id"
             :class="['detail-candidate-card', { preview: !isLoggedIn }]"
-            @tap="handleCandidateTap(menu.id)"
+            @tap="handleCandidateTap(menu)"
           >
             <SmartImage :src="menu.image" class-name="detail-candidate-image" />
             <view class="detail-candidate-body">
@@ -105,7 +105,7 @@
       <view v-if="canEditRecipes" class="detail-save-bar">
         <button
           class="detail-save-button"
-          :disabled="submitting || !newSelectedDishIds.length"
+          :disabled="submitting || !hasSelectedDishChanges"
           @tap="submitSelectedRecipes"
         >
           {{ submitting ? '保存中...' : '保存' }}
@@ -142,12 +142,16 @@ const selectedDishIds = ref<string[]>([])
 
 const shareToken = computed(() => String(params.shareToken || ''))
 const isLoggedIn = computed(() => authStore.isLoggedIn)
-const canEditRecipes = computed(() => Boolean(candidates.value?.viewerCanAddRecipes && isLoggedIn.value))
+const canAddRecipes = computed(() => Boolean(candidates.value?.viewerCanAddRecipes && isLoggedIn.value))
+const canManageRecipes = computed(() => Boolean(detail.value?.viewerCanManageRecipes && isLoggedIn.value))
+const canEditRecipes = computed(() => canAddRecipes.value || canManageRecipes.value)
 const currentShareToken = computed(() => detail.value?.shareToken || shareToken.value)
 const candidateSubtitle = computed(() => candidates.value?.sourceLabel || '')
 const candidateRecipes = computed<PlanRecipe[]>(() => candidates.value?.recipes || [])
 const existingDishIds = computed(() => (detail.value?.recipes || []).map((recipe) => recipe.id))
 const newSelectedDishIds = computed(() => selectedDishIds.value.filter((dishId) => !existingDishIds.value.includes(dishId)))
+const removedSelectedDishIds = computed(() => existingDishIds.value.filter((dishId) => !selectedDishIds.value.includes(dishId)))
+const hasSelectedDishChanges = computed(() => newSelectedDishIds.value.length > 0 || removedSelectedDishIds.value.length > 0)
 const displayMenus = computed<PlanRecipe[]>(() => {
   const addedIds = new Set(existingDishIds.value)
   return [
@@ -263,8 +267,7 @@ function selectCategory(categoryId: string) {
 }
 
 function toggleSelectedDish(dishId: string) {
-  // 已在计划内的菜谱只展示为已勾选，不在这里承载删除语义。
-  if (isExistingDish(dishId)) return
+  // 本地只维护勾选草稿，保存时再统一计算新增和移除，避免点一下就改计划。
   if (selectedDishIds.value.includes(dishId)) {
     selectedDishIds.value = selectedDishIds.value.filter((id) => id !== dishId)
     return
@@ -272,13 +275,19 @@ function toggleSelectedDish(dishId: string) {
   selectedDishIds.value = [...selectedDishIds.value, dishId]
 }
 
-function handleCandidateTap(dishId: string) {
-  if (isExistingDish(dishId)) return
+function handleCandidateTap(menu: PlanRecipe) {
   if (!isLoggedIn.value) {
     void requirePlanDetailAuth()
     return
   }
+  const dishId = menu.id
+  if (isExistingDish(dishId) && !canToggleExistingDish(menu)) return
+  if (!isExistingDish(dishId) && !canAddRecipes.value) return
   toggleSelectedDish(dishId)
+}
+
+function canToggleExistingDish(menu: PlanRecipe) {
+  return canManageRecipes.value || menu.addedByUserId === authStore.user?.id
 }
 
 function isExistingDish(dishId: string) {
@@ -286,7 +295,7 @@ function isExistingDish(dishId: string) {
 }
 
 function isDishChecked(dishId: string) {
-  return isExistingDish(dishId) || (isLoggedIn.value && selectedDishIds.value.includes(dishId))
+  return selectedDishIds.value.includes(dishId)
 }
 
 async function requirePlanDetailAuth() {
@@ -298,15 +307,20 @@ async function requirePlanDetailAuth() {
 
 async function submitSelectedRecipes() {
   if (!detail.value) return
-  if (!newSelectedDishIds.value.length) {
-    Message.info('先选中要加入的菜谱')
+  if (!hasSelectedDishChanges.value) {
+    Message.info('菜谱选择没有变化')
     return
   }
 
   submitting.value = true
   try {
-    await planService.addRecipes(detail.value.id, newSelectedDishIds.value, shareToken.value || undefined)
-    Message.success('菜谱已加入计划')
+    if (newSelectedDishIds.value.length) {
+      await planService.addRecipes(detail.value.id, newSelectedDishIds.value, shareToken.value || undefined)
+    }
+    for (const dishId of removedSelectedDishIds.value) {
+      await planService.removeRecipe(detail.value.id, dishId, shareToken.value || undefined)
+    }
+    Message.success(getSaveSuccessMessage())
     replace({
       name: 'plan',
       query: {
@@ -317,10 +331,16 @@ async function submitSelectedRecipes() {
       },
     })
   } catch (error: any) {
-    Message.error(error?.response?.data?.message || '添加菜谱失败')
+    Message.error(error?.response?.data?.message || '保存菜谱失败')
   } finally {
     submitting.value = false
   }
+}
+
+function getSaveSuccessMessage() {
+  if (newSelectedDishIds.value.length && removedSelectedDishIds.value.length) return '计划菜谱已更新'
+  if (removedSelectedDishIds.value.length) return '菜谱已移出计划'
+  return '菜谱已加入计划'
 }
 
 </script>

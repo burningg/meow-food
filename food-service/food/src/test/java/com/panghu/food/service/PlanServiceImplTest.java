@@ -663,6 +663,51 @@ class PlanServiceImplTest {
     }
 
     @Test
+    void removeRecipeAllowsSharedParticipantToRemoveOwnRecipeWithShareToken() {
+        AuthContext.setUserId("viewer");
+        CirclePlan plan = plan("plan-1", "circle-1", "creator");
+        plan.setShareToken("share-1");
+        CirclePlanRecipe recipe = recipe("plan-1", "dish-1");
+        recipe.setAddedByUserId("viewer");
+
+        when(circlePlanMapper.selectById("plan-1")).thenReturn(plan);
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(0L);
+        when(circlePlanRecipeMapper.selectCount(any())).thenReturn(0L);
+        when(circlePlanRecipeMapper.selectOne(any())).thenReturn(recipe);
+        when(circlePlanRecipeMapper.selectList(any())).thenReturn(List.of());
+        when(circlePlanShoppingListMapper.selectOne(any())).thenReturn(null);
+
+        PlanDetailResponse response = planService.removeRecipe("plan-1", "dish-1", "share-1");
+
+        verify(circlePlanRecipeMapper).delete(any());
+        assertThat(response.isSharedView()).isTrue();
+        assertThat(response.isViewerCanAddRecipes()).isTrue();
+        assertThat(response.isViewerCanManageRecipes()).isFalse();
+    }
+
+    @Test
+    void removeRecipeRejectsSharedParticipantRemovingOtherUsersRecipe() {
+        AuthContext.setUserId("viewer");
+        CirclePlan plan = plan("plan-1", "circle-1", "creator");
+        plan.setShareToken("share-1");
+        CirclePlanRecipe recipe = recipe("plan-1", "dish-1");
+        recipe.setAddedByUserId("other-user");
+
+        when(circlePlanMapper.selectById("plan-1")).thenReturn(plan);
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(0L);
+        when(circlePlanRecipeMapper.selectCount(any())).thenReturn(0L);
+        when(circlePlanRecipeMapper.selectOne(any())).thenReturn(recipe);
+
+        assertThatThrownBy(() -> planService.removeRecipe("plan-1", "dish-1", "share-1"))
+                .isInstanceOf(ApiException.class)
+                .hasMessageContaining("只能移除自己加入的菜谱");
+
+        verify(circlePlanRecipeMapper, never()).delete(any());
+    }
+
+    @Test
     void deletePlanOnlyAllowsCreator() {
         AuthContext.setUserId("viewer");
         when(circlePlanMapper.selectById("plan-1")).thenReturn(plan("plan-1", "circle-1", "creator"));
