@@ -1,7 +1,9 @@
 package com.panghu.food.service;
 
+import com.alibaba.fastjson.JSON;
 import com.panghu.food.dto.DishAiAnalysisResponse;
 import com.panghu.food.dto.DishSummaryResponse;
+import com.panghu.food.entity.RawMaterial;
 import com.panghu.food.exception.ApiException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -163,6 +165,46 @@ class DishAiServiceTest {
         assertThat(String.valueOf(captor.getValue().getBody()))
                 .contains("temperature=1.1", "重点根据用户历史口味", "\"historyCount\":3",
                         "每个 recipes 项都必须有 reason")
+                .doesNotContain("web_search", "tool_choice");
+    }
+
+    @Test
+    void completeRawMaterialsAddsLowTemperaturePromptAndParsesResponse() {
+        ReflectionTestUtils.setField(dishAiService, "openaiApiKey", "test-key");
+        ReflectionTestUtils.setField(dishAiService, "openaiBaseUrl", "https://api.openai.com/v1");
+        ReflectionTestUtils.setField(dishAiService, "openaiModel", "gpt-5.4");
+        String aiJson = "{\"materials\":["
+                + "{\"name\":\"土豆\",\"commonNames\":[\"土豆\",\"马铃薯\",\"Solanum tuberosum\",\"洋芋\"],\"steamTime\":\"约15分钟\",\"boilTime\":\"约12分钟\",\"fryTime\":\"约5分钟\",\"bakeTime\":\"约25分钟\",\"stirFryTime\":\"约6分钟\",\"defaultHeatTemperature\":\"中火\",\"allergenFlag\":\"无常见过敏原\",\"nutritionInfo\":\"富含碳水和钾\",\"substituteIngredients\":\"可用红薯\",\"category\":\"蔬菜\"},"
+                + "{\"name\":\"鸡蛋\",\"commonNames\":[\"鸡蛋\",\"蛋\",\"egg\"],\"steamTime\":\"约8分钟\",\"boilTime\":\"约6分钟\",\"fryTime\":\"约3分钟\",\"bakeTime\":\"不建议\",\"stirFryTime\":\"约2分钟\",\"defaultHeatTemperature\":\"中小火\",\"allergenFlag\":\"含蛋类过敏原\",\"nutritionInfo\":\"富含优质蛋白\",\"substituteIngredients\":\"可用豆腐\",\"category\":\"蛋类\"},"
+                + "{\"name\":\"鸡腿肉\",\"commonNames\":[\"鸡腿肉\",\"鸡腿\",\"鸡肉\"],\"steamTime\":\"约20分钟\",\"boilTime\":\"约15分钟\",\"fryTime\":\"约8分钟\",\"bakeTime\":\"约25分钟\",\"stirFryTime\":\"约7分钟\",\"defaultHeatTemperature\":\"中火\",\"allergenFlag\":\"无常见过敏原\",\"nutritionInfo\":\"富含蛋白质\",\"substituteIngredients\":\"可用鸡胸肉\",\"category\":\"肉\"},"
+                + "{\"name\":\"牛肉\",\"commonNames\":[\"牛肉\",\"beef\",\"黄牛肉\"],\"boilTime\":\"约40分钟\",\"fryTime\":\"约5分钟\",\"bakeTime\":\"约20分钟\",\"stirFryTime\":\"约4分钟\",\"defaultHeatTemperature\":\"大火\",\"allergenFlag\":\"无常见过敏原\",\"nutritionInfo\":\"富含蛋白质\",\"substituteIngredients\":\"可用羊肉\",\"category\":\"肉\"}"
+                + "]}";
+        when(restTemplate.exchange(
+                eq("https://api.openai.com/v1/responses"),
+                eq(HttpMethod.POST),
+                any(HttpEntity.class),
+                eq(String.class)))
+                .thenReturn(ResponseEntity.ok("{\"output_text\":" + JSON.toJSONString(aiJson) + "}"));
+
+        List<RawMaterial> materials = dishAiService.completeRawMaterials(List.of(" 土豆 ", "土豆", "鸡蛋", "牛肉"));
+
+        assertThat(materials).hasSize(2);
+        assertThat(materials.get(0).getName()).isEqualTo("土豆");
+        assertThat(materials.get(0).getCommonNames()).isEqualTo("土豆,马铃薯,Solanum tuberosum,洋芋");
+        assertThat(materials.get(0).getCategory()).isEqualTo("蔬菜");
+        assertThat(materials.get(1).getName()).isEqualTo("鸡蛋");
+        assertThat(materials.get(1).getCommonNames()).isEqualTo("鸡蛋,蛋,egg");
+        assertThat(materials.get(1).getCategory()).isEqualTo("其他");
+        ArgumentCaptor<HttpEntity> captor = ArgumentCaptor.forClass(HttpEntity.class);
+        verify(restTemplate).exchange(
+                eq("https://api.openai.com/v1/responses"),
+                eq(HttpMethod.POST),
+                captor.capture(),
+                eq(String.class));
+        assertThat(String.valueOf(captor.getValue().getBody()))
+                .contains("temperature=0.2", "输出严格 JSON", "\"materials\"", "\"commonNames\"",
+                        "name 必须完全等于输入食材名", "至少 3 个", "不超过30字",
+                        "食材名列表：[\"土豆\",\"鸡蛋\",\"牛肉\"]")
                 .doesNotContain("web_search", "tool_choice");
     }
 

@@ -33,6 +33,7 @@ class DishServiceImplTest {
     private final DishVisibilityCircleMapper dishVisibilityCircleMapper = mock(DishVisibilityCircleMapper.class);
     private final MenuVisibilitySupport menuVisibilitySupport = mock(MenuVisibilitySupport.class);
     private final VipService vipService = mock(VipService.class);
+    private final RawMaterialService rawMaterialService = mock(RawMaterialService.class);
 
     private final DishServiceImpl dishService = new DishServiceImpl();
 
@@ -44,6 +45,7 @@ class DishServiceImplTest {
         ReflectionTestUtils.setField(dishService, "dishVisibilityCircleMapper", dishVisibilityCircleMapper);
         ReflectionTestUtils.setField(dishService, "menuVisibilitySupport", menuVisibilitySupport);
         ReflectionTestUtils.setField(dishService, "vipService", vipService);
+        ReflectionTestUtils.setField(dishService, "rawMaterialService", rawMaterialService);
         when(vipService.getMenuLimit(any())).thenReturn(50);
     }
 
@@ -115,6 +117,7 @@ class DishServiceImplTest {
         request.setCategoryId("c1");
         request.setDifficulty("easy");
         request.setServings(2);
+        request.setIngredients(List.of(ingredient(" 土豆 "), ingredient("鸡蛋"), ingredient("土豆")));
         when(menuVisibilitySupport.resolveDefaultVisibility("owner")).thenReturn("public");
         when(dishMapper.insert(any())).thenAnswer(invocation -> {
             var dish = invocation.getArgument(0, com.panghu.food.entity.Dish.class);
@@ -139,6 +142,7 @@ class DishServiceImplTest {
         ArgumentCaptor<com.panghu.food.entity.Dish> dishCaptor = ArgumentCaptor.forClass(com.panghu.food.entity.Dish.class);
         verify(dishMapper).insert(dishCaptor.capture());
         assertThat(dishCaptor.getValue().getVisibility()).isEqualTo("public");
+        verify(rawMaterialService).ensureRawMaterialsAsync(List.of("土豆", "鸡蛋"));
     }
 
     @Test
@@ -169,6 +173,42 @@ class DishServiceImplTest {
 
         assertThat(response.getId()).isEqualTo("dish-1");
         verify(dishVisibilityCircleMapper, times(2)).insert(any());
+    }
+
+    @Test
+    void updateDishTriggersRawMaterialCompletion() {
+        AuthContext.setUserId("owner");
+        DishUpsertRequest request = new DishUpsertRequest();
+        request.setName("土豆炖牛肉");
+        request.setImage("img");
+        request.setDescription("desc");
+        request.setCategoryId("c1");
+        request.setDifficulty("easy");
+        request.setServings(2);
+        request.setVisibility("public");
+        request.setIngredients(List.of(ingredient("牛肉"), ingredient(" ")));
+
+        com.panghu.food.entity.Dish storedDish = new com.panghu.food.entity.Dish();
+        storedDish.setId("dish-1");
+        storedDish.setOwnerUserId("owner");
+        storedDish.setVisibility("public");
+        when(dishMapper.selectById("dish-1")).thenReturn(storedDish);
+        when(dishMapper.selectDishDetailById("dish-1")).thenReturn(dish("dish-1", "owner"));
+        when(menuVisibilitySupport.canViewDish(any(DishDetailResponse.class), any(), any(Boolean.class))).thenReturn(true);
+        when(dishIngredientMapper.selectByDishId("dish-1")).thenReturn(List.of());
+        when(dishStepMapper.selectByDishId("dish-1")).thenReturn(List.of());
+
+        DishDetailResponse response = dishService.updateDish("dish-1", request);
+
+        assertThat(response.getId()).isEqualTo("dish-1");
+        verify(rawMaterialService).ensureRawMaterialsAsync(List.of("牛肉"));
+    }
+
+    private IngredientItem ingredient(String name) {
+        IngredientItem ingredient = new IngredientItem();
+        ingredient.setName(name);
+        ingredient.setAmount("适量");
+        return ingredient;
     }
 
     private DishDetailResponse dish(String id, String ownerUserId) {

@@ -169,6 +169,27 @@ CREATE TABLE `dish` (
   CONSTRAINT `fk_dish_user` FOREIGN KEY (`owner_user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='菜品表';
 
+CREATE TABLE `raw_material` (
+  `id` varchar(36) NOT NULL COMMENT '原材料ID(UUID)',
+  `name` varchar(100) NOT NULL COMMENT '原材料名称',
+  `common_names` varchar(500) NOT NULL DEFAULT '' COMMENT '常见名/学名/缩写，英文逗号分隔',
+  `steam_time` varchar(100) NOT NULL DEFAULT '' COMMENT '蒸熟时间',
+  `boil_time` varchar(100) NOT NULL DEFAULT '' COMMENT '煮熟时间',
+  `fry_time` varchar(100) NOT NULL DEFAULT '' COMMENT '油炸时间',
+  `bake_time` varchar(100) NOT NULL DEFAULT '' COMMENT '烤制时间',
+  `stir_fry_time` varchar(100) NOT NULL DEFAULT '' COMMENT '炒熟时间',
+  `default_heat_temperature` varchar(100) NOT NULL DEFAULT '' COMMENT '默认火候/温度',
+  `allergen_flag` varchar(120) NOT NULL DEFAULT '' COMMENT '过敏原标识',
+  `nutrition_info` varchar(200) NOT NULL DEFAULT '' COMMENT '营养信息',
+  `substitute_ingredients` varchar(200) NOT NULL DEFAULT '' COMMENT '可替代食材',
+  `category` varchar(20) NOT NULL DEFAULT '其他' COMMENT '分类：蔬菜/肉/海鲜/主食/调料/其他',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_raw_material_name` (`name`),
+  KEY `idx_raw_material_category` (`category`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='原材料资料表';
+
 CREATE TABLE `dish_visibility_circle` (
   `id` varchar(36) NOT NULL COMMENT '关联ID(UUID)',
   `dish_id` varchar(36) NOT NULL COMMENT '菜品ID(UUID)',

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.panghu.food.mapper.RawMaterialMapper">
+    <resultMap id="BaseResultMap" type="com.panghu.food.entity.RawMaterial">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="common_names" property="commonNames" />
+        <result column="steam_time" property="steamTime" />
+        <result column="boil_time" property="boilTime" />
+        <result column="fry_time" property="fryTime" />
+        <result column="bake_time" property="bakeTime" />
+        <result column="stir_fry_time" property="stirFryTime" />
+        <result column="default_heat_temperature" property="defaultHeatTemperature" />
+        <result column="allergen_flag" property="allergenFlag" />
+        <result column="nutrition_info" property="nutritionInfo" />
+        <result column="substitute_ingredients" property="substituteIngredients" />
+        <result column="category" property="category" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+    </resultMap>
+
+    <select id="selectMatchedNames" resultType="java.lang.String">
+        SELECT DISTINCT query_names.name
+        FROM (
+        <foreach collection="names" item="name" separator=" UNION ALL ">
+            SELECT #{name} AS name
+        </foreach>
+        ) query_names
+        WHERE EXISTS (
+            SELECT 1
+            FROM raw_material material
+            WHERE material.name = query_names.name
+               OR FIND_IN_SET(query_names.name, material.common_names) > 0
+        )
+    </select>
+
+    <insert id="insertIgnoreBatch">
+        INSERT IGNORE INTO raw_material (
+            id,
+            name,
+            common_names,
+            steam_time,
+            boil_time,
+            fry_time,
+            bake_time,
+            stir_fry_time,
+            default_heat_temperature,
+            allergen_flag,
+            nutrition_info,
+            substitute_ingredients,
+            category,
+            created_at,
+            updated_at
+        ) VALUES
+        <foreach collection="materials" item="material" separator=",">
+            (
+                #{material.id},
+                #{material.name},
+                #{material.commonNames},
+                #{material.steamTime},
+                #{material.boilTime},
+                #{material.fryTime},
+                #{material.bakeTime},
+                #{material.stirFryTime},
+                #{material.defaultHeatTemperature},
+                #{material.allergenFlag},
+                #{material.nutritionInfo},
+                #{material.substituteIngredients},
+                #{material.category},
+                #{material.createdAt},
+                #{material.updatedAt}
+            )
+        </foreach>
+    </insert>
+</mapper>

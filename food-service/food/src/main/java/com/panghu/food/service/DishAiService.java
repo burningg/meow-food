@@ -7,6 +7,7 @@ import com.panghu.food.dto.DishAiAnalysisResponse;
 import com.panghu.food.dto.DishSummaryResponse;
 import com.panghu.food.dto.IngredientItem;
 import com.panghu.food.dto.StepItem;
+import com.panghu.food.entity.RawMaterial;
 import com.panghu.food.exception.ApiException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -19,16 +20,27 @@ import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 @Service
 public class DishAiService {
     private static final String AI_FAILURE_MESSAGE = "AI 识别失败，请稍后重试";
     private static final String PLAN_AI_FAILURE_MESSAGE = "AI 排菜失败，请稍后重试";
+    private static final String RAW_MATERIAL_AI_FAILURE_MESSAGE = "AI 原材料信息生成失败，请稍后重试";
     private static final double PLAN_ARRANGEMENT_TEMPERATURE = 1.1;
+    private static final double RAW_MATERIAL_TEMPERATURE = 0.2;
+    private static final int RAW_MATERIAL_COMMON_NAME_MIN_COUNT = 3;
+    private static final int RAW_MATERIAL_COMMON_NAMES_LIMIT = 500;
+    private static final int RAW_MATERIAL_SINGLE_COMMON_NAME_LIMIT = 60;
+    private static final int RAW_MATERIAL_SHORT_TEXT_LIMIT = 60;
+    private static final int RAW_MATERIAL_LONG_TEXT_LIMIT = 100;
+    private static final Set<String> RAW_MATERIAL_CATEGORIES = Set.of("蔬菜", "肉", "海鲜", "主食", "调料", "其他");
     private static final Pattern URL_PATTERN = Pattern.compile("https?://\\S+", Pattern.CASE_INSENSITIVE);
 
     @Value("${upload.base-path:./uploads}")
@@ -117,6 +129,26 @@ public class DishAiService {
             throw exception;
         } catch (Exception exception) {
             throw new ApiException(HttpStatus.BAD_GATEWAY, AI_FAILURE_MESSAGE);
+        }
+    }
+
+    public List<RawMaterial> completeRawMaterials(List<String> names) {
+        List<String> normalizedNames = normalizeRawMaterialNames(names);
+        if (normalizedNames.isEmpty()) {
+            return new ArrayList<>();
+        }
+        if (isBlank(openaiApiKey)) {
+            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, RAW_MATERIAL_AI_FAILURE_MESSAGE);
+        }
+        try {
+            List<Object> userContent = new ArrayList<>();
+            userContent.add(inputText(buildRawMaterialPrompt(normalizedNames)));
+            String responseText = requestOpenAi(userContent, false, RAW_MATERIAL_TEMPERATURE);
+            return parseRawMaterialResponse(responseText, normalizedNames);
+        } catch (ApiException exception) {
+            throw exception;
+        } catch (Exception exception) {
+            throw new ApiException(HttpStatus.BAD_GATEWAY, RAW_MATERIAL_AI_FAILURE_MESSAGE);
         }
     }
 
@@ -210,6 +242,69 @@ public class DishAiService {
             throw new ApiException(HttpStatus.BAD_GATEWAY, AI_FAILURE_MESSAGE);
         }
         return response;
+    }
+
+    private List<RawMaterial> parseRawMaterialResponse(String responseText, List<String> expectedNames) {
+        String normalized = stripMarkdownFence(responseText);
+        JSONObject json = JSON.parseObject(normalized);
+        JSONArray materials = json.getJSONArray("materials");
+        if (materials == null) {
+            return new ArrayList<>();
+        }
+
+        Set<String> expectedNameSet = new LinkedHashSet<>(expectedNames);
+        Set<String> seenNames = new HashSet<>();
+        List<RawMaterial> result = new ArrayList<>();
+        for (int i = 0; i < materials.size(); i++) {
+            JSONObject item = materials.getJSONObject(i);
+            if (item == null) {
+                continue;
+            }
+            RawMaterial material = toRawMaterial(item, expectedNameSet, seenNames);
+            if (material != null) {
+                result.add(material);
+            }
+        }
+        return result;
+    }
+
+    private RawMaterial toRawMaterial(JSONObject item, Set<String> expectedNameSet, Set<String> seenNames) {
+        String name = trimToNull(item.getString("name"));
+        if (name == null || !expectedNameSet.contains(name) || !seenNames.add(name)) {
+            return null;
+        }
+
+        String commonNames = requiredRawMaterialCommonNames(item);
+        String steamTime = requiredRawMaterialText(item, "steamTime", RAW_MATERIAL_SHORT_TEXT_LIMIT);
+        String boilTime = requiredRawMaterialText(item, "boilTime", RAW_MATERIAL_SHORT_TEXT_LIMIT);
+        String fryTime = requiredRawMaterialText(item, "fryTime", RAW_MATERIAL_SHORT_TEXT_LIMIT);
+        String bakeTime = requiredRawMaterialText(item, "bakeTime", RAW_MATERIAL_SHORT_TEXT_LIMIT);
+        String stirFryTime = requiredRawMaterialText(item, "stirFryTime", RAW_MATERIAL_SHORT_TEXT_LIMIT);
+        String defaultHeatTemperature = requiredRawMaterialText(item, "defaultHeatTemperature", RAW_MATERIAL_SHORT_TEXT_LIMIT);
+        String allergenFlag = requiredRawMaterialText(item, "allergenFlag", RAW_MATERIAL_SHORT_TEXT_LIMIT);
+        String nutritionInfo = requiredRawMaterialText(item, "nutritionInfo", RAW_MATERIAL_LONG_TEXT_LIMIT);
+        String substituteIngredients = requiredRawMaterialText(item, "substituteIngredients", RAW_MATERIAL_LONG_TEXT_LIMIT);
+        String category = trimToNull(item.getString("category"));
+        if (commonNames == null || steamTime == null || boilTime == null || fryTime == null || bakeTime == null
+                || stirFryTime == null || defaultHeatTemperature == null || allergenFlag == null
+                || nutritionInfo == null || substituteIngredients == null || category == null) {
+            return null;
+        }
+
+        RawMaterial material = new RawMaterial();
+        material.setName(name);
+        material.setCommonNames(commonNames);
+        material.setSteamTime(steamTime);
+        material.setBoilTime(boilTime);
+        material.setFryTime(fryTime);
+        material.setBakeTime(bakeTime);
+        material.setStirFryTime(stirFryTime);
+        material.setDefaultHeatTemperature(defaultHeatTemperature);
+        material.setAllergenFlag(allergenFlag);
+        material.setNutritionInfo(nutritionInfo);
+        material.setSubstituteIngredients(substituteIngredients);
+        material.setCategory(normalizeRawMaterialCategory(category));
+        return material;
     }
 
     private PlanArrangementAiResult parsePlanArrangementResponse(String responseText) {
@@ -309,6 +404,20 @@ public class DishAiService {
         return builder.toString();
     }
 
+    private String buildRawMaterialPrompt(List<String> names) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("你是厨房原材料资料整理助手。请根据食材名生成基础烹饪资料，输出严格 JSON，不要输出 Markdown，不要输出解释。");
+        builder.append(" JSON 格式必须是：");
+        builder.append("{\"materials\":[{\"name\":\"食材名\",\"commonNames\":[\"常见名\",\"学名\",\"缩写\"],\"steamTime\":\"约8分钟\",\"boilTime\":\"约6分钟\",\"fryTime\":\"不建议\",\"bakeTime\":\"不建议\",\"stirFryTime\":\"约3分钟\",\"defaultHeatTemperature\":\"中火\",\"allergenFlag\":\"无常见过敏原\",\"nutritionInfo\":\"富含维生素和膳食纤维\",\"substituteIngredients\":\"可用相近食材\",\"category\":\"蔬菜\"}]}。");
+        builder.append("必须只返回用户提供的食材名，name 必须完全等于输入食材名，不要改名、合并同义词或新增食材。");
+        builder.append("commonNames 必须是字符串数组，至少 3 个，更多也可以，需包含学名、缩写、常见名或俗称；不要放空字符串。");
+        builder.append("分类只能是：蔬菜、肉、海鲜、主食、调料、其他。");
+        builder.append("时间和火候字段使用“约X分钟”“中火约X°C”或“不建议”；过敏原使用“无常见过敏原”或“含某类过敏原”。");
+        builder.append("所有字段都用中文短句，普通字段不超过30字，nutritionInfo 和 substituteIngredients 不超过40字。");
+        builder.append("食材名列表：").append(JSON.toJSONString(names));
+        return builder.toString();
+    }
+
     private String buildPlanArrangementPrompt(String mealTypeLabel,
                                               LocalDate planDate,
                                               int dishCount,
@@ -317,19 +426,19 @@ public class DishAiService {
                                               List<PlanArrangementHistory> histories,
                                               Map<String, Long> historyCountByDishId) {
         StringBuilder builder = new StringBuilder();
-        builder.append("你是 meoi 食堂里的宠物排菜助手。请重点根据用户历史口味安排菜谱，再兼顾所选餐次、菜数和健康建议。");
+        builder.append("你是 meoi 食堂里的宠物排菜助手。请重点根据用户历史的口味安排菜谱，再兼顾所选餐次、菜数和健康建议。");
         builder.append("只能从候选菜谱里选择 dishId，不要创造新菜谱 ID。输出严格 JSON，不要输出 Markdown，不要解释。");
         builder.append(" JSON 格式必须是：");
         builder.append("{\"title\":\"计划标题\",\"petText\":\"宠物口吻的一句有趣建议\",\"suggestionText\":\"整体搭配说明\",\"healthText\":\"健康建议说明\",\"recipes\":[{\"dishId\":\"候选菜谱ID\",\"reason\":\"推荐理由\"}]}。");
         builder.append("请推荐 ").append(dishCount).append(" 道菜。餐次：").append(mealTypeLabel).append("。日期：").append(planDate).append("。");
         builder.append("健康建议：").append(healthAdvice).append("。");
-        builder.append("优先规则：根据最近 30 次圈子计划里的高频 dishId、菜品名、类别和食材判断历史口味；但是最好不要和最近两天的菜谱重复；历史出现次数越高相对优先，同时保留新鲜变化，避免完全照搬。");
+        builder.append("优先规则：最好不要和最近两天的菜谱重复；同时保留新鲜变化，避免完全照搬；根据最近 30 次圈子计划里的 dishId、菜品名、类别和食材判断历史口味合理安排；");
         builder.append("每个 recipes 项都必须有 reason，说明它为什么符合历史口味、餐次或健康建议。");
         builder.append("最近 30 次圈子计划：").append(JSON.toJSONString(histories)).append("。");
         builder.append("候选菜谱：").append(JSON.toJSONString(candidates.stream()
                 .map(dish -> toPlanCandidateJson(dish, historyCountByDishId))
                 .toList())).append("。");
-        builder.append("标题不超过 40 个字符，petText 要轻松有趣但不要夸张。");
+        builder.append("标题不超过 20 个字符，petText 要轻松有趣但不要夸张。");
         return builder.toString();
     }
 
@@ -417,6 +526,84 @@ public class DishAiService {
 
     private String defaultString(String value, String fallback) {
         return value == null ? fallback : value;
+    }
+
+    private List<String> normalizeRawMaterialNames(List<String> names) {
+        if (names == null) {
+            return new ArrayList<>();
+        }
+        return names.stream()
+                .filter(item -> item != null && !item.trim().isEmpty())
+                .map(String::trim)
+                .distinct()
+                .toList();
+    }
+
+    private String requiredRawMaterialText(JSONObject item, String key, int limit) {
+        String value = trimToNull(item.getString(key));
+        if (value == null) {
+            return null;
+        }
+        return value.length() > limit ? value.substring(0, limit) : value;
+    }
+
+    private String requiredRawMaterialCommonNames(JSONObject item) {
+        Object value = item.get("commonNames");
+        List<String> sourceNames = new ArrayList<>();
+        if (value instanceof JSONArray commonNameArray) {
+            for (int i = 0; i < commonNameArray.size(); i++) {
+                sourceNames.add(commonNameArray.getString(i));
+            }
+        } else if (value != null) {
+            sourceNames.addAll(List.of(String.valueOf(value).split("[,，、/]")));
+        }
+
+        List<String> commonNames = sourceNames.stream()
+                .map(this::normalizeRawMaterialCommonName)
+                .filter(alias -> !alias.isEmpty())
+                .distinct()
+                .toList();
+        if (commonNames.size() < RAW_MATERIAL_COMMON_NAME_MIN_COUNT) {
+            return null;
+        }
+        return joinCommonNames(commonNames);
+    }
+
+    private String normalizeRawMaterialCommonName(String value) {
+        if (value == null) {
+            return "";
+        }
+        String normalized = value.trim()
+                .replace(",", " ")
+                .replace("，", " ")
+                .replace("、", " ")
+                .replace("/", " ")
+                .replaceAll("\\s+", " ");
+        return normalized.length() > RAW_MATERIAL_SINGLE_COMMON_NAME_LIMIT
+                ? normalized.substring(0, RAW_MATERIAL_SINGLE_COMMON_NAME_LIMIT)
+                : normalized;
+    }
+
+    private String joinCommonNames(List<String> commonNames) {
+        StringBuilder builder = new StringBuilder();
+        for (String commonName : commonNames) {
+            int nextLength = builder.length() == 0
+                    ? commonName.length()
+                    : builder.length() + 1 + commonName.length();
+            if (nextLength > RAW_MATERIAL_COMMON_NAMES_LIMIT) {
+                break;
+            }
+            if (builder.length() > 0) {
+                builder.append(",");
+            }
+            builder.append(commonName);
+        }
+        return builder.toString();
+    }
+
+    private String normalizeRawMaterialCategory(String category) {
+        String value = category == null ? "" : category.trim();
+        return RAW_MATERIAL_CATEGORIES.contains(value) ? value : "其他";
     }
 
     private boolean isBlank(String value) {

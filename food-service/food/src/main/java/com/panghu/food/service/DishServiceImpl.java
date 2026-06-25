@@ -73,6 +73,9 @@ public class DishServiceImpl implements DishService {
     private DishAiService dishAiService;
 
     @Autowired
+    private RawMaterialService rawMaterialService;
+
+    @Autowired
     private MenuVisibilitySupport menuVisibilitySupport;
 
     @Override
@@ -194,6 +197,7 @@ public class DishServiceImpl implements DishService {
         dishMapper.insert(dish);
         replaceVisibilityCircles(dish.getId(), dishCreateDTO);
         replaceChildren(dish.getId(), dishCreateDTO);
+        ensureRawMaterials(dishCreateDTO);
         return getDishById(dish.getId());
     }
 
@@ -214,6 +218,7 @@ public class DishServiceImpl implements DishService {
         dishMapper.updateById(dish);
         replaceVisibilityCircles(id, dishUpdateDTO);
         replaceChildren(id, dishUpdateDTO);
+        ensureRawMaterials(dishUpdateDTO);
         return getDishById(id);
     }
 
@@ -307,6 +312,23 @@ public class DishServiceImpl implements DishService {
             step.setContent(item.getContent());
             dishStepMapper.insert(step);
         }
+    }
+
+    private void ensureRawMaterials(DishUpsertRequest request) {
+        rawMaterialService.ensureRawMaterialsAsync(extractIngredientNames(request));
+    }
+
+    private List<String> extractIngredientNames(DishUpsertRequest request) {
+        if (request == null || request.getIngredients() == null) {
+            return new ArrayList<>();
+        }
+        return request.getIngredients().stream()
+                .filter(Objects::nonNull)
+                .map(IngredientItem::getName)
+                .filter(name -> !isBlank(name))
+                .map(String::trim)
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     private void replaceVisibilityCircles(String dishId, DishUpsertRequest request) {
