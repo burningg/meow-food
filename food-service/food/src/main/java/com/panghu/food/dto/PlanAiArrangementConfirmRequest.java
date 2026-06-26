@@ -12,4 +12,5 @@ public class PlanAiArrangementConfirmRequest {
     private LocalDate planDate;
     private String title;
     private List<String> dishIds = new ArrayList<>();
+    private List<String> visibleUserIds = new ArrayList<>();
 }

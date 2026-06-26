@@ -79,5 +79,21 @@ class DishAiServiceTest {
                 .hasMessage("AI 识别失败，请稍后重试");
     }
 
+    @Test
+    void parseRawMaterialResponseKeepsCalorieEstimate() {
+        String responseText = """
+                {"materials":[{"name":"土豆","commonNames":["马铃薯","洋芋","Solanum tuberosum"],"steamTime":"约20分钟","boilTime":"约15分钟","fryTime":"约5分钟","bakeTime":"约30分钟","stirFryTime":"约4分钟","defaultHeatTemperature":"中火","allergenFlag":"无常见过敏原","calorieEstimate":"约77kcal/100g","nutritionInfo":"碳水、钾、维C、膳食纤维","substituteIngredients":"可用红薯","category":"蔬菜"}]}
+                """;
+
+        List<RawMaterial> materials = ReflectionTestUtils.invokeMethod(
+                dishAiService,
+                "parseRawMaterialResponse",
+                responseText,
+                List.of("土豆"));
+
+        assertThat(materials).hasSize(1);
+        assertThat(materials.get(0).getCalorieEstimate()).isEqualTo("约77kcal/100g");
+        assertThat(materials.get(0).getNutritionInfo()).isEqualTo("碳水、钾、维C、膳食纤维");
+    }
 
 }

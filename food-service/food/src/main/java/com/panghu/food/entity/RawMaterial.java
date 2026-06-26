@@ -31,6 +31,8 @@ public class RawMaterial {
 
     private String allergenFlag;
 
+    private String calorieEstimate;
+
     private String nutritionInfo;
 
     private String substituteIngredients;

@@ -84,6 +84,13 @@
       <button class="primary-button action-button" @tap="startCooking">开始烹饪</button>
     </footer>
 
+    <CookingStepSheet
+      :visible="cookingVisible"
+      :dish-name="dish.name"
+      :steps="dish.steps"
+      @close="cookingVisible = false"
+    />
+
     <view v-if="selectedRawMaterial" class="raw-material-overlay" @tap="closeRawMaterialInfo">
       <view class="raw-material-sheet" @tap.stop>
         <view class="sheet-handle"></view>
@@ -123,6 +130,10 @@
             <text class="signal-mark">敏</text>
             <text class="signal-text">{{ displayText(selectedRawMaterial.allergenFlag, '暂无过敏原标识') }}</text>
           </view>
+          <view class="signal-island signal-island--calorie">
+            <text class="signal-mark">热</text>
+            <text class="signal-text">{{ displayText(selectedRawMaterial.calorieEstimate, '暂无热量预估') }}</text>
+          </view>
           <view class="signal-island signal-island--nutrition">
             <text class="signal-mark">营</text>
             <text class="signal-text">{{ displayText(selectedRawMaterial.nutritionInfo, '暂无营养信息') }}</text>
@@ -142,6 +153,7 @@
 <script setup lang="ts">
 import Taro, { useShareAppMessage } from '@tarojs/taro'
 import { computed, onMounted, ref } from 'vue'
+import CookingStepSheet from '@/components/CookingStepSheet.vue'
 import SmartImage from '@/components/SmartImage.vue'
 import { requireAuth } from '@/lib/auth'
 import { confirmDialog, Message } from '@/lib/feedback'
@@ -155,6 +167,7 @@ const authStore = useAuthStore()
 const dish = ref<DishDetail | null>(null)
 const rawMaterialMap = ref<Record<string, RawMaterialInfo>>({})
 const selectedRawMaterial = ref<RawMaterialInfo | null>(null)
+const cookingVisible = ref(false)
 const isOwner = computed(() => Boolean(dish.value && authStore.user?.id === dish.value.ownerUserId))
 
 useShareAppMessage(() => {
@@ -306,7 +319,12 @@ function cookingItems(material: RawMaterialInfo) {
 }
 
 function startCooking() {
-  Message.success('开火吧，祝你做菜顺利')
+  const hasCookingSteps = dish.value?.steps.some((step) => step.content.trim())
+  if (!hasCookingSteps) {
+    Message.info('这道菜还没有步骤')
+    return
+  }
+  cookingVisible.value = true
 }
 
 async function confirmDelete() {
@@ -771,6 +789,11 @@ async function confirmDelete() {
   border-color: #dce7da;
 }
 
+.signal-island--calorie {
+  background: #fff4db;
+  border-color: #ead8a8;
+}
+
 .signal-island--substitute {
   background: #f7f4ef;
 }
@@ -794,6 +817,10 @@ async function confirmDelete() {
 
 .signal-island--nutrition .signal-mark {
   background: var(--text-main);
+}
+
+.signal-island--calorie .signal-mark {
+  background: #8e5c19;
 }
 
 .signal-island--substitute .signal-mark {

@@ -24,6 +24,7 @@ import com.panghu.food.entity.CirclePlanRecipe;
 import com.panghu.food.entity.CirclePlanShoppingItem;
 import com.panghu.food.entity.CirclePlanShoppingItemSource;
 import com.panghu.food.entity.CirclePlanShoppingList;
+import com.panghu.food.entity.CirclePlanVisibleUser;
 import com.panghu.food.entity.Dish;
 import com.panghu.food.entity.DishIngredient;
 import com.panghu.food.entity.UserAccount;
@@ -35,6 +36,7 @@ import com.panghu.food.mapper.CirclePlanRecipeMapper;
 import com.panghu.food.mapper.CirclePlanShoppingItemMapper;
 import com.panghu.food.mapper.CirclePlanShoppingItemSourceMapper;
 import com.panghu.food.mapper.CirclePlanShoppingListMapper;
+import com.panghu.food.mapper.CirclePlanVisibleUserMapper;
 import com.panghu.food.mapper.DishIngredientMapper;
 import com.panghu.food.mapper.DishMapper;
 import com.panghu.food.mapper.UserAccountMapper;
@@ -74,6 +76,7 @@ public class PlanServiceImpl implements PlanService {
     private final CirclePlanShoppingListMapper circlePlanShoppingListMapper;
     private final CirclePlanShoppingItemMapper circlePlanShoppingItemMapper;
     private final CirclePlanShoppingItemSourceMapper circlePlanShoppingItemSourceMapper;
+    private final CirclePlanVisibleUserMapper circlePlanVisibleUserMapper;
     private final BuddyCircleMapper buddyCircleMapper;
     private final BuddyCircleMemberMapper buddyCircleMemberMapper;
     private final DishMapper dishMapper;
@@ -88,6 +91,7 @@ public class PlanServiceImpl implements PlanService {
                            CirclePlanShoppingListMapper circlePlanShoppingListMapper,
                            CirclePlanShoppingItemMapper circlePlanShoppingItemMapper,
                            CirclePlanShoppingItemSourceMapper circlePlanShoppingItemSourceMapper,
+                           CirclePlanVisibleUserMapper circlePlanVisibleUserMapper,
                            BuddyCircleMapper buddyCircleMapper,
                            BuddyCircleMemberMapper buddyCircleMemberMapper,
                            DishMapper dishMapper,
@@ -101,6 +105,7 @@ public class PlanServiceImpl implements PlanService {
         this.circlePlanShoppingListMapper = circlePlanShoppingListMapper;
         this.circlePlanShoppingItemMapper = circlePlanShoppingItemMapper;
         this.circlePlanShoppingItemSourceMapper = circlePlanShoppingItemSourceMapper;
+        this.circlePlanVisibleUserMapper = circlePlanVisibleUserMapper;
         this.buddyCircleMapper = buddyCircleMapper;
         this.buddyCircleMemberMapper = buddyCircleMemberMapper;
         this.dishMapper = dishMapper;
@@ -127,17 +132,20 @@ public class PlanServiceImpl implements PlanService {
         YearMonth targetMonth = parseMonth(month);
         List<String> circleIds = getMemberCircleIds(currentUserId);
         Map<String, CirclePlan> plansById = new LinkedHashMap<>();
+        Set<String> memberVisiblePlanIds = new LinkedHashSet<>();
 
         PlanMonthResponse response = new PlanMonthResponse();
         response.setMonth(targetMonth.toString());
         if (!circleIds.isEmpty()) {
-            circlePlanMapper.selectList(new QueryWrapper<CirclePlan>()
-                    .in("circle_id", circleIds)
-                    .between("plan_date", targetMonth.atDay(1), targetMonth.atEndOfMonth())
-                    .orderByAsc("plan_date")
-                    .orderByAsc("created_at")
-                    .orderByAsc("id"))
-                    .forEach(plan -> plansById.put(plan.getId(), plan));
+            circlePlanMapper.selectVisiblePlansByUserInCircleDateRange(
+                            currentUserId,
+                            circleIds,
+                            targetMonth.atDay(1),
+                            targetMonth.atEndOfMonth())
+                    .forEach(plan -> {
+                        plansById.put(plan.getId(), plan);
+                        memberVisiblePlanIds.add(plan.getId());
+                    });
         }
         // 访客通过分享添加过菜谱后，即使不是圈成员，也应在自己的计划页继续看到这条参与过的计划。
         List<CirclePlan> participantPlans = circlePlanMapper.selectPlansAddedByUserInPlanDateRange(
@@ -170,7 +178,7 @@ public class PlanServiceImpl implements PlanService {
             BuddyCircle circle = summaryContext.circlesById().get(plan.getCircleId());
             PlanAccessContext accessContext = effectiveSharedContext != null && Objects.equals(plan.getId(), effectiveSharedContext.plan().getId())
                     ? effectiveSharedContext
-                    : buildPlanListAccessContext(plan, circle, currentUserId, circleIds);
+                    : buildPlanListAccessContext(plan, circle, currentUserId, memberVisiblePlanIds);
             byDate.computeIfAbsent(plan.getPlanDate(), key -> new ArrayList<>()).add(buildPlanSummary(plan, summaryContext, accessContext));
         }
         response.setDays(byDate.entrySet().stream().map(entry -> {
@@ -193,6 +201,7 @@ public class PlanServiceImpl implements PlanService {
         }
 
         BuddyCircle circle = requireCircleMember(circleId, currentUserId);
+        List<String> visibleUserIds = normalizePlanVisibleUserIds(circleId, currentUserId, request.getVisibleUserIds());
         CirclePlan plan = new CirclePlan();
         plan.setCircleId(circleId);
         plan.setPlanDate(planDate);
@@ -203,6 +212,7 @@ public class PlanServiceImpl implements PlanService {
         plan.setCreatedAt(LocalDateTime.now());
         plan.setUpdatedAt(LocalDateTime.now());
         circlePlanMapper.insert(plan);
+        insertPlanVisibleUsers(plan.getId(), visibleUserIds);
         return buildPlanDetail(plan, circle, buildMemberAccessContext(plan, circle, currentUserId));
     }
 
@@ -226,7 +236,7 @@ public class PlanServiceImpl implements PlanService {
         }
 
         vipService.assertCanUsePlanAi(currentUserId);
-        List<CirclePlan> recentPlans = loadRecentCirclePlans(circleId);
+        List<CirclePlan> recentPlans = loadRecentCirclePlans(circleId, currentUserId);
         PlanArrangementHistoryContext historyContext = buildPlanArrangementHistoryContext(recentPlans, visibleDishes);
         // 历史高频菜谱放前面并带上次数，让 AI 的首要依据更贴近用户过往口味。
         List<DishSummaryResponse> historyRankedDishes = rankDishesByHistoricalPreference(
@@ -268,6 +278,10 @@ public class PlanServiceImpl implements PlanService {
         }
 
         BuddyCircle circle = requireCircleMember(circleId, currentUserId);
+        List<String> visibleUserIds = normalizePlanVisibleUserIds(
+                circleId,
+                currentUserId,
+                request == null ? null : request.getVisibleUserIds());
         Map<String, DishSummaryResponse> visibleDishById = loadCircleVisibleDishes(circleId, currentUserId).stream()
                 .collect(Collectors.toMap(DishSummaryResponse::getId, item -> item, (left, right) -> left));
         for (String dishId : dishIds) {
@@ -286,6 +300,7 @@ public class PlanServiceImpl implements PlanService {
         plan.setCreatedAt(LocalDateTime.now());
         plan.setUpdatedAt(LocalDateTime.now());
         circlePlanMapper.insert(plan);
+        insertPlanVisibleUsers(plan.getId(), visibleUserIds);
         insertPlanRecipes(plan.getId(), dishIds, currentUserId);
         return buildPlanDetail(plan, circle, buildMemberAccessContext(plan, circle, currentUserId));
     }
@@ -305,6 +320,7 @@ public class PlanServiceImpl implements PlanService {
             throw new ApiException(HttpStatus.FORBIDDEN, "只有创建者可以删除计划");
         }
         deleteShoppingListData(context.plan().getId());
+        circlePlanVisibleUserMapper.delete(new QueryWrapper<CirclePlanVisibleUser>().eq("plan_id", context.plan().getId()));
         circlePlanRecipeMapper.delete(new QueryWrapper<CirclePlanRecipe>().eq("plan_id", context.plan().getId()));
         circlePlanMapper.deleteById(context.plan().getId());
     }
@@ -549,13 +565,11 @@ public class PlanServiceImpl implements PlanService {
                 .collect(Collectors.toList());
     }
 
-    private List<CirclePlan> loadRecentCirclePlans(String circleId) {
-        return circlePlanMapper.selectList(new QueryWrapper<CirclePlan>()
-                .eq("circle_id", circleId)
-                .orderByDesc("plan_date")
-                .orderByDesc("created_at")
-                .orderByDesc("id")
-                .last("LIMIT " + RECENT_PLAN_HISTORY_LIMIT));
+    private List<CirclePlan> loadRecentCirclePlans(String circleId, String currentUserId) {
+        return circlePlanMapper.selectRecentVisiblePlansByUserInCircle(
+                circleId,
+                currentUserId,
+                RECENT_PLAN_HISTORY_LIMIT);
     }
 
     private PlanArrangementHistoryContext buildPlanArrangementHistoryContext(List<CirclePlan> recentPlans,
@@ -1113,7 +1127,7 @@ public class PlanServiceImpl implements PlanService {
 
         String currentUserId = AuthContext.getUserId();
         boolean viewerIsCircleMember = isCircleMember(circle.getId(), currentUserId);
-        if (viewerIsCircleMember) {
+        if (viewerIsCircleMember && canViewPlanAsCircleMember(plan.getId(), currentUserId)) {
             return buildMemberAccessContext(plan, circle, currentUserId);
         }
         if (hasAddedRecipeToPlan(plan.getId(), currentUserId)) {
@@ -1125,6 +1139,7 @@ public class PlanServiceImpl implements PlanService {
             throw new ApiException(HttpStatus.FORBIDDEN, "暂无访问权限");
         }
 
+        // 分享 token 是外部访客入口，不受圈内指定用户 ACL 限制。
         boolean viewerCanAddRecipes = currentUserId != null;
         return new PlanAccessContext(
                 plan,
@@ -1152,8 +1167,8 @@ public class PlanServiceImpl implements PlanService {
                 true);
     }
 
-    private PlanAccessContext buildPlanListAccessContext(CirclePlan plan, BuddyCircle circle, String currentUserId, List<String> memberCircleIds) {
-        if (memberCircleIds.contains(plan.getCircleId())) {
+    private PlanAccessContext buildPlanListAccessContext(CirclePlan plan, BuddyCircle circle, String currentUserId, Set<String> memberVisiblePlanIds) {
+        if (memberVisiblePlanIds.contains(plan.getId())) {
             return buildMemberAccessContext(plan, circle, currentUserId);
         }
         return buildSharedParticipantAccessContext(plan, circle, currentUserId);
@@ -1191,7 +1206,54 @@ public class PlanServiceImpl implements PlanService {
             throw new ApiException(HttpStatus.NOT_FOUND, "计划不存在");
         }
         BuddyCircle circle = requireCircleMember(plan.getCircleId(), userId);
+        if (!canViewPlanAsCircleMember(plan.getId(), userId)) {
+            throw new ApiException(HttpStatus.FORBIDDEN, "暂无访问权限");
+        }
         return new PlanContext(plan, circle);
+    }
+
+    private List<String> normalizePlanVisibleUserIds(String circleId, String currentUserId, Collection<String> selectedUserIds) {
+        List<String> requestedUserIds = normalizeIds(selectedUserIds);
+        if (requestedUserIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        Set<String> visibleUserIds = new LinkedHashSet<>(requestedUserIds);
+        visibleUserIds.add(currentUserId);
+        Set<String> memberUserIds = buddyCircleMemberMapper.selectList(new QueryWrapper<BuddyCircleMember>()
+                        .eq("circle_id", circleId)
+                        .in("user_id", visibleUserIds))
+                .stream()
+                .map(BuddyCircleMember::getUserId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+        if (!memberUserIds.containsAll(visibleUserIds)) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "只能选择当前圈子里的用户");
+        }
+        return new ArrayList<>(visibleUserIds);
+    }
+
+    private void insertPlanVisibleUsers(String planId, List<String> visibleUserIds) {
+        if (visibleUserIds.isEmpty()) {
+            return;
+        }
+        LocalDateTime now = LocalDateTime.now();
+        for (String userId : visibleUserIds) {
+            CirclePlanVisibleUser visibleUser = new CirclePlanVisibleUser();
+            visibleUser.setPlanId(planId);
+            visibleUser.setUserId(userId);
+            visibleUser.setCreatedAt(now);
+            circlePlanVisibleUserMapper.insert(visibleUser);
+        }
+    }
+
+    private boolean canViewPlanAsCircleMember(String planId, String userId) {
+        if (userId == null || userId.isBlank()) {
+            return false;
+        }
+        // 空 ACL 表示计划对整个圈子可见；存在 ACL 时必须命中当前用户。
+        Integer result = circlePlanVisibleUserMapper.canUserViewPlan(planId, userId);
+        return result != null && result > 0;
     }
 
     private BuddyCircle requireCircleMember(String circleId, String userId) {

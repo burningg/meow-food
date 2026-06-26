@@ -140,6 +140,7 @@ public class RawMaterialServiceImpl implements RawMaterialService {
         response.setStirFryTime(row.getStirFryTime());
         response.setDefaultHeatTemperature(row.getDefaultHeatTemperature());
         response.setAllergenFlag(row.getAllergenFlag());
+        response.setCalorieEstimate(row.getCalorieEstimate());
         response.setNutritionInfo(row.getNutritionInfo());
         response.setSubstituteIngredients(row.getSubstituteIngredients());
         response.setCategory(row.getCategory());

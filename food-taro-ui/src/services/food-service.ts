@@ -28,6 +28,7 @@ export interface RawMaterialInfo {
   stirFryTime: string
   defaultHeatTemperature: string
   allergenFlag: string
+  calorieEstimate: string
   nutritionInfo: string
   substituteIngredients: string
   category: string

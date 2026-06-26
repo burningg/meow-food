@@ -47,6 +47,7 @@ export interface PlanAiArrangementConfirmRequest {
   planDate: string
   title: string
   dishIds: string[]
+  visibleUserIds?: string[]
 }
 
 export interface PlanSummary {
@@ -153,7 +154,7 @@ export class PlanService {
     })
   }
 
-  createPlan(payload: { circleId: string; planDate: string; title: string }) {
+  createPlan(payload: { circleId: string; planDate: string; title: string; visibleUserIds?: string[] }) {
     return http.post<PlanDetail>('/api/plans', payload)
   }
 

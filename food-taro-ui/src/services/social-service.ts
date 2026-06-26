@@ -274,6 +274,10 @@ export class SocialService {
     return http.get<BuddyCircleDetail>(`/api/circles/${circleId}`)
   }
 
+  getCircleMembers(circleId: string) {
+    return http.get<BuddyCircleMember[]>(`/api/circles/${circleId}/members`)
+  }
+
   getCircleShareInvitation(circleId: string, inviterUserId: string) {
     return http.get<BuddyCircleShareInvitation>(`/api/circles/${circleId}/share-invitations/${inviterUserId}`)
   }

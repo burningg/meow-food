@@ -37,4 +37,58 @@ public interface CirclePlanMapper extends BaseMapper<CirclePlan> {
     List<CirclePlan> selectPlansAddedByUserInPlanDateRange(@Param("userId") String userId,
                                                            @Param("startDate") LocalDate startDate,
                                                            @Param("endDate") LocalDate endDate);
+
+    @Select("""
+            <script>
+            SELECT cp.*
+            FROM circle_plan cp
+            WHERE cp.circle_id IN
+            <foreach collection="circleIds" item="circleId" open="(" separator="," close=")">
+                #{circleId}
+            </foreach>
+              AND cp.plan_date BETWEEN #{startDate} AND #{endDate}
+              AND (
+                  NOT EXISTS (
+                      SELECT 1
+                      FROM circle_plan_visible_user cpvu
+                      WHERE cpvu.plan_id = cp.id
+                  )
+                  OR EXISTS (
+                      SELECT 1
+                      FROM circle_plan_visible_user cpvu
+                      WHERE cpvu.plan_id = cp.id
+                        AND cpvu.user_id = #{userId}
+                  )
+              )
+            ORDER BY cp.plan_date ASC, cp.created_at ASC, cp.id ASC
+            </script>
+            """)
+    List<CirclePlan> selectVisiblePlansByUserInCircleDateRange(@Param("userId") String userId,
+                                                               @Param("circleIds") List<String> circleIds,
+                                                               @Param("startDate") LocalDate startDate,
+                                                               @Param("endDate") LocalDate endDate);
+
+    @Select("""
+            SELECT cp.*
+            FROM circle_plan cp
+            WHERE cp.circle_id = #{circleId}
+              AND (
+                  NOT EXISTS (
+                      SELECT 1
+                      FROM circle_plan_visible_user cpvu
+                      WHERE cpvu.plan_id = cp.id
+                  )
+                  OR EXISTS (
+                      SELECT 1
+                      FROM circle_plan_visible_user cpvu
+                      WHERE cpvu.plan_id = cp.id
+                        AND cpvu.user_id = #{userId}
+                  )
+              )
+            ORDER BY cp.plan_date DESC, cp.created_at DESC, cp.id DESC
+            LIMIT #{limit}
+            """)
+    List<CirclePlan> selectRecentVisiblePlansByUserInCircle(@Param("circleId") String circleId,
+                                                            @Param("userId") String userId,
+                                                            @Param("limit") int limit);
 }

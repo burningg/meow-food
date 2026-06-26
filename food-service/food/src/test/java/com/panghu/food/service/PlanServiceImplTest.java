@@ -19,6 +19,7 @@ import com.panghu.food.entity.CirclePlanRecipe;
 import com.panghu.food.entity.CirclePlanShoppingItem;
 import com.panghu.food.entity.CirclePlanShoppingItemSource;
 import com.panghu.food.entity.CirclePlanShoppingList;
+import com.panghu.food.entity.CirclePlanVisibleUser;
 import com.panghu.food.entity.Dish;
 import com.panghu.food.entity.DishIngredient;
 import com.panghu.food.entity.UserAccount;
@@ -30,10 +31,12 @@ import com.panghu.food.mapper.CirclePlanRecipeMapper;
 import com.panghu.food.mapper.CirclePlanShoppingItemMapper;
 import com.panghu.food.mapper.CirclePlanShoppingItemSourceMapper;
 import com.panghu.food.mapper.CirclePlanShoppingListMapper;
+import com.panghu.food.mapper.CirclePlanVisibleUserMapper;
 import com.panghu.food.mapper.DishIngredientMapper;
 import com.panghu.food.mapper.DishMapper;
 import com.panghu.food.mapper.UserAccountMapper;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -66,6 +69,7 @@ class PlanServiceImplTest {
     private final CirclePlanShoppingListMapper circlePlanShoppingListMapper = mock(CirclePlanShoppingListMapper.class);
     private final CirclePlanShoppingItemMapper circlePlanShoppingItemMapper = mock(CirclePlanShoppingItemMapper.class);
     private final CirclePlanShoppingItemSourceMapper circlePlanShoppingItemSourceMapper = mock(CirclePlanShoppingItemSourceMapper.class);
+    private final CirclePlanVisibleUserMapper circlePlanVisibleUserMapper = mock(CirclePlanVisibleUserMapper.class);
     private final BuddyCircleMapper buddyCircleMapper = mock(BuddyCircleMapper.class);
     private final BuddyCircleMemberMapper buddyCircleMemberMapper = mock(BuddyCircleMemberMapper.class);
     private final DishMapper dishMapper = mock(DishMapper.class);
@@ -81,6 +85,7 @@ class PlanServiceImplTest {
             circlePlanShoppingListMapper,
             circlePlanShoppingItemMapper,
             circlePlanShoppingItemSourceMapper,
+            circlePlanVisibleUserMapper,
             buddyCircleMapper,
             buddyCircleMemberMapper,
             dishMapper,
@@ -89,6 +94,11 @@ class PlanServiceImplTest {
             menuVisibilitySupport,
             dishAiService,
             vipService);
+
+    @BeforeEach
+    void setUp() {
+        when(circlePlanVisibleUserMapper.canUserViewPlan(anyString(), anyString())).thenReturn(1);
+    }
 
     @AfterEach
     void tearDown() {
@@ -123,6 +133,60 @@ class PlanServiceImplTest {
         assertThat(first.getShoppingStatus()).isEqualTo(CirclePlan.SHOPPING_STATUS_NOT_STARTED);
         assertThat(second.getId()).isEqualTo("plan-2");
         verify(circlePlanMapper, times(2)).insert(any(CirclePlan.class));
+    }
+
+    @Test
+    void createPlanStoresRestrictedVisibleUsersAndIncludesCreator() {
+        AuthContext.setUserId("viewer");
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(1L);
+        when(buddyCircleMemberMapper.selectList(any())).thenReturn(List.of(
+                member("circle-1", "member-1"),
+                member("circle-1", "viewer")));
+        when(circlePlanRecipeMapper.selectList(any())).thenReturn(List.of());
+        when(circlePlanShoppingListMapper.selectOne(any())).thenReturn(null);
+        when(userAccountMapper.selectById("viewer")).thenReturn(user("viewer", "胖虎"));
+        when(circlePlanMapper.insert(any(CirclePlan.class))).thenAnswer(invocation -> {
+            CirclePlan plan = invocation.getArgument(0);
+            plan.setId("plan-1");
+            return 1;
+        });
+
+        PlanCreateRequest request = new PlanCreateRequest();
+        request.setCircleId("circle-1");
+        request.setPlanDate(LocalDate.of(2026, 6, 5));
+        request.setTitle("周五下班拼饭局");
+        request.setVisibleUserIds(List.of("member-1"));
+
+        planService.createPlan(request);
+
+        ArgumentCaptor<CirclePlanVisibleUser> captor = ArgumentCaptor.forClass(CirclePlanVisibleUser.class);
+        verify(circlePlanVisibleUserMapper, times(2)).insert(captor.capture());
+        assertThat(captor.getAllValues()).extracting(CirclePlanVisibleUser::getUserId)
+                .containsExactly("member-1", "viewer");
+        assertThat(captor.getAllValues()).extracting(CirclePlanVisibleUser::getPlanId)
+                .containsOnly("plan-1");
+    }
+
+    @Test
+    void createPlanRejectsVisibleUserOutsideCircle() {
+        AuthContext.setUserId("viewer");
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(1L);
+        when(buddyCircleMemberMapper.selectList(any())).thenReturn(List.of(member("circle-1", "viewer")));
+
+        PlanCreateRequest request = new PlanCreateRequest();
+        request.setCircleId("circle-1");
+        request.setPlanDate(LocalDate.of(2026, 6, 5));
+        request.setTitle("周五下班拼饭局");
+        request.setVisibleUserIds(List.of("outside-user"));
+
+        assertThatThrownBy(() -> planService.createPlan(request))
+                .isInstanceOf(ApiException.class)
+                .hasMessage("只能选择当前圈子里的用户");
+
+        verify(circlePlanMapper, never()).insert(any(CirclePlan.class));
+        verify(circlePlanVisibleUserMapper, never()).insert(any(CirclePlanVisibleUser.class));
     }
 
     @Test
@@ -168,7 +232,8 @@ class PlanServiceImplTest {
         when(buddyCircleMemberMapper.selectList(any())).thenReturn(List.of(member("circle-1", "viewer")));
         when(dishMapper.selectByOwnerUserIds(anyList())).thenReturn(List.of(first, second));
         when(dishIngredientMapper.selectList(any())).thenReturn(List.of());
-        when(circlePlanMapper.selectList(any())).thenReturn(List.of(recentPlan));
+        when(circlePlanMapper.selectRecentVisiblePlansByUserInCircle(eq("circle-1"), eq("viewer"), anyInt()))
+                .thenReturn(List.of(recentPlan));
         when(circlePlanRecipeMapper.selectList(any())).thenReturn(List.of(historicalRecipe));
         when(dishAiService.arrangePlan(anyString(), any(), anyInt(), anyString(), anyList(), anyList(), anyMap()))
                 .thenReturn(new DishAiService.PlanArrangementAiResult(
@@ -241,6 +306,7 @@ class PlanServiceImplTest {
         request.setPlanDate(LocalDate.of(2026, 6, 21));
         request.setTitle("今天午餐这样吃");
         request.setDishIds(List.of("dish-1", "dish-2"));
+        request.setVisibleUserIds(List.of("viewer"));
 
         PlanDetailResponse response = planService.confirmAiArrangement(request);
 
@@ -248,6 +314,7 @@ class PlanServiceImplTest {
         assertThat(response.getRecipes()).extracting("id").containsExactly("dish-1", "dish-2");
         assertThat(storedRecipes).extracting(CirclePlanRecipe::getSort).containsExactly(1, 2);
         verify(circlePlanMapper).insert(any(CirclePlan.class));
+        verify(circlePlanVisibleUserMapper).insert(any(CirclePlanVisibleUser.class));
     }
 
     @Test
@@ -260,6 +327,42 @@ class PlanServiceImplTest {
         assertThatThrownBy(() -> planService.getPlanDetail("plan-1", null))
                 .isInstanceOf(ApiException.class)
                 .hasMessageContaining("暂无访问权限");
+    }
+
+    @Test
+    void getPlanDetailRejectsCircleMemberOutsidePlanVisibleUsers() {
+        AuthContext.setUserId("viewer");
+        when(circlePlanMapper.selectById("plan-1")).thenReturn(plan("plan-1", "circle-1", "creator"));
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(1L);
+        when(circlePlanVisibleUserMapper.canUserViewPlan("plan-1", "viewer")).thenReturn(0);
+        when(circlePlanRecipeMapper.selectCount(any())).thenReturn(0L);
+
+        assertThatThrownBy(() -> planService.getPlanDetail("plan-1", null))
+                .isInstanceOf(ApiException.class)
+                .hasMessageContaining("暂无访问权限");
+    }
+
+    @Test
+    void getPlanDetailAllowsCircleMemberOutsideVisibleUsersWithShareToken() {
+        AuthContext.setUserId("viewer");
+        CirclePlan plan = plan("plan-1", "circle-1", "creator");
+        plan.setShareToken("share-1");
+
+        when(circlePlanMapper.selectById("plan-1")).thenReturn(plan);
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(1L);
+        when(circlePlanVisibleUserMapper.canUserViewPlan("plan-1", "viewer")).thenReturn(0);
+        when(circlePlanRecipeMapper.selectCount(any())).thenReturn(0L);
+        when(circlePlanRecipeMapper.selectList(any())).thenReturn(List.of());
+        when(circlePlanShoppingListMapper.selectOne(any())).thenReturn(null);
+        when(userAccountMapper.selectById("creator")).thenReturn(user("creator", "创建者"));
+
+        PlanDetailResponse response = planService.getPlanDetail("plan-1", "share-1");
+
+        assertThat(response.isSharedView()).isTrue();
+        assertThat(response.isViewerCanAddRecipes()).isTrue();
+        assertThat(response.isViewerCanManageRecipes()).isFalse();
     }
 
     @Test
@@ -295,7 +398,8 @@ class PlanServiceImplTest {
         when(buddyCircleMapper.selectById("circle-shared")).thenReturn(circle("circle-shared"));
         when(buddyCircleMemberMapper.selectCount(any())).thenReturn(0L);
         when(buddyCircleMemberMapper.selectList(any())).thenReturn(List.of(member("circle-own", "guest")));
-        when(circlePlanMapper.selectList(any())).thenReturn(List.of(ownPlan));
+        when(circlePlanMapper.selectVisiblePlansByUserInCircleDateRange(eq("guest"), anyList(), any(), any()))
+                .thenReturn(List.of(ownPlan));
         when(buddyCircleMapper.selectBatchIds(any())).thenReturn(List.of(circle("circle-own"), circle("circle-shared")));
         when(userAccountMapper.selectBatchIds(any())).thenReturn(List.of(user("guest", "访客"), user("creator", "创建者")));
         when(circlePlanRecipeMapper.selectList(any())).thenReturn(List.of());
@@ -308,6 +412,29 @@ class PlanServiceImplTest {
                 .containsExactly("own-plan", "shared-plan");
         assertThat(response.getDays().get(0).getPlans().get(0).isSharedView()).isFalse();
         assertThat(response.getDays().get(0).getPlans().get(1).isSharedView()).isTrue();
+    }
+
+    @Test
+    void getPlansOnlyReturnsPlansVisibleToCircleMember() {
+        AuthContext.setUserId("viewer");
+        CirclePlan visiblePlan = plan("visible-plan", "circle-1", "creator");
+
+        when(buddyCircleMemberMapper.selectList(any())).thenReturn(List.of(member("circle-1", "viewer")));
+        when(circlePlanMapper.selectVisiblePlansByUserInCircleDateRange(eq("viewer"), anyList(), any(), any()))
+                .thenReturn(List.of(visiblePlan));
+        when(circlePlanMapper.selectPlansAddedByUserInPlanDateRange(eq("viewer"), any(), any()))
+                .thenReturn(List.of());
+        when(buddyCircleMapper.selectBatchIds(any())).thenReturn(List.of(circle("circle-1")));
+        when(userAccountMapper.selectBatchIds(any())).thenReturn(List.of(user("creator", "创建者")));
+        when(circlePlanRecipeMapper.selectList(any())).thenReturn(List.of());
+        when(circlePlanShoppingListMapper.selectList(any())).thenReturn(List.of());
+
+        PlanMonthResponse response = planService.getPlans("2026-06", null, null);
+
+        assertThat(response.getDays()).hasSize(1);
+        assertThat(response.getDays().get(0).getPlans()).extracting("id")
+                .containsExactly("visible-plan");
+        assertThat(response.getDays().get(0).getPlans().get(0).isSharedView()).isFalse();
     }
 
     @Test
@@ -743,6 +870,7 @@ class PlanServiceImplTest {
         verify(circlePlanShoppingItemSourceMapper).delete(any());
         verify(circlePlanShoppingItemMapper).delete(any());
         verify(circlePlanShoppingListMapper).deleteById("list-1");
+        verify(circlePlanVisibleUserMapper).delete(any());
         verify(circlePlanRecipeMapper).delete(any());
         verify(circlePlanMapper).deleteById("plan-1");
     }

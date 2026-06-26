@@ -88,6 +88,7 @@ class RawMaterialServiceImplTest {
         assertThat(result.get(0).getIngredientName()).isEqualTo("蒜");
         assertThat(result.get(0).getName()).isEqualTo("大蒜");
         assertThat(result.get(0).getCommonNames()).contains("蒜别名");
+        assertThat(result.get(0).getCalorieEstimate()).isEqualTo("约250kcal/100g");
         assertThat(result.get(1).getIngredientName()).isEqualTo("牛肉");
         verify(rawMaterialMapper).selectMatchedMaterials(List.of("蒜", "牛肉"));
         verifyNoInteractions(dishAiService);
@@ -112,6 +113,7 @@ class RawMaterialServiceImplTest {
         material.setStirFryTime("约4分钟");
         material.setDefaultHeatTemperature("中火");
         material.setAllergenFlag("无常见过敏原");
+        material.setCalorieEstimate("约250kcal/100g");
         material.setNutritionInfo("富含蛋白质");
         material.setSubstituteIngredients("可用羊肉");
         material.setCategory("肉");
@@ -130,6 +132,7 @@ class RawMaterialServiceImplTest {
         row.setStirFryTime("约4分钟");
         row.setDefaultHeatTemperature("中火");
         row.setAllergenFlag("无常见过敏原");
+        row.setCalorieEstimate("约250kcal/100g");
         row.setNutritionInfo("富含蛋白质");
         row.setSubstituteIngredients("可用羊肉");
         row.setCategory("肉");

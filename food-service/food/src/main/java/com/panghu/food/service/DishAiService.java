@@ -282,12 +282,13 @@ public class DishAiService {
         String stirFryTime = requiredRawMaterialText(item, "stirFryTime", RAW_MATERIAL_SHORT_TEXT_LIMIT);
         String defaultHeatTemperature = requiredRawMaterialText(item, "defaultHeatTemperature", RAW_MATERIAL_SHORT_TEXT_LIMIT);
         String allergenFlag = requiredRawMaterialText(item, "allergenFlag", RAW_MATERIAL_SHORT_TEXT_LIMIT);
+        String calorieEstimate = requiredRawMaterialText(item, "calorieEstimate", RAW_MATERIAL_SHORT_TEXT_LIMIT);
         String nutritionInfo = requiredRawMaterialText(item, "nutritionInfo", RAW_MATERIAL_LONG_TEXT_LIMIT);
         String substituteIngredients = requiredRawMaterialText(item, "substituteIngredients", RAW_MATERIAL_LONG_TEXT_LIMIT);
         String category = trimToNull(item.getString("category"));
         if (commonNames == null || steamTime == null || boilTime == null || fryTime == null || bakeTime == null
                 || stirFryTime == null || defaultHeatTemperature == null || allergenFlag == null
-                || nutritionInfo == null || substituteIngredients == null || category == null) {
+                || calorieEstimate == null || nutritionInfo == null || substituteIngredients == null || category == null) {
             return null;
         }
 
@@ -301,6 +302,7 @@ public class DishAiService {
         material.setStirFryTime(stirFryTime);
         material.setDefaultHeatTemperature(defaultHeatTemperature);
         material.setAllergenFlag(allergenFlag);
+        material.setCalorieEstimate(calorieEstimate);
         material.setNutritionInfo(nutritionInfo);
         material.setSubstituteIngredients(substituteIngredients);
         material.setCategory(normalizeRawMaterialCategory(category));
@@ -408,14 +410,16 @@ public class DishAiService {
         StringBuilder builder = new StringBuilder();
         builder.append("你是厨房原材料资料整理助手。请根据食材名生成基础烹饪资料，输出严格 JSON，不要输出 Markdown，不要输出解释。");
         builder.append(" JSON 格式必须是：");
-        builder.append("{\"materials\":[{\"name\":\"食材名\",\"commonNames\":[\"常见名\",\"学名\",\"缩写\"],\"steamTime\":\"约8分钟\",\"boilTime\":\"约6分钟\",\"fryTime\":\"/\",\"bakeTime\":\"/\",\"stirFryTime\":\"约3分钟\",\"defaultHeatTemperature\":\"中火\",\"allergenFlag\":\"无常见过敏原\",\"nutritionInfo\":\"富含维生素和膳食纤维\",\"substituteIngredients\":\"可用相近食材\",\"category\":\"蔬菜\"}]}。");
+        builder.append("{\"materials\":[{\"name\":\"食材名\",\"commonNames\":[\"常见名\",\"学名\",\"缩写\"],\"steamTime\":\"约8分钟\",\"boilTime\":\"约6分钟\",\"fryTime\":\"/\",\"bakeTime\":\"/\",\"stirFryTime\":\"约3分钟\",\"defaultHeatTemperature\":\"中火\",\"allergenFlag\":\"无常见过敏原\",\"calorieEstimate\":\"约46kcal/100g\",\"nutritionInfo\":\"蛋白质、钾、维B6\",\"substituteIngredients\":\"可用相近食材\",\"category\":\"蔬菜\"}]}。");
         builder.append("必须只返回用户提供的食材名，name 必须完全等于输入食材名，不要改名、合并同义词或新增食材。");
         builder.append("调料无需填写烹饪时间、火候。");
         builder.append("烹饪时间严谨，不要自己推断，一定要真实可靠，必要可上网搜索");
         builder.append("commonNames 必须是字符串数组，最多10个，但不要有多重含义的名词,需包含学名、缩写、常见名或俗称；不要放空字符串。");
         builder.append("分类只能是：蔬菜、肉、海鲜、主食、调料、其他。");
         builder.append("时间和火候字段使用“约X分钟”“中火约X°C”或“不建议”；过敏原使用“无常见过敏原”或“含某类过敏原”。");
-        builder.append("所有字段都用中文短句，普通字段不超过30字，nutritionInfo 和 substituteIngredients 不超过40字。");
+        builder.append("calorieEstimate 必须填写热量预估，单位按食材合理选择：固体可食部常用 kcal/100g，液体常用 kcal/100ml，鸡蛋等单个食材可用 kcal/个，调料可用 kcal/10g 或 kcal/勺。");
+        builder.append("nutritionInfo 必须填写主要营养成分，优先写蛋白质、脂肪、碳水、膳食纤维、维生素、矿物质等主要项，不要包含热量，不要只写泛泛描述。");
+        builder.append("所有字段都用中文短句，普通字段不超过30字，calorieEstimate 不超过30字，nutritionInfo 不超过80字，substituteIngredients 不超过40字。");
         builder.append("食材名列表：").append(JSON.toJSONString(names));
         return builder.toString();
     }

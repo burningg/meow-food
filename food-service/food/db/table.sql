@@ -180,6 +180,7 @@ CREATE TABLE `raw_material` (
   `stir_fry_time` varchar(100) NOT NULL DEFAULT '' COMMENT '炒熟时间',
   `default_heat_temperature` varchar(100) NOT NULL DEFAULT '' COMMENT '默认火候/温度',
   `allergen_flag` varchar(120) NOT NULL DEFAULT '' COMMENT '过敏原标识',
+  `calorie_estimate` varchar(100) NOT NULL DEFAULT '' COMMENT '热量预估',
   `nutrition_info` varchar(200) NOT NULL DEFAULT '' COMMENT '营养信息',
   `substitute_ingredients` varchar(200) NOT NULL DEFAULT '' COMMENT '可替代食材',
   `category` varchar(20) NOT NULL DEFAULT '其他' COMMENT '分类：蔬菜/肉/海鲜/主食/调料/其他',
@@ -313,6 +314,16 @@ CREATE TABLE `circle_plan` (
   KEY `idx_circle_plan_circle_date` (`circle_id`,`plan_date`),
   KEY `idx_circle_plan_creator` (`creator_user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='圈子计划表';
+
+CREATE TABLE `circle_plan_visible_user` (
+  `id` varchar(36) NOT NULL COMMENT '计划可见用户ID(UUID)',
+  `plan_id` varchar(36) NOT NULL COMMENT '计划ID(UUID)',
+  `user_id` varchar(36) NOT NULL COMMENT '可见用户ID(UUID)',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_circle_plan_visible_user` (`plan_id`,`user_id`),
+  KEY `idx_circle_plan_visible_user_user_plan` (`user_id`,`plan_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='圈子计划指定可见用户表';
 
 CREATE TABLE `circle_plan_recipe` (
   `id` varchar(36) NOT NULL COMMENT '计划菜谱关联ID(UUID)',

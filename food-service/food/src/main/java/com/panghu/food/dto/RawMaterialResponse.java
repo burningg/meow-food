@@ -14,6 +14,7 @@ public class RawMaterialResponse {
     private String stirFryTime;
     private String defaultHeatTemperature;
     private String allergenFlag;
+    private String calorieEstimate;
     private String nutritionInfo;
     private String substituteIngredients;
     private String category;

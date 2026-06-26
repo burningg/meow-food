@@ -37696,734 +37696,6 @@
     },
     {
       "type": "frame",
-      "id": "oxgiq",
-      "x": 17452.892267740943,
-      "y": 0,
-      "name": "Recipe Detail - Cooking Sheet",
-      "clip": true,
-      "width": 390,
-      "height": 844,
-      "fill": "#F7F6F3",
-      "layout": "none",
-      "children": [
-        {
-          "type": "frame",
-          "id": "HIGsh",
-          "x": 0,
-          "y": 0,
-          "name": "Dimmed Hero Image",
-          "width": 390,
-          "height": 260,
-          "fill": {
-            "type": "image",
-            "enabled": true,
-            "url": "https://images.unsplash.com/photo-1689122708012-d229e7a688de?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Nzk5MzM0ODd8&ixlib=rb-4.1.0&q=80&w=1080",
-            "mode": "fill"
-          }
-        },
-        {
-          "type": "frame",
-          "id": "XjMSW",
-          "x": 20,
-          "y": 50,
-          "name": "Muted Nav Buttons",
-          "width": 350,
-          "height": 36,
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "frame",
-              "id": "z47DG",
-              "name": "Muted Back Button",
-              "width": 36,
-              "height": 36,
-              "fill": "#FFFFFF99",
-              "cornerRadius": 9999,
-              "justifyContent": "center",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "SC7l0",
-                  "name": "Back Icon",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "arrow-left",
-                  "library": "phosphor",
-                  "fill": "#151515"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "k4iGV",
-              "name": "Muted Fav Button",
-              "width": 36,
-              "height": 36,
-              "fill": "#FFFFFF99",
-              "cornerRadius": 9999,
-              "justifyContent": "center",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "GzDy4",
-                  "name": "Fav Icon",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "heart",
-                  "library": "phosphor",
-                  "fill": "#9F5C38"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "G18DEA",
-          "x": 16,
-          "y": 224,
-          "name": "Muted Detail Card",
-          "width": 358,
-          "height": 418,
-          "fill": "#FFFFFF",
-          "cornerRadius": [
-            24,
-            24,
-            18,
-            18
-          ],
-          "effect": {
-            "type": "shadow",
-            "shadowType": "outer",
-            "color": "#1B3A2D10",
-            "offset": {
-              "x": 0,
-              "y": 12
-            },
-            "blur": 26
-          },
-          "layout": "vertical",
-          "gap": 16,
-          "padding": [
-            22,
-            18,
-            18,
-            18
-          ],
-          "children": [
-            {
-              "type": "frame",
-              "id": "qgeod",
-              "name": "Muted Title Row",
-              "width": "fill_container",
-              "height": 38,
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "iSp8l",
-                  "name": "Muted Dish Name",
-                  "fill": "#1B3A2D",
-                  "content": "羊蝎子火锅",
-                  "fontFamily": "Noto Serif SC",
-                  "fontSize": 25,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "frame",
-                  "id": "l1JCwD",
-                  "name": "Muted Category Badge",
-                  "height": 26,
-                  "fill": "#EDF3EC",
-                  "cornerRadius": 9999,
-                  "padding": [
-                    5,
-                    10
-                  ],
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "a043qp",
-                      "name": "Muted Category Text",
-                      "fill": "#1B3A2D",
-                      "content": "火锅",
-                      "fontFamily": "Noto Sans SC",
-                      "fontSize": 12,
-                      "fontWeight": "600"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "f7DQr",
-              "name": "Muted Meta Blocks",
-              "width": "fill_container",
-              "height": 78,
-              "gap": 10,
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "Xsas4",
-                  "name": "Muted Meta Item",
-                  "width": "fill_container",
-                  "height": "fill_container",
-                  "fill": "#F7F4EF",
-                  "cornerRadius": 16,
-                  "layout": "vertical",
-                  "gap": 5,
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "V6bd1g",
-                      "name": "Muted Meta Value",
-                      "fill": "#1B3A2D",
-                      "content": "90 min",
-                      "fontFamily": "Noto Sans SC",
-                      "fontSize": 14,
-                      "fontWeight": "700"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "tll7A",
-                  "name": "Muted Meta Item",
-                  "width": "fill_container",
-                  "height": "fill_container",
-                  "fill": "#F7F4EF",
-                  "cornerRadius": 16,
-                  "layout": "vertical",
-                  "gap": 5,
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "AENKz",
-                      "name": "Muted Meta Value",
-                      "fill": "#1B3A2D",
-                      "content": "中等",
-                      "fontFamily": "Noto Sans SC",
-                      "fontSize": 14,
-                      "fontWeight": "700"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "VnwEW",
-                  "name": "Muted Meta Item",
-                  "width": "fill_container",
-                  "height": "fill_container",
-                  "fill": "#F7F4EF",
-                  "cornerRadius": 16,
-                  "layout": "vertical",
-                  "gap": 5,
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "W6dkBi",
-                      "name": "Muted Meta Value",
-                      "fill": "#1B3A2D",
-                      "content": "3 人",
-                      "fontFamily": "Noto Sans SC",
-                      "fontSize": 14,
-                      "fontWeight": "700"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "y21v8",
-              "name": "Muted Divider",
-              "width": "fill_container",
-              "height": 1,
-              "fill": "#E9E2D8"
-            },
-            {
-              "type": "frame",
-              "id": "oKEXi",
-              "name": "Muted Ingredient Row",
-              "width": "fill_container",
-              "height": 44,
-              "fill": "#FBF8F4",
-              "cornerRadius": 12,
-              "stroke": "#EFE3D1",
-              "strokeWidth": 1,
-              "padding": [
-                0,
-                12
-              ],
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "HFxmw",
-                  "name": "Muted Ingredient Text",
-                  "fill": "#1B3A2D",
-                  "content": "羊蝎子 900g",
-                  "fontFamily": "Noto Sans SC",
-                  "fontSize": 14,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "n6YPH",
-              "name": "Muted Ingredient Row",
-              "width": "fill_container",
-              "height": 44,
-              "fill": "#FBF8F4",
-              "cornerRadius": 12,
-              "stroke": "#EFE3D1",
-              "strokeWidth": 1,
-              "padding": [
-                0,
-                12
-              ],
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "Ycc9t",
-                  "name": "Muted Ingredient Text",
-                  "fill": "#1B3A2D",
-                  "content": "大葱 2段",
-                  "fontFamily": "Noto Sans SC",
-                  "fontSize": 14,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "JNGjt",
-              "name": "Muted Ingredient Row",
-              "width": "fill_container",
-              "height": 44,
-              "fill": "#FBF8F4",
-              "cornerRadius": 12,
-              "stroke": "#EFE3D1",
-              "strokeWidth": 1,
-              "padding": [
-                0,
-                12
-              ],
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "V22XuW",
-                  "name": "Muted Ingredient Text",
-                  "fill": "#1B3A2D",
-                  "content": "生姜 4片",
-                  "fontFamily": "Noto Sans SC",
-                  "fontSize": 14,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "O0qel",
-              "name": "Muted Ingredient Row",
-              "width": "fill_container",
-              "height": 44,
-              "fill": "#FBF8F4",
-              "cornerRadius": 12,
-              "stroke": "#EFE3D1",
-              "strokeWidth": 1,
-              "padding": [
-                0,
-                12
-              ],
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "F91tVt",
-                  "name": "Muted Ingredient Text",
-                  "fill": "#1B3A2D",
-                  "content": "八角 2颗",
-                  "fontFamily": "Noto Sans SC",
-                  "fontSize": 14,
-                  "fontWeight": "normal"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "YeIAH",
-          "x": 0,
-          "y": 0,
-          "name": "Cooking Dim Overlay",
-          "width": 390,
-          "height": 844,
-          "fill": "#15151573"
-        },
-        {
-          "type": "frame",
-          "id": "O9Nmh",
-          "x": 0,
-          "y": 194,
-          "name": "Cooking Bottom Sheet",
-          "clip": true,
-          "width": 390,
-          "height": 650,
-          "fill": "#FFFFFF",
-          "cornerRadius": [
-            28,
-            28,
-            0,
-            0
-          ],
-          "effect": {
-            "type": "shadow",
-            "shadowType": "outer",
-            "color": "#8A4E291F",
-            "offset": {
-              "x": 0,
-              "y": -14
-            },
-            "blur": 38
-          },
-          "layout": "none",
-          "children": [
-            {
-              "type": "frame",
-              "id": "v0o49",
-              "x": 174,
-              "y": 12,
-              "name": "Sheet Handle",
-              "width": 42,
-              "height": 4,
-              "fill": "#E6DBCF",
-              "cornerRadius": 9999
-            },
-            {
-              "type": "frame",
-              "id": "tq10Z",
-              "x": 22,
-              "y": 36,
-              "name": "Cooking Sheet Header",
-              "width": 346,
-              "height": 32,
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "gINJg",
-                  "name": "Cooking Dish Name",
-                  "fill": "#1B3A2D",
-                  "content": "羊蝎子火锅",
-                  "fontFamily": "Noto Serif SC",
-                  "fontSize": 22,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "frame",
-                  "id": "WQ9Qy",
-                  "name": "Cooking Step Progress",
-                  "height": 28,
-                  "fill": "#E8F0E9",
-                  "cornerRadius": 9999,
-                  "padding": [
-                    5,
-                    12
-                  ],
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "vRSQa",
-                      "name": "Cooking Step Progress Text",
-                      "fill": "#1B3A2D",
-                      "content": "2 / 6",
-                      "fontFamily": "Noto Sans SC",
-                      "fontSize": 13,
-                      "fontWeight": "700"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "cov3x",
-              "x": 10,
-              "y": 134,
-              "name": "Previous Step Peek Card",
-              "opacity": 0.5,
-              "width": 140,
-              "height": 330,
-              "fill": "#F7F4EF",
-              "cornerRadius": 24,
-              "effect": {
-                "type": "shadow",
-                "shadowType": "outer",
-                "color": "#1B3A2D12",
-                "offset": {
-                  "x": 0,
-                  "y": 10
-                },
-                "blur": 22
-              },
-              "layout": "vertical",
-              "gap": 18,
-              "padding": [
-                24,
-                22
-              ],
-              "children": [
-                {
-                  "type": "text",
-                  "id": "d9bZuK",
-                  "name": "Previous Step Number",
-                  "fill": "#C4704B",
-                  "content": "01",
-                  "fontFamily": "Noto Sans SC",
-                  "fontSize": 15,
-                  "fontWeight": "800"
-                },
-                {
-                  "type": "text",
-                  "id": "eDBFP",
-                  "name": "Previous Step Text",
-                  "fill": "#1B3A2D",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "冷水下锅焯出血沫，捞出冲洗。",
-                  "lineHeight": 1.35,
-                  "fontFamily": "Noto Serif SC",
-                  "fontSize": 20,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "G8Zzm6",
-              "x": 240,
-              "y": 134,
-              "name": "Next Step Peek Card",
-              "opacity": 0.5,
-              "width": 140,
-              "height": 330,
-              "fill": "#F7F4EF",
-              "cornerRadius": 24,
-              "effect": {
-                "type": "shadow",
-                "shadowType": "outer",
-                "color": "#1B3A2D12",
-                "offset": {
-                  "x": 0,
-                  "y": 10
-                },
-                "blur": 22
-              },
-              "layout": "vertical",
-              "gap": 18,
-              "padding": [
-                24,
-                22
-              ],
-              "children": [
-                {
-                  "type": "text",
-                  "id": "IhGo0",
-                  "name": "Next Step Number",
-                  "fill": "#C4704B",
-                  "content": "03",
-                  "fontFamily": "Noto Sans SC",
-                  "fontSize": 15,
-                  "fontWeight": "800"
-                },
-                {
-                  "type": "text",
-                  "id": "b1ZwFK",
-                  "name": "Next Step Text",
-                  "fill": "#1B3A2D",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "加入白萝卜继续炖至软糯。",
-                  "lineHeight": 1.35,
-                  "fontFamily": "Noto Serif SC",
-                  "fontSize": 20,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "NTC8u",
-              "x": 157,
-              "y": 514,
-              "name": "Step Dot Indicator",
-              "width": 76,
-              "height": 10,
-              "gap": 6,
-              "justifyContent": "center",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "w0qw3y",
-                  "name": "Step Dot 1",
-                  "width": 7,
-                  "height": 7,
-                  "fill": "#E6DBCF",
-                  "cornerRadius": 9999
-                },
-                {
-                  "type": "frame",
-                  "id": "dfEkr",
-                  "name": "Step Dot 2 Active",
-                  "width": 22,
-                  "height": 7,
-                  "fill": "#C4704B",
-                  "cornerRadius": 9999
-                },
-                {
-                  "type": "frame",
-                  "id": "igNAv",
-                  "name": "Step Dot 3",
-                  "width": 7,
-                  "height": 7,
-                  "fill": "#E6DBCF",
-                  "cornerRadius": 9999
-                },
-                {
-                  "type": "frame",
-                  "id": "Kjsu5",
-                  "name": "Step Dot 4",
-                  "width": 7,
-                  "height": 7,
-                  "fill": "#E6DBCF",
-                  "cornerRadius": 9999
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "LpNzW",
-              "x": 22,
-              "y": 552,
-              "name": "Cooking Sheet Actions",
-              "width": 346,
-              "height": 58,
-              "gap": 12,
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "cVlF7",
-                  "name": "Previous Step Button",
-                  "width": "fill_container",
-                  "height": 54,
-                  "fill": "#F2E9E2",
-                  "cornerRadius": 16,
-                  "stroke": "#E3D2C4",
-                  "strokeWidth": 1,
-                  "gap": 7,
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "PkY8v",
-                      "name": "Previous Step Icon",
-                      "width": 17,
-                      "height": 17,
-                      "icon": "caret-left",
-                      "library": "phosphor",
-                      "fill": "#9F5C38"
-                    },
-                    {
-                      "type": "text",
-                      "id": "wD8do",
-                      "name": "Previous Step Button Text",
-                      "fill": "#9F5C38",
-                      "content": "上一步",
-                      "fontFamily": "Noto Sans SC",
-                      "fontSize": 15,
-                      "fontWeight": "700"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "vKnff",
-                  "name": "Next Step Button",
-                  "width": "fill_container",
-                  "height": 54,
-                  "fill": "#C4704B",
-                  "cornerRadius": 16,
-                  "effect": {
-                    "type": "shadow",
-                    "shadowType": "outer",
-                    "color": "#C4704B33",
-                    "offset": {
-                      "x": 0,
-                      "y": 12
-                    },
-                    "blur": 22
-                  },
-                  "gap": 7,
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "j0SHsv",
-                      "name": "Next Step Button Text",
-                      "fill": "#FFFFFF",
-                      "content": "下一步",
-                      "fontFamily": "Noto Sans SC",
-                      "fontSize": 15,
-                      "fontWeight": "700"
-                    },
-                    {
-                      "type": "icon",
-                      "id": "eyjOi",
-                      "name": "Next Step Icon",
-                      "width": 17,
-                      "height": 17,
-                      "icon": "caret-right",
-                      "library": "phosphor",
-                      "fill": "#FFFFFF"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
       "id": "lcxAr",
       "x": 16964.373812941696,
       "y": 0,
@@ -38821,31 +38093,31 @@
           "height": 650,
           "fill": "#FFFFFF",
           "cornerRadius": [
-            28,
-            28,
+            24,
+            24,
             0,
             0
           ],
           "effect": {
             "type": "shadow",
             "shadowType": "outer",
-            "color": "#8A4E291F",
+            "color": "#8A4E291A",
             "offset": {
               "x": 0,
-              "y": -14
+              "y": -10
             },
-            "blur": 38
+            "blur": 36
           },
           "layout": "none",
           "children": [
             {
               "type": "frame",
               "id": "G5bIm",
-              "x": 174,
-              "y": 12,
+              "x": 173,
+              "y": 13,
               "name": "Sheet Handle",
-              "width": 42,
-              "height": 4,
+              "width": 44,
+              "height": 3,
               "fill": "#E6DBCF",
               "cornerRadius": 9999
             },
@@ -38867,7 +38139,7 @@
                   "fill": "#1B3A2D",
                   "content": "羊蝎子火锅",
                   "fontFamily": "Noto Serif SC",
-                  "fontSize": 22,
+                  "fontSize": 21,
                   "fontWeight": "normal"
                 },
                 {
@@ -38875,7 +38147,7 @@
                   "id": "D3FQ1",
                   "name": "Cooking Step Progress",
                   "height": 28,
-                  "fill": "#E8F0E9",
+                  "fill": "#9F5C38",
                   "cornerRadius": 9999,
                   "padding": [
                     5,
@@ -38888,10 +38160,10 @@
                       "type": "text",
                       "id": "SW19F",
                       "name": "Cooking Step Progress Text",
-                      "fill": "#1B3A2D",
+                      "fill": "#FFFFFF",
                       "content": "2 / 6",
-                      "fontFamily": "Noto Sans SC",
-                      "fontSize": 13,
+                      "fontFamily": "Geist Mono",
+                      "fontSize": 12,
                       "fontWeight": "700"
                     }
                   ]
@@ -38900,338 +38172,269 @@
             },
             {
               "type": "frame",
-              "id": "hf3Ht",
-              "x": 10,
-              "y": 134,
-              "name": "Previous Step Peek Card",
-              "opacity": 0.5,
-              "width": 140,
-              "height": 330,
-              "fill": "#F7F4EF",
-              "cornerRadius": 24,
-              "effect": {
-                "type": "shadow",
-                "shadowType": "outer",
-                "color": "#1B3A2D12",
-                "offset": {
-                  "x": 0,
-                  "y": 10
-                },
-                "blur": 22
-              },
-              "layout": "vertical",
-              "gap": 18,
-              "padding": [
-                24,
-                22
-              ],
-              "children": [
-                {
-                  "type": "text",
-                  "id": "t8Pr7",
-                  "name": "Previous Step Number",
-                  "fill": "#C4704B",
-                  "content": "01",
-                  "fontFamily": "Noto Sans SC",
-                  "fontSize": 15,
-                  "fontWeight": "800"
-                },
-                {
-                  "type": "text",
-                  "id": "N14yY5",
-                  "name": "Previous Step Text",
-                  "fill": "#1B3A2D",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "冷水下锅焯出血沫，捞出冲洗。",
-                  "lineHeight": 1.35,
-                  "fontFamily": "Noto Serif SC",
-                  "fontSize": 20,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "xqoTu",
-              "x": 240,
-              "y": 134,
-              "name": "Next Step Peek Card",
-              "opacity": 0.5,
-              "width": 140,
-              "height": 330,
-              "fill": "#F7F4EF",
-              "cornerRadius": 24,
-              "effect": {
-                "type": "shadow",
-                "shadowType": "outer",
-                "color": "#1B3A2D12",
-                "offset": {
-                  "x": 0,
-                  "y": 10
-                },
-                "blur": 22
-              },
-              "layout": "vertical",
-              "gap": 18,
-              "padding": [
-                24,
-                22
-              ],
-              "children": [
-                {
-                  "type": "text",
-                  "id": "txrRp",
-                  "name": "Next Step Number",
-                  "fill": "#C4704B",
-                  "content": "03",
-                  "fontFamily": "Noto Sans SC",
-                  "fontSize": 15,
-                  "fontWeight": "800"
-                },
-                {
-                  "type": "text",
-                  "id": "WAPk6",
-                  "name": "Next Step Text",
-                  "fill": "#1B3A2D",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "加入白萝卜继续炖至软糯。",
-                  "lineHeight": 1.35,
-                  "fontFamily": "Noto Serif SC",
-                  "fontSize": 20,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "lYoZR",
-              "x": 45,
-              "y": 104,
-              "name": "Current Step Center Card",
-              "width": 300,
-              "height": 390,
-              "fill": "#FFFDF9",
-              "cornerRadius": 26,
-              "stroke": "#F0E7DC",
+              "id": "oSCug",
+              "x": 18,
+              "y": 82,
+              "name": "Previous Step Folded Premium",
+              "width": 354,
+              "height": 88,
+              "fill": "#F4EEE7",
+              "cornerRadius": 22,
+              "stroke": "#EFE3D1",
               "strokeWidth": 1,
               "effect": {
                 "type": "shadow",
                 "shadowType": "outer",
-                "color": "#8A4E2926",
+                "color": "#8A4E2910",
                 "offset": {
                   "x": 0,
-                  "y": 18
+                  "y": 6
                 },
-                "blur": 34
+                "blur": 16
               },
-              "layout": "none",
+              "layout": "vertical",
+              "padding": 5,
               "children": [
                 {
-                  "type": "text",
-                  "id": "qv9u7",
-                  "x": 22,
-                  "y": 22,
-                  "name": "Current Step Number",
-                  "fill": "#C4704B",
-                  "content": "02",
-                  "fontFamily": "Noto Sans SC",
-                  "fontSize": 16,
-                  "fontWeight": "900"
-                },
-                {
                   "type": "frame",
-                  "id": "mIyyn",
-                  "x": 43,
-                  "y": 38,
-                  "name": "Timer Control Cluster",
-                  "width": 214,
-                  "height": 158,
-                  "layout": "none",
+                  "id": "GqMIP",
+                  "name": "Previous Step Folded Premium Inner Rail",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "#FBF8F4",
+                  "cornerRadius": 18,
+                  "gap": 12,
+                  "padding": [
+                    0,
+                    13
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
                   "children": [
                     {
                       "type": "frame",
-                      "id": "xMbi8",
-                      "x": 0,
-                      "y": 60,
-                      "name": "Timer Minus Button",
-                      "width": 38,
-                      "height": 38,
-                      "fill": "#F2E9E2",
+                      "id": "bvC7l",
+                      "name": "Previous Step Folded Premium Text Group",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "b2TCP",
+                          "name": "Previous Step Folded Premium Number",
+                          "fill": "#9F5C38",
+                          "content": "01",
+                          "fontFamily": "Geist Mono",
+                          "fontSize": 12,
+                          "fontWeight": "700",
+                          "letterSpacing": 0.4
+                        },
+                        {
+                          "type": "frame",
+                          "id": "vQIuM",
+                          "name": "Previous Step Folded Premium Hairline",
+                          "width": 1,
+                          "height": 34,
+                          "fill": "#E9E2D8"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "LW1BS",
+                          "name": "Previous Step Folded Premium Copy Stack",
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "layout": "vertical",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "LaLg8",
+                              "x": 0,
+                              "y": 8.5,
+                              "name": "Previous Step Folded Premium Label",
+                              "enabled": false,
+                              "fill": "#787774",
+                              "content": "上一段",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 10,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "Onb3D",
+                              "name": "Previous Step Folded Premium Copy",
+                              "fill": "#2F3437",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "冷水焯出血沫，捞出冲洗。",
+                              "lineHeight": 1.25,
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "U4rKjy",
+                      "name": "Previous Step Folded Premium Fold Cap",
+                      "width": 30,
+                      "height": 30,
+                      "fill": "#F7F3EE",
                       "cornerRadius": 9999,
                       "justifyContent": "center",
                       "alignItems": "center",
                       "children": [
                         {
+                          "type": "icon",
+                          "id": "wG2ae",
+                          "name": "Previous Step Folded Premium Caret",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "caret-up",
+                          "library": "phosphor",
+                          "fill": "#9F5C38"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "P4W1Yy",
+              "x": 22,
+              "y": 372.6682359758272,
+              "name": "Next Step Folded Premium",
+              "width": 354,
+              "height": 88,
+              "fill": "#F4EEE7",
+              "cornerRadius": 22,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#8A4E2910",
+                "offset": {
+                  "x": 0,
+                  "y": 6
+                },
+                "blur": 16
+              },
+              "layout": "vertical",
+              "padding": 5,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "nT3aL",
+                  "name": "Next Step Folded Premium Inner Rail",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "#FBF8F4",
+                  "cornerRadius": 18,
+                  "gap": 12,
+                  "padding": [
+                    0,
+                    13
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "cdtb3",
+                      "name": "Next Step Folded Premium Text Group",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
                           "type": "text",
-                          "id": "SoGKN",
-                          "name": "Timer Minus Text",
+                          "id": "BoyiS",
+                          "name": "Next Step Folded Premium Number",
                           "fill": "#9F5C38",
-                          "content": "-",
-                          "fontFamily": "Noto Sans SC",
-                          "fontSize": 22,
-                          "fontWeight": "700"
+                          "content": "03",
+                          "fontFamily": "Geist Mono",
+                          "fontSize": 12,
+                          "fontWeight": "700",
+                          "letterSpacing": 0.4
+                        },
+                        {
+                          "type": "frame",
+                          "id": "BxzqQ",
+                          "name": "Next Step Folded Premium Hairline",
+                          "width": 1,
+                          "height": 34,
+                          "fill": "#E9E2D8"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "q3tgON",
+                          "name": "Next Step Folded Premium Copy Stack",
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "layout": "vertical",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "boqb4",
+                              "x": 0,
+                              "y": 8.5,
+                              "name": "Next Step Folded Premium Label",
+                              "enabled": false,
+                              "fill": "#787774",
+                              "content": "下一段",
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 10,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "XxMEe",
+                              "name": "Next Step Folded Premium Copy",
+                              "fill": "#2F3437",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "加入白萝卜，继续炖至软糯。",
+                              "lineHeight": 1.25,
+                              "fontFamily": "Noto Sans SC",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
                         }
                       ]
                     },
                     {
-                      "type": "ellipse",
-                      "id": "JNJ6a",
-                      "x": 42,
-                      "y": 0,
-                      "name": "Timer Ring Background",
-                      "innerRadius": 0.78,
-                      "fill": "#F2E9E2",
-                      "width": 130,
-                      "height": 130
-                    },
-                    {
-                      "type": "ellipse",
-                      "id": "M4SuKQ",
-                      "x": 42,
-                      "y": 0,
-                      "name": "Timer Ring Progress",
-                      "innerRadius": 0.78,
-                      "startAngle": -90,
-                      "sweepAngle": 238,
-                      "fill": "#C4704B",
-                      "width": 130,
-                      "height": 130
-                    },
-                    {
-                      "type": "ellipse",
-                      "id": "TFTjQ",
-                      "x": 55,
-                      "y": 13,
-                      "name": "Timer Ring Core",
-                      "fill": "#FFFDF9",
-                      "width": 104,
-                      "height": 104
-                    },
-                    {
-                      "type": "text",
-                      "id": "e9EsFI",
-                      "x": 72,
-                      "y": 45,
-                      "name": "Timer Value",
-                      "fill": "#1B3A2D",
-                      "content": "08:00",
-                      "fontFamily": "Noto Sans SC",
-                      "fontSize": 28,
-                      "fontWeight": "900"
-                    },
-                    {
                       "type": "frame",
-                      "id": "bR67x",
-                      "x": 176,
-                      "y": 60,
-                      "name": "Timer Plus Button",
-                      "width": 38,
-                      "height": 38,
-                      "fill": "#F2E9E2",
+                      "id": "wApy7",
+                      "name": "Next Step Folded Premium Fold Cap",
+                      "width": 30,
+                      "height": 30,
+                      "fill": "#F7F3EE",
                       "cornerRadius": 9999,
                       "justifyContent": "center",
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "text",
-                          "id": "FFgI0",
-                          "name": "Timer Plus Text",
-                          "fill": "#9F5C38",
-                          "content": "+",
-                          "fontFamily": "Noto Sans SC",
-                          "fontSize": 22,
-                          "fontWeight": "700"
+                          "type": "icon",
+                          "id": "DyvF1",
+                          "name": "Next Step Folded Premium Caret",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "caret-down",
+                          "library": "phosphor",
+                          "fill": "#9F5C38"
                         }
                       ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "l6eju",
-                  "x": 107,
-                  "y": 178,
-                  "name": "Timer Start Button",
-                  "width": 86,
-                  "height": 42,
-                  "fill": "#9F5C38",
-                  "cornerRadius": 9999,
-                  "gap": 7,
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "sZ9oc",
-                      "name": "Timer Play Icon",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "play",
-                      "library": "phosphor",
-                      "fill": "#FFFFFF"
-                    },
-                    {
-                      "type": "text",
-                      "id": "u3aeVi",
-                      "name": "Timer Start Text",
-                      "fill": "#FFFFFF",
-                      "content": "开始",
-                      "fontFamily": "Noto Sans SC",
-                      "fontSize": 14,
-                      "fontWeight": "700"
-                    }
-                  ]
-                },
-                {
-                  "type": "text",
-                  "id": "x6Fcpe",
-                  "x": 24,
-                  "y": 246,
-                  "name": "Current Step Copy",
-                  "fill": "#1B3A2D",
-                  "textGrowth": "fixed-width",
-                  "width": 252,
-                  "content": "转中小火炖煮，保持汤面微微翻滚，撇去浮沫。",
-                  "lineHeight": 1.38,
-                  "fontFamily": "Noto Serif SC",
-                  "fontSize": 24,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "frame",
-                  "id": "zvTF0",
-                  "x": 94,
-                  "y": 328,
-                  "name": "Voice Play Button",
-                  "width": 112,
-                  "height": 42,
-                  "fill": "#E8F0E9",
-                  "cornerRadius": 9999,
-                  "gap": 8,
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "pq0Gx",
-                      "name": "Voice Speaker Icon",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "speaker-high",
-                      "library": "phosphor",
-                      "fill": "#1B3A2D"
-                    },
-                    {
-                      "type": "text",
-                      "id": "olQ5c",
-                      "name": "Voice Play Text",
-                      "fill": "#1B3A2D",
-                      "content": "播放",
-                      "fontFamily": "Noto Sans SC",
-                      "fontSize": 14,
-                      "fontWeight": "700"
                     }
                   ]
                 }
@@ -39241,7 +38444,7 @@
               "type": "frame",
               "id": "Bf9JC",
               "x": 157,
-              "y": 514,
+              "y": 562,
               "name": "Step Dot Indicator",
               "width": 76,
               "height": 10,
@@ -39253,8 +38456,8 @@
                   "type": "frame",
                   "id": "CIyxz",
                   "name": "Step Dot 1",
-                  "width": 7,
-                  "height": 7,
+                  "width": 6,
+                  "height": 6,
                   "fill": "#E6DBCF",
                   "cornerRadius": 9999
                 },
@@ -39262,17 +38465,17 @@
                   "type": "frame",
                   "id": "MM7yq",
                   "name": "Step Dot 2 Active",
-                  "width": 22,
-                  "height": 7,
-                  "fill": "#C4704B",
+                  "width": 24,
+                  "height": 6,
+                  "fill": "#9F5C38",
                   "cornerRadius": 9999
                 },
                 {
                   "type": "frame",
                   "id": "D4yP8e",
                   "name": "Step Dot 3",
-                  "width": 7,
-                  "height": 7,
+                  "width": 6,
+                  "height": 6,
                   "fill": "#E6DBCF",
                   "cornerRadius": 9999
                 },
@@ -39280,8 +38483,8 @@
                   "type": "frame",
                   "id": "rUBDA",
                   "name": "Step Dot 4",
-                  "width": 7,
-                  "height": 7,
+                  "width": 6,
+                  "height": 6,
                   "fill": "#E6DBCF",
                   "cornerRadius": 9999
                 }
@@ -39291,89 +38494,285 @@
               "type": "frame",
               "id": "nPql3",
               "x": 22,
-              "y": 552,
+              "y": 588,
               "name": "Cooking Sheet Actions",
               "width": 346,
-              "height": 58,
+              "height": 50,
               "gap": 12,
+              "alignItems": "center",
               "children": [
                 {
                   "type": "frame",
-                  "id": "J5LvUg",
-                  "name": "Previous Step Button",
+                  "id": "k5mbN",
+                  "name": "Previous Step Button Premium",
                   "width": "fill_container",
-                  "height": 54,
-                  "fill": "#F2E9E2",
-                  "cornerRadius": 16,
-                  "stroke": "#E3D2C4",
+                  "height": 50,
+                  "fill": "#F4EEE7",
+                  "cornerRadius": 9999,
+                  "stroke": "#EFE3D1",
                   "strokeWidth": 1,
-                  "gap": 7,
+                  "gap": 8,
                   "justifyContent": "center",
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "icon",
-                      "id": "AgCZe",
-                      "name": "Previous Step Icon",
-                      "width": 17,
-                      "height": 17,
+                      "id": "kQnQC",
+                      "name": "Previous Step Button Caret",
+                      "width": 15,
+                      "height": 15,
                       "icon": "caret-left",
                       "library": "phosphor",
-                      "fill": "#9F5C38"
+                      "fill": "#7B6A5D"
                     },
                     {
                       "type": "text",
-                      "id": "kQXiY",
-                      "name": "Previous Step Button Text",
-                      "fill": "#9F5C38",
+                      "id": "T9uUC",
+                      "name": "Previous Step Button Label",
+                      "fill": "#7B6A5D",
                       "content": "上一步",
                       "fontFamily": "Noto Sans SC",
-                      "fontSize": 15,
+                      "fontSize": 14,
                       "fontWeight": "700"
                     }
                   ]
                 },
                 {
                   "type": "frame",
-                  "id": "yVVqA",
-                  "name": "Next Step Button",
+                  "id": "CIFfP",
+                  "name": "Next Step Button Premium",
                   "width": "fill_container",
-                  "height": 54,
-                  "fill": "#C4704B",
-                  "cornerRadius": 16,
+                  "height": 50,
+                  "fill": "#9F5C38",
+                  "cornerRadius": 9999,
                   "effect": {
                     "type": "shadow",
                     "shadowType": "outer",
-                    "color": "#C4704B33",
+                    "color": "#9F5C382A",
                     "offset": {
                       "x": 0,
-                      "y": 12
+                      "y": 10
                     },
                     "blur": 22
                   },
-                  "gap": 7,
+                  "gap": 10,
                   "justifyContent": "center",
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "text",
-                      "id": "vDxm9",
-                      "name": "Next Step Button Text",
+                      "id": "y931Zo",
+                      "name": "Next Step Button Label",
                       "fill": "#FFFFFF",
                       "content": "下一步",
                       "fontFamily": "Noto Sans SC",
-                      "fontSize": 15,
+                      "fontSize": 14,
                       "fontWeight": "700"
                     },
                     {
-                      "type": "icon",
-                      "id": "Y2oxY",
-                      "name": "Next Step Icon",
-                      "width": 17,
-                      "height": 17,
-                      "icon": "caret-right",
-                      "library": "phosphor",
-                      "fill": "#FFFFFF"
+                      "type": "frame",
+                      "id": "x4swZX",
+                      "name": "Next Step Button Icon Cap",
+                      "width": 26,
+                      "height": 26,
+                      "fill": "#FFFFFF1F",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "MHyJq",
+                          "name": "Next Step Button Caret",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "caret-right",
+                          "library": "phosphor",
+                          "fill": "#FFFFFF"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "loiJW",
+              "x": 18,
+              "y": 178,
+              "name": "Current Step Premium Card",
+              "width": 354,
+              "height": 179,
+              "fill": "#FFF8EF",
+              "cornerRadius": 32,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#8A4E291A",
+                "offset": {
+                  "x": 0,
+                  "y": 16
+                },
+                "blur": 34
+              },
+              "layout": "vertical",
+              "padding": 6,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "OQFHw",
+                  "name": "Current Step Premium Card Inner Core",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 27,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": 18,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "TjBph",
+                      "name": "Current Step Premium Card Copy Section",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 12,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "a1nzzN",
+                          "name": "Current Step Premium Card Step Copy",
+                          "fill": "#1B3A2D",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "转中小火炖煮，保持汤面微微翻滚，撇去浮沫。",
+                          "lineHeight": 1.25,
+                          "fontFamily": "Noto Serif SC",
+                          "fontSize": 21,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "S4eJV",
+                          "name": "Current Step Premium Card Soft Divider",
+                          "width": "fill_container",
+                          "height": 1,
+                          "fill": "#EFE3D1"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "nsPzg",
+                          "name": "Current Step Premium Card Control Rail",
+                          "width": "fill_container",
+                          "height": 42,
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "sTeoG",
+                              "name": "Current Step Premium Card Voice Pill",
+                              "width": 132,
+                              "height": 40,
+                              "fill": "#EDF3EC",
+                              "cornerRadius": 9999,
+                              "gap": 7,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "kWm9s",
+                                  "name": "Current Step Premium Card Voice Mini Play",
+                                  "width": 22,
+                                  "height": 22,
+                                  "fill": "#346538",
+                                  "cornerRadius": 9999,
+                                  "effect": {
+                                    "type": "shadow",
+                                    "shadowType": "outer",
+                                    "color": "#34653824",
+                                    "offset": {
+                                      "x": 0,
+                                      "y": 3
+                                    },
+                                    "blur": 8
+                                  },
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "path",
+                                      "id": "gxTuB",
+                                      "name": "Current Step Premium Card Voice Play Glyph",
+                                      "geometry": "M9 5l0 22 17-11z",
+                                      "viewBox": [
+                                        0,
+                                        0,
+                                        32,
+                                        32
+                                      ],
+                                      "fill": "#FFFFFF",
+                                      "width": 10,
+                                      "height": 10
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "LnXFw",
+                                  "name": "Current Step Premium Card Voice Text",
+                                  "fill": "#346538",
+                                  "content": "播放讲解",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 13,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "e2GJH",
+                              "name": "Current Step Premium Card Time Pill",
+                              "width": 118,
+                              "height": 40,
+                              "fill": "#FFF8EF",
+                              "cornerRadius": 9999,
+                              "stroke": "#EFE3D1",
+                              "strokeWidth": 1,
+                              "gap": 7,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "wny0P",
+                                  "name": "Current Step Premium Card Time Label",
+                                  "fill": "#787774",
+                                  "content": "计时",
+                                  "fontFamily": "Noto Sans SC",
+                                  "fontSize": 12,
+                                  "fontWeight": "700"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "OCu67",
+                                  "name": "Current Step Premium Card Time Value",
+                                  "fill": "#9F5C38",
+                                  "content": "08:00",
+                                  "fontFamily": "Geist Mono",
+                                  "fontSize": 13,
+                                  "fontWeight": "800"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 }

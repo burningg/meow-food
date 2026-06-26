@@ -12,6 +12,7 @@
         <result column="stir_fry_time" property="stirFryTime" />
         <result column="default_heat_temperature" property="defaultHeatTemperature" />
         <result column="allergen_flag" property="allergenFlag" />
+        <result column="calorie_estimate" property="calorieEstimate" />
         <result column="nutrition_info" property="nutritionInfo" />
         <result column="substitute_ingredients" property="substituteIngredients" />
         <result column="category" property="category" />
@@ -46,6 +47,7 @@
             material.stir_fry_time AS stirFryTime,
             material.default_heat_temperature AS defaultHeatTemperature,
             material.allergen_flag AS allergenFlag,
+            material.calorie_estimate AS calorieEstimate,
             material.nutrition_info AS nutritionInfo,
             material.substitute_ingredients AS substituteIngredients,
             material.category AS category
@@ -75,6 +77,7 @@
             stir_fry_time,
             default_heat_temperature,
             allergen_flag,
+            calorie_estimate,
             nutrition_info,
             substitute_ingredients,
             category,
@@ -93,6 +96,7 @@
                 #{material.stirFryTime},
                 #{material.defaultHeatTemperature},
                 #{material.allergenFlag},
+                #{material.calorieEstimate},
                 #{material.nutritionInfo},
                 #{material.substituteIngredients},
                 #{material.category},

@@ -9,6 +9,7 @@ CREATE TABLE `raw_material` (
   `stir_fry_time` varchar(100) NOT NULL DEFAULT '' COMMENT '炒熟时间',
   `default_heat_temperature` varchar(100) NOT NULL DEFAULT '' COMMENT '默认火候/温度',
   `allergen_flag` varchar(120) NOT NULL DEFAULT '' COMMENT '过敏原标识',
+  `calorie_estimate` varchar(100) NOT NULL DEFAULT '' COMMENT '热量预估',
   `nutrition_info` varchar(200) NOT NULL DEFAULT '' COMMENT '营养信息',
   `substitute_ingredients` varchar(200) NOT NULL DEFAULT '' COMMENT '可替代食材',
   `category` varchar(20) NOT NULL DEFAULT '其他' COMMENT '分类：蔬菜/肉/海鲜/主食/调料/其他',

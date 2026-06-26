@@ -348,6 +348,36 @@
               </text>
             </view>
           </picker>
+
+          <view v-if="selectedCircleId" class="create-field-card create-member-card">
+            <view class="create-member-head">
+              <text class="create-field-label">可见成员</text>
+              <text class="create-member-summary">{{ createVisibilityLabel }}</text>
+            </view>
+            <view v-if="loadingCircleMembers" class="create-member-loading">
+              <text class="create-member-loading-text">成员加载中...</text>
+            </view>
+            <view v-else-if="selectedCircleMembers.length" class="create-member-list">
+              <button
+                v-for="member in selectedCircleMembers"
+                :key="member.id"
+                :class="[
+                  'create-member-chip',
+                  { active: isVisibleUserSelected(member.id) },
+                ]"
+                @tap="toggleVisibleUser(member.id)"
+              >
+                <SmartImage
+                  :src="member.avatar"
+                  class-name="create-member-avatar"
+                />
+                <text class="create-member-name">{{ getMemberName(member) }}</text>
+              </button>
+            </view>
+            <view v-else class="create-member-loading">
+              <text class="create-member-loading-text">暂无成员</text>
+            </view>
+          </view>
         </view>
 
         <view class="create-sheet-actions">
@@ -392,6 +422,7 @@ import {
 } from "@/services/plan-service";
 import {
   SocialService,
+  type BuddyCircleMember,
   type BuddyCircleSummary,
 } from "@/services/social-service";
 import { useAuthStore } from "@/stores/auth-store";
@@ -411,6 +442,7 @@ const socialService = new SocialService();
 const authStore = useAuthStore();
 
 const circles = ref<BuddyCircleSummary[]>([]);
+const circleMemberCache = ref<Record<string, BuddyCircleMember[]>>({});
 const monthCache = ref<Record<string, PlanDayPlans[]>>({});
 const detailCache = ref<Record<string, PlanDetail>>({});
 const viewedWeekStart = ref(startOfWeek(initialDate));
@@ -424,9 +456,11 @@ const shareToken = ref(routeParams.shareToken || "");
 const sharedView = computed(() => Boolean(sharedPlanId.value && shareToken.value));
 const canUseOwnPlans = computed(() => !sharedView.value || Boolean(currentUserId.value));
 const selectedCircleId = ref("");
+const selectedVisibleUserIds = ref<string[]>([]);
 const draftTitle = ref(buildDefaultPlanTitle(formatDateKey(initialDate)));
 const creating = ref(false);
 const createSheetVisible = ref(false);
+const loadingCircleMembers = ref(false);
 const activeMenuPlanId = ref("");
 const deletingPlanId = ref("");
 const removingRecipeKey = ref("");
@@ -494,6 +528,14 @@ const selectedCircleIndex = computed(() => {
 });
 const selectedCircleName = computed(
   () => circles.value[selectedCircleIndex.value]?.name || "",
+);
+const selectedCircleMembers = computed(
+  () => circleMemberCache.value[selectedCircleId.value] || [],
+);
+const createVisibilityLabel = computed(() =>
+  selectedVisibleUserIds.value.length
+    ? `已选 ${selectedVisibleUserIds.value.length} 人`
+    : "全圈可见",
 );
 const weekLabel = computed(() => {
   const start = weekDates.value[0]?.key;
@@ -667,7 +709,9 @@ function openCreateSheet() {
   if (!canUseOwnPlans.value) return;
   closePlanMenu();
   draftTitle.value = buildDefaultPlanTitle(selectedDateKey.value);
+  selectedVisibleUserIds.value = [];
   createSheetVisible.value = true;
+  void loadCircleMembers(selectedCircleId.value);
 }
 
 function closeCreateSheet() {
@@ -845,6 +889,46 @@ function moveRecipe(planId: string, fromIndex: number, toIndex: number) {
 function handleCircleChange(event: { detail: { value: string } }) {
   const index = Number(event.detail.value || 0);
   selectedCircleId.value = circles.value[index]?.id || "";
+  selectedVisibleUserIds.value = [];
+  void loadCircleMembers(selectedCircleId.value);
+}
+
+async function loadCircleMembers(circleId: string) {
+  if (!circleId || circleMemberCache.value[circleId]) return;
+  loadingCircleMembers.value = true;
+  try {
+    const { data } = await socialService.getCircleMembers(circleId);
+    circleMemberCache.value = {
+      ...circleMemberCache.value,
+      [circleId]: data,
+    };
+  } catch (error: any) {
+    Message.error(error?.response?.data?.message || "圈成员加载失败");
+  } finally {
+    loadingCircleMembers.value = false;
+  }
+}
+
+function toggleVisibleUser(userId: string) {
+  if (!userId) return;
+  if (selectedVisibleUserIds.value.includes(userId)) {
+    selectedVisibleUserIds.value = selectedVisibleUserIds.value.filter(
+      (id) => id !== userId,
+    );
+    return;
+  }
+  selectedVisibleUserIds.value = [...selectedVisibleUserIds.value, userId];
+}
+
+function isVisibleUserSelected(userId: string) {
+  return selectedVisibleUserIds.value.includes(userId);
+}
+
+function getMemberName(member: BuddyCircleMember) {
+  if (member.id === currentUserId.value) {
+    return member.nickname ? `${member.nickname}（我）` : "我";
+  }
+  return member.nickname || member.account || "未命名";
 }
 
 async function submitPlan() {
@@ -864,6 +948,7 @@ async function submitPlan() {
       circleId: selectedCircleId.value,
       planDate: selectedDateKey.value,
       title: draftTitle.value.trim(),
+      visibleUserIds: [...selectedVisibleUserIds.value],
     });
     await socialService.updateLastSelectedCircle(selectedCircleId.value);
     draftTitle.value = buildDefaultPlanTitle(selectedDateKey.value);
@@ -1182,12 +1267,14 @@ function formatDisplayDate(value: string, withSpace: boolean) {
 .plan-card-head,
 .plan-card-side,
 .create-sheet-head,
+.create-member-head,
 .create-sheet-actions {
   display: flex;
 }
 
 .plan-card-head,
 .create-sheet-head,
+.create-member-head,
 .create-sheet-actions {
   align-items: center;
   justify-content: space-between;
@@ -1935,6 +2022,82 @@ function formatDisplayDate(value: string, withSpace: boolean) {
   color: var(--text-main);
   font-size: var(--text-md);
   font-weight: 600;
+}
+
+.create-member-card {
+  padding-bottom: 12px;
+}
+
+.create-member-head {
+  gap: 12px;
+}
+
+.create-member-summary {
+  flex-shrink: 0;
+  color: #5a4333;
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+.create-member-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  max-height: 168px;
+  margin-top: 10px;
+  overflow-y: auto;
+}
+
+.create-member-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+  min-height: 42px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #5a4333;
+  border: 1px solid #eadfd5;
+  text-align: center;
+}
+
+.create-member-chip.active {
+  background: #1b3a2d;
+  border-color: #1b3a2d;
+  color: #ffffff;
+}
+
+.create-member-avatar {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: #efe6dc;
+}
+
+.create-member-name {
+  min-width: 0;
+  color: inherit;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.create-member-loading {
+  display: flex;
+  align-items: center;
+  min-height: 38px;
+  margin-top: 8px;
+}
+
+.create-member-loading-text {
+  color: #9a887a;
+  font-size: var(--text-xs);
 }
 
 .create-sheet-actions {
