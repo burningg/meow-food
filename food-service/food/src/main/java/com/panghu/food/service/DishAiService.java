@@ -143,7 +143,7 @@ public class DishAiService {
         try {
             List<Object> userContent = new ArrayList<>();
             userContent.add(inputText(buildRawMaterialPrompt(normalizedNames)));
-            String responseText = requestOpenAi(userContent, false, RAW_MATERIAL_TEMPERATURE);
+            String responseText = requestOpenAi(userContent, true, RAW_MATERIAL_TEMPERATURE);
             return parseRawMaterialResponse(responseText, normalizedNames);
         } catch (ApiException exception) {
             throw exception;
@@ -411,6 +411,7 @@ public class DishAiService {
         builder.append("{\"materials\":[{\"name\":\"食材名\",\"commonNames\":[\"常见名\",\"学名\",\"缩写\"],\"steamTime\":\"约8分钟\",\"boilTime\":\"约6分钟\",\"fryTime\":\"/\",\"bakeTime\":\"/\",\"stirFryTime\":\"约3分钟\",\"defaultHeatTemperature\":\"中火\",\"allergenFlag\":\"无常见过敏原\",\"nutritionInfo\":\"富含维生素和膳食纤维\",\"substituteIngredients\":\"可用相近食材\",\"category\":\"蔬菜\"}]}。");
         builder.append("必须只返回用户提供的食材名，name 必须完全等于输入食材名，不要改名、合并同义词或新增食材。");
         builder.append("调料无需填写烹饪时间、火候。");
+        builder.append("烹饪时间严谨，不要自己推断，一定要真实可靠，必要可上网搜索");
         builder.append("commonNames 必须是字符串数组，最多10个，但不要有多重含义的名词,需包含学名、缩写、常见名或俗称；不要放空字符串。");
         builder.append("分类只能是：蔬菜、肉、海鲜、主食、调料、其他。");
         builder.append("时间和火候字段使用“约X分钟”“中火约X°C”或“不建议”；过敏原使用“无常见过敏原”或“含某类过敏原”。");

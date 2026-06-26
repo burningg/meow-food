@@ -37693,6 +37693,1695 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "oxgiq",
+      "x": 17452.892267740943,
+      "y": 0,
+      "name": "Recipe Detail - Cooking Sheet",
+      "clip": true,
+      "width": 390,
+      "height": 844,
+      "fill": "#F7F6F3",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "HIGsh",
+          "x": 0,
+          "y": 0,
+          "name": "Dimmed Hero Image",
+          "width": 390,
+          "height": 260,
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "https://images.unsplash.com/photo-1689122708012-d229e7a688de?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Nzk5MzM0ODd8&ixlib=rb-4.1.0&q=80&w=1080",
+            "mode": "fill"
+          }
+        },
+        {
+          "type": "frame",
+          "id": "XjMSW",
+          "x": 20,
+          "y": 50,
+          "name": "Muted Nav Buttons",
+          "width": 350,
+          "height": 36,
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "z47DG",
+              "name": "Muted Back Button",
+              "width": 36,
+              "height": 36,
+              "fill": "#FFFFFF99",
+              "cornerRadius": 9999,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "SC7l0",
+                  "name": "Back Icon",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "arrow-left",
+                  "library": "phosphor",
+                  "fill": "#151515"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "k4iGV",
+              "name": "Muted Fav Button",
+              "width": 36,
+              "height": 36,
+              "fill": "#FFFFFF99",
+              "cornerRadius": 9999,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "GzDy4",
+                  "name": "Fav Icon",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "heart",
+                  "library": "phosphor",
+                  "fill": "#9F5C38"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "G18DEA",
+          "x": 16,
+          "y": 224,
+          "name": "Muted Detail Card",
+          "width": 358,
+          "height": 418,
+          "fill": "#FFFFFF",
+          "cornerRadius": [
+            24,
+            24,
+            18,
+            18
+          ],
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#1B3A2D10",
+            "offset": {
+              "x": 0,
+              "y": 12
+            },
+            "blur": 26
+          },
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            22,
+            18,
+            18,
+            18
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "qgeod",
+              "name": "Muted Title Row",
+              "width": "fill_container",
+              "height": 38,
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "iSp8l",
+                  "name": "Muted Dish Name",
+                  "fill": "#1B3A2D",
+                  "content": "羊蝎子火锅",
+                  "fontFamily": "Noto Serif SC",
+                  "fontSize": 25,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "l1JCwD",
+                  "name": "Muted Category Badge",
+                  "height": 26,
+                  "fill": "#EDF3EC",
+                  "cornerRadius": 9999,
+                  "padding": [
+                    5,
+                    10
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "a043qp",
+                      "name": "Muted Category Text",
+                      "fill": "#1B3A2D",
+                      "content": "火锅",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "f7DQr",
+              "name": "Muted Meta Blocks",
+              "width": "fill_container",
+              "height": 78,
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Xsas4",
+                  "name": "Muted Meta Item",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "#F7F4EF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 5,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "V6bd1g",
+                      "name": "Muted Meta Value",
+                      "fill": "#1B3A2D",
+                      "content": "90 min",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "tll7A",
+                  "name": "Muted Meta Item",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "#F7F4EF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 5,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "AENKz",
+                      "name": "Muted Meta Value",
+                      "fill": "#1B3A2D",
+                      "content": "中等",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "VnwEW",
+                  "name": "Muted Meta Item",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "#F7F4EF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 5,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "W6dkBi",
+                      "name": "Muted Meta Value",
+                      "fill": "#1B3A2D",
+                      "content": "3 人",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "y21v8",
+              "name": "Muted Divider",
+              "width": "fill_container",
+              "height": 1,
+              "fill": "#E9E2D8"
+            },
+            {
+              "type": "frame",
+              "id": "oKEXi",
+              "name": "Muted Ingredient Row",
+              "width": "fill_container",
+              "height": 44,
+              "fill": "#FBF8F4",
+              "cornerRadius": 12,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "padding": [
+                0,
+                12
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "HFxmw",
+                  "name": "Muted Ingredient Text",
+                  "fill": "#1B3A2D",
+                  "content": "羊蝎子 900g",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "n6YPH",
+              "name": "Muted Ingredient Row",
+              "width": "fill_container",
+              "height": 44,
+              "fill": "#FBF8F4",
+              "cornerRadius": 12,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "padding": [
+                0,
+                12
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Ycc9t",
+                  "name": "Muted Ingredient Text",
+                  "fill": "#1B3A2D",
+                  "content": "大葱 2段",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "JNGjt",
+              "name": "Muted Ingredient Row",
+              "width": "fill_container",
+              "height": 44,
+              "fill": "#FBF8F4",
+              "cornerRadius": 12,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "padding": [
+                0,
+                12
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "V22XuW",
+                  "name": "Muted Ingredient Text",
+                  "fill": "#1B3A2D",
+                  "content": "生姜 4片",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "O0qel",
+              "name": "Muted Ingredient Row",
+              "width": "fill_container",
+              "height": 44,
+              "fill": "#FBF8F4",
+              "cornerRadius": 12,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "padding": [
+                0,
+                12
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "F91tVt",
+                  "name": "Muted Ingredient Text",
+                  "fill": "#1B3A2D",
+                  "content": "八角 2颗",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "YeIAH",
+          "x": 0,
+          "y": 0,
+          "name": "Cooking Dim Overlay",
+          "width": 390,
+          "height": 844,
+          "fill": "#15151573"
+        },
+        {
+          "type": "frame",
+          "id": "O9Nmh",
+          "x": 0,
+          "y": 194,
+          "name": "Cooking Bottom Sheet",
+          "clip": true,
+          "width": 390,
+          "height": 650,
+          "fill": "#FFFFFF",
+          "cornerRadius": [
+            28,
+            28,
+            0,
+            0
+          ],
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#8A4E291F",
+            "offset": {
+              "x": 0,
+              "y": -14
+            },
+            "blur": 38
+          },
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "v0o49",
+              "x": 174,
+              "y": 12,
+              "name": "Sheet Handle",
+              "width": 42,
+              "height": 4,
+              "fill": "#E6DBCF",
+              "cornerRadius": 9999
+            },
+            {
+              "type": "frame",
+              "id": "tq10Z",
+              "x": 22,
+              "y": 36,
+              "name": "Cooking Sheet Header",
+              "width": 346,
+              "height": 32,
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "gINJg",
+                  "name": "Cooking Dish Name",
+                  "fill": "#1B3A2D",
+                  "content": "羊蝎子火锅",
+                  "fontFamily": "Noto Serif SC",
+                  "fontSize": 22,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "WQ9Qy",
+                  "name": "Cooking Step Progress",
+                  "height": 28,
+                  "fill": "#E8F0E9",
+                  "cornerRadius": 9999,
+                  "padding": [
+                    5,
+                    12
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "vRSQa",
+                      "name": "Cooking Step Progress Text",
+                      "fill": "#1B3A2D",
+                      "content": "2 / 6",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 13,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "cov3x",
+              "x": 10,
+              "y": 134,
+              "name": "Previous Step Peek Card",
+              "opacity": 0.5,
+              "width": 140,
+              "height": 330,
+              "fill": "#F7F4EF",
+              "cornerRadius": 24,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1B3A2D12",
+                "offset": {
+                  "x": 0,
+                  "y": 10
+                },
+                "blur": 22
+              },
+              "layout": "vertical",
+              "gap": 18,
+              "padding": [
+                24,
+                22
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "d9bZuK",
+                  "name": "Previous Step Number",
+                  "fill": "#C4704B",
+                  "content": "01",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 15,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "eDBFP",
+                  "name": "Previous Step Text",
+                  "fill": "#1B3A2D",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "冷水下锅焯出血沫，捞出冲洗。",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Noto Serif SC",
+                  "fontSize": 20,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "G8Zzm6",
+              "x": 240,
+              "y": 134,
+              "name": "Next Step Peek Card",
+              "opacity": 0.5,
+              "width": 140,
+              "height": 330,
+              "fill": "#F7F4EF",
+              "cornerRadius": 24,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1B3A2D12",
+                "offset": {
+                  "x": 0,
+                  "y": 10
+                },
+                "blur": 22
+              },
+              "layout": "vertical",
+              "gap": 18,
+              "padding": [
+                24,
+                22
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "IhGo0",
+                  "name": "Next Step Number",
+                  "fill": "#C4704B",
+                  "content": "03",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 15,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "b1ZwFK",
+                  "name": "Next Step Text",
+                  "fill": "#1B3A2D",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "加入白萝卜继续炖至软糯。",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Noto Serif SC",
+                  "fontSize": 20,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "NTC8u",
+              "x": 157,
+              "y": 514,
+              "name": "Step Dot Indicator",
+              "width": 76,
+              "height": 10,
+              "gap": 6,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "w0qw3y",
+                  "name": "Step Dot 1",
+                  "width": 7,
+                  "height": 7,
+                  "fill": "#E6DBCF",
+                  "cornerRadius": 9999
+                },
+                {
+                  "type": "frame",
+                  "id": "dfEkr",
+                  "name": "Step Dot 2 Active",
+                  "width": 22,
+                  "height": 7,
+                  "fill": "#C4704B",
+                  "cornerRadius": 9999
+                },
+                {
+                  "type": "frame",
+                  "id": "igNAv",
+                  "name": "Step Dot 3",
+                  "width": 7,
+                  "height": 7,
+                  "fill": "#E6DBCF",
+                  "cornerRadius": 9999
+                },
+                {
+                  "type": "frame",
+                  "id": "Kjsu5",
+                  "name": "Step Dot 4",
+                  "width": 7,
+                  "height": 7,
+                  "fill": "#E6DBCF",
+                  "cornerRadius": 9999
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "LpNzW",
+              "x": 22,
+              "y": 552,
+              "name": "Cooking Sheet Actions",
+              "width": 346,
+              "height": 58,
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "cVlF7",
+                  "name": "Previous Step Button",
+                  "width": "fill_container",
+                  "height": 54,
+                  "fill": "#F2E9E2",
+                  "cornerRadius": 16,
+                  "stroke": "#E3D2C4",
+                  "strokeWidth": 1,
+                  "gap": 7,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "PkY8v",
+                      "name": "Previous Step Icon",
+                      "width": 17,
+                      "height": 17,
+                      "icon": "caret-left",
+                      "library": "phosphor",
+                      "fill": "#9F5C38"
+                    },
+                    {
+                      "type": "text",
+                      "id": "wD8do",
+                      "name": "Previous Step Button Text",
+                      "fill": "#9F5C38",
+                      "content": "上一步",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 15,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "vKnff",
+                  "name": "Next Step Button",
+                  "width": "fill_container",
+                  "height": 54,
+                  "fill": "#C4704B",
+                  "cornerRadius": 16,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#C4704B33",
+                    "offset": {
+                      "x": 0,
+                      "y": 12
+                    },
+                    "blur": 22
+                  },
+                  "gap": 7,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "j0SHsv",
+                      "name": "Next Step Button Text",
+                      "fill": "#FFFFFF",
+                      "content": "下一步",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 15,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "eyjOi",
+                      "name": "Next Step Icon",
+                      "width": 17,
+                      "height": 17,
+                      "icon": "caret-right",
+                      "library": "phosphor",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "lcxAr",
+      "x": 16964.373812941696,
+      "y": 0,
+      "name": "Recipe Detail - Cooking Sheet",
+      "clip": true,
+      "width": 390,
+      "height": 844,
+      "fill": "#F7F6F3",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "u2Z9p2",
+          "x": 0,
+          "y": 0,
+          "name": "Dimmed Hero Image",
+          "width": 390,
+          "height": 260,
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "https://images.unsplash.com/photo-1689122708012-d229e7a688de?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Nzk5MzM0ODd8&ixlib=rb-4.1.0&q=80&w=1080",
+            "mode": "fill"
+          }
+        },
+        {
+          "type": "frame",
+          "id": "RriZ0",
+          "x": 20,
+          "y": 50,
+          "name": "Muted Nav Buttons",
+          "width": 350,
+          "height": 36,
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "MkleR",
+              "name": "Muted Back Button",
+              "width": 36,
+              "height": 36,
+              "fill": "#FFFFFF99",
+              "cornerRadius": 9999,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "xqTM6",
+                  "name": "Back Icon",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "arrow-left",
+                  "library": "phosphor",
+                  "fill": "#151515"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "r7htph",
+              "name": "Muted Fav Button",
+              "width": 36,
+              "height": 36,
+              "fill": "#FFFFFF99",
+              "cornerRadius": 9999,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "VJzFb",
+                  "name": "Fav Icon",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "heart",
+                  "library": "phosphor",
+                  "fill": "#9F5C38"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "vNH0G",
+          "x": 16,
+          "y": 224,
+          "name": "Muted Detail Card",
+          "width": 358,
+          "height": 418,
+          "fill": "#FFFFFF",
+          "cornerRadius": [
+            24,
+            24,
+            18,
+            18
+          ],
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#1B3A2D10",
+            "offset": {
+              "x": 0,
+              "y": 12
+            },
+            "blur": 26
+          },
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            22,
+            18,
+            18,
+            18
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "TlVuj",
+              "name": "Muted Title Row",
+              "width": "fill_container",
+              "height": 38,
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "bGR79",
+                  "name": "Muted Dish Name",
+                  "fill": "#1B3A2D",
+                  "content": "羊蝎子火锅",
+                  "fontFamily": "Noto Serif SC",
+                  "fontSize": 25,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "IPwI9",
+                  "name": "Muted Category Badge",
+                  "height": 26,
+                  "fill": "#EDF3EC",
+                  "cornerRadius": 9999,
+                  "padding": [
+                    5,
+                    10
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "A99E80",
+                      "name": "Muted Category Text",
+                      "fill": "#1B3A2D",
+                      "content": "火锅",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "sOHlA",
+              "name": "Muted Meta Blocks",
+              "width": "fill_container",
+              "height": 78,
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "kUsMc",
+                  "name": "Muted Meta Item",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "#F7F4EF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 5,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "zS6pu",
+                      "name": "Muted Meta Value",
+                      "fill": "#1B3A2D",
+                      "content": "90 min",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "QBqVU",
+                  "name": "Muted Meta Item",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "#F7F4EF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 5,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "UoUOY",
+                      "name": "Muted Meta Value",
+                      "fill": "#1B3A2D",
+                      "content": "中等",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "subCF",
+                  "name": "Muted Meta Item",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "#F7F4EF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 5,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Hvjay",
+                      "name": "Muted Meta Value",
+                      "fill": "#1B3A2D",
+                      "content": "3 人",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "t5vJPE",
+              "name": "Muted Divider",
+              "width": "fill_container",
+              "height": 1,
+              "fill": "#E9E2D8"
+            },
+            {
+              "type": "frame",
+              "id": "sHPd2",
+              "name": "Muted Ingredient Row",
+              "width": "fill_container",
+              "height": 44,
+              "fill": "#FBF8F4",
+              "cornerRadius": 12,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "padding": [
+                0,
+                12
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "AeQVL",
+                  "name": "Muted Ingredient Text",
+                  "fill": "#1B3A2D",
+                  "content": "羊蝎子 900g",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "BeEnH",
+              "name": "Muted Ingredient Row",
+              "width": "fill_container",
+              "height": 44,
+              "fill": "#FBF8F4",
+              "cornerRadius": 12,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "padding": [
+                0,
+                12
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "lcAS7",
+                  "name": "Muted Ingredient Text",
+                  "fill": "#1B3A2D",
+                  "content": "大葱 2段",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "dDuf4",
+              "name": "Muted Ingredient Row",
+              "width": "fill_container",
+              "height": 44,
+              "fill": "#FBF8F4",
+              "cornerRadius": 12,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "padding": [
+                0,
+                12
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "RSV3E",
+                  "name": "Muted Ingredient Text",
+                  "fill": "#1B3A2D",
+                  "content": "生姜 4片",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "r96Djv",
+              "name": "Muted Ingredient Row",
+              "width": "fill_container",
+              "height": 44,
+              "fill": "#FBF8F4",
+              "cornerRadius": 12,
+              "stroke": "#EFE3D1",
+              "strokeWidth": 1,
+              "padding": [
+                0,
+                12
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Bp9sX",
+                  "name": "Muted Ingredient Text",
+                  "fill": "#1B3A2D",
+                  "content": "八角 2颗",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "G8fgRK",
+          "x": 0,
+          "y": 0,
+          "name": "Cooking Dim Overlay",
+          "width": 390,
+          "height": 844,
+          "fill": "#15151573"
+        },
+        {
+          "type": "frame",
+          "id": "k7ReD",
+          "x": 0,
+          "y": 194,
+          "name": "Cooking Bottom Sheet",
+          "clip": true,
+          "width": 390,
+          "height": 650,
+          "fill": "#FFFFFF",
+          "cornerRadius": [
+            28,
+            28,
+            0,
+            0
+          ],
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#8A4E291F",
+            "offset": {
+              "x": 0,
+              "y": -14
+            },
+            "blur": 38
+          },
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "G5bIm",
+              "x": 174,
+              "y": 12,
+              "name": "Sheet Handle",
+              "width": 42,
+              "height": 4,
+              "fill": "#E6DBCF",
+              "cornerRadius": 9999
+            },
+            {
+              "type": "frame",
+              "id": "R9paQ",
+              "x": 22,
+              "y": 36,
+              "name": "Cooking Sheet Header",
+              "width": 346,
+              "height": 32,
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "QXETK",
+                  "name": "Cooking Dish Name",
+                  "fill": "#1B3A2D",
+                  "content": "羊蝎子火锅",
+                  "fontFamily": "Noto Serif SC",
+                  "fontSize": 22,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "D3FQ1",
+                  "name": "Cooking Step Progress",
+                  "height": 28,
+                  "fill": "#E8F0E9",
+                  "cornerRadius": 9999,
+                  "padding": [
+                    5,
+                    12
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "SW19F",
+                      "name": "Cooking Step Progress Text",
+                      "fill": "#1B3A2D",
+                      "content": "2 / 6",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 13,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "hf3Ht",
+              "x": 10,
+              "y": 134,
+              "name": "Previous Step Peek Card",
+              "opacity": 0.5,
+              "width": 140,
+              "height": 330,
+              "fill": "#F7F4EF",
+              "cornerRadius": 24,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1B3A2D12",
+                "offset": {
+                  "x": 0,
+                  "y": 10
+                },
+                "blur": 22
+              },
+              "layout": "vertical",
+              "gap": 18,
+              "padding": [
+                24,
+                22
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "t8Pr7",
+                  "name": "Previous Step Number",
+                  "fill": "#C4704B",
+                  "content": "01",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 15,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "N14yY5",
+                  "name": "Previous Step Text",
+                  "fill": "#1B3A2D",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "冷水下锅焯出血沫，捞出冲洗。",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Noto Serif SC",
+                  "fontSize": 20,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "xqoTu",
+              "x": 240,
+              "y": 134,
+              "name": "Next Step Peek Card",
+              "opacity": 0.5,
+              "width": 140,
+              "height": 330,
+              "fill": "#F7F4EF",
+              "cornerRadius": 24,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#1B3A2D12",
+                "offset": {
+                  "x": 0,
+                  "y": 10
+                },
+                "blur": 22
+              },
+              "layout": "vertical",
+              "gap": 18,
+              "padding": [
+                24,
+                22
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "txrRp",
+                  "name": "Next Step Number",
+                  "fill": "#C4704B",
+                  "content": "03",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 15,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "WAPk6",
+                  "name": "Next Step Text",
+                  "fill": "#1B3A2D",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "加入白萝卜继续炖至软糯。",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Noto Serif SC",
+                  "fontSize": 20,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "lYoZR",
+              "x": 45,
+              "y": 104,
+              "name": "Current Step Center Card",
+              "width": 300,
+              "height": 390,
+              "fill": "#FFFDF9",
+              "cornerRadius": 26,
+              "stroke": "#F0E7DC",
+              "strokeWidth": 1,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#8A4E2926",
+                "offset": {
+                  "x": 0,
+                  "y": 18
+                },
+                "blur": 34
+              },
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "qv9u7",
+                  "x": 22,
+                  "y": 22,
+                  "name": "Current Step Number",
+                  "fill": "#C4704B",
+                  "content": "02",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 16,
+                  "fontWeight": "900"
+                },
+                {
+                  "type": "frame",
+                  "id": "mIyyn",
+                  "x": 43,
+                  "y": 38,
+                  "name": "Timer Control Cluster",
+                  "width": 214,
+                  "height": 158,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "xMbi8",
+                      "x": 0,
+                      "y": 60,
+                      "name": "Timer Minus Button",
+                      "width": 38,
+                      "height": 38,
+                      "fill": "#F2E9E2",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "SoGKN",
+                          "name": "Timer Minus Text",
+                          "fill": "#9F5C38",
+                          "content": "-",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 22,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "JNJ6a",
+                      "x": 42,
+                      "y": 0,
+                      "name": "Timer Ring Background",
+                      "innerRadius": 0.78,
+                      "fill": "#F2E9E2",
+                      "width": 130,
+                      "height": 130
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "M4SuKQ",
+                      "x": 42,
+                      "y": 0,
+                      "name": "Timer Ring Progress",
+                      "innerRadius": 0.78,
+                      "startAngle": -90,
+                      "sweepAngle": 238,
+                      "fill": "#C4704B",
+                      "width": 130,
+                      "height": 130
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "TFTjQ",
+                      "x": 55,
+                      "y": 13,
+                      "name": "Timer Ring Core",
+                      "fill": "#FFFDF9",
+                      "width": 104,
+                      "height": 104
+                    },
+                    {
+                      "type": "text",
+                      "id": "e9EsFI",
+                      "x": 72,
+                      "y": 45,
+                      "name": "Timer Value",
+                      "fill": "#1B3A2D",
+                      "content": "08:00",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 28,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "bR67x",
+                      "x": 176,
+                      "y": 60,
+                      "name": "Timer Plus Button",
+                      "width": 38,
+                      "height": 38,
+                      "fill": "#F2E9E2",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "FFgI0",
+                          "name": "Timer Plus Text",
+                          "fill": "#9F5C38",
+                          "content": "+",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 22,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "l6eju",
+                  "x": 107,
+                  "y": 178,
+                  "name": "Timer Start Button",
+                  "width": 86,
+                  "height": 42,
+                  "fill": "#9F5C38",
+                  "cornerRadius": 9999,
+                  "gap": 7,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "sZ9oc",
+                      "name": "Timer Play Icon",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "play",
+                      "library": "phosphor",
+                      "fill": "#FFFFFF"
+                    },
+                    {
+                      "type": "text",
+                      "id": "u3aeVi",
+                      "name": "Timer Start Text",
+                      "fill": "#FFFFFF",
+                      "content": "开始",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "x6Fcpe",
+                  "x": 24,
+                  "y": 246,
+                  "name": "Current Step Copy",
+                  "fill": "#1B3A2D",
+                  "textGrowth": "fixed-width",
+                  "width": 252,
+                  "content": "转中小火炖煮，保持汤面微微翻滚，撇去浮沫。",
+                  "lineHeight": 1.38,
+                  "fontFamily": "Noto Serif SC",
+                  "fontSize": 24,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "zvTF0",
+                  "x": 94,
+                  "y": 328,
+                  "name": "Voice Play Button",
+                  "width": 112,
+                  "height": 42,
+                  "fill": "#E8F0E9",
+                  "cornerRadius": 9999,
+                  "gap": 8,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "pq0Gx",
+                      "name": "Voice Speaker Icon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "speaker-high",
+                      "library": "phosphor",
+                      "fill": "#1B3A2D"
+                    },
+                    {
+                      "type": "text",
+                      "id": "olQ5c",
+                      "name": "Voice Play Text",
+                      "fill": "#1B3A2D",
+                      "content": "播放",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Bf9JC",
+              "x": 157,
+              "y": 514,
+              "name": "Step Dot Indicator",
+              "width": 76,
+              "height": 10,
+              "gap": 6,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "CIyxz",
+                  "name": "Step Dot 1",
+                  "width": 7,
+                  "height": 7,
+                  "fill": "#E6DBCF",
+                  "cornerRadius": 9999
+                },
+                {
+                  "type": "frame",
+                  "id": "MM7yq",
+                  "name": "Step Dot 2 Active",
+                  "width": 22,
+                  "height": 7,
+                  "fill": "#C4704B",
+                  "cornerRadius": 9999
+                },
+                {
+                  "type": "frame",
+                  "id": "D4yP8e",
+                  "name": "Step Dot 3",
+                  "width": 7,
+                  "height": 7,
+                  "fill": "#E6DBCF",
+                  "cornerRadius": 9999
+                },
+                {
+                  "type": "frame",
+                  "id": "rUBDA",
+                  "name": "Step Dot 4",
+                  "width": 7,
+                  "height": 7,
+                  "fill": "#E6DBCF",
+                  "cornerRadius": 9999
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "nPql3",
+              "x": 22,
+              "y": 552,
+              "name": "Cooking Sheet Actions",
+              "width": 346,
+              "height": 58,
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "J5LvUg",
+                  "name": "Previous Step Button",
+                  "width": "fill_container",
+                  "height": 54,
+                  "fill": "#F2E9E2",
+                  "cornerRadius": 16,
+                  "stroke": "#E3D2C4",
+                  "strokeWidth": 1,
+                  "gap": 7,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "AgCZe",
+                      "name": "Previous Step Icon",
+                      "width": 17,
+                      "height": 17,
+                      "icon": "caret-left",
+                      "library": "phosphor",
+                      "fill": "#9F5C38"
+                    },
+                    {
+                      "type": "text",
+                      "id": "kQXiY",
+                      "name": "Previous Step Button Text",
+                      "fill": "#9F5C38",
+                      "content": "上一步",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 15,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "yVVqA",
+                  "name": "Next Step Button",
+                  "width": "fill_container",
+                  "height": 54,
+                  "fill": "#C4704B",
+                  "cornerRadius": 16,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#C4704B33",
+                    "offset": {
+                      "x": 0,
+                      "y": 12
+                    },
+                    "blur": 22
+                  },
+                  "gap": 7,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "vDxm9",
+                      "name": "Next Step Button Text",
+                      "fill": "#FFFFFF",
+                      "content": "下一步",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 15,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "Y2oxY",
+                      "name": "Next Step Icon",
+                      "width": 17,
+                      "height": 17,
+                      "icon": "caret-right",
+                      "library": "phosphor",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "variables": {

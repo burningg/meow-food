@@ -3,7 +3,7 @@
     <section class="hero-shell">
       <SmartImage :src="dish.image" variant="hero" class-name="hero-image" @tap="previewHeroImage" />
       <view class="hero-overlay">
-        <button v-if="isOwner" class="icon-button text-button" @tap="goEdit">编辑</button>
+        <button v-if="isOwner" class="icon-button text-button" @tap="openOwnerActions">管理</button>
       </view>
     </section>
 
@@ -76,13 +76,6 @@
           </view>
         </view>
         <text v-else class="empty-line">这道菜暂时还没有填写步骤。</text>
-      </section>
-
-      <view class="divider"></view>
-
-      <section v-if="isOwner" class="owner-actions">
-        <button class="ghost-button" @tap="goEdit">继续完善</button>
-        <button class="ghost-button danger-button" @tap="confirmDelete">删除菜谱</button>
       </section>
     </section>
 
@@ -214,6 +207,26 @@ function goBack() {
 
 function goEdit() {
   push({ name: 'edit-dish', params: { id: params.id } })
+}
+
+async function openOwnerActions() {
+  try {
+    // 作者管理动作收纳到原生操作菜单，避免挤占底部主操作区。
+    const { tapIndex } = await Taro.showActionSheet({
+      itemList: ['继续完善', '删除菜谱'],
+      itemColor: '#2c211b',
+    })
+
+    if (tapIndex === 0) {
+      goEdit()
+      return
+    }
+    if (tapIndex === 1) {
+      await confirmDelete()
+    }
+  } catch (error) {
+    // 用户取消操作菜单时无需提示，保持浏览体验安静。
+  }
 }
 
 function previewHeroImage() {
@@ -362,7 +375,6 @@ async function confirmDelete() {
 .section-head,
 .ingredient-row,
 .ingredient-left,
-.owner-actions,
 .actions-bar {
   display: flex;
 }
@@ -445,6 +457,10 @@ async function confirmDelete() {
 }
 
 .ingredient-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 45px;
   padding: 11px 0;
 }
 
@@ -453,10 +469,14 @@ async function confirmDelete() {
   border: 1px solid #efe3d1;
   border-radius: 14px;
   background: #fbf8f4;
-  padding: 10px 12px;
+  min-height: 52px;
+  padding: 8px 12px;
 }
 
 .ingredient-left {
+  display: flex;
+  min-width: 0;
+  flex: 1;
   align-items: center;
   gap: 9px;
 }
@@ -473,16 +493,23 @@ async function confirmDelete() {
 }
 
 .ingredient-file-tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  flex: 0 0 auto;
   border-radius: 999px;
   background: var(--accent-soft);
-  padding: 2px 7px;
+  padding: 0 7px;
   color: var(--text-main);
   font-size: 10px;
   font-weight: 800;
+  line-height: 20px;
 }
 
 .ingredient-right {
   display: flex;
+  flex: 0 0 auto;
   align-items: center;
   gap: 8px;
 }
@@ -506,6 +533,18 @@ async function confirmDelete() {
 .step-text {
   color: var(--text-main);
   font-size: var(--text-md);
+  line-height: 1.35;
+}
+
+.ingredient-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ingredient-amount {
+  min-width: 34px;
+  text-align: right;
 }
 
 .step-row {
@@ -527,26 +566,6 @@ async function confirmDelete() {
   color: #fff;
   font-size: var(--text-xs);
   font-weight: 800;
-}
-
-.owner-actions {
-  gap: 10px;
-}
-
-.ghost-button {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  min-height: 42px;
-  border-radius: 14px;
-  background: #f5f2ed;
-  color: var(--text-main);
-  font-weight: 800;
-}
-
-.danger-button {
-  color: #b2483d;
 }
 
 .actions-bar {
