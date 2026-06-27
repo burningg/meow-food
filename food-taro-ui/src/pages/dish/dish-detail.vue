@@ -86,6 +86,7 @@
 
     <CookingStepSheet
       :visible="cookingVisible"
+      :dish-id="String(params.id || '')"
       :dish-name="dish.name"
       :steps="dish.steps"
       @close="cookingVisible = false"

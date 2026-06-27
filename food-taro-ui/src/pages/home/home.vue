@@ -7,7 +7,7 @@
             <text class="eyebrow">下午好，{{ displayName }}</text>
           </view>
           <view v-if="authStore.isLoggedIn" class="hero-right">
-            <view v-if="vipChipLabel" class="vip-chip">
+            <view v-if="vipChipLabel" class="vip-chip" @tap="goToVip">
               <text class="vip-chip-label">{{ vipChipLabel }}</text>
             </view>
             <button class="avatar" @tap="goToProfile">{{ displayName.slice(0, 1) }}</button>
@@ -283,6 +283,10 @@ function goToLogin() {
 
 function goToProfile() {
   push('profile')
+}
+
+function goToVip() {
+  push('vip')
 }
 
 function goToPetDetail() {

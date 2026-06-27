@@ -126,22 +126,39 @@
 <script setup lang="ts">
 import Taro from '@tarojs/taro'
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { resolveSharePath } from '@/lib/navigation'
+import { CookingTimerService } from '@/services/cooking-timer-service'
 import type { StepItem } from '@/services/food-service'
 
 const DEFAULT_SECONDS = 120
-const MIN_SECONDS = 10
+const MIN_SECONDS = 1
 const MAX_SECONDS = 4 * 60 * 60
 const TIMER_AUDIO_SRC = '/audio/timer-done.wav'
 const ALARM_AUTO_STOP_MS = 10 * 1000
+const SUBSCRIBE_TEMPLATE_ID = '6uWQ2nw0Wr1R0Tlpm1kxYf2G6NEokTXxBFNAw7jk34E'
+const cookingTimerService = new CookingTimerService()
+
+type SubscribeMessageResult = {
+  errMsg?: string
+  [templateId: string]: string | undefined
+}
+
+type SubscribeMessageApi = (options: {
+  tmplIds: string[]
+  success?: (result: SubscribeMessageResult) => void
+  fail?: (error: unknown) => void
+}) => Promise<SubscribeMessageResult> | void
 
 const props = withDefaults(
   defineProps<{
     visible: boolean
+    dishId: string
     dishName: string
     steps: StepItem[]
   }>(),
   {
     visible: false,
+    dishId: '',
     dishName: '',
     steps: () => [],
   },
@@ -155,11 +172,13 @@ const currentIndex = ref(0)
 const stepSeconds = ref<number[]>([])
 const remainingSeconds = ref(DEFAULT_SECONDS)
 const timerRunning = ref(false)
+const timerScheduling = ref(false)
 const alarmRinging = ref(false)
 const timeEditorVisible = ref(false)
 const timePickerValue = ref([0, 2, 0])
 const stepMotion = ref<'from-prev' | 'from-next' | ''>('')
 let timerId: ReturnType<typeof setInterval> | null = null
+let backendTimerId: string | null = null
 let stepMotionId: ReturnType<typeof setTimeout> | null = null
 let alarmAutoStopId: ReturnType<typeof setTimeout> | null = null
 let alarmAudio: ReturnType<typeof Taro.createInnerAudioContext> | null = null
@@ -189,6 +208,7 @@ const stepMotionClass = computed(() => {
 })
 
 const timerActionText = computed(() => {
+  if (timerScheduling.value) return '启动中'
   if (alarmRinging.value || timerRunning.value) return '停止'
   return '开始'
 })
@@ -206,6 +226,7 @@ watch(
       return
     }
     cleanupTimer()
+    detachBackendTimer()
     cleanupStepMotion()
     stopAlarm()
     closeTimeEditor()
@@ -223,6 +244,7 @@ watch(
 
 onBeforeUnmount(() => {
   cleanupTimer()
+  detachBackendTimer()
   cleanupStepMotion()
   stopAlarm()
 })
@@ -236,6 +258,7 @@ function setupTimers() {
 
 function closeSheet() {
   cleanupTimer()
+  detachBackendTimer()
   cleanupStepMotion()
   stopAlarm()
   closeTimeEditor()
@@ -267,12 +290,15 @@ function switchStep(index: number) {
 
 function resetTimerForStep(index: number) {
   cleanupTimer()
+  detachBackendTimer()
   stopAlarm()
   closeTimeEditor()
   remainingSeconds.value = stepSeconds.value[index] ?? DEFAULT_SECONDS
 }
 
-function toggleTimer() {
+async function toggleTimer() {
+  if (timerScheduling.value) return
+
   if (alarmRinging.value) {
     stopAlarm()
     remainingSeconds.value = stepSeconds.value[currentIndex.value] ?? DEFAULT_SECONDS
@@ -280,6 +306,7 @@ function toggleTimer() {
   }
 
   if (timerRunning.value) {
+    void cancelBackendTimer()
     cleanupTimer()
     remainingSeconds.value = stepSeconds.value[currentIndex.value] ?? DEFAULT_SECONDS
     return
@@ -288,7 +315,97 @@ function toggleTimer() {
   if (remainingSeconds.value <= 0) {
     remainingSeconds.value = stepSeconds.value[currentIndex.value] ?? DEFAULT_SECONDS
   }
+  await createBackendTimer()
   startTimer()
+}
+
+async function createBackendTimer() {
+  const subscribed = await requestTimerSubscribe()
+  if (!subscribed) {
+    void Taro.showToast({
+      title: '烹饪计时提醒',
+      icon: 'none',
+      duration: 1600,
+    })
+    return
+  }
+
+  timerScheduling.value = true
+  try {
+    const { data } = await cookingTimerService.createTimer({
+      dishName: props.dishName || '烹饪计时',
+      stepText: currentStep.value?.content || '',
+      seconds: remainingSeconds.value,
+      page: props.dishId
+        ? resolveSharePath({ name: 'dish-detail', params: { id: props.dishId } })
+        : undefined,
+    })
+    backendTimerId = data.timerId
+  } catch (error) {
+    backendTimerId = null
+    void Taro.showToast({
+      title: '烹饪提醒启动失败',
+      icon: 'none',
+      duration: 1800,
+    })
+  } finally {
+    timerScheduling.value = false
+  }
+}
+
+async function requestTimerSubscribe() {
+  const requestSubscribeMessage = resolveSubscribeMessageApi()
+  if (typeof requestSubscribeMessage !== 'function') {
+    return false
+  }
+  try {
+    const result = await new Promise<SubscribeMessageResult>((resolve, reject) => {
+      const maybePromise = requestSubscribeMessage({
+        tmplIds: [SUBSCRIBE_TEMPLATE_ID],
+        success: resolve,
+        fail: reject,
+      })
+      if (maybePromise && typeof maybePromise.then === 'function') {
+        maybePromise.then(resolve).catch(reject)
+      }
+    })
+    return result?.[SUBSCRIBE_TEMPLATE_ID] === 'accept'
+  } catch (error) {
+    console.log(error)
+    return false
+  }
+}
+
+function resolveSubscribeMessageApi() {
+  const taroApi = (Taro as unknown as { requestSubscribeMessage?: SubscribeMessageApi }).requestSubscribeMessage
+  if (typeof taroApi === 'function') {
+    return taroApi
+  }
+  const wechatApi = (globalThis as unknown as { wx?: { requestSubscribeMessage?: SubscribeMessageApi } }).wx
+    ?.requestSubscribeMessage
+  if (typeof wechatApi !== 'function') {
+    return undefined
+  }
+  return (options: Parameters<SubscribeMessageApi>[0]) =>
+    wechatApi({
+      ...options,
+      tmplIds: [SUBSCRIBE_TEMPLATE_ID],
+    })
+}
+
+async function cancelBackendTimer() {
+  const activeTimerId = backendTimerId
+  backendTimerId = null
+  if (!activeTimerId) return
+  try {
+    await cookingTimerService.cancelTimer(activeTimerId)
+  } catch (error) {
+    // 停止本地计时优先，后端取消失败只影响离开页面提醒兜底。
+  }
+}
+
+function detachBackendTimer() {
+  backendTimerId = null
 }
 
 function startTimer() {
@@ -305,6 +422,7 @@ function startTimer() {
 
 function finishTimer() {
   cleanupTimer()
+  backendTimerId = null
   playAlarm()
   void Taro.vibrateLong().catch(() => undefined)
   void Taro.showToast({
@@ -366,7 +484,7 @@ function confirmTimeEditor() {
     timePickerValue.value[0] * 3600 + timePickerValue.value[1] * 60 + timePickerValue.value[2]
   if (nextSeconds <= 0) {
     void Taro.showToast({
-      title: '至少选择 10 秒',
+      title: '至少要1秒哦～',
       icon: 'none',
       duration: 1600,
     })
