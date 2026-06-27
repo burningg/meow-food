@@ -9,6 +9,7 @@ import com.panghu.food.dto.PlanMonthResponse;
 import com.panghu.food.dto.PlanRecipesUpdateRequest;
 import com.panghu.food.dto.PlanRecipeCandidatesResponse;
 import com.panghu.food.dto.PlanShoppingListResponse;
+import com.panghu.food.dto.PlanVisibleUsersUpdateRequest;
 
 public interface PlanService {
     PlanMonthResponse getPlans(String month, String sharedPlanId, String shareToken);
@@ -22,6 +23,8 @@ public interface PlanService {
     PlanDetailResponse getPlanDetail(String planId, String shareToken);
 
     void deletePlan(String planId);
+
+    PlanDetailResponse updateVisibleUsers(String planId, PlanVisibleUsersUpdateRequest request);
 
     PlanRecipeCandidatesResponse getRecipeCandidates(String planId, String shareToken);
 

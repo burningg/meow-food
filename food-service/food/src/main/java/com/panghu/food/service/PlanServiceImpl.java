@@ -17,6 +17,8 @@ import com.panghu.food.dto.PlanShoppingItemResponse;
 import com.panghu.food.dto.PlanShoppingItemSourceResponse;
 import com.panghu.food.dto.PlanShoppingListResponse;
 import com.panghu.food.dto.PlanSummaryResponse;
+import com.panghu.food.dto.PlanVisibleUserResponse;
+import com.panghu.food.dto.PlanVisibleUsersUpdateRequest;
 import com.panghu.food.entity.BuddyCircle;
 import com.panghu.food.entity.BuddyCircleMember;
 import com.panghu.food.entity.CirclePlan;
@@ -323,6 +325,31 @@ public class PlanServiceImpl implements PlanService {
         circlePlanVisibleUserMapper.delete(new QueryWrapper<CirclePlanVisibleUser>().eq("plan_id", context.plan().getId()));
         circlePlanRecipeMapper.delete(new QueryWrapper<CirclePlanRecipe>().eq("plan_id", context.plan().getId()));
         circlePlanMapper.deleteById(context.plan().getId());
+    }
+
+    @Override
+    @Transactional
+    public PlanDetailResponse updateVisibleUsers(String planId, PlanVisibleUsersUpdateRequest request) {
+        String currentUserId = AuthContext.requireUserId();
+        CirclePlan plan = circlePlanMapper.selectById(planId);
+        if (plan == null) {
+            throw new ApiException(HttpStatus.NOT_FOUND, "计划不存在");
+        }
+        BuddyCircle circle = requireCircleMember(plan.getCircleId(), currentUserId);
+        if (!Objects.equals(plan.getCreatorUserId(), currentUserId)) {
+            throw new ApiException(HttpStatus.FORBIDDEN, "只有创建者可以修改可见成员");
+        }
+
+        List<String> visibleUserIds = normalizePlanVisibleUserIds(
+                circle.getId(),
+                currentUserId,
+                request == null ? null : request.getVisibleUserIds());
+        // 先整体清空再写入新 ACL；空列表保留“全圈可见”的既有语义。
+        circlePlanVisibleUserMapper.delete(new QueryWrapper<CirclePlanVisibleUser>().eq("plan_id", plan.getId()));
+        insertPlanVisibleUsers(plan.getId(), visibleUserIds);
+        plan.setUpdatedAt(LocalDateTime.now());
+        circlePlanMapper.updateById(plan);
+        return buildPlanDetail(plan, circle, buildMemberAccessContext(plan, circle, currentUserId));
     }
 
     @Override
@@ -641,6 +668,7 @@ public class PlanServiceImpl implements PlanService {
         response.setViewerCanAddRecipes(accessContext.viewerCanAddRecipes());
         response.setViewerCanManageRecipes(accessContext.viewerCanManageRecipes());
         response.setViewerCanUseShopping(accessContext.viewerCanUseShopping());
+        response.setVisibleUsers(loadPlanVisibleUsers(plan.getId()));
         List<DishSummaryResponse> recipes = loadPlanRecipes(plan.getId());
         response.setRecipes(recipes);
 
@@ -980,6 +1008,39 @@ public class PlanServiceImpl implements PlanService {
             }
         }
         return ordered;
+    }
+
+    private List<PlanVisibleUserResponse> loadPlanVisibleUsers(String planId) {
+        List<CirclePlanVisibleUser> visibleRelations = circlePlanVisibleUserMapper.selectList(new QueryWrapper<CirclePlanVisibleUser>()
+                .eq("plan_id", planId)
+                .orderByAsc("created_at")
+                .orderByAsc("id"));
+        if (visibleRelations == null || visibleRelations.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        Map<String, UserAccount> usersById = selectUsersByIds(visibleRelations.stream()
+                .map(CirclePlanVisibleUser::getUserId)
+                .collect(Collectors.toList()));
+        Set<String> appendedUserIds = new LinkedHashSet<>();
+        List<PlanVisibleUserResponse> visibleUsers = new ArrayList<>();
+        for (CirclePlanVisibleUser relation : visibleRelations) {
+            String userId = relation.getUserId();
+            if (userId == null || !appendedUserIds.add(userId)) {
+                continue;
+            }
+            UserAccount user = usersById.get(userId);
+            if (user == null) {
+                continue;
+            }
+            PlanVisibleUserResponse item = new PlanVisibleUserResponse();
+            item.setId(user.getId());
+            item.setAccount(user.getAccount());
+            item.setNickname(user.getNickname());
+            item.setAvatar(user.getAvatar());
+            visibleUsers.add(item);
+        }
+        return visibleUsers;
     }
 
     private List<CirclePlanRecipe> loadPlanRecipeRelations(String planId) {

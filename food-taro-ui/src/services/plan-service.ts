@@ -71,6 +71,13 @@ export interface PlanSummary {
   viewerCanUseShopping: boolean
 }
 
+export interface PlanVisibleUser {
+  id: string
+  account: string
+  nickname: string
+  avatar: string
+}
+
 export interface PlanDayPlans {
   date: string
   plans: PlanSummary[]
@@ -100,6 +107,7 @@ export interface PlanDetail {
   viewerCanAddRecipes: boolean
   viewerCanManageRecipes: boolean
   viewerCanUseShopping: boolean
+  visibleUsers: PlanVisibleUser[]
   recipes: PlanRecipe[]
 }
 
@@ -170,6 +178,10 @@ export class PlanService {
     return http.get<PlanDetail>(`/api/plans/${planId}`, {
       params: shareToken ? { shareToken } : undefined,
     })
+  }
+
+  updateVisibleUsers(planId: string, visibleUserIds: string[]) {
+    return http.put<PlanDetail>(`/api/plans/${planId}/visible-users`, { visibleUserIds })
   }
 
   deletePlan(planId: string) {

@@ -9,6 +9,7 @@ import com.panghu.food.dto.PlanMonthResponse;
 import com.panghu.food.dto.PlanRecipesUpdateRequest;
 import com.panghu.food.dto.PlanRecipeCandidatesResponse;
 import com.panghu.food.dto.PlanShoppingListResponse;
+import com.panghu.food.dto.PlanVisibleUsersUpdateRequest;
 import com.panghu.food.service.PlanService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +55,12 @@ public class PlanController {
     public ResponseEntity<Void> deletePlan(@PathVariable String planId) {
         planService.deletePlan(planId);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{planId}/visible-users")
+    public ResponseEntity<PlanDetailResponse> updateVisibleUsers(@PathVariable String planId,
+                                                                 @RequestBody PlanVisibleUsersUpdateRequest request) {
+        return ResponseEntity.ok(planService.updateVisibleUsers(planId, request));
     }
 
     @PostMapping("/{planId}/recipes")

@@ -282,7 +282,7 @@
                 </view>
 
                 <button v-if="plan.viewerCanAddRecipes" class="plan-secondary-button" @tap="goAddRecipes(plan)">
-                  添加菜谱
+                  菜谱管理
                 </button>
                 <button class="plan-primary-button" @tap="openShopping(plan)">
                   采购清单

@@ -12,6 +12,7 @@ import com.panghu.food.dto.PlanRecipesUpdateRequest;
 import com.panghu.food.dto.PlanRecipeCandidatesResponse;
 import com.panghu.food.dto.PlanShoppingListResponse;
 import com.panghu.food.dto.PlanAiUsageResponse;
+import com.panghu.food.dto.PlanVisibleUsersUpdateRequest;
 import com.panghu.food.entity.BuddyCircle;
 import com.panghu.food.entity.BuddyCircleMember;
 import com.panghu.food.entity.CirclePlan;
@@ -832,6 +833,66 @@ class PlanServiceImplTest {
                 .hasMessageContaining("只能移除自己加入的菜谱");
 
         verify(circlePlanRecipeMapper, never()).delete(any());
+    }
+
+    @Test
+    void updateVisibleUsersReplacesAclAndIncludesCreator() {
+        AuthContext.setUserId("creator");
+        CirclePlan plan = plan("plan-1", "circle-1", "creator");
+        List<CirclePlanVisibleUser> storedVisibleUsers = new ArrayList<>();
+
+        when(circlePlanMapper.selectById("plan-1")).thenReturn(plan);
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(1L);
+        when(buddyCircleMemberMapper.selectList(any())).thenReturn(List.of(
+                member("circle-1", "member-1"),
+                member("circle-1", "creator")));
+        when(circlePlanVisibleUserMapper.delete(any())).thenAnswer(invocation -> {
+            storedVisibleUsers.clear();
+            return 1;
+        });
+        when(circlePlanVisibleUserMapper.insert(any(CirclePlanVisibleUser.class))).thenAnswer(invocation -> {
+            storedVisibleUsers.add(invocation.getArgument(0));
+            return 1;
+        });
+        when(circlePlanVisibleUserMapper.selectList(any())).thenAnswer(invocation -> new ArrayList<>(storedVisibleUsers));
+        when(circlePlanRecipeMapper.selectList(any())).thenReturn(List.of());
+        when(circlePlanShoppingListMapper.selectOne(any())).thenReturn(null);
+        when(userAccountMapper.selectById("creator")).thenReturn(user("creator", "创建者"));
+        when(userAccountMapper.selectBatchIds(any())).thenReturn(List.of(
+                user("member-1", "成员一"),
+                user("creator", "创建者")));
+
+        PlanVisibleUsersUpdateRequest request = new PlanVisibleUsersUpdateRequest();
+        request.setVisibleUserIds(List.of("member-1"));
+
+        PlanDetailResponse response = planService.updateVisibleUsers("plan-1", request);
+
+        verify(circlePlanVisibleUserMapper).delete(any());
+        verify(circlePlanVisibleUserMapper, times(2)).insert(any(CirclePlanVisibleUser.class));
+        verify(circlePlanMapper).updateById(plan);
+        assertThat(storedVisibleUsers).extracting(CirclePlanVisibleUser::getUserId)
+                .containsExactly("member-1", "creator");
+        assertThat(response.getVisibleUsers()).extracting("id")
+                .containsExactly("member-1", "creator");
+    }
+
+    @Test
+    void updateVisibleUsersOnlyAllowsCreator() {
+        AuthContext.setUserId("viewer");
+        when(circlePlanMapper.selectById("plan-1")).thenReturn(plan("plan-1", "circle-1", "creator"));
+        when(buddyCircleMapper.selectById("circle-1")).thenReturn(circle("circle-1"));
+        when(buddyCircleMemberMapper.selectCount(any())).thenReturn(1L);
+
+        PlanVisibleUsersUpdateRequest request = new PlanVisibleUsersUpdateRequest();
+        request.setVisibleUserIds(List.of("viewer"));
+
+        assertThatThrownBy(() -> planService.updateVisibleUsers("plan-1", request))
+                .isInstanceOf(ApiException.class)
+                .hasMessageContaining("只有创建者可以修改可见成员");
+
+        verify(circlePlanVisibleUserMapper, never()).delete(any());
+        verify(circlePlanVisibleUserMapper, never()).insert(any(CirclePlanVisibleUser.class));
     }
 
     @Test

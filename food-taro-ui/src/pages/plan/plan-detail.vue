@@ -28,6 +28,36 @@
         </view>
       </section>
 
+      <section class="detail-visibility-card">
+        <view class="detail-visibility-head">
+          <view class="detail-visibility-copy">
+            <text class="detail-section-title">可见范围</text>
+            <text class="detail-section-subtitle">{{ visibilitySummary }}</text>
+          </view>
+          <button
+            v-if="canEditVisibility"
+            class="detail-visibility-edit"
+            @tap="openVisibilitySheet"
+          >
+            修改
+          </button>
+        </view>
+
+        <view v-if="visibleUsers.length" class="detail-visible-user-list">
+          <view
+            v-for="user in visibleUsers"
+            :key="user.id"
+            class="detail-visible-user-chip"
+          >
+            <SmartImage :src="user.avatar" class-name="detail-visible-user-avatar" />
+            <text class="detail-visible-user-name">{{ getVisibleUserName(user) }}</text>
+          </view>
+        </view>
+        <text v-else class="detail-visibility-desc">
+          {{ detail.circleName }} 全部成员可见
+        </text>
+      </section>
+
       <view class="detail-section">
         <view class="detail-section-head">
           <view>
@@ -114,6 +144,52 @@
     </view>
 
     <view v-else class="page-shell detail-loading">正在加载计划详情...</view>
+
+    <view
+      v-if="visibilitySheetVisible && detail"
+      class="visibility-overlay"
+      @tap="closeVisibilitySheet"
+    >
+      <section class="visibility-sheet" @tap.stop>
+        <view class="visibility-sheet-handle"></view>
+        <view class="visibility-sheet-head">
+          <view>
+            <text class="visibility-sheet-title">可见成员</text>
+            <text class="visibility-sheet-subtitle">{{ visibilityDraftSummary }}</text>
+          </view>
+        </view>
+
+        <view v-if="loadingVisibilityMembers" class="visibility-member-empty">
+          成员加载中...
+        </view>
+        <view v-else-if="circleMembers.length" class="visibility-member-list">
+          <button
+            v-for="member in circleMembers"
+            :key="member.id"
+            :class="[
+              'visibility-member-chip',
+              { active: isDraftVisibleUserSelected(member.id) },
+            ]"
+            @tap="toggleDraftVisibleUser(member.id)"
+          >
+            <SmartImage :src="member.avatar" class-name="visibility-member-avatar" />
+            <text class="visibility-member-name">{{ getCircleMemberName(member) }}</text>
+          </button>
+        </view>
+        <view v-else class="visibility-member-empty">
+          暂无成员
+        </view>
+
+        <view class="visibility-sheet-actions">
+          <button class="visibility-cancel-button" :disabled="savingVisibility" @tap="closeVisibilitySheet">
+            取消
+          </button>
+          <button class="visibility-save-button" :disabled="savingVisibility || !hasVisibilityChanges" @tap="submitVisibleUsers">
+            {{ savingVisibility ? '保存中...' : '保存' }}
+          </button>
+        </view>
+      </section>
+    </view>
   </view>
 </template>
 
@@ -125,29 +201,42 @@ import { requireAuth } from '@/lib/auth'
 import { Message } from '@/lib/feedback'
 import { createHomeShareMessage } from '@/lib/share'
 import { getRouteParams, replace, resolveSharePath } from '@/lib/navigation'
-import { PlanService, type PlanDetail, type PlanRecipe, type PlanRecipeCandidatesResponse } from '@/services/plan-service'
+import { PlanService, type PlanDetail, type PlanRecipe, type PlanRecipeCandidatesResponse, type PlanVisibleUser } from '@/services/plan-service'
+import { SocialService, type BuddyCircleMember } from '@/services/social-service'
 import { useAuthStore } from '@/stores/auth-store'
 
 const params = getRouteParams<{ id?: string; shareToken?: string }>()
 const planService = new PlanService()
+const socialService = new SocialService()
 const authStore = useAuthStore()
 
 const detail = ref<PlanDetail | null>(null)
 const candidates = ref<PlanRecipeCandidatesResponse | null>(null)
+const circleMembers = ref<BuddyCircleMember[]>([])
 const loadingCandidates = ref(false)
+const loadingVisibilityMembers = ref(false)
 const submitting = ref(false)
+const savingVisibility = ref(false)
 const searchKeyword = ref('')
 const selectedCategoryId = ref('')
 const selectedDishIds = ref<string[]>([])
+const draftVisibleUserIds = ref<string[]>([])
+const visibilitySheetVisible = ref(false)
 
 const shareToken = computed(() => String(params.shareToken || ''))
 const isLoggedIn = computed(() => authStore.isLoggedIn)
 const canAddRecipes = computed(() => Boolean(candidates.value?.viewerCanAddRecipes && isLoggedIn.value))
 const canManageRecipes = computed(() => Boolean(detail.value?.viewerCanManageRecipes && isLoggedIn.value))
 const canEditRecipes = computed(() => canAddRecipes.value || canManageRecipes.value)
+const canEditVisibility = computed(() => Boolean(detail.value?.viewerCanDelete && isLoggedIn.value))
 const currentShareToken = computed(() => detail.value?.shareToken || shareToken.value)
 const candidateSubtitle = computed(() => candidates.value?.sourceLabel || '')
 const candidateRecipes = computed<PlanRecipe[]>(() => candidates.value?.recipes || [])
+const visibleUsers = computed<PlanVisibleUser[]>(() => detail.value?.visibleUsers || [])
+const visibilitySummary = computed(() => visibleUsers.value.length ? `指定 ${visibleUsers.value.length} 人可见` : '全圈可见')
+const normalizedDraftVisibleUserIds = computed(() => normalizeVisibleUserDraft(draftVisibleUserIds.value))
+const visibilityDraftSummary = computed(() => normalizedDraftVisibleUserIds.value.length ? `已选 ${normalizedDraftVisibleUserIds.value.length} 人` : '全圈可见')
+const hasVisibilityChanges = computed(() => !isSameIdSet(normalizedDraftVisibleUserIds.value, visibleUsers.value.map((user) => user.id)))
 const existingDishIds = computed(() => (detail.value?.recipes || []).map((recipe) => recipe.id))
 const newSelectedDishIds = computed(() => selectedDishIds.value.filter((dishId) => !existingDishIds.value.includes(dishId)))
 const removedSelectedDishIds = computed(() => existingDishIds.value.filter((dishId) => !selectedDishIds.value.includes(dishId)))
@@ -259,6 +348,103 @@ async function loadCandidates(planId: string) {
     Message.error(error?.response?.data?.message || '可选菜谱加载失败')
   } finally {
     loadingCandidates.value = false
+  }
+}
+
+async function openVisibilitySheet() {
+  if (!detail.value) return
+  if (!isLoggedIn.value) {
+    void requirePlanDetailAuth()
+    return
+  }
+  if (!canEditVisibility.value) return
+
+  draftVisibleUserIds.value = visibleUsers.value.map((user) => user.id)
+  visibilitySheetVisible.value = true
+  await loadVisibilityMembers()
+}
+
+function closeVisibilitySheet() {
+  if (savingVisibility.value) return
+  visibilitySheetVisible.value = false
+}
+
+async function loadVisibilityMembers() {
+  if (!detail.value || loadingVisibilityMembers.value) return
+  loadingVisibilityMembers.value = true
+  try {
+    const { data } = await socialService.getCircleMembers(detail.value.circleId)
+    circleMembers.value = data
+  } catch (error: any) {
+    Message.error(error?.response?.data?.message || '圈成员加载失败')
+  } finally {
+    loadingVisibilityMembers.value = false
+  }
+}
+
+function toggleDraftVisibleUser(userId: string) {
+  if (!userId || savingVisibility.value) return
+  if (draftVisibleUserIds.value.includes(userId)) {
+    const nextIds = draftVisibleUserIds.value.filter((id) => id !== userId)
+    if (authStore.user?.id === userId && nextIds.length) {
+      Message.info('创建者会始终可见')
+      return
+    }
+    draftVisibleUserIds.value = normalizeVisibleUserDraft(nextIds)
+    return
+  }
+  draftVisibleUserIds.value = normalizeVisibleUserDraft([...draftVisibleUserIds.value, userId])
+}
+
+function isDraftVisibleUserSelected(userId: string) {
+  return normalizedDraftVisibleUserIds.value.includes(userId)
+}
+
+function normalizeVisibleUserDraft(userIds: string[]) {
+  const normalized = Array.from(new Set(userIds.filter((userId) => Boolean(userId))))
+  if (!normalized.length) return []
+  const currentUserId = authStore.user?.id || ''
+  if (currentUserId && !normalized.includes(currentUserId)) {
+    // 指定可见时创建者必须保留，否则保存后自己可能失去计划入口。
+    return [currentUserId, ...normalized]
+  }
+  return normalized
+}
+
+function isSameIdSet(leftIds: string[], rightIds: string[]) {
+  if (leftIds.length !== rightIds.length) return false
+  const rightSet = new Set(rightIds)
+  return leftIds.every((id) => rightSet.has(id))
+}
+
+function getVisibleUserName(user: PlanVisibleUser) {
+  const name = user.nickname || user.account || '未命名'
+  return user.id === authStore.user?.id ? `${name}（我）` : name
+}
+
+function getCircleMemberName(member: BuddyCircleMember) {
+  const name = member.nickname || member.account || '未命名'
+  return member.id === authStore.user?.id ? `${name}（我）` : name
+}
+
+async function submitVisibleUsers() {
+  if (!detail.value) return
+  const visibleUserIds = normalizedDraftVisibleUserIds.value
+  if (!hasVisibilityChanges.value) {
+    Message.info('可见成员没有变化')
+    return
+  }
+
+  savingVisibility.value = true
+  try {
+    const { data } = await planService.updateVisibleUsers(detail.value.id, visibleUserIds)
+    detail.value = data
+    visibilitySheetVisible.value = false
+    Message.success('可见成员已更新')
+  } catch (error: any) {
+    Message.error(error?.response?.data?.message || '可见成员保存失败')
+  } finally {
+    savingVisibility.value = false
   }
 }
 
@@ -390,7 +576,11 @@ function getSaveSuccessMessage() {
 
 .detail-save-button,
 .detail-share-button,
-.detail-category-pill {
+.detail-category-pill,
+.detail-visibility-edit,
+.visibility-member-chip,
+.visibility-cancel-button,
+.visibility-save-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -468,6 +658,7 @@ function getSaveSuccessMessage() {
 .detail-hero,
 .detail-summary,
 .detail-section,
+.detail-visibility-card,
 .detail-login-card,
 .detail-candidate-card {
   border-radius: 16px;
@@ -531,6 +722,87 @@ function getSaveSuccessMessage() {
   gap: 8px;
   margin-bottom: 12px;
   padding: 10px;
+}
+
+.detail-visibility-card {
+  margin-bottom: 12px;
+  padding: 14px 16px;
+}
+
+.detail-visibility-head,
+.detail-visible-user-chip,
+.visibility-sheet-head,
+.visibility-sheet-actions {
+  display: flex;
+  align-items: center;
+}
+
+.detail-visibility-head,
+.visibility-sheet-head,
+.visibility-sheet-actions {
+  justify-content: space-between;
+}
+
+.detail-visibility-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detail-visibility-edit {
+  min-width: 58px;
+  min-height: 32px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: #edf3ec;
+  color: #1b3a2d;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+.detail-visible-user-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.detail-visible-user-chip {
+  max-width: 100%;
+  gap: 6px;
+  min-height: 32px;
+  padding: 4px 10px 4px 4px;
+  border-radius: 999px;
+  background: #f7f6f3;
+}
+
+.detail-visible-user-avatar,
+.visibility-member-avatar {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: #efe6dc;
+}
+
+.detail-visible-user-name {
+  max-width: 180px;
+  overflow: hidden;
+  color: #5a4333;
+  font-size: 12px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.detail-visibility-desc {
+  display: block;
+  margin-top: 10px;
+  color: #6f7c74;
+  font-size: 12px;
+  line-height: 1.45;
 }
 
 .detail-stat-card {
@@ -783,5 +1055,125 @@ function getSaveSuccessMessage() {
 
 .detail-share-button::after {
   border: none;
+}
+
+.visibility-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  display: flex;
+  align-items: flex-end;
+  background: rgba(246, 239, 231, 0.72);
+}
+
+.visibility-sheet {
+  width: 100%;
+  padding: 12px 16px calc(24px + env(safe-area-inset-bottom));
+  border-radius: 24px 24px 0 0;
+  background: #ffffff;
+}
+
+.visibility-sheet-handle {
+  width: 42px;
+  height: 4px;
+  margin: 0 auto;
+  border-radius: 999px;
+  background: #e6dbcf;
+}
+
+.visibility-sheet-head {
+  margin-top: 14px;
+}
+
+.visibility-sheet-title,
+.visibility-sheet-subtitle {
+  display: block;
+}
+
+.visibility-sheet-title {
+  color: var(--text-main);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.visibility-sheet-subtitle {
+  margin-top: 4px;
+  color: #9a887a;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.visibility-member-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  max-height: 240px;
+  margin-top: 14px;
+  overflow-y: auto;
+}
+
+.visibility-member-chip {
+  gap: 8px;
+  min-width: 0;
+  min-height: 42px;
+  padding: 0 10px;
+  border: 1px solid #eadfd5;
+  border-radius: 999px;
+  background: #f7f6f3;
+  color: #5a4333;
+}
+
+.visibility-member-chip.active {
+  border-color: #1b3a2d;
+  background: #1b3a2d;
+  color: #ffffff;
+}
+
+.visibility-member-name {
+  min-width: 0;
+  overflow: hidden;
+  color: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.visibility-member-empty {
+  padding: 22px 0 8px;
+  color: #9a887a;
+  font-size: 13px;
+  text-align: center;
+}
+
+.visibility-sheet-actions {
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.visibility-cancel-button,
+.visibility-save-button {
+  flex: 1;
+  min-height: 44px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 44px;
+}
+
+.visibility-cancel-button {
+  background: #f7f3ee;
+  color: #5a4333;
+}
+
+.visibility-save-button {
+  background: #9f5c38;
+  color: #ffffff;
+}
+
+.visibility-cancel-button[disabled],
+.visibility-save-button[disabled] {
+  opacity: 0.45;
 }
 </style>

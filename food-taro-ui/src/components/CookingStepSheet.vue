@@ -6,7 +6,7 @@
     @tap="closeSheet"
     @touchmove.stop.prevent="preventPageScroll"
   >
-    <view class="cooking-sheet" @tap.stop>
+    <view class="cooking-sheet" @tap.stop @touchmove.stop.prevent="preventPageScroll">
       <view class="cooking-handle"></view>
 
       <view class="cooking-header">
@@ -29,37 +29,28 @@
       </view>
 
       <view :class="['current-step-card', stepMotionClass]">
-        <swiper
-          class="current-step-swiper"
-          :current="currentIndex"
-          :duration="220"
-          @change="handleSwiperChange"
-        >
-          <swiper-item
-            v-for="(step, index) in normalizedSteps"
-            :key="`cook-step-${index}`"
-            class="current-step-slide"
-          >
-            <view class="current-step-inner">
-              <text class="current-step-text">{{ step.content }}</text>
-              <view class="current-step-divider"></view>
-              <view class="timer-rail">
-                <button class="voice-pill" @tap.stop="toggleTimer">
-                  <text :class="['voice-dot', { 'voice-dot--ringing': alarmRinging }]">{{ timerIconText }}</text>
-                  <text class="voice-text">{{ timerActionText }}</text>
-                </button>
+        <view class="current-step-inner">
+          <view class="current-step-head">
+            <text class="current-step-number">{{ formatStepNo(currentIndex + 1) }}</text>
+            <text class="current-step-label">当前步骤</text>
+          </view>
+          <text class="current-step-text">{{ currentStep?.content || '' }}</text>
+          <view class="current-step-divider"></view>
+          <view class="timer-rail">
+            <button class="voice-pill" @tap.stop="toggleTimer">
+              <text :class="['voice-dot', { 'voice-dot--ringing': alarmRinging }]">{{ timerIconText }}</text>
+              <text class="voice-text">{{ timerActionText }}</text>
+            </button>
 
-                <button
-                  :class="['time-editor', { 'time-editor--disabled': timerRunning }]"
-                  :disabled="timerRunning"
-                  @tap.stop="openTimeEditor"
-                >
-                  <text class="time-value">{{ formattedRemaining }}</text>
-                </button>
-              </view>
-            </view>
-          </swiper-item>
-        </swiper>
+            <button
+              :class="['time-editor', { 'time-editor--disabled': timerRunning }]"
+              :disabled="timerRunning"
+              @tap.stop="openTimeEditor"
+            >
+              <text class="time-value">{{ formattedRemaining }}</text>
+            </button>
+          </view>
+        </view>
       </view>
 
       <view
@@ -101,18 +92,28 @@
       @tap.stop="closeTimeEditor"
       @touchmove.stop.prevent="preventPageScroll"
     >
-      <view class="time-modal" @tap.stop>
+      <view class="time-modal" @tap.stop @touchmove.stop>
         <text class="time-modal-title">修改计时</text>
-        <text class="time-modal-helper">请输入分钟数，支持小数，范围 10 秒至 4 小时。</text>
-        <input
-          class="time-modal-input"
-          type="digit"
-          :value="timeEditorValue"
-          focus
-          placeholder="例如 2 或 1.5"
-          @input="handleTimeEditorInput"
-          @confirm="confirmTimeEditor"
-        />
+        <picker-view class="time-picker" :value="timePickerValue" @change="handleTimePickerChange">
+          <picker-view-column>
+            <view v-for="hour in hourOptions" :key="`timer-hour-${hour}`" class="time-picker-item">
+              <text class="time-picker-number">{{ hour }}</text>
+              <text class="time-picker-unit">时</text>
+            </view>
+          </picker-view-column>
+          <picker-view-column>
+            <view v-for="minute in minuteOptions" :key="`timer-minute-${minute}`" class="time-picker-item">
+              <text class="time-picker-number">{{ minute }}</text>
+              <text class="time-picker-unit">分</text>
+            </view>
+          </picker-view-column>
+          <picker-view-column>
+            <view v-for="second in secondOptions" :key="`timer-second-${second}`" class="time-picker-item">
+              <text class="time-picker-number">{{ second }}</text>
+              <text class="time-picker-unit">秒</text>
+            </view>
+          </picker-view-column>
+        </picker-view>
         <view class="time-modal-actions">
           <button class="time-modal-button time-modal-button--ghost" @tap.stop="closeTimeEditor">取消</button>
           <button class="time-modal-button time-modal-button--primary" @tap.stop="confirmTimeEditor">确定</button>
@@ -156,12 +157,15 @@ const remainingSeconds = ref(DEFAULT_SECONDS)
 const timerRunning = ref(false)
 const alarmRinging = ref(false)
 const timeEditorVisible = ref(false)
-const timeEditorValue = ref('')
+const timePickerValue = ref([0, 2, 0])
 const stepMotion = ref<'from-prev' | 'from-next' | ''>('')
 let timerId: ReturnType<typeof setInterval> | null = null
 let stepMotionId: ReturnType<typeof setTimeout> | null = null
 let alarmAutoStopId: ReturnType<typeof setTimeout> | null = null
 let alarmAudio: ReturnType<typeof Taro.createInnerAudioContext> | null = null
+const hourOptions = Array.from({ length: MAX_SECONDS / 3600 + 1 }, (_, index) => index)
+const minuteOptions = Array.from({ length: 60 }, (_, index) => index)
+const secondOptions = Array.from({ length: 60 }, (_, index) => index)
 
 const normalizedSteps = computed(() =>
   props.steps
@@ -173,6 +177,7 @@ const normalizedSteps = computed(() =>
 )
 
 const previousStep = computed(() => normalizedSteps.value[currentIndex.value - 1])
+const currentStep = computed(() => normalizedSteps.value[currentIndex.value])
 const nextStep = computed(() => normalizedSteps.value[currentIndex.value + 1])
 
 const formattedRemaining = computed(() => formatSeconds(remainingSeconds.value))
@@ -240,11 +245,6 @@ function closeSheet() {
 function preventPageScroll(event: any) {
   event?.stopPropagation?.()
   event?.preventDefault?.()
-}
-
-function handleSwiperChange(event: any) {
-  const nextIndex = Number(event?.detail?.current ?? 0)
-  switchStep(nextIndex)
 }
 
 function goPrevious() {
@@ -343,7 +343,7 @@ function cleanupStepMotion() {
 function openTimeEditor() {
   if (timerRunning.value) return
   stopAlarm()
-  timeEditorValue.value = formatMinutesInput(remainingSeconds.value)
+  timePickerValue.value = secondsToPickerValue(remainingSeconds.value)
   timeEditorVisible.value = true
 }
 
@@ -351,24 +351,31 @@ function closeTimeEditor() {
   timeEditorVisible.value = false
 }
 
-function handleTimeEditorInput(event: any) {
-  timeEditorValue.value = String(event?.detail?.value ?? '')
+function handleTimePickerChange(event: any) {
+  const value = event?.detail?.value
+  if (!Array.isArray(value)) return
+  timePickerValue.value = [
+    clampPickerIndex(Number(value[0]), hourOptions.length - 1),
+    clampPickerIndex(Number(value[1]), minuteOptions.length - 1),
+    clampPickerIndex(Number(value[2]), secondOptions.length - 1),
+  ]
 }
 
 function confirmTimeEditor() {
-  const minutes = Number(timeEditorValue.value)
-  if (!Number.isFinite(minutes) || minutes <= 0) {
+  const nextSeconds =
+    timePickerValue.value[0] * 3600 + timePickerValue.value[1] * 60 + timePickerValue.value[2]
+  if (nextSeconds <= 0) {
     void Taro.showToast({
-      title: '请输入有效分钟数',
+      title: '至少选择 10 秒',
       icon: 'none',
       duration: 1600,
     })
     return
   }
   // 手动修改只影响当前步骤本次弹层状态，不写回菜谱步骤。
-  const nextSeconds = clampSeconds(minutes * 60)
-  remainingSeconds.value = nextSeconds
-  stepSeconds.value[currentIndex.value] = nextSeconds
+  const safeSeconds = clampSeconds(nextSeconds)
+  remainingSeconds.value = safeSeconds
+  stepSeconds.value[currentIndex.value] = safeSeconds
   closeTimeEditor()
 }
 
@@ -436,10 +443,17 @@ function formatSeconds(seconds: number) {
   return `${String(minutes).padStart(2, '0')}:${String(restSeconds).padStart(2, '0')}`
 }
 
-function formatMinutesInput(seconds: number) {
-  const minutes = seconds / 60
-  if (Number.isInteger(minutes)) return String(minutes)
-  return String(Number(minutes.toFixed(1)))
+function secondsToPickerValue(seconds: number) {
+  const safeSeconds = clampSeconds(seconds)
+  const hours = Math.floor(safeSeconds / 3600)
+  const minutes = Math.floor((safeSeconds % 3600) / 60)
+  const restSeconds = safeSeconds % 60
+  return [hours, minutes, restSeconds]
+}
+
+function clampPickerIndex(index: number, maxIndex: number) {
+  if (!Number.isFinite(index)) return 0
+  return Math.min(Math.max(Math.round(index), 0), maxIndex)
 }
 
 function parseStepSeconds(content: string) {
@@ -580,12 +594,16 @@ function parseChineseNumber(text: string) {
 }
 
 .cooking-sheet {
+  box-sizing: border-box;
   width: min(390px, 100vw);
-  max-height: 88vh;
+  height: 92vh;
+  max-height: none;
+  overflow: hidden;
   border: 1px solid #efe3d1;
   border-radius: 24px 24px 0 0;
   background: #fff;
-  padding: 12px 18px calc(18px + env(safe-area-inset-bottom));
+  padding: 12px 18px calc(30px + constant(safe-area-inset-bottom));
+  padding-bottom: calc(30px + env(safe-area-inset-bottom));
   box-shadow: 0 -10px 36px rgba(138, 78, 41, 0.1);
 }
 
@@ -638,11 +656,11 @@ function parseChineseNumber(text: string) {
 
 .folded-step-card {
   height: 88px;
-  border: 1px solid #efe3d1;
+  border: 1px solid #ece7df;
   border-radius: 22px;
-  background: #f4eee7;
+  background: #f1f0ee;
   padding: 5px;
-  box-shadow: 0 6px 16px rgba(138, 78, 41, 0.06);
+  box-shadow: none;
 }
 
 .folded-step-card--next {
@@ -657,7 +675,7 @@ function parseChineseNumber(text: string) {
   height: 100%;
   justify-content: space-between;
   border-radius: 18px;
-  background: #fbf8f4;
+  background: #f8f7f5;
   padding: 0 13px;
 }
 
@@ -669,7 +687,7 @@ function parseChineseNumber(text: string) {
 
 .folded-step-number {
   flex: 0 0 auto;
-  color: var(--accent-dark);
+  color: #a38a77;
   font-size: var(--text-xs);
   font-weight: 800;
 }
@@ -678,14 +696,14 @@ function parseChineseNumber(text: string) {
   width: 1px;
   height: 34px;
   flex: 0 0 auto;
-  background: var(--line);
+  background: #e2ddd5;
 }
 
 .folded-step-text {
   display: -webkit-box;
   overflow: hidden;
   flex: 1;
-  color: #2f3437;
+  color: #7f7b75;
   font-size: var(--text-sm);
   line-height: 1.25;
   -webkit-box-orient: vertical;
@@ -700,20 +718,20 @@ function parseChineseNumber(text: string) {
   height: 30px;
   flex: 0 0 auto;
   border-radius: 999px;
-  background: #f7f3ee;
-  color: var(--accent-dark);
+  background: #efede9;
+  color: #9a8778;
   font-size: 18px;
   font-weight: 900;
 }
 
 .current-step-card {
-  height: 288px;
-  margin-top: 14px;
-  border: 1px solid #efe3d1;
+  height: 292px;
+  margin-top: 16px;
+  border: 2px solid #b36a42;
   border-radius: 32px;
-  background: #fff8ef;
+  background: #fff3e4;
   padding: 6px;
-  box-shadow: 0 16px 34px rgba(138, 78, 41, 0.1);
+  box-shadow: 0 20px 42px rgba(138, 78, 41, 0.16);
   transform-origin: center;
 }
 
@@ -730,19 +748,41 @@ function parseChineseNumber(text: string) {
   animation: cook-step-inner-reveal 260ms ease-out 60ms both;
 }
 
-.current-step-swiper,
-.current-step-slide,
-.current-step-inner {
-  height: 100%;
-}
-
 .current-step-inner {
   display: flex;
+  height: 100%;
   flex-direction: column;
   justify-content: space-between;
   border-radius: 27px;
   background: #fff;
-  padding: 16px;
+  padding: 18px;
+}
+
+.current-step-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.current-step-number {
+  display: flex;
+  width: 48px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--accent-dark);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.current-step-label {
+  color: var(--accent-dark);
+  font-size: var(--text-sm);
+  font-weight: 900;
+  line-height: 1;
 }
 
 .current-step-text {
@@ -838,7 +878,7 @@ function parseChineseNumber(text: string) {
 .step-dots {
   justify-content: center;
   gap: 6px;
-  margin: 16px 0;
+  margin: 14px 0 10px;
 }
 
 .step-dot {
@@ -855,6 +895,7 @@ function parseChineseNumber(text: string) {
 
 .cooking-actions {
   gap: 12px;
+  padding-bottom: 4px;
 }
 
 .cooking-action {
@@ -866,6 +907,8 @@ function parseChineseNumber(text: string) {
   border-radius: 999px;
   font-size: 14px;
   font-weight: 800;
+  line-height: 1;
+  text-align: center;
 }
 
 .cooking-action--secondary {
@@ -881,7 +924,19 @@ function parseChineseNumber(text: string) {
 }
 
 .cooking-action[disabled] {
-  opacity: 0.45;
+  opacity: 1;
+  box-shadow: none;
+}
+
+.cooking-action--secondary[disabled] {
+  border-color: #eadfd4;
+  background: #faf6f1;
+  color: #9f6b4f;
+}
+
+.cooking-action--primary[disabled] {
+  background: #ead8cc;
+  color: #8c5638;
 }
 
 .time-modal-mask {
@@ -920,17 +975,39 @@ function parseChineseNumber(text: string) {
   text-align: center;
 }
 
-.time-modal-input {
+.time-picker {
   width: 100%;
-  height: 46px;
+  height: 178px;
+  box-sizing: border-box;
   margin-top: 14px;
   border: 1px solid #efe3d1;
   border-radius: 14px;
   background: #fbf8f4;
+  overflow: hidden;
+}
+
+.time-picker-item {
+  display: flex;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.time-picker-number {
+  min-width: 24px;
   color: var(--text-main);
-  font-size: var(--text-md);
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1;
+  text-align: right;
+}
+
+.time-picker-unit {
+  color: #7b6a5d;
+  font-size: var(--text-xs);
   font-weight: 800;
-  text-align: center;
+  line-height: 1;
 }
 
 .time-modal-actions {

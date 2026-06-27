@@ -26,5 +26,6 @@ public class PlanDetailResponse {
     private boolean viewerCanAddRecipes;
     private boolean viewerCanManageRecipes;
     private boolean viewerCanUseShopping;
+    private List<PlanVisibleUserResponse> visibleUsers = new ArrayList<>();
     private List<DishSummaryResponse> recipes = new ArrayList<>();
 }

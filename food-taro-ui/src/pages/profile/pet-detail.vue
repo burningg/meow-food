@@ -799,13 +799,15 @@ function parseDateKey(value: string) {
 .planner-sheet {
   display: flex;
   width: 100%;
-  max-height: 82vh;
+  max-height: 88vh;
   flex-direction: column;
   gap: 14px;
+  overflow-y: auto;
   border: 1px solid #efe3d1;
   border-radius: 24px 24px 0 0;
   background: #fff;
-  padding: 12px 20px 24px;
+  padding: 12px 20px calc(24px + constant(safe-area-inset-bottom));
+  padding-bottom: calc(24px + env(safe-area-inset-bottom));
   box-shadow: 0 -10px 36px rgba(138, 78, 41, 0.12);
   box-sizing: border-box;
 }
